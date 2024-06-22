@@ -1,5 +1,6 @@
 PHP = php
 BIN = bin/console
+BIN_UNIT = bin/phpunit
 SYMFONY = symfony
 SYMFONY_CONSOLE = $(SYMFONY) console
 
@@ -20,6 +21,9 @@ debug-twig-component:
 
 start:
 	$(SYMFONY) serve
+
+test:
+	$(PHP) $(BIN_UNIT) --testdox --debug
 
 help:
 	@echo "Les cibles disponibles sont :"
