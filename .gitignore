@@ -10,7 +10,7 @@
 ###< symfony/framework-bundle ###
 
 ###> intellij ###
-.idea/
+/.idea/
 ###< intellij ###
 
 ###> phpunit/phpunit ###
