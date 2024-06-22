@@ -9,6 +9,10 @@
 /vendor/
 ###< symfony/framework-bundle ###
 
+###> node_modules ###
+/node_modules/
+###< node_modules ###
+
 ###> intellij ###
 /.idea/
 ###< intellij ###
