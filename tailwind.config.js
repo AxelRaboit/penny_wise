@@ -8,14 +8,19 @@ module.exports = {
     extend: {
       colors: {
         primary: {
-          DEFAULT: '#9ca3af', // bg-gray-400
-          hover: '#6b7280',   // bg-gray-500
-          ring: '#9ca3af'     // bg-gray-400
+          DEFAULT: '#10a37f', // Main green color
+          hover: '#0e8c6b',   // Darker green for hover
+          ring: '#10a37f'     // Green for ring
         },
         secondary: {
-          DEFAULT: '#6b7280', // bg-gray-500
-          hover: '#4b5563',   // hover:bg-gray-600
-          ring: '#6b7280'     // focus:ring-gray-500
+          DEFAULT: '#202123', // Main dark background color
+          hover: '#2d2e30',   // Slightly lighter dark for hover
+          ring: '#202123'     // Dark color for ring
+        },
+        accent: {
+          DEFAULT: '#ececf1', // Light accent color
+          hover: '#e2e2e7',   // Slightly darker light for hover
+          ring: '#ececf1'     // Light color for ring
         },
         success: {
           DEFAULT: '#10b981', // bg-green-500
