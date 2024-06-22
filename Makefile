@@ -5,12 +5,15 @@ SYMFONY = symfony
 SYMFONY_CONSOLE = $(SYMFONY) console
 VENDOR_BIN_STAN = vendor/bin/phpstan
 
+TAILWIND_INIT = $(BIN) tailwind:init
 TAILWIND_BUILD = $(BIN) tailwind:build
 TAILWIND_WATCH = $(TAILWIND_BUILD) --watch
 TWIG_COMPONENT = $(BIN) debug:twig-component
 
 all: help
 
+tailwind-init:
+	$(PHP) $(TAILWIND_BUILD)
 tailwind:
 	$(PHP) $(TAILWIND_BUILD)
 
