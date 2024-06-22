@@ -14,10 +14,14 @@ final class RegistrationManager
     public function __construct(private readonly UserPasswordHasherInterface $userPasswordHasher, private readonly EntityManagerInterface $entityManager){}
     public function onUserRegistered(FormInterface $form, User $user): void
     {
+
+        /** @var string $password */
+        $password = $form->get(self::PASSWORD_FORM_FIELD)->getData();
+
         $user->setPassword(
             $this->userPasswordHasher->hashPassword(
                 $user,
-                $form->get(self::PASSWORD_FORM_FIELD)->getData()
+                $password
             )
         );
         $user->setRoles(self::ROLE_USER);
@@ -25,5 +29,4 @@ final class RegistrationManager
         $this->entityManager->persist($user);
         $this->entityManager->flush();
     }
-
 }

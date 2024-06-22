@@ -25,6 +25,7 @@ final readonly class RedirectAuthenticatedUserListener
     {
         $request = $event->getRequest();
         $user = $this->security->getUser();
+        /** @var string|null $route */
         $route = $request->attributes->get(self::ROUTE);
 
         if ($user instanceof UserInterface) {

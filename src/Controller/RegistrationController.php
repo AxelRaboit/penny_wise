@@ -17,7 +17,7 @@ class RegistrationController extends AbstractController
     #[Route('/register', name: 'app_register')]
     public function register(Request $request): Response
     {
-        [$user, $form] = $this->registrationService->createFormWithUser($request);
+        ['user' => $user, 'form' => $form] = $this->registrationService->createFormWithUser($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->registrationManager->onUserRegistered($form, $user);
