@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Share{% endblock %}
+
+{% block body %}
+    <h1>Edit Share</h1>
+
+    {{ include('share/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_share_index') }}">back to list</a>
+
+    {{ include('share/_delete_form.html.twig') }}
+{% endblock %}
