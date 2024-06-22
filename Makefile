@@ -3,6 +3,7 @@ BIN = bin/console
 BIN_UNIT = bin/phpunit
 SYMFONY = symfony
 SYMFONY_CONSOLE = $(SYMFONY) console
+VENDOR_BIN_STAN = vendor/bin/phpstan
 
 TAILWIND_BUILD = $(BIN) tailwind:build
 TAILWIND_WATCH = $(TAILWIND_BUILD) --watch
@@ -27,6 +28,9 @@ start:
 
 test:
 	$(PHP) $(BIN_UNIT) --testdox --debug
+
+stan:
+	$(VENDOR_BIN_STAN) analyse src tests
 
 help:
 	@echo "Les cibles disponibles sont :"
