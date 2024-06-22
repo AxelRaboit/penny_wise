@@ -11,6 +11,10 @@ use Symfony\Component\Routing\RouterInterface;
 #[AsEventListener(event: 'kernel.request', method: 'onKernelRequest')]
 final readonly class RedirectAuthenticatedUserListener
 {
+    private const LOGIN_ROUTE = 'app_login';
+    private const HOMEPAGE_ROUTE = 'app_homepage';
+    private const REGISTER_ROUTE = 'app_register';
+
     public function __construct(private Security $security, private RouterInterface $router){}
 
 
@@ -19,8 +23,8 @@ final readonly class RedirectAuthenticatedUserListener
         $request = $event->getRequest();
         $user = $this->security->getUser();
 
-        if ($user && in_array($request->attributes->get('_route'), ['app_login', 'app_register'])) {
-            $event->setResponse(new RedirectResponse($this->router->generate('app_homepage')));
+        if ($user && in_array($request->attributes->get('_route'), [self::LOGIN_ROUTE, self::REGISTER_ROUTE])) {
+            $event->setResponse(new RedirectResponse($this->router->generate(self::HOMEPAGE_ROUTE)));
         }
     }
 
