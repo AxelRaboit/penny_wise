@@ -14,8 +14,9 @@ class Transaction
     use TimestampableTrait;
 
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
+    #[ORM\SequenceGenerator(sequenceName: 'transaction_id_seq', allocationSize: 1, initialValue: 1)]
+    #[ORM\Column(type: 'integer')]
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -105,7 +106,7 @@ class Transaction
 
     public function getType(): ?TransactionTypeEnum
     {
-        return $this->type ? new TransactionTypeEnum($this->type) : null;
+        return $this->type ? TransactionTypeEnum::fromString($this->type) : null;
     }
 
     public function setType(TransactionTypeEnum $type): self

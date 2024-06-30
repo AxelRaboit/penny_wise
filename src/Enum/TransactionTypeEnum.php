@@ -2,16 +2,15 @@
 
 namespace App\Enum;
 
-use InvalidArgumentException;
-
 class TransactionTypeEnum
 {
-    private const INCOME = 'income';
-    private const EXPENSE = 'expense';
-    private const SAVINGS = 'savings';
-    private const BILLS = 'bills';
-    private const DEBT = 'debt';
-    private const ALLOWED_VALUES = [
+    public const string INCOME = 'income';
+    public const string EXPENSE = 'expense';
+    public const string SAVINGS = 'savings';
+    public const string BILLS = 'bills';
+    public const string DEBT = 'debt';
+
+    public const array ALLOWED_VALUES = [
         self::INCOME,
         self::EXPENSE,
         self::SAVINGS,
@@ -22,7 +21,7 @@ class TransactionTypeEnum
     public function __construct(private string $value)
     {
         if (!in_array($value, self::ALLOWED_VALUES, true)) {
-            throw new InvalidArgumentException("Invalid value '$value' for enum TransactionTypeEnum");
+            throw new \InvalidArgumentException("Invalid value '$value' for enum TransactionTypeEnum");
         }
         $this->value = $value;
     }
@@ -57,13 +56,18 @@ class TransactionTypeEnum
         return $this->value;
     }
 
+    public function __toString(): string
+    {
+        return $this->value;
+    }
+
     public static function getAllowedValues(): array
     {
         return self::ALLOWED_VALUES;
     }
 
-    public function __toString(): string
+    public static function fromString(string $value): self
     {
-        return $this->value;
+        return new self($value);
     }
 }
