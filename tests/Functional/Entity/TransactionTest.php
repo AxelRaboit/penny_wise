@@ -5,24 +5,39 @@ namespace App\Tests\Functional\Entity;
 use App\Entity\Budget;
 use App\Entity\Category;
 use App\Entity\Transaction;
+use App\Entity\TransactionCategory;
 use App\Entity\User;
 use App\Enum\TransactionTypeEnum;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class TransactionTest extends KernelTestCase
 {
     private const string USER_EMAIL = 'test@gmail.com';
-    private $entityManager;
+
+    /** @var EntityManagerInterface */
+    private EntityManagerInterface $entityManager;
 
     protected function setUp(): void
     {
         $kernel = self::bootKernel();
-        $this->entityManager = $kernel->getContainer()
-            ->get('doctrine')
-            ->getManager();
+        $doctrine = $kernel->getContainer()->get('doctrine');
+
+        if (!$doctrine instanceof ManagerRegistry) {
+            throw new \RuntimeException('Doctrine service is not of type ManagerRegistry');
+        }
+
+        $entityManager = $doctrine->getManager();
+
+        if (!$entityManager instanceof EntityManagerInterface) {
+            throw new \RuntimeException('Entity manager is not of type EntityManagerInterface');
+        }
+
+        $this->entityManager = $entityManager;
     }
 
-    public function testTransactionType()
+    public function testTransactionType(): void
     {
         $budget = new Budget();
         $budget->setIndividual($this->getUser());
@@ -43,12 +58,20 @@ class TransactionTest extends KernelTestCase
 
         $this->entityManager->flush();
 
+        $transactionCategory = new TransactionCategory();
+        $transactionCategory->setName('Test Category');
+
+        $this->entityManager->persist($transactionCategory);
+
+        $this->entityManager->flush();
+
         $transaction = new Transaction();
         $transaction->setType(TransactionTypeEnum::INCOME());
         $transaction->setAmount(100.00);
         $transaction->setDate(new \DateTime('2024-06-01'));
         $transaction->setBudget($budget);
         $transaction->setCategory($category);
+        $transaction->setTransactionCategory($transactionCategory);
 
         $this->entityManager->persist($transaction);
         $this->entityManager->flush();
@@ -63,10 +86,9 @@ class TransactionTest extends KernelTestCase
     {
         parent::tearDown();
         $this->entityManager->close();
-        $this->entityManager = null;
     }
 
-    private function getUser()
+    private function getUser(): User
     {
         $user = $this->entityManager->getRepository(User::class)->findOneBy(['email' => self::USER_EMAIL]);
 

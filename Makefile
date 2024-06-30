@@ -14,6 +14,7 @@ all: help
 
 tailwind-init:
 	$(PHP) $(TAILWIND_BUILD)
+
 tailwind:
 	$(PHP) $(TAILWIND_BUILD)
 
@@ -35,13 +36,13 @@ test:
 stan:
 	$(VENDOR_BIN_STAN) analyse src tests
 
+.PHONY: help
 help:
-	@echo "Les cibles disponibles sont :"
-	@echo "  make tailwind        - Exécuter le build de tailwind"
-	@echo "  make tailwind-watch  - Exécuter le build de tailwind en mode watch"
-	@echo "  make debug-twig-component - Exécuter le debug de la componente twig"
-	@echo "  make start           - Exécuter le serveur de développement"
-	@echo "  make cc               - Effacer le cache"
-	@echo "  make test             - Exécuter les tests unitaires"
-
-.PHONY: all tailwind tailwind-watch help
+	@echo "Available targets:"
+	@echo "  make tailwind           - Execute the tailwind build"
+	@echo "  make tailwind-watch     - Execute the tailwind build in watch mode"
+	@echo "  make debug-twig-component - Debug the twig component"
+	@echo "  make start              - Start the development server"
+	@echo "  make cc                 - Clear the cache"
+	@echo "  make test               - Execute unit tests"
+	@echo "  make stan               - Execute PHPStan analysis"

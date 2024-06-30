@@ -14,7 +14,7 @@ class AppExtension extends AbstractExtension
         ];
     }
 
-    function getMonthName($monthNumber): string
+    function getMonthName(int $monthNumber): string
     {
         $months = [
             1 => 'January',

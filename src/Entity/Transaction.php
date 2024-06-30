@@ -23,7 +23,7 @@ class Transaction
     private ?string $description = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $amount = null;
+    private string|float|null $amount = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date = null;
@@ -60,12 +60,12 @@ class Transaction
         return $this;
     }
 
-    public function getAmount(): ?string
+    public function getAmount(): string|float|null
     {
         return $this->amount;
     }
 
-    public function setAmount(string $amount): static
+    public function setAmount(string|float $amount): static
     {
         $this->amount = $amount;
 

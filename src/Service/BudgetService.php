@@ -4,18 +4,21 @@ namespace App\Service;
 
 use App\Entity\Budget;
 use App\Entity\User;
-use App\Enum\TransactionTypeEnum;
 use App\Repository\BudgetRepository;
-use App\Repository\TransactionRepository;
-use Symfony\Component\Security\Core\User\UserInterface;
 
-class BudgetService
+final readonly class BudgetService
 {
-    public function __construct(private readonly  BudgetRepository $budgetRepository){}
+    public function __construct(private BudgetRepository $budgetRepository){}
 
-    public function getBudgetByUser(UserInterface|User $user, int $year, int $month): Budget
+    public function getBudgetByUser(User $user, int $year, int $month): Budget
     {
-        return $this->budgetRepository
+        $budget = $this->budgetRepository
             ->findOneBy(['individual' => $user, 'year' => $year, 'month' => $month]);
+
+        if (!$budget) {
+            throw new \RuntimeException(`No budget found for user ${user}, year ${year} and month ${month}`);
+        }
+
+        return $budget;
     }
 }

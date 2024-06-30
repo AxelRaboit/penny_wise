@@ -3,6 +3,7 @@
 namespace App\Manager;
 
 use App\Entity\Budget;
+use App\Entity\Transaction;
 use App\Enum\TransactionTypeEnum;
 use App\Repository\TransactionRepository;
 
@@ -10,6 +11,10 @@ final readonly class TransactionManager
 {
     public function __construct(private TransactionRepository $transactionRepository){}
 
+    /**
+     * @param Budget $budget
+     * @return array<array<string, mixed>>
+     */
     public function getAllBudgetInformationByUser(Budget $budget): array
     {
         $expenseTransactions = $this->getExpenseTransactions($budget);
@@ -23,6 +28,10 @@ final readonly class TransactionManager
         ];
     }
 
+    /**
+     * @param Budget $budget
+     * @return array<string, TransactionTypeEnum|array<int, Transaction>>
+     */
     private function getExpenseTransactions(Budget $budget): array
     {
         $expenseTransactions = $this->transactionRepository
@@ -34,6 +43,10 @@ final readonly class TransactionManager
         ];
     }
 
+    /**
+     * @param Budget $budget
+     * @return array<string, TransactionTypeEnum|array<int, Transaction>>
+     */
     private function getBillsTransactions(Budget $budget): array
     {
         $billsTransactions = $this->transactionRepository
@@ -45,6 +58,10 @@ final readonly class TransactionManager
         ];
     }
 
+    /**
+     * @param Budget $budget
+     * @return array<string, TransactionTypeEnum|array<int, Transaction>>
+     */
     private function getDebtTransactions(Budget $budget): array
     {
         $debtTransactions = $this->transactionRepository

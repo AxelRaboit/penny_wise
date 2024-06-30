@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class TransactionTypeEnumTest extends TestCase
 {
-    public function testEnumValues()
+    public function testEnumValues(): void
     {
         $this->assertEquals('income', TransactionTypeEnum::INCOME()->getValue());
         $this->assertEquals('expense', TransactionTypeEnum::EXPENSE()->getValue());
@@ -16,7 +16,7 @@ class TransactionTypeEnumTest extends TestCase
         $this->assertEquals('debt', TransactionTypeEnum::DEBT()->getValue());
     }
 
-    public function testInvalidEnumValue()
+    public function testInvalidEnumValue(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         new TransactionTypeEnum('invalid');

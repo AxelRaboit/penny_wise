@@ -10,12 +10,15 @@ class TransactionTypeEnum
     public const string BILLS = 'bills';
     public const string DEBT = 'debt';
 
+    /**
+     * @var array<string>
+     */
     public const array ALLOWED_VALUES = [
         self::INCOME,
         self::EXPENSE,
         self::SAVINGS,
         self::BILLS,
-        self::DEBT
+        self::DEBT,
     ];
 
     public function __construct(private readonly string $value)
@@ -60,6 +63,9 @@ class TransactionTypeEnum
         return $this->value;
     }
 
+    /**
+     * @return string[]
+     */
     public static function getAllowedValues(): array
     {
         return self::ALLOWED_VALUES;
