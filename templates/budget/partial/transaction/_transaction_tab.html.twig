@@ -1,22 +1,22 @@
 <div class="p-1 rounded bg-primary">
     <div id="monthlyBills">
-        <h2 class="rounded-t text-center text-2xl font-bold p-2 bg-secondary">{{ transactions.type.value|capitalize }}</h2>
+        <h2 class="rounded-t text-center text-2xl font-bold p-2 bg-secondary text-white">{{ transactions.type.value|capitalize }}</h2>
 
         <div class="flex bg-white">
-            <div class="w-full text-center border border-solid border-gray-300 p-2"><span class="text-black font-bold">Date</span></div>
-            <div class="w-full text-center border border-solid border-gray-300 p-2"><span class="text-black font-bold">Category</span></div>
-            <div class="w-full text-center border border-solid border-gray-300 p-2"><span class="text-black font-bold">Actual</span></div>
+            <div class="w-full text-center border border-solid border-gray-300 p-2"><span class="font-bold">Date</span></div>
+            <div class="w-full text-center border border-solid border-gray-300 p-2"><span class="font-bold">Category</span></div>
+            <div class="w-full text-center border border-solid border-gray-300 p-2"><span class="font-bold">Actual</span></div>
         </div>
 
         {% for transaction in transactions.data %}
             <div class="flex bg-white {{ loop.last ? 'rounded-b' : '' }}">
-                <div class="{{ loop.last ? 'rounded-bl' : '' }} w-full text-center border border-solid border-gray-300 p-2"><span class="text-black font-bold">{{ transaction.date|date('d M Y') }}</span></div>
-                <div class="w-full text-center border border-solid border-gray-300 p-2"><span class="text-black font-bold">{{ transaction.category.name }}</span></div>
-                <div class="{{ loop.last ? 'rounded-br' : '' }} w-full text-center border border-solid border-gray-300 p-2"><span class="text-black">{{ transaction.amount }}</span></div>
+                <div class="{{ loop.last ? 'rounded-bl' : '' }} w-full text-center border border-solid border-gray-300 p-2"><span class="font-bold">{{ transaction.date|date('d M Y') }}</span></div>
+                <div class="w-full text-center border border-solid border-gray-300 p-2"><span class="font-bold">{{ transaction.category.name }}</span></div>
+                <div class="{{ loop.last ? 'rounded-br' : '' }} w-full text-center border border-solid border-gray-300 p-2"><span>{{ transaction.amount }}</span></div>
             </div>
         {% else %}
             <div class="flex bg-white rounded-b">
-                <div class="rounded-b w-full text-center border border-solid border-gray-300 p-2"><span class="text-black font-bold">No {{ transactions.type.value }}</span></div>
+                <div class="rounded-b w-full text-center border border-solid border-gray-300 p-2"><span class="ont-bold">No {{ transactions.type.value }}</span></div>
             </div>
         {% endfor %}
     </div>

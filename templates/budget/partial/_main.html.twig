@@ -3,32 +3,32 @@
         <div class="p-1 rounded bg-primary mb-4">
             <div id="monthlyMonth">
                 <div class="text-center bg-secondary rounded-t">
-                    <h2 class="text-2xl font-bold p-2">{{ budget.month|month_name }}</h2>
+                    <h2 class="text-2xl font-bold p-2 text-white">{{ budget.month|month_name }}</h2>
                 </div>
                 <div class="w-full bg-secondary rounded-b">
-                    <div class="w-full bg-white p-2 rounded-b text-center font-bold"><span class="text-black">Budget dashboard</span></div>
+                    <div class="w-full bg-white p-2 rounded-b text-center font-bold"><span>Budget dashboard</span></div>
                 </div>
             </div>
         </div>
 
         <div class="p-1 rounded bg-primary">
             <div id="monthlyOverview">
-                <h2 class="rounded-t text-center text-2xl font-bold p-2 bg-secondary">Overview</h2>
+                <h2 class="rounded-t text-center text-2xl font-bold p-2 bg-secondary text-white">Overview</h2>
                 <div class="flex bg-white">
-                    <div class="w-full text-center border border-solid border-gray-300 p-2"><span class="text-black font-bold">Currency</span></div>
-                    <div class="w-full text-center border border-solid border-gray-300 p-2"><span class="text-black">{{ budget.currency|currency_symbol }}</span></div>
+                    <div class="w-full text-center border border-solid border-gray-300 p-2"><span class="font-bold">Currency</span></div>
+                    <div class="w-full text-center border border-solid border-gray-300 p-2"><span>{{ budget.currency|currency_symbol }}</span></div>
                 </div>
                 <div class="flex bg-white">
-                    <div class="w-full text-center border border-solid border-gray-300 p-2"><span class="text-black font-bold">Start Date</span></div>
-                    <div class="w-full text-center border border-solid border-gray-300 p-2"><span class="text-black">{{ budget.startDate|date('d M Y') }}</span></div>
+                    <div class="w-full text-center border border-solid border-gray-300 p-2"><span class="font-bold">Start Date</span></div>
+                    <div class="w-full text-center border border-solid border-gray-300 p-2"><span>{{ budget.startDate|date('d M Y') }}</span></div>
                 </div>
                 <div class="flex bg-white">
-                    <div class="w-full text-center border border-solid border-gray-300 p-2"><span class="text-black font-bold">End Date</span></div>
-                    <div class="w-full text-center border border-solid border-gray-300 p-2"><span class="text-black">{{ budget.endDate|date('d M Y') }}</span></div>
+                    <div class="w-full text-center border border-solid border-gray-300 p-2"><span class="font-bold">End Date</span></div>
+                    <div class="w-full text-center border border-solid border-gray-300 p-2"><span>{{ budget.endDate|date('d M Y') }}</span></div>
                 </div>
                 <div class="flex bg-white rounded-b">
-                    <div class="rounded-bl w-full text-center border border-solid border-gray-300 p-2"><span class="text-black font-bold">Start Balance</span></div>
-                    <div class="rounded-br w-full text-center border border-solid border-gray-300 p-2"><span class="text-black"><span class="font-bold text-xl text-secondary">{{ budget.currency|currency_symbol }}</span> {{ budget.startBalance }}</span></div>
+                    <div class="rounded-bl w-full text-center border border-solid border-gray-300 p-2"><span class="font-bold">Start Balance</span></div>
+                    <div class="rounded-br w-full text-center border border-solid border-gray-300 p-2"><span><span class="font-bold text-xl text-secondary">{{ budget.currency|currency_symbol }}</span> {{ budget.startBalance }}</span></div>
                 </div>
             </div>
         </div>
@@ -36,12 +36,12 @@
 
     <div class="p-1 rounded bg-primary flex flex-col h-full">
         <div class="text-center bg-secondary p-2 rounded">
-            <h2 class="text-2xl font-bold">Left to spend</h2>
+            <h2 class="text-2xl font-bold text-white">Left to spend</h2>
         </div>
 
         <div id="monthlyLeftToSpend" class="flex-grow rounded">
             <div class="flex items-center justify-center h-full bg-white">
-                <span class="text-black text-2xl"><span class="text-secondary font-bold">{{ budget.currency|currency_symbol }}</span> {{ budget.leftToSpend }}</span>
+                <span class="text-2xl"><span class="text-secondary font-bold">{{ budget.currency|currency_symbol }}</span> {{ budget.leftToSpend }}</span>
             </div>
         </div>
     </div>
