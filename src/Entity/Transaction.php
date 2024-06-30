@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Entity\Trait\TimestampableTrait;
+use App\Enum\TransactionTypeEnum;
 use App\Repository\TransactionRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -102,14 +103,14 @@ class Transaction
         return $this;
     }
 
-    public function getType(): ?string
+    public function getType(): ?TransactionTypeEnum
     {
-        return $this->type;
+        return $this->type ? new TransactionTypeEnum($this->type) : null;
     }
 
-    public function setType(string $type): static
+    public function setType(TransactionTypeEnum $type): self
     {
-        $this->type = $type;
+        $this->type = $type->getValue();
 
         return $this;
     }

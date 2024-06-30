@@ -17,9 +17,21 @@
         <server name="SYMFONY_PHPUNIT_VERSION" value="9.5" />
     </php>
 
-    <testsuites>
+    <!--<testsuites>
         <testsuite name="Project Test Suite">
             <directory>tests</directory>
+        </testsuite>
+    </testsuites>-->
+
+    <testsuites>
+        <testsuite name="Unit Tests">
+            <directory>tests/Unit</directory>
+        </testsuite>
+        <testsuite name="Functional Tests">
+            <directory>tests/Functional</directory>
+        </testsuite>
+        <testsuite name="End-to-End Tests">
+            <directory>tests/EndToEnd</directory>
         </testsuite>
     </testsuites>
 
