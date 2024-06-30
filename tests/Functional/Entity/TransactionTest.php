@@ -45,7 +45,7 @@ class TransactionTest extends KernelTestCase
         $budget->setMonth(6);
         $budget->setStartDate(new \DateTime('2024-06-01'));
         $budget->setEndDate(new \DateTime('2024-06-30'));
-        $budget->setCurrency('USD');
+        $budget->setCurrency('EUR');
         $budget->setStartBalance(1000.00);
         $budget->setLeftToSpend(1000.00);
 
