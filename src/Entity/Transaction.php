@@ -39,6 +39,10 @@ class Transaction
     #[ORM\Column(length: 255)]
     private ?string $type = null;
 
+    #[ORM\ManyToOne(inversedBy: 'transactions')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?TransactionCategory $transactionCategory = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -112,6 +116,18 @@ class Transaction
     public function setType(TransactionTypeEnum $type): self
     {
         $this->type = $type->getValue();
+
+        return $this;
+    }
+
+    public function getTransactionCategory(): ?TransactionCategory
+    {
+        return $this->transactionCategory;
+    }
+
+    public function setTransactionCategory(?TransactionCategory $transactionCategory): static
+    {
+        $this->transactionCategory = $transactionCategory;
 
         return $this;
     }

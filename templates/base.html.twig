@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
@@ -13,6 +13,9 @@
     </head>
     <body>
         {% include 'partial/_topbar.html.twig' %}
-        {% block body %}{% endblock %}
+
+        <div class="p-4">
+            {% block body %}{% endblock %}
+        </div>
     </body>
 </html>

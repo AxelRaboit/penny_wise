@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="mb-4">
+        {% include 'budget/partial/_main.html.twig' %}
+    </div>
+
+    <div class="mb-4">
+        {% include 'budget/partial/transaction/_transactions.html.twig' %}
+    </div>
+{% endblock %}

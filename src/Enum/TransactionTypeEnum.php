@@ -18,12 +18,11 @@ class TransactionTypeEnum
         self::DEBT
     ];
 
-    public function __construct(private string $value)
+    public function __construct(private readonly string $value)
     {
         if (!in_array($value, self::ALLOWED_VALUES, true)) {
             throw new \InvalidArgumentException("Invalid value '$value' for enum TransactionTypeEnum");
         }
-        $this->value = $value;
     }
 
     public static function INCOME(): self
