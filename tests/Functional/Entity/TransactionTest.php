@@ -8,6 +8,7 @@ use App\Entity\Transaction;
 use App\Entity\TransactionCategory;
 use App\Entity\User;
 use App\Enum\TransactionTypeEnum;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -18,11 +19,13 @@ class TransactionTest extends KernelTestCase
     private const string CURRENCY = 'EUR';
     private const string BUDGET_START_DATE = '2024-06-01';
     private const string BUDGET_END_DATE = '2024-06-30';
-    private const string BUDGET_START_BALANCE = '1000.00';
-    private const string BUDGET_LEFT_TO_SPEND = '1000.00';
+    private const int BUDGET_YEAR = 2024;
+    private const int BUDGET_MONTH = 6;
+    private const float BUDGET_START_BALANCE = 1000.00;
+    private const float BUDGET_LEFT_TO_SPEND = 1000.00;
     private const string CATEGORY_NAME = 'Test Category';
     private const string TRANSACTION_CATEGORY_NAME = 'Test Transaction Category';
-    private const string TRANSACTION_AMOUNT = '100.00';
+    private const float TRANSACTION_AMOUNT = 100.00;
     private const string TRANSACTION_DATE = '2024-06-01';
 
     private EntityManagerInterface $entityManager;
@@ -49,8 +52,8 @@ class TransactionTest extends KernelTestCase
     {
         $budget = new Budget();
         $budget->setIndividual($this->getUser());
-        $budget->setYear(2024);
-        $budget->setMonth(6);
+        $budget->setYear(self::BUDGET_YEAR);
+        $budget->setMonth(self::BUDGET_MONTH);
         $budget->setStartDate(new \DateTime(self::BUDGET_START_DATE));
         $budget->setEndDate(new \DateTime(self::BUDGET_END_DATE));
         $budget->setCurrency(self::CURRENCY);
