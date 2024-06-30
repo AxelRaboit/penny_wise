@@ -15,8 +15,16 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 class TransactionTest extends KernelTestCase
 {
     private const string USER_EMAIL = 'test@gmail.com';
+    private const string CURRENCY = 'EUR';
+    private const string BUDGET_START_DATE = '2024-06-01';
+    private const string BUDGET_END_DATE = '2024-06-30';
+    private const string BUDGET_START_BALANCE = '1000.00';
+    private const string BUDGET_LEFT_TO_SPEND = '1000.00';
+    private const string CATEGORY_NAME = 'Test Category';
+    private const string TRANSACTION_CATEGORY_NAME = 'Test Transaction Category';
+    private const string TRANSACTION_AMOUNT = '100.00';
+    private const string TRANSACTION_DATE = '2024-06-01';
 
-    /** @var EntityManagerInterface */
     private EntityManagerInterface $entityManager;
 
     protected function setUp(): void
@@ -43,23 +51,23 @@ class TransactionTest extends KernelTestCase
         $budget->setIndividual($this->getUser());
         $budget->setYear(2024);
         $budget->setMonth(6);
-        $budget->setStartDate(new \DateTime('2024-06-01'));
-        $budget->setEndDate(new \DateTime('2024-06-30'));
-        $budget->setCurrency('EUR');
-        $budget->setStartBalance(1000.00);
-        $budget->setLeftToSpend(1000.00);
+        $budget->setStartDate(new \DateTime(self::BUDGET_START_DATE));
+        $budget->setEndDate(new \DateTime(self::BUDGET_END_DATE));
+        $budget->setCurrency(self::CURRENCY);
+        $budget->setStartBalance(self::BUDGET_START_BALANCE);
+        $budget->setLeftToSpend(self::BUDGET_LEFT_TO_SPEND);
 
         $this->entityManager->persist($budget);
 
         $category = new Category();
-        $category->setName('Test Category');
+        $category->setName(self::CATEGORY_NAME);
 
         $this->entityManager->persist($category);
 
         $this->entityManager->flush();
 
         $transactionCategory = new TransactionCategory();
-        $transactionCategory->setName('Test Category');
+        $transactionCategory->setName(self::TRANSACTION_CATEGORY_NAME);
 
         $this->entityManager->persist($transactionCategory);
 
@@ -67,8 +75,8 @@ class TransactionTest extends KernelTestCase
 
         $transaction = new Transaction();
         $transaction->setType(TransactionTypeEnum::INCOME());
-        $transaction->setAmount(100.00);
-        $transaction->setDate(new \DateTime('2024-06-01'));
+        $transaction->setAmount(self::TRANSACTION_AMOUNT);
+        $transaction->setDate(new \DateTime(self::TRANSACTION_DATE));
         $transaction->setBudget($budget);
         $transaction->setCategory($category);
         $transaction->setTransactionCategory($transactionCategory);
@@ -94,7 +102,7 @@ class TransactionTest extends KernelTestCase
 
         if (!$user) {
             $user = new User();
-            $user->setEmail('test@gmail.com');
+            $user->setEmail(self::USER_EMAIL);
             $user->setPassword(password_hash('password', PASSWORD_BCRYPT));
             $this->entityManager->persist($user);
             $this->entityManager->flush();
