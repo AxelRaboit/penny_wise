@@ -11,6 +11,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class BudgetController extends AbstractController
 {
+    private const string MONTHLY_BUDGET_TEMPLATE = 'budget/monthly.html.twig';
     public function __construct(private readonly TransactionService $transactionService, private readonly BudgetService $budgetService){}
 
     #[Route('/budget/{year}/{month}', name: 'monthly_budget')]
@@ -23,11 +24,17 @@ final class BudgetController extends AbstractController
         }
 
         $budget = $this->budgetService->getBudgetByUser($user, $year, $month);
-        $transactions = $this->transactionService->getAllBudgetInformationByUser($budget);
+        $transactions = $this->transactionService->getAllTransactionInformationByUser($budget);
+        $remainingBalance = $this->budgetService->getRemainingBalance($budget, $transactions);
+        $chart = $this->budgetService->createBudgetChart($budget, $transactions);
 
-        return $this->render('budget/monthly.html.twig', [
+        $options = [
+            'chart' => $chart,
             'budget' => $budget,
             'transactions' => $transactions,
-        ]);
+            'remainingBalance' => $remainingBalance,
+        ];
+
+        return $this->render(self::MONTHLY_BUDGET_TEMPLATE, $options);
     }
 }

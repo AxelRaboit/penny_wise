@@ -15,16 +15,18 @@ final readonly class TransactionManager
      * @param Budget $budget
      * @return array<array<string, mixed>>
      */
-    public function getAllBudgetInformationByUser(Budget $budget): array
+    public function getAllTransactionInformationByUser(Budget $budget): array
     {
         $expenseTransactions = $this->getExpenseTransactions($budget);
         $billsTransactions = $this->getBillsTransactions($budget);
         $debtTransactions = $this->getDebtTransactions($budget);
+        $incomeTransactions = $this->getIncomeTransactions($budget);
 
         return [
             'expenses' => $expenseTransactions,
             'bills' => $billsTransactions,
-            'debt' => $debtTransactions,
+            'debts' => $debtTransactions,
+            'incomes' => $incomeTransactions,
         ];
     }
 
@@ -35,10 +37,10 @@ final readonly class TransactionManager
     private function getExpenseTransactions(Budget $budget): array
     {
         $expenseTransactions = $this->transactionRepository
-            ->findBy(['budget' => $budget, 'type' => TransactionTypeEnum::EXPENSE()]);
+            ->findBy(['budget' => $budget, 'type' => TransactionTypeEnum::EXPENSES()]);
 
         return [
-            'type' => TransactionTypeEnum::EXPENSE(),
+            'type' => TransactionTypeEnum::EXPENSES(),
             'data' => $expenseTransactions,
         ];
     }
@@ -65,11 +67,26 @@ final readonly class TransactionManager
     private function getDebtTransactions(Budget $budget): array
     {
         $debtTransactions = $this->transactionRepository
-            ->findBy(['budget' => $budget, 'type' => TransactionTypeEnum::DEBT()]);
+            ->findBy(['budget' => $budget, 'type' => TransactionTypeEnum::DEBTS()]);
 
         return [
-            'type' => TransactionTypeEnum::DEBT(),
+            'type' => TransactionTypeEnum::DEBTS(),
             'data' => $debtTransactions,
+        ];
+    }
+
+    /**
+     * @param Budget $budget
+     * @return array<string, TransactionTypeEnum|array<int, Transaction>>
+     */
+    private function getIncomeTransactions(Budget $budget): array
+    {
+        $incomeTransactions = $this->transactionRepository
+            ->findBy(['budget' => $budget, 'type' => TransactionTypeEnum::INCOMES()]);
+
+        return [
+            'type' => TransactionTypeEnum::INCOMES(),
+            'data' => $incomeTransactions,
         ];
     }
 

@@ -15,9 +15,8 @@ final readonly class TransactionService
      * @param Budget $budget The budget entity.
      * @return array<array<string, mixed>> The array of budget information.
      */
-    public function getAllBudgetInformationByUser(Budget $budget): array
+    public function getAllTransactionInformationByUser(Budget $budget): array
     {
-        return $this->transactionManager->getAllBudgetInformationByUser($budget);
+        return $this->transactionManager->getAllTransactionInformationByUser($budget);
     }
-
 }

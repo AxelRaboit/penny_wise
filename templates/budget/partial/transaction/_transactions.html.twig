@@ -1,5 +1,11 @@
 <div class="grid grid-cols-3 gap-3">
-    {% include 'budget/partial/transaction/_transaction_tab.html.twig' with {'transactions': transactions.bills} %}
-    {% include 'budget/partial/transaction/_transaction_tab.html.twig' with {'transactions': transactions.expenses} %}
-    {% include 'budget/partial/transaction/_transaction_tab.html.twig' with {'transactions': transactions.debt} %}
+    <div class="flex flex-col">
+        {% include 'budget/partial/transaction/_transaction_tab.html.twig' with {'transactions': transactions.bills} %}
+    </div>
+    <div class="flex flex-col">
+        {% include 'budget/partial/transaction/_transaction_tab.html.twig' with {'transactions': transactions.expenses} %}
+    </div>
+    <div class="flex flex-col">
+        {% include 'budget/partial/transaction/_transaction_tab.html.twig' with {'transactions': transactions.debts} %}
+    </div>
 </div>

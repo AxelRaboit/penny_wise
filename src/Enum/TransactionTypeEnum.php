@@ -4,21 +4,21 @@ namespace App\Enum;
 
 class TransactionTypeEnum
 {
-    public const string INCOME = 'income';
-    public const string EXPENSE = 'expense';
+    public const string INCOMES = 'incomes';
+    public const string EXPENSES = 'expenses';
     public const string SAVINGS = 'savings';
     public const string BILLS = 'bills';
-    public const string DEBT = 'debt';
+    public const string DEBTS = 'debts';
 
     /**
      * @var array<string>
      */
     public const array ALLOWED_VALUES = [
-        self::INCOME,
-        self::EXPENSE,
+        self::INCOMES,
+        self::EXPENSES,
         self::SAVINGS,
         self::BILLS,
-        self::DEBT,
+        self::DEBTS,
     ];
 
     public function __construct(private readonly string $value)
@@ -28,14 +28,14 @@ class TransactionTypeEnum
         }
     }
 
-    public static function INCOME(): self
+    public static function INCOMES(): self
     {
-        return new self(self::INCOME);
+        return new self(self::INCOMES);
     }
 
-    public static function EXPENSE(): self
+    public static function EXPENSES(): self
     {
-        return new self(self::EXPENSE);
+        return new self(self::EXPENSES);
     }
 
     public static function SAVINGS(): self
@@ -48,9 +48,9 @@ class TransactionTypeEnum
         return new self(self::BILLS);
     }
 
-    public static function DEBT(): self
+    public static function DEBTS(): self
     {
-        return new self(self::DEBT);
+        return new self(self::DEBTS);
     }
 
     public function getValue(): string

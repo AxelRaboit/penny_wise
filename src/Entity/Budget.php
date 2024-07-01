@@ -42,9 +42,6 @@ class Budget
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private string|float|null $startBalance = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private string|float|null $leftToSpend = null;
-
     /**
      * @var Collection<int, Transaction>
      */
@@ -141,18 +138,6 @@ class Budget
     public function setStartBalance(string|float $startBalance): static
     {
         $this->startBalance = $startBalance;
-
-        return $this;
-    }
-
-    public function getLeftToSpend(): string|float|null
-    {
-        return $this->leftToSpend;
-    }
-
-    public function setLeftToSpend(string|float $leftToSpend): static
-    {
-        $this->leftToSpend = $leftToSpend;
 
         return $this;
     }

@@ -77,7 +77,7 @@ class TransactionTest extends KernelTestCase
         $this->entityManager->flush();
 
         $transaction = new Transaction();
-        $transaction->setType(TransactionTypeEnum::INCOME());
+        $transaction->setType(TransactionTypeEnum::INCOMES());
         $transaction->setAmount(self::TRANSACTION_AMOUNT);
         $transaction->setDate(new \DateTime(self::TRANSACTION_DATE));
         $transaction->setBudget($budget);
@@ -87,10 +87,16 @@ class TransactionTest extends KernelTestCase
         $this->entityManager->persist($transaction);
         $this->entityManager->flush();
 
+        $budget->addTransaction($transaction); // Recalculates Left to Spend
+
+        $this->entityManager->flush();
+
+        $this->assertEquals(1000.00, $budget->getLeftToSpend());
+
         $savedTransaction = $this->entityManager->getRepository(Transaction::class)->find($transaction->getId());
 
         $this->assertNotNull($savedTransaction);
-        $this->assertEquals(TransactionTypeEnum::INCOME(), $savedTransaction->getType());
+        $this->assertEquals(TransactionTypeEnum::INCOMES(), $savedTransaction->getType());
     }
 
     protected function tearDown(): void
