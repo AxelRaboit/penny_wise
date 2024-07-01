@@ -71,11 +71,11 @@ final readonly class BudgetService
                 [
                     'backgroundColor' => [
                         'rgb(201, 203, 207)', // Total spending
-                        'rgb(21, 128, 61)' // Remaining balance
+                        'rgb(101, 163, 13)' // Remaining balance
                     ],
                     'borderColor' => [
                         'rgb(201, 203, 207)',
-                        'rgb(21, 128, 61)'
+                        'rgb(101, 163, 13)'
                     ],
                     'data' => [$totalSpending, $remainingBalance],
                 ],
