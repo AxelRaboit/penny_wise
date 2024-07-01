@@ -45,8 +45,8 @@
 
         <div id="monthlyLeftToSpend" class="flex-grow rounded">
             <div class="flex items-center justify-center h-full bg-white relative p-4">
-                <div class="absolute inset-0 flex items-center justify-center">
-                    <span class="text-2xl"><span class="text-secondary font-bold">{{ budget.currency|currency_symbol }}</span> {{ remainingBalance }}</span>
+                <div class="absolute inset-0 flex items-center justify-end p-4">
+                    <span class="text-2xl"><span class="text-secondary font-bold text-sm">{{ budget.currency|currency_symbol }}</span> <span class="text-sm">{{ remainingBalance }}</span> <span class="text-secondary font-bold text-sm">left to spend</span></span>
                 </div>
             </div>
         </div>
