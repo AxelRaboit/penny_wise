@@ -4,26 +4,31 @@ namespace App\Enum;
 
 class TransactionTypeEnum
 {
-    public const string INCOMES = 'incomes';
-    public const string EXPENSES = 'expenses';
-    public const string SAVINGS = 'savings';
-    public const string BILLS = 'bills';
-    public const string DEBTS = 'debts';
+    public const INCOMES = 4;
+    public const EXPENSES = 2;
+    public const SAVINGS = 5;
+    public const BILLS = 1;
+    public const DEBTS = 3;
 
-    /**
-     * @var array<string>
-     */
-    public const array ALLOWED_VALUES = [
-        self::INCOMES,
-        self::EXPENSES,
-        self::SAVINGS,
-        self::BILLS,
-        self::DEBTS,
+    private static array $valueToString = [
+        self::INCOMES => 'Incomes',
+        self::EXPENSES => 'Expenses',
+        self::SAVINGS => 'Savings',
+        self::BILLS => 'Bills',
+        self::DEBTS => 'Debts',
     ];
 
-    public function __construct(private readonly string $value)
+    private static array $stringToValue = [
+        'Incomes' => self::INCOMES,
+        'Expenses' => self::EXPENSES,
+        'Savings' => self::SAVINGS,
+        'Bills' => self::BILLS,
+        'Debts' => self::DEBTS,
+    ];
+
+    public function __construct(private readonly int $value)
     {
-        if (!in_array($value, self::ALLOWED_VALUES, true)) {
+        if (!isset(self::$valueToString[$value])) {
             throw new \InvalidArgumentException("Invalid value '$value' for enum TransactionTypeEnum");
         }
     }
@@ -53,26 +58,31 @@ class TransactionTypeEnum
         return new self(self::DEBTS);
     }
 
-    public function getValue(): string
+    public function getValue(): int
     {
         return $this->value;
+    }
+
+    public function getString(): string
+    {
+        return self::$valueToString[$this->value];
     }
 
     public function __toString(): string
     {
-        return $this->value;
-    }
-
-    /**
-     * @return string[]
-     */
-    public static function getAllowedValues(): array
-    {
-        return self::ALLOWED_VALUES;
+        return $this->getString();
     }
 
     public static function fromString(string $value): self
     {
-        return new self($value);
+        if (!isset(self::$stringToValue[$value])) {
+            throw new \InvalidArgumentException("Invalid string '$value' for enum TransactionTypeEnum");
+        }
+        return new self(self::$stringToValue[$value]);
+    }
+
+    public static function getAllowedValues(): array
+    {
+        return array_keys(self::$valueToString);
     }
 }

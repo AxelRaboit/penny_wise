@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Entity\Trait\TimestampableTrait;
-use App\Enum\TransactionTypeEnum;
 use App\Repository\TransactionRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -35,9 +34,6 @@ class Transaction
     #[ORM\ManyToOne(inversedBy: 'transactions')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Budget $budget = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $type = null;
 
     #[ORM\ManyToOne(inversedBy: 'transactions')]
     #[ORM\JoinColumn(nullable: false)]
@@ -104,18 +100,6 @@ class Transaction
     public function setBudget(?Budget $budget): static
     {
         $this->budget = $budget;
-
-        return $this;
-    }
-
-    public function getType(): ?TransactionTypeEnum
-    {
-        return $this->type ? TransactionTypeEnum::fromString($this->type) : null;
-    }
-
-    public function setType(TransactionTypeEnum $type): self
-    {
-        $this->type = $type->getValue();
 
         return $this;
     }

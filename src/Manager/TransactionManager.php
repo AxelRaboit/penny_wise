@@ -36,12 +36,14 @@ final readonly class TransactionManager
      */
     private function getExpenseTransactions(Budget $budget): array
     {
-        $expenseTransactions = $this->transactionRepository
-            ->findBy(['budget' => $budget, 'type' => TransactionTypeEnum::EXPENSES()]);
+        $expenseTransactions = $this->transactionRepository->findByBudgetAndCategory($budget, TransactionTypeEnum::EXPENSES()->getString());
+
+        $totalExpenses = $this->getTotalExpenses($budget);
 
         return [
-            'type' => TransactionTypeEnum::EXPENSES(),
+            'type' => TransactionTypeEnum::EXPENSES()->getString(),
             'data' => $expenseTransactions,
+            'total' => $totalExpenses,
         ];
     }
 
@@ -51,12 +53,14 @@ final readonly class TransactionManager
      */
     private function getBillsTransactions(Budget $budget): array
     {
-        $billsTransactions = $this->transactionRepository
-            ->findBy(['budget' => $budget, 'type' => TransactionTypeEnum::BILLS()]);
+        $billsTransactions = $this->transactionRepository->findByBudgetAndCategory($budget, TransactionTypeEnum::BILLS()->getString());
+
+        $totalBills = $this->getTotalBills($budget);
 
         return [
-            'type' => TransactionTypeEnum::BILLS(),
+            'type' => TransactionTypeEnum::BILLS()->getString(),
             'data' => $billsTransactions,
+            'total' => $totalBills,
         ];
     }
 
@@ -66,12 +70,14 @@ final readonly class TransactionManager
      */
     private function getDebtTransactions(Budget $budget): array
     {
-        $debtTransactions = $this->transactionRepository
-            ->findBy(['budget' => $budget, 'type' => TransactionTypeEnum::DEBTS()]);
+        $debtTransactions = $this->transactionRepository->findByBudgetAndCategory($budget, TransactionTypeEnum::DEBTS()->getString());
+
+        $totalDebts = $this->getTotalDebts($budget);
 
         return [
-            'type' => TransactionTypeEnum::DEBTS(),
+            'type' => TransactionTypeEnum::DEBTS()->getString(),
             'data' => $debtTransactions,
+            'total' => $totalDebts,
         ];
     }
 
@@ -81,13 +87,70 @@ final readonly class TransactionManager
      */
     private function getIncomeTransactions(Budget $budget): array
     {
-        $incomeTransactions = $this->transactionRepository
-            ->findBy(['budget' => $budget, 'type' => TransactionTypeEnum::INCOMES()]);
+        $incomeTransactions = $this->transactionRepository->findByBudgetAndCategory($budget, TransactionTypeEnum::INCOMES()->getString());
+
+        $totalIncomes = $this->getTotalIncomes($budget);
 
         return [
-            'type' => TransactionTypeEnum::INCOMES(),
+            'type' => TransactionTypeEnum::INCOMES()->getString(),
             'data' => $incomeTransactions,
+            'total' => $totalIncomes,
         ];
     }
 
+    private function getTotalIncomes(Budget $budget): float
+    {
+        $totalIncomes = 0;
+        $incomeCategory = TransactionTypeEnum::INCOMES()->getString();
+
+        $incomes = $this->transactionRepository->findByBudgetAndCategory($budget, $incomeCategory);
+
+        foreach ($incomes as $income) {
+            $totalIncomes += $income->getAmount();
+        }
+
+        return $totalIncomes;
+    }
+
+    private function getTotalExpenses(Budget $budget): float
+    {
+        $totalExpenses = 0;
+        $expenseCategory = TransactionTypeEnum::EXPENSES()->getString();
+
+        $expenses = $this->transactionRepository->findByBudgetAndCategory($budget, $expenseCategory);
+
+        foreach ($expenses as $transaction) {
+            $totalExpenses += $transaction->getAmount();
+        }
+
+        return $totalExpenses;
+    }
+
+    private function getTotalBills(Budget $budget): float
+    {
+        $totalBills = 0;
+        $billCategory = TransactionTypeEnum::BILLS()->getString();
+
+        $bills = $this->transactionRepository->findByBudgetAndCategory($budget, $billCategory);
+
+        foreach ($bills as $transaction) {
+            $totalBills += $transaction->getAmount();
+        }
+
+        return $totalBills;
+    }
+
+    private function getTotalDebts(Budget $budget): float
+    {
+        $totalDebts = 0;
+        $debtCategory = TransactionTypeEnum::DEBTS()->getString();
+
+        $debts = $this->transactionRepository->findByBudgetAndCategory($budget, $debtCategory);
+
+        foreach ($debts as $transaction) {
+            $totalDebts += $transaction->getAmount();
+        }
+
+        return $totalDebts;
+    }
 }

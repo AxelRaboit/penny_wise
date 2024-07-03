@@ -76,4 +76,9 @@ class TransactionCategory
 
         return $this;
     }
+
+    public function getLabel(): string
+    {
+        return ucfirst($this->name);
+    }
 }

@@ -11,7 +11,7 @@
             </div>
         </div>
 
-        <div class="p-1 rounded bg-primary">
+        <div class="p-1 rounded bg-primary mb-4">
             <div id="monthlyOverview">
                 <h2 class="rounded-t text-center text-2xl font-bold p-2 bg-secondary text-white">Overview</h2>
                 <div class="flex bg-white">
@@ -32,6 +32,37 @@
                 </div>
             </div>
         </div>
+
+        <div class="p-1 rounded bg-primary">
+            <div id="monthlyOverview">
+                <h2 class="rounded-t text-center text-2xl font-bold p-2 bg-secondary text-white">Cash Flow</h2>
+                <div class="flex bg-white">
+                    <div class="w-full text-center border border-solid border-gray-300 p-2"><span class="font-bold">Start Balance</span></div>
+                    <div class="w-full text-center border border-solid border-gray-300 p-2"><span class="font-bold text-secondary mr-1">+</span><span>{{ budget.startBalance }}</span></div>
+                </div>
+                <div class="flex bg-white">
+                    <div class="w-full text-center border border-solid border-gray-300 p-2"><span class="font-bold">Incomes</span></div>
+                    <div class="w-full text-center border border-solid border-gray-300 p-2"><span class="font-bold text-secondary mr-1">+</span><span>{{ transactions.incomes.total }}</span></div>
+                </div>
+                <div class="flex bg-white">
+                    <div class="w-full text-center border border-solid border-gray-300 p-2"><span class="font-bold">Bills & Expenses</span></div>
+                    <div class="w-full text-center border border-solid border-gray-300 p-2"><span class="font-bold text-danger mr-1">-</span><span>{{ transactions.expenses.total + transactions.bills.total }}</span></div>
+                </div>
+                <div class="flex bg-white">
+                    <div class="rounded-bl w-full text-center border border-solid border-gray-300 p-2"><span class="font-bold">Debts</span></div>
+                    <div class="rounded-br w-full text-center border border-solid border-gray-300 p-2"><span class="font-bold text-danger mr-1">-</span><span>{{ transactions.debts.total }}</span></div>
+                </div>
+                <div class="flex bg-white rounded-b">
+
+                    {% set remainingBalance = budget.startBalance + transactions.incomes.total - transactions.expenses.total - transactions.bills.total - transactions.debts.total %}
+
+                    <div class="rounded-bl w-full text-center p-2 bg-secondary"><span class="font-bold text-white">Left</span></div>
+                    <div class="rounded-br w-full text-center border border-solid border-gray-300 p-2"><span class="font-bold text-xl text-secondary">{{ budget.currency|currency_symbol }}</span> <span>{{ remainingBalance }}</span></div>
+                </div>
+            </div>
+        </div>
+
+
     </div>
 
     <div class="p-1 rounded bg-primary flex flex-col h-full">

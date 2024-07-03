@@ -1,6 +1,8 @@
 <div class="p-1 rounded bg-primary">
-    <div id="monthlyBills">
-        <h2 class="rounded-t text-center text-2xl font-bold p-2 bg-secondary text-white">{{ transactions.type.value|capitalize }}</h2>
+    <div id="monthlyBill">
+        {# TODO: make the h2 as a cva ux twig component #}
+         {% dump(transactions) %}
+        <h2 class="rounded-t text-center text-2xl font-bold p-2 bg-secondary text-white">{{ transactions.type|capitalize }}</h2>
 
         <div class="flex bg-white">
             <div class="w-full text-center border border-solid border-gray-300 p-2"><span class="font-bold">Date</span></div>
@@ -9,15 +11,19 @@
         </div>
 
         {% for transaction in transactions.data %}
-            <div class="flex bg-white {{ loop.last ? 'rounded-b' : '' }}">
+            <div class="flex bg-white">
                 <div class="{{ loop.last ? 'rounded-bl' : '' }} w-full text-center border border-solid border-gray-300 p-2"><span class="font-bold">{{ transaction.date|date('d M Y') }}</span></div>
                 <div class="w-full text-center border border-solid border-gray-300 p-2"><span class="font-bold">{{ transaction.category.name }}</span></div>
                 <div class="{{ loop.last ? 'rounded-br' : '' }} w-full text-center border border-solid border-gray-300 p-2"><span>{{ transaction.amount }}</span></div>
             </div>
         {% else %}
             <div class="flex bg-white rounded-b">
-                <div class="rounded-b w-full text-center border border-solid border-gray-300 p-2"><span class="ont-bold">No {{ transactions.type.value }}</span></div>
+                <div class="w-full text-center border border-solid border-gray-300 p-2"><span class="ont-bold">No {{ transactions.type }}</span></div>
             </div>
         {% endfor %}
+    </div>
+    <div class="flex bg-white rounded-b">
+        <div class="rounded-bl w-full text-center p-2 bg-secondary"><span class="font-bold text-white">Total</span></div>
+        <div class="rounded-br w-full text-center p-2"><span class="text-secondary font-bold">{{ budget.currency|currency_symbol }}</span> <span>{{ transactions.total }}</span></div>
     </div>
 </div>

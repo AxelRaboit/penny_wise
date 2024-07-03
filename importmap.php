@@ -16,6 +16,9 @@ return [
         'path' => './assets/app.js',
         'entrypoint' => true,
     ],
+    'modal' => [
+        'path' => './assets/js/component/modal.js',
+    ],
     '@hotwired/stimulus' => [
         'version' => '3.2.2',
     ],

@@ -171,4 +171,9 @@ class Budget
 
         return $this;
     }
+
+    public function getMonthLabel(): string
+    {
+        return $this->startDate->format('F');
+    }
 }
