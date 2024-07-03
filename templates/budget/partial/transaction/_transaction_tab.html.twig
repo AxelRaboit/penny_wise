@@ -1,7 +1,6 @@
 <div class="p-1 rounded bg-primary">
     <div id="monthlyBill">
         {# TODO: make the h2 as a cva ux twig component #}
-         {% dump(transactions) %}
         <h2 class="rounded-t text-center text-2xl font-bold p-2 bg-secondary text-white">{{ transactions.type|capitalize }}</h2>
 
         <div class="flex bg-white">
