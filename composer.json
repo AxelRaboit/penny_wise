@@ -103,6 +103,7 @@
     "require-dev": {
         "phpstan/phpstan": "^1.11",
         "phpunit/phpunit": "^9.5",
+        "rector/rector": "^1.2",
         "symfony/browser-kit": "7.1.*",
         "symfony/css-selector": "7.1.*",
         "symfony/debug-bundle": "7.1.*",
