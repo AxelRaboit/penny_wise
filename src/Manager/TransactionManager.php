@@ -13,7 +13,7 @@ final readonly class TransactionManager
 
     /**
      * @param Budget $budget
-     * @return array<array<string, mixed>>
+     * @return array<string, array<string, array<int, Transaction>|string|float>>
      */
     public function getAllTransactionInformationByUser(Budget $budget): array
     {
@@ -32,7 +32,7 @@ final readonly class TransactionManager
 
     /**
      * @param Budget $budget
-     * @return array<string, TransactionTypeEnum|array<int, Transaction>>
+     * @return array<string, string|array<int, Transaction>|float>
      */
     private function getExpenseTransactions(Budget $budget): array
     {
@@ -49,7 +49,7 @@ final readonly class TransactionManager
 
     /**
      * @param Budget $budget
-     * @return array<string, TransactionTypeEnum|array<int, Transaction>>
+     * @return array<string, string|array<int, Transaction>|float>
      */
     private function getBillsTransactions(Budget $budget): array
     {
@@ -66,7 +66,7 @@ final readonly class TransactionManager
 
     /**
      * @param Budget $budget
-     * @return array<string, TransactionTypeEnum|array<int, Transaction>>
+     * @return array<string, string|array<int, Transaction>|float>
      */
     private function getDebtTransactions(Budget $budget): array
     {
@@ -83,7 +83,7 @@ final readonly class TransactionManager
 
     /**
      * @param Budget $budget
-     * @return array<string, TransactionTypeEnum|array<int, Transaction>>
+     * @return array<string, string|array<int, Transaction>|float>
      */
     private function getIncomeTransactions(Budget $budget): array
     {

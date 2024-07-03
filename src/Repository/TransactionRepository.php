@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Budget;
 use App\Entity\Transaction;
 use App\Enum\TransactionTypeEnum;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -17,10 +18,16 @@ class TransactionRepository extends ServiceEntityRepository
         parent::__construct($registry, Transaction::class);
     }
 
-    public function findByBudgetAndCategory($budget, $transactionCategory)
+    /**
+     * @param Budget $budget
+     * @param string $transactionCategory
+     * @return Transaction[]
+     */
+    public function findByBudgetAndCategory(Budget $budget, string $transactionCategory): array
     {
         $transactionCategoryValue = TransactionTypeEnum::fromString($transactionCategory)->getValue();
 
+        /** @var Transaction[] */
         return $this->createQueryBuilder('t')
             ->where('t.budget = :budget')
             ->andWhere('t.transactionCategory = :transactionCategory')

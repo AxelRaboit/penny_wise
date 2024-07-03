@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Transaction;
 use App\Entity\User;
 use App\Service\BudgetService;
 use App\Service\TransactionService;
@@ -24,6 +25,7 @@ final class BudgetController extends AbstractController
         }
 
         $budget = $this->budgetService->getBudgetByUser($user, $year, $month);
+        /** @var array<string, array<string, array<Transaction>>> $transactions */
         $transactions = $this->transactionService->getAllTransactionInformationByUser($budget);
         $remainingBalance = $this->budgetService->getRemainingBalance($budget, $transactions);
         $chart = $this->budgetService->createBudgetChart($budget, $transactions);

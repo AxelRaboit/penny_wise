@@ -79,6 +79,10 @@ class TransactionCategory
 
     public function getLabel(): string
     {
+        if ($this->name === null) {
+            throw new \LogicException('The name should not be null.');
+        }
+
         return ucfirst($this->name);
     }
 }

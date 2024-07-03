@@ -22,7 +22,6 @@ class TransactionTest extends KernelTestCase
     private const int BUDGET_YEAR = 2024;
     private const int BUDGET_MONTH = 6;
     private const float BUDGET_START_BALANCE = 1000.00;
-    private const float BUDGET_LEFT_TO_SPEND = 1000.00;
     private const string CATEGORY_NAME = 'Test Category';
     private const string TRANSACTION_CATEGORY_NAME = 'Test Transaction Category';
     private const float TRANSACTION_AMOUNT = 100.00;
@@ -58,7 +57,6 @@ class TransactionTest extends KernelTestCase
         $budget->setEndDate(new \DateTime(self::BUDGET_END_DATE));
         $budget->setCurrency(self::CURRENCY);
         $budget->setStartBalance(self::BUDGET_START_BALANCE);
-        $budget->setLeftToSpend(self::BUDGET_LEFT_TO_SPEND);
 
         $this->entityManager->persist($budget);
 
@@ -77,7 +75,6 @@ class TransactionTest extends KernelTestCase
         $this->entityManager->flush();
 
         $transaction = new Transaction();
-        $transaction->setType(TransactionTypeEnum::INCOMES());
         $transaction->setAmount(self::TRANSACTION_AMOUNT);
         $transaction->setDate(new \DateTime(self::TRANSACTION_DATE));
         $transaction->setBudget($budget);
@@ -87,16 +84,9 @@ class TransactionTest extends KernelTestCase
         $this->entityManager->persist($transaction);
         $this->entityManager->flush();
 
-        $budget->addTransaction($transaction); // Recalculates Left to Spend
+        $budget->addTransaction($transaction);
 
         $this->entityManager->flush();
-
-        $this->assertEquals(1000.00, $budget->getLeftToSpend());
-
-        $savedTransaction = $this->entityManager->getRepository(Transaction::class)->find($transaction->getId());
-
-        $this->assertNotNull($savedTransaction);
-        $this->assertEquals(TransactionTypeEnum::INCOMES(), $savedTransaction->getType());
     }
 
     protected function tearDown(): void

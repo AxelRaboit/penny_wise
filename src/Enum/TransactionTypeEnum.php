@@ -10,6 +10,9 @@ class TransactionTypeEnum
     public const BILLS = 1;
     public const DEBTS = 3;
 
+    /**
+     * @var array<int, string> $valueToString
+     */
     private static array $valueToString = [
         self::INCOMES => 'Incomes',
         self::EXPENSES => 'Expenses',
@@ -18,6 +21,9 @@ class TransactionTypeEnum
         self::DEBTS => 'Debts',
     ];
 
+    /**
+     * @var array<string, int> $stringToValue
+     */
     private static array $stringToValue = [
         'Incomes' => self::INCOMES,
         'Expenses' => self::EXPENSES,
@@ -81,6 +87,9 @@ class TransactionTypeEnum
         return new self(self::$stringToValue[$value]);
     }
 
+    /**
+     * @return int[]
+     */
     public static function getAllowedValues(): array
     {
         return array_keys(self::$valueToString);

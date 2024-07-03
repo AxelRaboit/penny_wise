@@ -174,6 +174,11 @@ class Budget
 
     public function getMonthLabel(): string
     {
+        if ($this->startDate === null) {
+            throw new \LogicException('Month label should not be null.');
+        }
+
         return $this->startDate->format('F');
     }
+
 }

@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Budget;
+use App\Entity\Transaction;
 use App\Entity\User;
 use App\Repository\BudgetRepository;
 use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
@@ -25,6 +26,11 @@ final readonly class BudgetService
         return $budget;
     }
 
+    /**
+     * @param Budget $budget
+     * @param array<string, array<string, array<Transaction>>> $transactions
+     * @return float
+     */
     public function calculateTotalIncomes(Budget $budget, array $transactions): float
     {
         $totalIncomes = $budget->getStartBalance();
@@ -34,6 +40,10 @@ final readonly class BudgetService
         return $totalIncomes;
     }
 
+    /**
+     * @param array<string, array<string, array<Transaction>>> $transactions
+     * @return float
+     */
     public function calculateTotalSpending(array $transactions): float
     {
         $totalSpending = 0;
@@ -51,6 +61,11 @@ final readonly class BudgetService
         return $totalSpending;
     }
 
+    /**
+     * @param Budget $budget
+     * @param array<string, array<string, array<Transaction>>> $transactions
+     * @return float
+     */
     public function getRemainingBalance(Budget $budget, array $transactions): float
     {
         $totalIncomes = $this->calculateTotalIncomes($budget, $transactions);
@@ -59,6 +74,11 @@ final readonly class BudgetService
         return $totalIncomes - $totalSpending;
     }
 
+    /**
+     * @param Budget $budget
+     * @param array<string, array<string, array<Transaction>>> $transactions
+     * @return Chart
+     */
     public function createBudgetChart(Budget $budget, array $transactions): Chart
     {
         $totalSpending = $this->calculateTotalSpending($transactions);
