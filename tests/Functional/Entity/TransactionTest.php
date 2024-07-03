@@ -7,8 +7,7 @@ use App\Entity\Category;
 use App\Entity\Transaction;
 use App\Entity\TransactionCategory;
 use App\Entity\User;
-use App\Enum\TransactionTypeEnum;
-use DateTimeImmutable;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -53,8 +52,8 @@ class TransactionTest extends KernelTestCase
         $budget->setIndividual($this->getUser());
         $budget->setYear(self::BUDGET_YEAR);
         $budget->setMonth(self::BUDGET_MONTH);
-        $budget->setStartDate(new \DateTime(self::BUDGET_START_DATE));
-        $budget->setEndDate(new \DateTime(self::BUDGET_END_DATE));
+        $budget->setStartDate(new DateTime(self::BUDGET_START_DATE));
+        $budget->setEndDate(new DateTime(self::BUDGET_END_DATE));
         $budget->setCurrency(self::CURRENCY);
         $budget->setStartBalance(self::BUDGET_START_BALANCE);
 
@@ -76,7 +75,7 @@ class TransactionTest extends KernelTestCase
 
         $transaction = new Transaction();
         $transaction->setAmount(self::TRANSACTION_AMOUNT);
-        $transaction->setDate(new \DateTime(self::TRANSACTION_DATE));
+        $transaction->setDate(new DateTime(self::TRANSACTION_DATE));
         $transaction->setBudget($budget);
         $transaction->setCategory($category);
         $transaction->setTransactionCategory($transactionCategory);
@@ -84,9 +83,18 @@ class TransactionTest extends KernelTestCase
         $this->entityManager->persist($transaction);
         $this->entityManager->flush();
 
-        $budget->addTransaction($transaction);
+        $this->assertNotNull($transaction->getId());
+        $this->assertEquals(self::TRANSACTION_AMOUNT, $transaction->getAmount());
+        $this->assertEquals(new DateTime(self::TRANSACTION_DATE), $transaction->getDate());
+        $this->assertEquals($budget, $transaction->getBudget());
+        $this->assertEquals($category, $transaction->getCategory());
+        $this->assertEquals($transactionCategory, $transaction->getTransactionCategory());
 
+        $budget->addTransaction($transaction);
         $this->entityManager->flush();
+
+        $this->assertCount(1, $budget->getTransactions());
+        $this->assertTrue($budget->getTransactions()->contains($transaction));
     }
 
     protected function tearDown(): void

@@ -9,11 +9,11 @@ class TransactionTypeEnumTest extends TestCase
 {
     public function testEnumValues(): void
     {
-        $this->assertEquals('incomes', TransactionTypeEnum::INCOMES()->getString());
-        $this->assertEquals('expenses', TransactionTypeEnum::EXPENSES()->getString());
-        $this->assertEquals('savings', TransactionTypeEnum::SAVINGS()->getString());
-        $this->assertEquals('bills', TransactionTypeEnum::BILLS()->getString());
-        $this->assertEquals('debts', TransactionTypeEnum::DEBTS()->getString());
+        $this->assertEquals('Incomes', TransactionTypeEnum::INCOMES()->getString());
+        $this->assertEquals('Expenses', TransactionTypeEnum::EXPENSES()->getString());
+        $this->assertEquals('Savings', TransactionTypeEnum::SAVINGS()->getString());
+        $this->assertEquals('Bills', TransactionTypeEnum::BILLS()->getString());
+        $this->assertEquals('Debts', TransactionTypeEnum::DEBTS()->getString());
     }
 
     public function testInvalidEnumValue(): void
