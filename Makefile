@@ -10,6 +10,8 @@ TAILWIND_BUILD = $(BIN) tailwind:build
 TAILWIND_WATCH = $(TAILWIND_BUILD) --watch
 TWIG_COMPONENT = $(BIN) debug:twig-component
 
+VENDOR_BIN_RECTOR = vendor/bin/rector
+
 all: help
 
 tailwind-init:
@@ -35,6 +37,9 @@ test:
 
 stan:
 	$(VENDOR_BIN_STAN) analyse src tests
+
+rector:
+	$(VENDOR_BIN_RECTOR) process src
 
 .PHONY: help
 help:
