@@ -48,30 +48,14 @@ class TransactionTest extends KernelTestCase
 
     public function testTransactionType(): void
     {
-        $budget = new Budget();
-        $budget->setIndividual($this->getUser());
-        $budget->setYear(self::BUDGET_YEAR);
-        $budget->setMonth(self::BUDGET_MONTH);
-        $budget->setStartDate(new DateTime(self::BUDGET_START_DATE));
-        $budget->setEndDate(new DateTime(self::BUDGET_END_DATE));
-        $budget->setCurrency(self::CURRENCY);
-        $budget->setStartBalance(self::BUDGET_START_BALANCE);
-
+        $budget = $this->createBudget();
         $this->entityManager->persist($budget);
 
-        $category = new Category();
-        $category->setName(self::CATEGORY_NAME);
+        $category = $this->createCategory();
+        $this->save($category);
 
-        $this->entityManager->persist($category);
-
-        $this->entityManager->flush();
-
-        $transactionCategory = new TransactionCategory();
-        $transactionCategory->setName(self::TRANSACTION_CATEGORY_NAME);
-
-        $this->entityManager->persist($transactionCategory);
-
-        $this->entityManager->flush();
+        $transactionCategory = $this->createTransactionCategory();
+        $this->save($transactionCategory);
 
         $transaction = new Transaction();
         $transaction->setAmount(self::TRANSACTION_AMOUNT);
@@ -79,18 +63,31 @@ class TransactionTest extends KernelTestCase
         $transaction->setBudget($budget);
         $transaction->setCategory($category);
         $transaction->setTransactionCategory($transactionCategory);
-
-        $this->entityManager->persist($transaction);
-        $this->entityManager->flush();
+        $this->save($transaction);
 
         $this->assertNotNull($transaction->getId());
+        $this->assertNotNull($transaction->getAmount());
+        $this->assertNotNull($transaction->getDate());
+        $this->assertNotNull($transaction->getBudget());
+        $this->assertNotNull($transaction->getCategory());
+        $this->assertNotNull($transaction->getTransactionCategory());
+
+        $this->assertEquals($transaction->getId(), $transaction->getId());
         $this->assertEquals(self::TRANSACTION_AMOUNT, $transaction->getAmount());
         $this->assertEquals(new DateTime(self::TRANSACTION_DATE), $transaction->getDate());
         $this->assertEquals($budget, $transaction->getBudget());
         $this->assertEquals($category, $transaction->getCategory());
         $this->assertEquals($transactionCategory, $transaction->getTransactionCategory());
+        $this->assertEquals(self::BUDGET_START_BALANCE, $transaction->getBudget()->getStartBalance());
+        $this->assertNotNull($transaction->getBudget()->getStartDate());
+        $this->assertEquals(self::BUDGET_START_DATE, $transaction->getBudget()->getStartDate()->format('Y-m-d'));
+        $this->assertNotNull($transaction->getBudget()->getEndDate());
+        $this->assertEquals(self::BUDGET_END_DATE, $transaction->getBudget()->getEndDate()->format('Y-m-d'));
+        $this->assertEquals(self::CURRENCY, $transaction->getBudget()->getCurrency());
+        $this->assertEquals($this->getUser(), $transaction->getBudget()->getIndividual());
 
         $budget->addTransaction($transaction);
+
         $this->entityManager->flush();
 
         $this->assertCount(1, $budget->getTransactions());
@@ -116,5 +113,41 @@ class TransactionTest extends KernelTestCase
         }
 
         return $user;
+    }
+
+    private function save(object $object): void
+    {
+        $this->entityManager->persist($object);
+        $this->entityManager->flush();
+    }
+
+    private function createBudget(): Budget
+    {
+        $budget = new Budget();
+        $budget->setIndividual($this->getUser());
+        $budget->setYear(self::BUDGET_YEAR);
+        $budget->setMonth(self::BUDGET_MONTH);
+        $budget->setStartDate(new DateTime(self::BUDGET_START_DATE));
+        $budget->setEndDate(new DateTime(self::BUDGET_END_DATE));
+        $budget->setCurrency(self::CURRENCY);
+        $budget->setStartBalance(self::BUDGET_START_BALANCE);
+
+        return $budget;
+    }
+
+    private function createCategory(): Category
+    {
+        $category = new Category();
+        $category->setName(self::CATEGORY_NAME);
+
+        return $category;
+    }
+
+    private function createTransactionCategory(): TransactionCategory
+    {
+        $transactionCategory = new TransactionCategory();
+        $transactionCategory->setName(self::TRANSACTION_CATEGORY_NAME);
+
+        return $transactionCategory;
     }
 }
