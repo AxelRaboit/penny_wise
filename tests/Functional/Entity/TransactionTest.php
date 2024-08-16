@@ -3,7 +3,6 @@
 namespace App\Tests\Functional\Entity;
 
 use App\Entity\Budget;
-use App\Entity\Category;
 use App\Entity\Transaction;
 use App\Entity\TransactionCategory;
 use App\Entity\User;
@@ -51,17 +50,14 @@ class TransactionTest extends KernelTestCase
         $budget = $this->createBudget();
         $this->entityManager->persist($budget);
 
-        $category = $this->createCategory();
-        $this->save($category);
-
         $transactionCategory = $this->createTransactionCategory();
         $this->save($transactionCategory);
 
         $transaction = new Transaction();
+        $transaction->setCategory(self::CATEGORY_NAME);
         $transaction->setAmount(self::TRANSACTION_AMOUNT);
         $transaction->setDate(new DateTime(self::TRANSACTION_DATE));
         $transaction->setBudget($budget);
-        $transaction->setCategory($category);
         $transaction->setTransactionCategory($transactionCategory);
         $this->save($transaction);
 
@@ -76,7 +72,7 @@ class TransactionTest extends KernelTestCase
         $this->assertEquals(self::TRANSACTION_AMOUNT, $transaction->getAmount());
         $this->assertEquals(new DateTime(self::TRANSACTION_DATE), $transaction->getDate());
         $this->assertEquals($budget, $transaction->getBudget());
-        $this->assertEquals($category, $transaction->getCategory());
+        $this->assertEquals(self::CATEGORY_NAME, $transaction->getCategory());
         $this->assertEquals($transactionCategory, $transaction->getTransactionCategory());
         $this->assertEquals(self::BUDGET_START_BALANCE, $transaction->getBudget()->getStartBalance());
         $this->assertNotNull($transaction->getBudget()->getStartDate());
@@ -133,14 +129,6 @@ class TransactionTest extends KernelTestCase
         $budget->setStartBalance(self::BUDGET_START_BALANCE);
 
         return $budget;
-    }
-
-    private function createCategory(): Category
-    {
-        $category = new Category();
-        $category->setName(self::CATEGORY_NAME);
-
-        return $category;
     }
 
     private function createTransactionCategory(): TransactionCategory

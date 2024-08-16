@@ -29,15 +29,14 @@ class Transaction
 
     #[ORM\ManyToOne(inversedBy: 'transactions')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Category $category = null;
-
-    #[ORM\ManyToOne(inversedBy: 'transactions')]
-    #[ORM\JoinColumn(nullable: false)]
     private ?Budget $budget = null;
 
     #[ORM\ManyToOne(inversedBy: 'transactions')]
     #[ORM\JoinColumn(nullable: false)]
     private ?TransactionCategory $transactionCategory = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $category = null;
 
     public function getId(): ?int
     {
@@ -80,18 +79,6 @@ class Transaction
         return $this;
     }
 
-    public function getCategory(): ?Category
-    {
-        return $this->category;
-    }
-
-    public function setCategory(?Category $category): static
-    {
-        $this->category = $category;
-
-        return $this;
-    }
-
     public function getBudget(): ?Budget
     {
         return $this->budget;
@@ -112,6 +99,18 @@ class Transaction
     public function setTransactionCategory(?TransactionCategory $transactionCategory): static
     {
         $this->transactionCategory = $transactionCategory;
+
+        return $this;
+    }
+
+    public function getCategory(): ?string
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?string $category): static
+    {
+        $this->category = $category;
 
         return $this;
     }
