@@ -8,14 +8,14 @@ export function showModal(content) {
     app.appendChild(modal);
 
     const modalContent = document.createElement('div');
-    modalContent.classList.add('modal-content', 'bg-white', 'rounded-lg', 'p-4', 'shadow-lg', 'flex', 'flex-col', 'items-center', 'justify-center');
+    modalContent.classList.add('modal-content', 'relative', 'bg-white', 'rounded-lg', 'p-4', 'shadow-lg', 'flex', 'flex-col', 'items-center', 'justify-center');
     modal.appendChild(modalContent);
 
     modalContent.innerHTML = content;
 
     const modalButton = document.createElement('button');
-    modalButton.classList.add('bg-primary', 'text-white', 'py-2', 'px-4', 'rounded', 'mt-4');
-    modalButton.textContent = 'Close';
+    modalButton.classList.add('absolute', 'top-0', 'right-0', 'cursor-pointer');
+    modalButton.innerHTML = '<i class="fa-solid fa-circle-xmark text-secondary p-1"></i>';
     modalContent.appendChild(modalButton);
 
     modalButton.addEventListener('click', () => {
