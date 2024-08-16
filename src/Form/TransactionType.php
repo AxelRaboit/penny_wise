@@ -37,7 +37,7 @@ class TransactionType extends AbstractType
             ->add('updatedAt', null, [
                 'widget' => 'single_text',
             ])
-            ->add('categoryCustom', TextType::class, [
+            ->add('category', TextType::class, [
                 'required' => false,
                 'attr' => ['placeholder' => 'Custom category'],
             ])
