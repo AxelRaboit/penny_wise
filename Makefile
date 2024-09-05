@@ -29,7 +29,7 @@ debug-twig-component:
 cc:
 	$(SYMFONY_CONSOLE) cache:clear
 
-start:
+run:
 	$(SYMFONY) serve
 
 test:
