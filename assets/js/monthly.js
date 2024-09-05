@@ -1,14 +1,12 @@
 import { showModal } from 'modal';
 
 document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.add-transaction-button').forEach(button => {
-        button.addEventListener('click', () => {
-            loadFormInModal('/transaction/new');
-        });
+    document.querySelector('#add-transaction-button').addEventListener('click', () => {
+        loadTransactionFormInModal('/transaction/new');
     });
 });
 
-function loadFormInModal(url) {
+function loadTransactionFormInModal(url) {
     fetch(url, {
         headers: {
             'X-Requested-With': 'XMLHttpRequest'
@@ -27,7 +25,7 @@ function loadFormInModal(url) {
         .then(data => {
             if (data.status === 'form') {
                 showModal(data.form);
-                attachFormSubmitEvent();
+                attachTransactionFormSubmitEvent();
             } else {
                 console.error('Unexpected response status:', data.status);
             }
@@ -38,17 +36,17 @@ function loadFormInModal(url) {
         });
 }
 
-function attachFormSubmitEvent() {
+function attachTransactionFormSubmitEvent() {
     const form = document.querySelector('form');
     if (form) {
         form.addEventListener('submit', function (e) {
             e.preventDefault();
-            submitForm(form);
+            submitTransactionForm(form);
         });
     }
 }
 
-function submitForm(form) {
+function submitTransactionForm(form) {
     const formData = new FormData(form);
     fetch('/transaction/new/submission', {
         method: 'POST',
