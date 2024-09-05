@@ -19,6 +19,9 @@ return [
     'modal' => [
         'path' => './assets/js/component/modal.js',
     ],
+    'monthly' => [
+        'path' => './assets/js/monthly/monthly.js',
+    ],
     '@hotwired/stimulus' => [
         'version' => '3.2.2',
     ],

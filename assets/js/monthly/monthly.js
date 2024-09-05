@@ -1,12 +1,6 @@
 import { showModal } from 'modal';
 
-document.addEventListener('DOMContentLoaded', () => {
-    document.querySelector('#add-transaction-button').addEventListener('click', () => {
-        loadTransactionFormInModal('/transaction/new');
-    });
-});
-
-function loadTransactionFormInModal(url) {
+export const loadTransactionFormInModal = (url) => {
     fetch(url, {
         headers: {
             'X-Requested-With': 'XMLHttpRequest'
@@ -36,7 +30,7 @@ function loadTransactionFormInModal(url) {
         });
 }
 
-function attachTransactionFormSubmitEvent() {
+const attachTransactionFormSubmitEvent = () => {
     const form = document.querySelector('form');
     if (form) {
         form.addEventListener('submit', function (e) {
@@ -46,7 +40,7 @@ function attachTransactionFormSubmitEvent() {
     }
 }
 
-function submitTransactionForm(form) {
+const submitTransactionForm = (form) => {
     const formData = new FormData(form);
     fetch('/transaction/new/submission', {
         method: 'POST',
