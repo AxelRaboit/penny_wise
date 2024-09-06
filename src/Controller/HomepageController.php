@@ -2,17 +2,24 @@
 
 namespace App\Controller;
 
+use App\Repository\BudgetRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-class HomepageController extends AbstractController
+final class HomepageController extends AbstractController
 {
+    private const string HOMEPAGE_TEMPLATE = 'homepage/index.html.twig';
+
+    public function __construct(private readonly BudgetRepository $budgetRepository){}
+
     #[Route('/', name: 'app_homepage')]
     public function index(): Response
     {
-        return $this->render('homepage/index.html.twig', [
-            'controller_name' => 'HomepageController',
-        ]);
+        $options = [
+            'budgets' => $this->budgetRepository->findAllBudgets(),
+        ];
+
+        return $this->render(self::HOMEPAGE_TEMPLATE, $options);
     }
 }
