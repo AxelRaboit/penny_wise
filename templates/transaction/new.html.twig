@@ -1,35 +1,41 @@
-{{ form_start(form) }}
-    <div class="grid grid-cols-2 gap-2">
-        <div class="flex flex-col mb-2">
-            {{ form_label(form.description) }}
-            {{ form_widget(form.description) }}
+{% extends 'base.html.twig' %}
+
+{% block title %}New transaction {{ parent() }}{% endblock %}
+
+{% block body %}
+    {{ form_start(form) }}
+        <div class="grid grid-cols-2 gap-2">
+            <div class="flex flex-col mb-2">
+                {{ form_label(form.description) }}
+                {{ form_widget(form.description) }}
+            </div>
+
+            <div class="flex flex-col mb-2">
+                {{ form_label(form.category) }}
+                {{ form_widget(form.category) }}
+            </div>
+
+            <div class="flex flex-col mb-2">
+                {{ form_label(form.date) }}
+                {{ form_widget(form.date) }}
+            </div>
+
+            <div class="flex flex-col mb-2">
+                {{ form_label(form.amount) }}
+                {{ form_widget(form.amount) }}
+            </div>
+
+            <div class="flex flex-col mb-2">
+                {{ form_label(form.transactionCategory) }}
+                {{ form_widget(form.transactionCategory) }}
+            </div>
+
+            <div class="flex flex-col mb-2">
+                {{ form_label(form.budget) }}
+                {{ form_widget(form.budget) }}
+            </div>
         </div>
 
-        <div class="flex flex-col mb-2">
-            {{ form_label(form.category) }}
-            {{ form_widget(form.category) }}
-        </div>
-
-        <div class="flex flex-col mb-2">
-            {{ form_label(form.date) }}
-            {{ form_widget(form.date) }}
-        </div>
-
-        <div class="flex flex-col mb-2">
-            {{ form_label(form.amount) }}
-            {{ form_widget(form.amount) }}
-        </div>
-
-        <div class="flex flex-col mb-2">
-            {{ form_label(form.transactionCategory) }}
-            {{ form_widget(form.transactionCategory) }}
-        </div>
-
-        <div class="flex flex-col mb-2">
-            {{ form_label(form.budget) }}
-            {{ form_widget(form.budget) }}
-        </div>
-    </div>
-
-    <button type="submit" class="mt-5 rounded w-full text-center p-2 bg-secondary hover:bg-secondary-hover text-white">Add Transaction</button>
-{{ form_end(form) }}
+        <button type="submit" class="mt-5 rounded w-full text-center p-2 bg-secondary hover:bg-secondary-hover text-white">Add Transaction</button>
+    {{ form_end(form) }}
+{% endblock %}
