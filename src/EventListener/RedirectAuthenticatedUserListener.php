@@ -16,9 +16,10 @@ final readonly class RedirectAuthenticatedUserListener
     private const string HOMEPAGE_ROUTE = 'app_homepage';
     private const string REGISTER_ROUTE = 'app_register';
     private const string ROUTE = '_route';
+    private const string WDT_ROUTE = '_wdt';
+    private const string PROFILER_ROUTE = '_profiler';
 
     public function __construct(private Security $security, private RouterInterface $router){}
-
 
     public function onKernelRequest(RequestEvent $event): void
     {
@@ -26,6 +27,10 @@ final readonly class RedirectAuthenticatedUserListener
         $user = $this->security->getUser();
         /** @var string|null $route */
         $route = $request->attributes->get(self::ROUTE);
+
+        if (in_array($route, [self::WDT_ROUTE, self::PROFILER_ROUTE])) {
+            return;
+        }
 
         if ($user instanceof UserInterface) {
             $this->redirectAuthenticatedUser($event, $route);
