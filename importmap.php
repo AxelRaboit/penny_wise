@@ -19,6 +19,10 @@ return [
     'modal' => [
         'path' => './assets/js/component/modal.js',
     ],
+    'topbar' => [
+        'path' => './assets/js/page/topbar.js',
+        'entrypoint' => true,
+    ],
     '@hotwired/stimulus' => [
         'version' => '3.2.2',
     ],
