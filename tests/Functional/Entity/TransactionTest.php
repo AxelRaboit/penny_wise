@@ -6,6 +6,7 @@ use App\Entity\Budget;
 use App\Entity\Transaction;
 use App\Entity\TransactionCategory;
 use App\Entity\User;
+use App\Enum\MonthEnum;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
@@ -18,7 +19,6 @@ class TransactionTest extends KernelTestCase
     private const string BUDGET_START_DATE = '2024-06-01';
     private const string BUDGET_END_DATE = '2024-06-30';
     private const int BUDGET_YEAR = 2024;
-    private const int BUDGET_MONTH = 6;
     private const float BUDGET_START_BALANCE = 1000.00;
     private const string CATEGORY_NAME = 'Test Category';
     private const string TRANSACTION_CATEGORY_NAME = 'Test Transaction Category';
@@ -122,7 +122,7 @@ class TransactionTest extends KernelTestCase
         $budget = new Budget();
         $budget->setIndividual($this->getUser());
         $budget->setYear(self::BUDGET_YEAR);
-        $budget->setMonth(self::BUDGET_MONTH);
+        $budget->setMonth(MonthEnum::June);
         $budget->setStartDate(new DateTime(self::BUDGET_START_DATE));
         $budget->setEndDate(new DateTime(self::BUDGET_END_DATE));
         $budget->setCurrency(self::CURRENCY);

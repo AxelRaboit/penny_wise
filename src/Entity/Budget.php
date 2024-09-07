@@ -49,8 +49,8 @@ class Budget
     #[ORM\OneToMany(targetEntity: Transaction::class, mappedBy: 'budget')]
     private Collection $transactions;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
-    private ?string $remainingBalance = null;
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private string|float|null $remainingBalance = null;
 
     public function __construct()
     {
@@ -134,9 +134,9 @@ class Budget
         return $this;
     }
 
-    public function getStartBalance(): string|float|null
+    public function getStartBalance(): float
     {
-        return $this->startBalance;
+        return (float) ($this->startBalance ?? 0);
     }
 
     public function setStartBalance(string|float $startBalance): static
@@ -164,18 +164,6 @@ class Budget
         return $this;
     }
 
-    public function removeTransaction(Transaction $transaction): static
-    {
-        if ($this->transactions->removeElement($transaction)) {
-            // set the owning side to null (unless already changed)
-            if ($transaction->getBudget() === $this) {
-                $transaction->setBudget(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getMonthLabel(): string
     {
         if ($this->startDate === null) {
@@ -185,16 +173,15 @@ class Budget
         return $this->startDate->format('F');
     }
 
-    public function getRemainingBalance(): ?string
+    public function getRemainingBalance(): string|float|null
     {
         return $this->remainingBalance;
     }
 
-    public function setRemainingBalance(?string $remainingBalance): static
+    public function setRemainingBalance(string|float $remainingBalance): static
     {
         $this->remainingBalance = $remainingBalance;
 
         return $this;
     }
-
 }

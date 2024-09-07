@@ -12,7 +12,7 @@ final readonly class TransactionService
 
     /**
      * @param Budget $budget
-     * @return array<string, array<string, array<int, Transaction>|string|float>>
+     * @return array<string, mixed> Returns an array of transactions with the type per categories
      */
     public function getAllTransactionInformationByUser(Budget $budget): array
     {

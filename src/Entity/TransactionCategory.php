@@ -65,18 +65,6 @@ class TransactionCategory
         return $this;
     }
 
-    public function removeTransaction(Transaction $transaction): static
-    {
-        if ($this->transactions->removeElement($transaction)) {
-            // set the owning side to null (unless already changed)
-            if ($transaction->getTransactionCategory() === $this) {
-                $transaction->setTransactionCategory(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getLabel(): string
     {
         if ($this->name === null) {

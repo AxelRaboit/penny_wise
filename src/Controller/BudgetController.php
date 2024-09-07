@@ -6,7 +6,6 @@ use App\Entity\Budget;
 use App\Entity\Transaction;
 use App\Entity\User;
 use App\Form\BudgetType;
-use App\Manager\TransactionManager;
 use App\Service\BudgetService;
 use App\Service\TransactionService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -78,7 +77,9 @@ final class BudgetController extends AbstractController
     public function newSubmission(Request $request): Response
     {
         $budget = new Budget();
-        $budget->setIndividual($this->getUser());
+        /** @var User $user */
+        $user = $this->getUser();
+        $budget->setIndividual($user);
 
         $form = $this->createForm(BudgetType::class, $budget);
         $form->handleRequest($request);

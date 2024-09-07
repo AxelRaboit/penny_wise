@@ -34,7 +34,7 @@ final readonly class BudgetService
     }
 
     /**
-     * @param array $transactions
+     * @param array<string, array<string, array<Transaction>>> $transactions
      * @return Chart
      */
     public function createBudgetChart(array $transactions): Chart
@@ -63,6 +63,10 @@ final readonly class BudgetService
         return $chart;
     }
 
+    /**
+     * @param Transaction $transaction
+     * @return void
+     */
     public function setRemainingBalance(Transaction $transaction): void
     {
         $budget = $transaction->getBudget();

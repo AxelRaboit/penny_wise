@@ -16,13 +16,14 @@ final readonly class TransactionManager
     private const string DEBTS_CATEGORY = 'debts';
     private const string INCOMES_CATEGORY = 'incomes';
     private const string TRANSACTIONS = 'transactions';
-    private const string TRANSACTION_CATEGORIES = 'transactionCategories';
 
     public function __construct(private TransactionRepository $transactionRepository, private TransactionCalculator $transactionCalculator){}
 
     /**
+     * Get all transactions by categories for a given budget
+     *
      * @param Budget $budget
-     * @return array<string, array<string, mixed>> Returns an array of transactions with the type per categories
+     * @return array<string, array{type: string, transactions: Transaction[], total: float}>
      */
     public function getAllTransactionInformationByUser(Budget $budget): array
     {
@@ -37,7 +38,8 @@ final readonly class TransactionManager
 
         foreach ($transactions as $transaction) {
             if ($transaction instanceof Transaction) {
-                $category = $transaction->getTransactionCategory()->getName();
+                $transactionCategory = $transaction->getTransactionCategory();
+                $category = $transactionCategory->getName();
 
                 match ($category) {
                     self::EXPENSES_CATEGORY => $groupedTransactions[self::EXPENSES_CATEGORY][self::TRANSACTIONS][] = $transaction,
@@ -83,18 +85,59 @@ final readonly class TransactionManager
         ];
     }
 
-    public function calculateTotalSpending(array $transactions): float
-    {
-        return $this->transactionCalculator->calculateTotalSpending($transactions);
-    }
-
-    public function calculateTotalIncomes(array $transactions): float
-    {
-        return $this->transactionCalculator->calculateTotalIncomes($transactions);
-    }
-
+    /**
+     * Calculate the remaining balance for a budget based on transactions
+     *
+     * @param Budget $budget
+     * @param array<string, array{type: string, transactions: Transaction[], total: float}> $transactions
+     * @return float
+     */
     public function calculateRemainingBalance(Budget $budget, array $transactions): float
     {
-        return $budget->getStartBalance() + $this->calculateTotalIncomes($transactions) - $this->calculateTotalSpending($transactions);
+        $totalIncomes = $this->calculateTotalIncomes($transactions);
+        $totalSpending = $this->calculateTotalSpending($transactions);
+
+        return $budget->getStartBalance() + $totalIncomes - $totalSpending;
+    }
+
+    /**
+     * Calculate the total incomes from structured transactions array
+     *
+     * @param array<string, array{type: string, transactions: Transaction[], total: float}> $transactions
+     * @return float
+     */
+    public function calculateTotalIncomes(array $transactions): float
+    {
+        $flatTransactions = $this->flattenTransactions($transactions);
+        return $this->transactionCalculator->calculateTotalIncomes($flatTransactions);
+    }
+
+    /**
+     * Calculate the total spending from structured transactions array
+     *
+     * @param array<string, array{type: string, transactions: Transaction[], total: float}> $transactions
+     * @return float
+     */
+    public function calculateTotalSpending(array $transactions): float
+    {
+        $flatTransactions = $this->flattenTransactions($transactions);
+        return $this->transactionCalculator->calculateTotalSpending($flatTransactions);
+    }
+
+    /**
+     * Flatten the structured transactions array to get only Transaction objects
+     *
+     * @param array<string, array{type: string, transactions: Transaction[], total: float}> $transactions
+     * @return Transaction[]
+     */
+    private function flattenTransactions(array $transactions): array
+    {
+        $flatTransactions = [];
+
+        foreach ($transactions as $categoryData) {
+            $flatTransactions = array_merge($flatTransactions, $categoryData[self::TRANSACTIONS]);
+        }
+
+        return $flatTransactions;
     }
 }

@@ -7,6 +7,7 @@ use App\Dto\YearDto;
 use App\Entity\Budget;
 use App\Enum\MonthEnum;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\Order;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -19,45 +20,62 @@ class BudgetRepository extends ServiceEntityRepository
         parent::__construct($registry, Budget::class);
     }
 
+    /**
+     * @return array<array{year: int, month: int}>
+     */
     private function findUniqueYearsAndMonthsRaw(): array
     {
         $qb = $this->createQueryBuilder('b')
             ->select('b.year, b.month')
             ->groupBy('b.year, b.month')
-            ->orderBy('b.year', 'DESC')
-            ->addOrderBy('b.month', 'ASC');
+            ->orderBy('b.year', Order::Descending->value)
+            ->addOrderBy('b.month', Order::Ascending->value);
 
-        return $qb->getQuery()->getArrayResult();
+        $results = $qb->getQuery()->getArrayResult();
+
+        $formattedResults = [];
+
+        foreach ($results as $result) {
+            if (is_array($result) && isset($result['year'], $result['month'])) {
+                $formattedResults[] = [
+                    'year' => (int) $result['year'],
+                    'month' => (int) $result['month'],
+                ];
+            }
+        }
+
+        return $formattedResults;
     }
 
+
+    /**
+     * @param array<array{year: int, month: int}> $results
+     * @return array<YearDto>
+     */
     private function transformToYearAndMonthDtos(array $results): array
     {
         $yearsAndMonths = [];
 
         foreach ($results as $result) {
-            $year = (int) $result['year'];
-            $month = (int) $result['month'];
-
-            if (!isset($yearsAndMonths[$year])) {
-                $yearsAndMonths[$year] = [];
-            }
+            $year = $result['year'];
+            $month = $result['month'];
 
             $monthEnum = MonthEnum::from($month);
             $yearsAndMonths[$year][] = new MonthDto($month, $monthEnum->getName());
         }
 
-        $years = [];
-        foreach ($yearsAndMonths as $year => $months) {
-            $years[] = new YearDto($year, $months);
-        }
-
-        return $years;
+        return array_map(static function (int $year, array $months): YearDto {
+            return new YearDto($year, $months);
+        }, array_keys($yearsAndMonths), $yearsAndMonths);
     }
 
+    /**
+     * @return array<YearDto>
+     */
     public function findAllBudgets(): array
     {
         $results = $this->findUniqueYearsAndMonthsRaw();
         return $this->transformToYearAndMonthDtos($results);
     }
-
 }
+

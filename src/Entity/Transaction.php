@@ -29,11 +29,11 @@ class Transaction
 
     #[ORM\ManyToOne(inversedBy: 'transactions')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Budget $budget = null;
+    private Budget $budget;
 
     #[ORM\ManyToOne(inversedBy: 'transactions')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?TransactionCategory $transactionCategory = null;
+    private TransactionCategory $transactionCategory;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $category = null;
@@ -79,24 +79,24 @@ class Transaction
         return $this;
     }
 
-    public function getBudget(): ?Budget
+    public function getBudget(): Budget
     {
         return $this->budget;
     }
 
-    public function setBudget(?Budget $budget): static
+    public function setBudget(Budget $budget): static
     {
         $this->budget = $budget;
 
         return $this;
     }
 
-    public function getTransactionCategory(): ?TransactionCategory
+    public function getTransactionCategory(): TransactionCategory
     {
         return $this->transactionCategory;
     }
 
-    public function setTransactionCategory(?TransactionCategory $transactionCategory): static
+    public function setTransactionCategory(TransactionCategory $transactionCategory): static
     {
         $this->transactionCategory = $transactionCategory;
 
