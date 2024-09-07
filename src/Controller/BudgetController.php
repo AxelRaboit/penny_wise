@@ -6,6 +6,7 @@ use App\Entity\Budget;
 use App\Entity\Transaction;
 use App\Entity\User;
 use App\Form\BudgetType;
+use App\Repository\BudgetRepository;
 use App\Service\BudgetService;
 use App\Service\TransactionService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -23,6 +24,7 @@ final class BudgetController extends AbstractController
         private readonly TransactionService     $transactionService,
         private readonly BudgetService          $budgetService,
         private readonly EntityManagerInterface $entityManager,
+        private readonly BudgetRepository       $budgetRepository,
     ){}
 
     /**
@@ -34,17 +36,19 @@ final class BudgetController extends AbstractController
         /** @var User $user */
         $user = $this->getUser();
         if(!$user instanceof User) {
-            throw new \RuntimeException('User not found');
+            throw new Exception('User not found');
         }
 
         $budget = $this->budgetService->getBudgetByUser($user, $year, $month);
         $transactions = $this->transactionService->getAllTransactionInformationByUser($budget);
+        $annualBudget = $this->budgetRepository->getAnnualBudget($year);
         /** @var array<string, array<string, array<Transaction>>> $transactions */
         $chart = $this->budgetService->createBudgetChart($transactions);
 
         $options = [
             'chart' => $chart,
             'budget' => $budget,
+            'annualBudget' => $annualBudget,
             'transactionCategories' => $transactions['transactionCategories'],
             'totalIncomes' => $transactions['totalIncomes'],
             'totalBills' => $transactions['totalBills'],
@@ -52,6 +56,8 @@ final class BudgetController extends AbstractController
             'totalDebts' => $transactions['totalDebts'],
             'totalRemaining' => $transactions['totalRemaining'],
             'totalSpending' => $transactions['totalSpending'],
+            'currentYear' => $year,
+            'currentMonth' => $month,
         ];
 
         return $this->render(self::MONTHLY_BUDGET_TEMPLATE, $options);

@@ -77,5 +77,26 @@ class BudgetRepository extends ServiceEntityRepository
         $results = $this->findUniqueYearsAndMonthsRaw();
         return $this->transformToYearAndMonthDtos($results);
     }
+
+    public function getAnnualBudget(int $year): YearDto
+    {
+        $qb = $this->createQueryBuilder('b')
+            ->select('b.month')
+            ->where('b.year = :year')
+            ->setParameter('year', $year)
+            ->orderBy('b.month', Order::Ascending->value)
+            ->getQuery();
+
+        $months = $qb->getArrayResult();
+
+        $result = [];
+        foreach ($months as $month) {
+            $monthNumber = (int) $month['month'];
+            $monthEnum = MonthEnum::from($monthNumber);
+            $result[] = new MonthDto($monthEnum->value, $monthEnum->getName());
+        }
+
+        return new YearDto($year, $result);
+    }
 }
 
