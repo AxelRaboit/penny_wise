@@ -7,6 +7,7 @@ use App\Entity\Transaction;
 use App\Entity\User;
 use App\Form\BudgetType;
 use App\Repository\BudgetRepository;
+use App\Repository\NotificationRepository;
 use App\Service\BudgetService;
 use App\Service\TransactionService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -25,6 +26,7 @@ final class BudgetController extends AbstractController
         private readonly BudgetService          $budgetService,
         private readonly EntityManagerInterface $entityManager,
         private readonly BudgetRepository       $budgetRepository,
+        private readonly NotificationRepository $notificationRepository,
     ){}
 
     /**
@@ -42,12 +44,14 @@ final class BudgetController extends AbstractController
         $budget = $this->budgetService->getBudgetByUser($user, $year, $month);
         $transactions = $this->transactionService->getAllTransactionInformationByUser($budget);
         $annualBudget = $this->budgetRepository->getAnnualBudget($year);
+        $lastNthNotifications = $this->notificationRepository->getLastNthNotifications(5);
         /** @var array<string, array<string, array<Transaction>>> $transactions */
         $chart = $this->budgetService->createBudgetChart($transactions);
 
         $options = [
             'chart' => $chart,
             'budget' => $budget,
+            'lastNthNotifications' => $lastNthNotifications,
             'annualBudget' => $annualBudget,
             'transactionCategories' => $transactions['transactionCategories'],
             'totalIncomes' => $transactions['totalIncomes'],
