@@ -3,24 +3,25 @@
 {% block title %}Homepage {{ parent() }}{% endblock %}
 
 {% block body %}
-    <div class="container bg-secondary mx-auto px-4 rounded">
-        <h1 class="text-3xl font-bold mb-8 text-white">Available budgets</h1>
-    </div>
-    <div class="container mx-auto">
-        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {% for year in budgets %}
-                <div class="mb-6">
-                    <h2 class="text-xl font-semibold mb-4">{{ year.getYear() }}</h2>
-                    <div class="grid grid-cols-3 gap-2">
-                        {% for month in year.getMonths() %}
-                            <a href="{{ path('monthly_budget', { 'year': year.getYear(), 'month': month.getMonthNumber() }) }}"
-                               class="bg-secondary text-white text-sm font-bold py-2 px-4 rounded hover:bg-secondary-hover">
-                                {{ month.getMonthName() }}
-                            </a>
-                        {% endfor %}
+    <div class="grid grid-cols-4 gap-4">
+        <div class="p-1 rounded mb-4">
+            <div>
+                {% for year in budgets %}
+                    <div class="text-center bg-secondary rounded-t">
+                        <h2 class="text-2xl font-bold p-2 text-white">{{ year.getYear() }}</h2>
                     </div>
-                </div>
-            {% endfor %}
+                    <div class="w-full bg-secondary rounded-b p-2 bg-white">
+                        <div class="grid grid-cols-3 gap-2">
+                            {% for month in year.getMonths() %}
+                                <a href="{{ path('monthly_budget', { 'year': year.getYear(), 'month': month.getMonthNumber() }) }}"
+                                   class="text-sm font-bold py-2 px-4 rounded bg-secondary text-white hover:bg-secondary-hover">
+                                    {{ month.getMonthName() }}
+                                </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
         </div>
     </div>
 {% endblock %}
