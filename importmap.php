@@ -22,6 +22,9 @@ return [
     'monthly' => [
         'path' => './assets/js/monthly/monthly.js',
     ],
+    'budget' => [
+        'path' => './assets/js/budget/budget.js',
+    ],
     '@hotwired/stimulus' => [
         'version' => '3.2.2',
     ],

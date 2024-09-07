@@ -8,6 +8,7 @@ use App\Entity\TransactionCategory;
 use App\Repository\TransactionCategoryRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -24,7 +25,7 @@ class TransactionType extends AbstractType
             ->add('amount', NumberType::class, [
                 'attr' => ['placeholder' => 'Choose an amount'],
             ])
-            ->add('date', null, [
+            ->add('date', DateType::class, [
                 'widget' => 'single_text',
             ])
             ->add('transactionCategory', EntityType::class, [
