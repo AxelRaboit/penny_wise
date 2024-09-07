@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Budget {{ budget.month }} {{ budget.year }} {{ parent() }}{% endblock %}
+{% block title %}{{ budget.month|month_name }} {{ budget.year }} {{ parent() }}{% endblock %}
 
 {% block body %}
     <div class="mb-4">
