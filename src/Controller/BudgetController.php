@@ -6,6 +6,7 @@ use App\Entity\Budget;
 use App\Entity\Transaction;
 use App\Entity\User;
 use App\Form\BudgetType;
+use App\Manager\TransactionManager;
 use App\Service\BudgetService;
 use App\Service\TransactionService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -17,7 +18,12 @@ use Symfony\Component\Routing\Attribute\Route;
 final class BudgetController extends AbstractController
 {
     private const string MONTHLY_BUDGET_TEMPLATE = 'budget/monthly.html.twig';
-    public function __construct(private readonly TransactionService $transactionService, private readonly BudgetService $budgetService, private readonly EntityManagerInterface $entityManager){}
+    private const string NEW_BUDGET_TEMPLATE = 'budget/new.html.twig';
+    public function __construct(
+        private readonly TransactionService     $transactionService,
+        private readonly BudgetService          $budgetService,
+        private readonly EntityManagerInterface $entityManager,
+    ){}
 
     #[Route('/budget/{year}/{month}', name: 'monthly_budget')]
     public function monthlyBudget(int $year, int $month): Response
@@ -29,16 +35,20 @@ final class BudgetController extends AbstractController
         }
 
         $budget = $this->budgetService->getBudgetByUser($user, $year, $month);
-        /** @var array<string, array<string, array<Transaction>>> $transactions */
         $transactions = $this->transactionService->getAllTransactionInformationByUser($budget);
-        $remainingBalance = $this->budgetService->getRemainingBalance($budget, $transactions);
-        $chart = $this->budgetService->createBudgetChart($budget, $transactions);
+        /** @var array<string, array<string, array<Transaction>>> $transactions */
+        $chart = $this->budgetService->createBudgetChart($transactions);
 
         $options = [
             'chart' => $chart,
             'budget' => $budget,
-            'transactions' => $transactions,
-            'remainingBalance' => $remainingBalance,
+            'transactionCategories' => $transactions['transactionCategories'],
+            'totalIncomes' => $transactions['totalIncomes'],
+            'totalBills' => $transactions['totalBills'],
+            'totalExpenses' => $transactions['totalExpenses'],
+            'totalDebts' => $transactions['totalDebts'],
+            'totalRemaining' => $transactions['totalRemaining'],
+            'totalSpending' => $transactions['totalSpending'],
         ];
 
         return $this->render(self::MONTHLY_BUDGET_TEMPLATE, $options);
@@ -53,13 +63,13 @@ final class BudgetController extends AbstractController
         if ($request->isXmlHttpRequest()) {
             return $this->json([
                 'status' => 'form',
-                'form' => $this->renderView('budget/new.html.twig', [
+                'form' => $this->renderView(self::NEW_BUDGET_TEMPLATE, [
                     'form' => $form->createView(),
                 ])
             ]);
         }
 
-        return $this->render('budget/new.html.twig', [
+        return $this->render(self::NEW_BUDGET_TEMPLATE, [
             'form' => $form->createView(),
         ]);
     }
@@ -88,7 +98,7 @@ final class BudgetController extends AbstractController
                     return $this->json(['status' => 'error', 'message' => $e->getMessage()]);
                 } else {
                     $this->addFlash('error', 'An error occurred while saving the budget: ' . $e->getMessage());
-                    return $this->render('budget/new.html.twig', [
+                    return $this->render(self::NEW_BUDGET_TEMPLATE, [
                         'form' => $form->createView(),
                     ]);
                 }
@@ -98,13 +108,13 @@ final class BudgetController extends AbstractController
         if ($request->isXmlHttpRequest()) {
             return $this->json([
                 'status' => 'form',
-                'form' => $this->renderView('budget/new.html.twig', [
+                'form' => $this->renderView(self::NEW_BUDGET_TEMPLATE, [
                     'form' => $form->createView(),
                 ])
             ]);
         }
 
-        return $this->render('budget/new.html.twig', [
+        return $this->render(self::NEW_BUDGET_TEMPLATE, [
             'form' => $form->createView(),
         ]);
     }

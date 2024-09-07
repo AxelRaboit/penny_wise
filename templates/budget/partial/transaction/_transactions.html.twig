@@ -1,14 +1,14 @@
 <div class="grid grid-cols-4 gap-3">
     <div class="flex flex-col">
-        {% include 'budget/partial/transaction/_transaction_tab.html.twig' with {'transactions': transactions.incomes} %}
+        {% include 'budget/partial/transaction/_transaction_tab.html.twig' with {'transactionCategory': transactionCategories.incomes} %}
     </div>
     <div class="flex flex-col">
-        {% include 'budget/partial/transaction/_transaction_tab.html.twig' with {'transactions': transactions.bills} %}
+        {% include 'budget/partial/transaction/_transaction_tab.html.twig' with {'transactionCategory': transactionCategories.bills} %}
     </div>
     <div class="flex flex-col">
-        {% include 'budget/partial/transaction/_transaction_tab.html.twig' with {'transactions': transactions.expenses} %}
+        {% include 'budget/partial/transaction/_transaction_tab.html.twig' with {'transactionCategory': transactionCategories.expenses} %}
     </div>
     <div class="flex flex-col">
-        {% include 'budget/partial/transaction/_transaction_tab.html.twig' with {'transactions': transactions.debts} %}
+        {% include 'budget/partial/transaction/_transaction_tab.html.twig' with {'transactionCategory': transactionCategories.debts} %}
     </div>
 </div>

@@ -5,13 +5,20 @@ namespace App\Service;
 use App\Entity\Budget;
 use App\Entity\Transaction;
 use App\Entity\User;
+use App\Manager\BudgetManager;
 use App\Repository\BudgetRepository;
+use App\Util\BudgetCalculator;
 use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
 use Symfony\UX\Chartjs\Model\Chart;
 
 final readonly class BudgetService
 {
-    public function __construct(private BudgetRepository $budgetRepository, private ChartBuilderInterface $chartBuilder){}
+    public function __construct(
+        private BudgetRepository      $budgetRepository,
+        private ChartBuilderInterface $chartBuilder,
+        private BudgetManager         $budgetManager,
+        private BudgetCalculator      $budgetCalculator
+    ) {}
 
     public function getBudgetByUser(User $user, int $year, int $month): Budget
     {
@@ -27,63 +34,11 @@ final readonly class BudgetService
     }
 
     /**
-     * @param Budget $budget
-     * @param array<string, array<string, array<Transaction>>> $transactions
-     * @return float
-     */
-    public function calculateTotalIncomes(Budget $budget, array $transactions): float
-    {
-        $totalIncomes = $budget->getStartBalance();
-        foreach ($transactions['incomes']['data'] as $transaction) {
-            $totalIncomes += $transaction->getAmount();
-        }
-        return $totalIncomes;
-    }
-
-    /**
-     * @param array<string, array<string, array<Transaction>>> $transactions
-     * @return float
-     */
-    public function calculateTotalSpending(array $transactions): float
-    {
-        $totalSpending = 0;
-
-        $allSpendingTransactions = array_merge(
-            $transactions['expenses']['data'],
-            $transactions['bills']['data'],
-            $transactions['debts']['data']
-        );
-
-        foreach ($allSpendingTransactions as $transaction) {
-            $totalSpending += $transaction->getAmount();
-        }
-
-        return $totalSpending;
-    }
-
-    /**
-     * @param Budget $budget
-     * @param array<string, array<string, array<Transaction>>> $transactions
-     * @return float
-     */
-    public function getRemainingBalance(Budget $budget, array $transactions): float
-    {
-        $totalIncomes = $this->calculateTotalIncomes($budget, $transactions);
-        $totalSpending = $this->calculateTotalSpending($transactions);
-
-        return $totalIncomes - $totalSpending;
-    }
-
-    /**
-     * @param Budget $budget
-     * @param array<string, array<string, array<Transaction>>> $transactions
+     * @param array $transactions
      * @return Chart
      */
-    public function createBudgetChart(Budget $budget, array $transactions): Chart
+    public function createBudgetChart(array $transactions): Chart
     {
-        $totalSpending = $this->calculateTotalSpending($transactions);
-        $remainingBalance = $this->getRemainingBalance($budget, $transactions);
-
         $chart = $this->chartBuilder->createChart(Chart::TYPE_DOUGHNUT);
         $chart->setData([
             'labels' => ['Total Spending', 'Remaining Balance'],
@@ -97,11 +52,22 @@ final readonly class BudgetService
                         'rgb(201, 203, 207)',
                         'rgb(101, 163, 13)'
                     ],
-                    'data' => [$totalSpending, $remainingBalance],
+                    'data' => [
+                        $transactions['totalSpending'],
+                        $transactions['totalRemaining']
+                    ],
                 ],
             ],
         ]);
 
         return $chart;
+    }
+
+    public function setRemainingBalance(Transaction $transaction): void
+    {
+        $budget = $transaction->getBudget();
+        $transactions = $budget->getTransactions()->toArray();
+        $remainingBalance = $this->budgetCalculator->calculateRemainingBalance($budget, $transactions);
+        $this->budgetManager->saveRemainingBalance($budget, $remainingBalance);
     }
 }

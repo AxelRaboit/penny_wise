@@ -4,11 +4,11 @@ namespace App\Enum;
 
 class TransactionTypeEnum
 {
-    public const INCOMES = 4;
-    public const EXPENSES = 2;
-    public const SAVINGS = 5;
-    public const BILLS = 1;
-    public const DEBTS = 3;
+    public const int INCOMES = 4;
+    public const int EXPENSES = 2;
+    public const int SAVINGS = 5;
+    public const int BILLS = 1;
+    public const int DEBTS = 3;
 
     /**
      * @var array<int, string> $valueToString

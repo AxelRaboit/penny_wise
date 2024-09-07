@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Entity\Trait\TimestampableTrait;
+use App\Enum\MonthEnum;
 use App\Repository\BudgetRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -48,6 +49,9 @@ class Budget
     #[ORM\OneToMany(targetEntity: Transaction::class, mappedBy: 'budget')]
     private Collection $transactions;
 
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
+    private ?string $remainingBalance = null;
+
     public function __construct()
     {
         $this->transactions = new ArrayCollection();
@@ -87,9 +91,9 @@ class Budget
         return $this->month;
     }
 
-    public function setMonth(int $month): static
+    public function setMonth(MonthEnum $month): static
     {
-        $this->month = $month;
+        $this->month = $month->value;
 
         return $this;
     }
@@ -179,6 +183,18 @@ class Budget
         }
 
         return $this->startDate->format('F');
+    }
+
+    public function getRemainingBalance(): ?string
+    {
+        return $this->remainingBalance;
+    }
+
+    public function setRemainingBalance(?string $remainingBalance): static
+    {
+        $this->remainingBalance = $remainingBalance;
+
+        return $this;
     }
 
 }

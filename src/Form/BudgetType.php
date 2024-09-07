@@ -3,7 +3,9 @@
 namespace App\Form;
 
 use App\Entity\Budget;
+use App\Enum\MonthEnum;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -19,8 +21,13 @@ class BudgetType extends AbstractType
             ->add('year', IntegerType::class, [
                 'attr' => ['placeholder' => 'Choose a year'],
             ])
-            ->add('month', IntegerType::class, [
-                'attr' => ['placeholder' => 'Choose a month'],
+            ->add('month', ChoiceType::class, [
+                'choices' => array_combine(
+                    array_map(fn(MonthEnum $month) => $month->getName(), MonthEnum::all()),
+                    MonthEnum::all()
+                ),
+                'placeholder' => 'Choose a month',
+                'choice_value' => fn(?MonthEnum $month) => $month?->value,
             ])
             ->add('start_date', DateType::class, [
                 'widget' => 'single_text',
