@@ -41,7 +41,7 @@ class Budget
     private ?string $currency = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private string|float|null $startBalance = null;
+    private string|float|null $startBalance = 0.0;
 
     /**
      * @var Collection<int, Transaction>
@@ -50,7 +50,7 @@ class Budget
     private Collection $transactions;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private string|float|null $remainingBalance = null;
+    private string|float|null $remainingBalance = 0.0;
 
     public function __construct()
     {

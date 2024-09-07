@@ -5,9 +5,8 @@ namespace App\Service;
 use App\Entity\Budget;
 use App\Entity\Transaction;
 use App\Entity\User;
-use App\Manager\BudgetManager;
 use App\Repository\BudgetRepository;
-use App\Util\BudgetCalculator;
+use Exception;
 use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
 use Symfony\UX\Chartjs\Model\Chart;
 
@@ -16,10 +15,11 @@ final readonly class BudgetService
     public function __construct(
         private BudgetRepository      $budgetRepository,
         private ChartBuilderInterface $chartBuilder,
-        private BudgetManager         $budgetManager,
-        private BudgetCalculator      $budgetCalculator
     ) {}
 
+    /**
+     * @throws Exception
+     */
     public function getBudgetByUser(User $user, int $year, int $month): Budget
     {
         $budget = $this->budgetRepository
@@ -27,7 +27,7 @@ final readonly class BudgetService
 
         if (!$budget) {
             $message = `No budget found for user ${user}, year ${year} and month ${month}`;
-            throw new \RuntimeException($message);
+            throw new Exception($message);
         }
 
         return $budget;
@@ -61,17 +61,5 @@ final readonly class BudgetService
         ]);
 
         return $chart;
-    }
-
-    /**
-     * @param Transaction $transaction
-     * @return void
-     */
-    public function setRemainingBalance(Transaction $transaction): void
-    {
-        $budget = $transaction->getBudget();
-        $transactions = $budget->getTransactions()->toArray();
-        $remainingBalance = $this->budgetCalculator->calculateRemainingBalance($budget, $transactions);
-        $this->budgetManager->saveRemainingBalance($budget, $remainingBalance);
     }
 }

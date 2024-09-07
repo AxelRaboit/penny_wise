@@ -9,6 +9,7 @@ use App\Form\BudgetType;
 use App\Service\BudgetService;
 use App\Service\TransactionService;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,6 +25,9 @@ final class BudgetController extends AbstractController
         private readonly EntityManagerInterface $entityManager,
     ){}
 
+    /**
+     * @throws Exception
+     */
     #[Route('/budget/{year}/{month}', name: 'monthly_budget')]
     public function monthlyBudget(int $year, int $month): Response
     {
@@ -59,59 +63,18 @@ final class BudgetController extends AbstractController
         $budget = new Budget();
         $form = $this->createForm(BudgetType::class, $budget);
 
-        if ($request->isXmlHttpRequest()) {
-            return $this->json([
-                'status' => 'form',
-                'form' => $this->renderView(self::NEW_BUDGET_TEMPLATE, [
-                    'form' => $form->createView(),
-                ])
-            ]);
-        }
-
-        return $this->render(self::NEW_BUDGET_TEMPLATE, [
-            'form' => $form->createView(),
-        ]);
-    }
-
-    #[Route('/budget/new/submission', name: 'budget_new_submission', priority: 1)]
-    public function newSubmission(Request $request): Response
-    {
-        $budget = new Budget();
-        /** @var User $user */
-        $user = $this->getUser();
-        $budget->setIndividual($user);
-
-        $form = $this->createForm(BudgetType::class, $budget);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var User $user */
+            $user = $this->getUser();
+            $budget->setIndividual($user);
             $this->entityManager->persist($budget);
+            $this->entityManager->flush();
 
-            try {
-                $this->entityManager->flush();
-                if ($request->isXmlHttpRequest()) {
-                    return $this->json(['status' => 'success']);
-                } else {
-                    return $this->redirectToRoute('app_homepage');
-                }
-            } catch (\Exception $e) {
-                if ($request->isXmlHttpRequest()) {
-                    return $this->json(['status' => 'error', 'message' => $e->getMessage()]);
-                } else {
-                    $this->addFlash('error', 'An error occurred while saving the budget: ' . $e->getMessage());
-                    return $this->render(self::NEW_BUDGET_TEMPLATE, [
-                        'form' => $form->createView(),
-                    ]);
-                }
-            }
-        }
-
-        if ($request->isXmlHttpRequest()) {
-            return $this->json([
-                'status' => 'form',
-                'form' => $this->renderView(self::NEW_BUDGET_TEMPLATE, [
-                    'form' => $form->createView(),
-                ])
+            return $this->redirectToRoute('monthly_budget', [
+                'year' => $budget->getYear(),
+                'month' => $budget->getMonth(),
             ]);
         }
 
