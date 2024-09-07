@@ -1,49 +1,46 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_without_topbar.html.twig' %}
 
-{% block title %}Se connecter{% endblock %}
+{% block title %}Login {{ parent() }}{% endblock %}
 
 {% block body %}
-    <div class="container mx-auto p-4">
-        <h1 class="text-2xl font-bold mb-4">Se connecter</h1>
-        <form method="post">
-            {% if error %}
-                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-            {% endif %}
+    <div class="min-h-screen flex items-center justify-center">
+        <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+            <h1 class="text-3xl font-bold text-center text-gray-700 mb-6">SPENDING WISE</h1>
 
-            {% if app.user %}
-                <div class="mb-3">
-                    You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Déconnexion</a>
-                </div>
-            {% endif %}
-
-            <div class="space-y-4">
-                <div>
-                    <label for="username">Email</label>
-                    <input type="email" value="{{ last_username }}" name="_username" id="username" class="w-full p-2 border rounded" autocomplete="email" required autofocus>
-                </div>
-                <div>
-                    <label for="password">Mot de passe</label>
-                    <input type="password" name="_password" id="password" class="w-full p-2 border rounded" autocomplete="current-password" required>
-                </div>
-
-                <input type="hidden" name="_csrf_token"
-                       value="{{ csrf_token('authenticate') }}"
-                >
-
-                {#
-                    Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-                    See https://symfony.com/doc/current/security/remember_me.html
-
-                    <div class="checkbox mb-3">
-                        <input type="checkbox" name="_remember_me" id="_remember_me">
-                        <label for="_remember_me">Remember me</label>
+            <form method="post">
+                {% if error %}
+                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
+                        {{ error.messageKey|trans(error.messageData, 'security') }}
                     </div>
-                #}
+                {% endif %}
 
-                <div class="mt-4">
-                    <twig:Button type="submit" color="primary" size="md">Soumettre</twig:Button>
+                <div class="space-y-4">
+                    <div>
+                        <label for="username" class="block text-gray-600">Email</label>
+                        <input type="email" value="{{ last_username }}" name="_username" id="username" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" autocomplete="email" required autofocus>
+                    </div>
+                    <div>
+                        <label for="password" class="block text-gray-600">Password</label>
+                        <input type="password" name="_password" id="password" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" autocomplete="current-password" required>
+                    </div>
+
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <input type="checkbox" name="_remember_me" id="_remember_me" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                            <label for="_remember_me" class="ml-2 block text-sm text-gray-600">Remember me</label>
+                        </div>
+                        <a href="#" class="text-sm text-secondary hover:underline">Forgot password?</a>
+                    </div>
+
+                    <div class="mt-6">
+                        <button type="submit" class="w-full bg-secondary text-white p-3 rounded-lg hover:bg-secondary-hover">
+                            Submit
+                        </button>
+                    </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
 {% endblock %}
