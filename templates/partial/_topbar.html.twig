@@ -1,15 +1,41 @@
 <div class="bg-primary flex items-center justify-between px-5 py-3">
-    <span class="font-bold text-xl text-white">SPENDING WISE</span>
     <div>
-        <a href="{{ path('budget_new') }}" class="mr-2">
-            <span class="text-center font-bold bg-secondary hover:bg-secondary-hover text-white p-2 cursor-pointer rounded"><i class="fa-solid fa-plus mr-1"></i>
-                Add budget
+        <span class="font-bold text-xl text-white">SPENDING WISE</span>
+        {% if app.user %}
+            <a href="{{ path('app_homepage') }}" class="mx-2">
+            <span class="text-center font-bold bg-secondary hover:bg-secondary-hover text-white p-2 cursor-pointer rounded">
+                <i class="fa-solid fa-house mr-1"></i>
+                Home
             </span>
-        </a>
-        <a href="{{ path('transaction_new') }}">
-            <span class="text-center font-bold bg-secondary hover:bg-secondary-hover text-white p-2 cursor-pointer rounded"><i class="fa-solid fa-plus mr-1"></i>
-                Add transaction
-            </span>
-        </a>
+            </a>
+            <a href="{{ path('app_logout') }}" class="mx-2">
+                <span class="text-center font-bold bg-secondary hover:bg-secondary-hover text-white p-2 cursor-pointer rounded">
+                    <i class="fa-solid fa-right-from-bracket mr-1"></i>
+                    Logout
+                </span>
+            </a>
+        {% endif %}
     </div>
+    {% if app.user %}
+        <div>
+            <a href="#" class="mr-2">
+                <span class="text-center font-bold bg-secondary hover:bg-secondary-hover text-white p-2 cursor-pointer rounded">
+                    <i class="fa-solid fa-screwdriver-wrench mr-1"></i>
+                    Transactions management
+                </span>
+            </a>
+            <a href="{{ path('budget_new') }}" class="mr-2">
+                <span class="text-center font-bold bg-secondary hover:bg-secondary-hover text-white p-2 cursor-pointer rounded">
+                    <i class="fa-solid fa-plus mr-1"></i>
+                    Add budget
+                </span>
+            </a>
+            <a href="{{ path('transaction_new') }}">
+                <span class="text-center font-bold bg-secondary hover:bg-secondary-hover text-white p-2 cursor-pointer rounded">
+                    <i class="fa-solid fa-plus mr-1"></i>
+                    Add transaction
+                </span>
+            </a>
+        </div>
+    {% endif %}
 </div>
