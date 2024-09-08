@@ -52,9 +52,16 @@ class Budget
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private string|float|null $remainingBalance = 0.0;
 
+    /**
+     * @var Collection<int, Notification>
+     */
+    #[ORM\OneToMany(targetEntity: Notification::class, mappedBy: 'budget')]
+    private Collection $notifications;
+
     public function __construct()
     {
         $this->transactions = new ArrayCollection();
+        $this->notifications = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -181,6 +188,36 @@ class Budget
     public function setRemainingBalance(string|float $remainingBalance): static
     {
         $this->remainingBalance = $remainingBalance;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Notification>
+     */
+    public function getNotifications(): Collection
+    {
+        return $this->notifications;
+    }
+
+    public function addNotification(Notification $notification): static
+    {
+        if (!$this->notifications->contains($notification)) {
+            $this->notifications->add($notification);
+            $notification->setBudget($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNotification(Notification $notification): static
+    {
+        if ($this->notifications->removeElement($notification)) {
+            // set the owning side to null (unless already changed)
+            if ($notification->getBudget() === $this) {
+                $notification->setBudget(null);
+            }
+        }
 
         return $this;
     }

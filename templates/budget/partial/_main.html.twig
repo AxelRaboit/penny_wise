@@ -153,10 +153,10 @@
 
     <div class="p-1 rounded">
         <div class="text-center bg-secondary p-2 rounded-t">
-            <h2 class="text-2xl font-bold text-white">Last {{ lastNthNotifications|length }} notifications</h2>
+            <h2 class="text-2xl font-bold text-white">Last {{ lastNthNotificationsFromBudget|length }} notifications</h2>
         </div>
         <div class="bg-white rounded-b">
-            {% for notification in lastNthNotifications %}
+            {% for notification in lastNthNotificationsFromBudget %}
                 <div class="flex flex-col md:flex-row bg-white border border-solid border-gray-300 {{ loop.last ? 'rounded-b' : '' }}">
                     <div class="p-2">
                         <p class="font-bold">{{ notification.title }}</p>
