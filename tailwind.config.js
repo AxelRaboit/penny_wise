@@ -4,7 +4,9 @@ module.exports = {
     "./vendor/tales-from-a-dev/flowbite-bundle/templates/**/*.html.twig",
     "./node_modules/flowbite/**/*.js",
     "./assets/**/*.js",
+    "./assets/**/**/*.js",
     "./templates/**/*.html.twig",
+    "./templates/**/**/*.html.twig",
   ],
   theme: {
     extend: {

@@ -32,7 +32,7 @@
                 <div class="w-full bg-secondary rounded-b p-2 bg-white">
                     <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
                         {# TODO: the button is about prefill the form with the current month to rapidly add transactions for the current budget #}
-                        <a href="{{ path('transaction_new') }}" class="text-center font-bold bg-secondary hover:bg-secondary-hover text-white p-2 cursor-pointer rounded">
+                        <a href="{{ path('transaction_new_for_budget', { 'year': currentYear, 'month': currentMonth }) }}" class="text-center font-bold bg-secondary hover:bg-secondary-hover text-white p-2 cursor-pointer rounded">
                             <i class="fa-solid fa-plus mr-1"></i>
                             Month transaction
                         </a>

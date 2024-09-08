@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New transaction {{ parent() }}{% endblock %}
+
+{% block body %}
+    {{ form_start(form) }}
+
+        {% if form_errors(form) %}
+            {{ form_errors(form) }}
+        {% endif %}
+
+        <div class="grid grid-cols-2 gap-2">
+            <div class="flex flex-col mb-2">
+                {{ form_row(form.description) }}
+            </div>
+
+            <div class="flex flex-col mb-2">
+                {{ form_row(form.category) }}
+            </div>
+
+            <div class="flex flex-col mb-2">
+                {{ form_row(form.date) }}
+            </div>
+
+            <div class="flex flex-col mb-2">
+                {{ form_row(form.amount) }}
+            </div>
+
+            <div class="flex flex-col mb-2">
+                {{ form_row(form.transactionCategory) }}
+            </div>
+        </div>
+
+        <button type="submit" class="mt-5 rounded w-full text-center p-2 bg-secondary hover:bg-secondary-hover text-white">Add Transaction</button>
+    {{ form_end(form) }}
+{% endblock %}

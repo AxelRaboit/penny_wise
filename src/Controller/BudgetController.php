@@ -95,7 +95,7 @@ final class BudgetController extends AbstractController
         }
 
         return $this->render(self::NEW_BUDGET_TEMPLATE, [
-            'form' => $form->createView(),
+            'form' => $form,
         ]);
     }
 }
