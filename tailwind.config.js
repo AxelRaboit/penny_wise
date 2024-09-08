@@ -1,6 +1,8 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
+    "./vendor/tales-from-a-dev/flowbite-bundle/templates/**/*.html.twig",
+    "./node_modules/flowbite/**/*.js",
     "./assets/**/*.js",
     "./templates/**/*.html.twig",
   ],
@@ -40,5 +42,7 @@ module.exports = {
       }
     }
   },
-  plugins: [],
+  plugins: [
+      require('flowbite/plugin')
+  ],
 }
