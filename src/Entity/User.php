@@ -43,9 +43,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Budget::class, mappedBy: 'individual')]
     private Collection $budgets;
 
+    /**
+     * @var Collection<int, Link>
+     */
+    #[ORM\OneToMany(targetEntity: Link::class, mappedBy: 'individual')]
+    private Collection $links;
+
     public function __construct()
     {
         $this->budgets = new ArrayCollection();
+        $this->links = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -147,6 +154,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($budget->getIndividual() === $this) {
                 $budget->setIndividual(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Link>
+     */
+    public function getLinks(): Collection
+    {
+        return $this->links;
+    }
+
+    public function addLink(Link $link): static
+    {
+        if (!$this->links->contains($link)) {
+            $this->links->add($link);
+            $link->setIndividual($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLink(Link $link): static
+    {
+        if ($this->links->removeElement($link)) {
+            // set the owning side to null (unless already changed)
+            if ($link->getIndividual() === $this) {
+                $link->setIndividual(null);
             }
         }
 

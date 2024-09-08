@@ -7,6 +7,7 @@ use App\Entity\Transaction;
 use App\Entity\User;
 use App\Form\BudgetType;
 use App\Repository\BudgetRepository;
+use App\Repository\LinkRepository;
 use App\Repository\NotificationRepository;
 use App\Service\BudgetService;
 use App\Service\TransactionService;
@@ -27,6 +28,7 @@ final class BudgetController extends AbstractController
         private readonly EntityManagerInterface $entityManager,
         private readonly BudgetRepository       $budgetRepository,
         private readonly NotificationRepository $notificationRepository,
+        private readonly LinkRepository          $linkRepository,
     ){}
 
     /**
@@ -48,8 +50,10 @@ final class BudgetController extends AbstractController
         /** @var array<string, array<string, array<Transaction>>> $transactions */
         $leftToSpendChart = $this->budgetService->createLeftToSpendChart($transactions);
         $totalSpendingForCurrentAndPreviousNthMonthsChart = $this->budgetService->createTotalSpendingForCurrentAndPreviousNthMonthsChart($year, $month, 3);
+        $userLinks = $this->linkRepository->findByIndividual($user);
 
         $options = [
+            'userLinks' => $userLinks,
             'leftToSpendChart' => $leftToSpendChart,
             'totalSpendingForCurrentAndPreviousNthMonthsChart' => $totalSpendingForCurrentAndPreviousNthMonthsChart,
             'budget' => $budget,
