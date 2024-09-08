@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Dto\MonthDto;
+use App\Dto\TotalSpendingFromNMonthsDto;
 use App\Dto\YearDto;
 use App\Entity\Budget;
 use App\Enum\MonthEnum;
@@ -15,6 +16,10 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class BudgetRepository extends ServiceEntityRepository
 {
+    private const string INCOME_CATEGORY_ID = '4';
+    private const int MONTH_JANUARY = 1;
+    private const int MONTH_DECEMBER = 12;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Budget::class);
@@ -78,7 +83,14 @@ class BudgetRepository extends ServiceEntityRepository
         return $this->transformToYearAndMonthDtos($results);
     }
 
-    public function getAnnualBudget(int $year): YearDto
+    /**
+     * Retrieves the months associated with a specific year.
+     *
+     * @param int $year The year to filter the months
+     *
+     * @return YearDto A data transfer object containing the specified year and an array of months
+     */
+    public function getYearWithMonths(int $year): YearDto
     {
         $qb = $this->createQueryBuilder('b')
             ->select('b.month')
@@ -87,6 +99,7 @@ class BudgetRepository extends ServiceEntityRepository
             ->orderBy('b.month', Order::Ascending->value)
             ->getQuery();
 
+        /** @var array<int, array{month: int}> $months */
         $months = $qb->getArrayResult();
 
         $result = [];
@@ -97,6 +110,77 @@ class BudgetRepository extends ServiceEntityRepository
         }
 
         return new YearDto($year, $result);
+    }
+
+
+    /**
+     * Retrieves the total spending for the current and previous n months.
+     *
+     * @param int $year
+     * @param int $month
+     * @param int $nMonths
+     * @return TotalSpendingFromNMonthsDto
+     */
+    public function getTotalSpendingForCurrentAndPreviousNthMonths(int $year, int $month, int $nMonths): TotalSpendingFromNMonthsDto
+    {
+        $totals = [];
+
+        for ($i = 0; $i < $nMonths; $i++) {
+            $monthEnum = MonthEnum::from($month);
+
+            $totals[] = [
+                'year' => $year,
+                'monthNumber' => $month,
+                'monthName' => $monthEnum->getName(),
+                'total' => $this->getTotalSpendingByMonth($year, $month),
+            ];
+
+            $previousMonth = $this->getPreviousMonthAndYear($year, $month);
+            $year = $previousMonth['year'];
+            $month = $previousMonth['month'];
+        }
+
+        return new TotalSpendingFromNMonthsDto($totals);
+    }
+
+    /**
+     * Returns the previous month and year given a specific month and year.
+     *
+     * @param int $year
+     * @param int $month
+     * @return array<string, int>
+     */
+    private function getPreviousMonthAndYear(int $year, int $month): array
+    {
+        if ($month == self::MONTH_JANUARY) {
+            return ['year' => $year - 1, 'month' => self::MONTH_DECEMBER];
+        }
+
+        return ['year' => $year, 'month' => $month - 1];
+    }
+
+    /**
+     * Retrieves the total spending for a given year and month, excluding a specific income category.
+     *
+     * @param int $year The year for which the total spending is calculated.
+     * @param int $month The month for which the total spending is calculated.
+     * @return float     The total spending amount for the specified year and month.
+     */
+    private function getTotalSpendingByMonth(int $year, int $month): float
+    {
+        $qb = $this->createQueryBuilder('b')
+            ->leftJoin('b.transactions', 't')
+            ->leftJoin('t.transactionCategory', 'tc')
+            ->select('COALESCE(SUM(t.amount), 0) as totalSpending')
+            ->where('b.year = :year')
+            ->andWhere('b.month = :month')
+            ->andWhere('tc.id != :incomeCategoryId')
+            ->setParameter('year', $year)
+            ->setParameter('month', $month)
+            ->setParameter('incomeCategoryId', self::INCOME_CATEGORY_ID)
+            ->getQuery();
+
+        return (float) $qb->getSingleScalarResult();
     }
 }
 

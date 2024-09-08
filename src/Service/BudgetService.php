@@ -37,7 +37,7 @@ final readonly class BudgetService
      * @param array<string, array<string, array<Transaction>>> $transactions
      * @return Chart
      */
-    public function createBudgetChart(array $transactions): Chart
+    public function createLeftToSpendChart(array $transactions): Chart
     {
         $chart = $this->chartBuilder->createChart(Chart::TYPE_DOUGHNUT);
         $chart->setData([
@@ -62,4 +62,38 @@ final readonly class BudgetService
 
         return $chart;
     }
+
+    public function createTotalSpendingForCurrentAndPreviousNthMonthsChart(int $year, int $month, int $nMonths): Chart
+    {
+        $data = $this->budgetRepository->getTotalSpendingForCurrentAndPreviousNthMonths($year, $month, $nMonths);
+
+        $labels = [];
+        $totals = [];
+
+        foreach ($data->getMonthlyTotals() as $totalData) {
+            $labels[] = $totalData['monthName'] . ' ' . $totalData['year'];
+            $totals[] = $totalData['total'];
+        }
+
+        $labels = array_reverse($labels);
+        $totals = array_reverse($totals);
+
+        $chart = $this->chartBuilder->createChart(Chart::TYPE_BAR);
+
+        $chart->setData([
+            'labels' => $labels,
+            'datasets' => [
+                [
+                    'label' => 'Total Spending',
+                    'backgroundColor' => array_fill(0, $nMonths, 'rgb(201, 203, 207)'),
+                    'borderColor' => array_fill(0, $nMonths, 'rgb(201, 203, 207)'),
+                    'data' => $totals,
+                ],
+            ],
+        ]);
+
+        return $chart;
+    }
+
+
 }
