@@ -17,9 +17,9 @@ module.exports = {
           ring: '#020617'     // slate-950
         },
         secondary: {
-          DEFAULT: '#65a30d', // green-600
-          hover: '#84cc16',   // green-500
-          ring: '#65a30d'     // green-600
+          DEFAULT: '#1e293b', // slate-800
+          hover: '#334155',   // slate-700
+          ring: '#1e293b'     // slate-800
         },
         accent: {
           DEFAULT: '#ececf1', // Light accent color

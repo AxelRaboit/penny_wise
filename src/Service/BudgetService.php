@@ -45,12 +45,12 @@ final readonly class BudgetService
             'datasets' => [
                 [
                     'backgroundColor' => [
-                        'rgb(201, 203, 207)', // Total spending
-                        'rgb(101, 163, 13)' // Remaining balance
+                        'rgb(201, 203, 207)',
+                        'rgb(30, 41, 59)'
                     ],
                     'borderColor' => [
                         'rgb(201, 203, 207)',
-                        'rgb(101, 163, 13)'
+                        'rgb(30, 41, 59)'
                     ],
                     'data' => [
                         $transactions['totalSpending'],
@@ -62,6 +62,7 @@ final readonly class BudgetService
 
         return $chart;
     }
+
 
     public function createTotalSpendingForCurrentAndPreviousNthMonthsChart(int $year, int $month, int $nMonths): Chart
     {
