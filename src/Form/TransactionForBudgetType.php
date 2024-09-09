@@ -2,24 +2,25 @@
 
 namespace App\Form;
 
-use App\Entity\Budget;
 use App\Entity\Transaction;
 use App\Entity\TransactionCategory;
+use App\EventListener\TransactionForBudgetListener;
 use App\Repository\TransactionCategoryRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints as Assert;
 
 final class TransactionForBudgetType extends AbstractType
 {
+    public function __construct(private readonly TransactionForBudgetListener $transactionForBudgetListener){}
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        /** @var Budget $budget */
         $budget = $builder->getOption('budget');
 
         $builder
@@ -28,20 +29,6 @@ final class TransactionForBudgetType extends AbstractType
             ])
             ->add('amount', NumberType::class, [
                 'attr' => ['placeholder' => 'Enter an amount'],
-            ])
-            ->add('date', DateType::class, [
-                'widget' => 'single_text',
-                'attr' => [
-                    'min' => $budget->getStartDate()->format('Y-m-d'),
-                    'max' => $budget->getEndDate()->format('Y-m-d'),
-                ],
-                'constraints' => [
-                    new Assert\Range([
-                        'min' => $budget->getStartDate(),
-                        'max' => $budget->getEndDate(),
-                        'notInRangeMessage' => 'The date must be between {{ min }} and {{ max }}.',
-                    ]),
-                ],
             ])
             ->add('transactionCategory', EntityType::class, [
                 'class' => TransactionCategory::class,
@@ -54,7 +41,13 @@ final class TransactionForBudgetType extends AbstractType
             ->add('category', TextType::class, [
                 'required' => false,
                 'attr' => ['placeholder' => 'Enter a category (optional)'],
-            ]);
+            ])
+            ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) use ($budget): void {
+                $this->transactionForBudgetListener->onPreSetData($event, $budget);
+            })
+            ->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($budget): void {
+                $this->transactionForBudgetListener->onPostSubmit($event, $budget);
+            });
     }
 
     public function configureOptions(OptionsResolver $resolver): void

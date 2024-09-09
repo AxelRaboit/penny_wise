@@ -73,5 +73,4 @@ class TransactionController extends AbstractController
             'budget' => $budget,
         ]);
     }
-
 }
