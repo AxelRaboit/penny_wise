@@ -7,6 +7,7 @@
             <div class="w-full text-center border border-solid border-gray-300 p-2"><span class="font-bold">Date</span></div>
             <div class="w-full text-center border border-solid border-gray-300 p-2"><span class="font-bold">Category</span></div>
             <div class="w-full text-center border border-solid border-gray-300 p-2"><span class="font-bold">Actual</span></div>
+            <div class="w-full text-center border border-solid border-gray-300 p-2"><span class="font-bold">Actions</span></div>
         </div>
 
         {% for transactions in transactionCategory %}
@@ -15,6 +16,14 @@
                     <div class="{{ loop.last ? 'rounded-bl' : '' }} w-full text-center border border-solid border-gray-300 p-2"><span class="font-bold">{{ transaction.date|date('d M Y') }}</span></div>
                     <div class="w-full text-center border border-solid border-gray-300 p-2"><span class="font-bold">{{ transaction.category }}</span></div>
                     <div class="{{ loop.last ? 'rounded-br' : '' }} w-full text-center border border-solid border-gray-300 p-2"><span>{{ transaction.amount }}</span></div>
+                    <div class="w-full text-center border border-solid border-gray-300 p-2">
+                        <a href="#" {#href="{{ path('transaction_edit', { 'year': transaction.budget.year, 'month': transaction.budget.month, 'id': transaction.id }) }}"#} class="text-center font-bold bg-secondary hover:bg-secondary-hover text-white p-2 cursor-pointer rounded mr-2">
+                            <i class="fa-solid fa-pencil"></i>
+                        </a>
+                        <a href="{{ path('transaction_delete', { 'year': transaction.budget.year, 'month': transaction.budget.month, 'id': transaction.id }) }}" class="text-center font-bold bg-danger hover:bg-danger-hover text-white p-2 cursor-pointer rounded">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </a>
+                    </div>
                 </div>
             {% endfor %}
         {% else %}

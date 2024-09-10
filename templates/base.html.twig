@@ -17,6 +17,14 @@
         {% include 'partial/_topbar.html.twig' %}
 
         <div class="p-4" id="app">
+            {% for label, messages in app.flashes %}
+                <div class="p-4 mb-4 text-sm text-white {{ label == 'success' ? 'bg-success' : 'bg-danger' }} rounded" role="alert">
+                    {% for message in messages %}
+                        <span class="font-bold text-white">{{ label|capitalize }}:</span> {{ message }}
+                    {% endfor %}
+                </div>
+            {% endfor %}
+
             {% block body %}{% endblock %}
         </div>
     </body>
