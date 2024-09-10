@@ -30,22 +30,28 @@
                 </div>
 
                 <div class="w-full bg-secondary rounded-b p-2 bg-white">
-                    <p class="mb-2 font-bold text-sm bg-warning rounded p-1 text-center">You can add transactions and budgets for the current month ({{ budget.month|month_name }}) or year ({{ currentYear }}).</p>
+                    <ul class="bg-warning rounded p-1 mb-2 text-sm font-bold">
+                        <li class="mb-1">• Add transactions and budgets for the current month ({{ budget.month|month_name }}) or year ({{ currentYear }}).</li>
+                        <li class="mb-1">• Add notifications for the current budget.</li>
+                        <li>• Update the budget for the current month ({{ budget.month|month_name }} {{ currentYear }}).</li>
+                    </ul>
                     <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
                         {# TODO: the button is about prefill the form with the current month to rapidly add transactions for the current budget #}
                         <a href="{{ path('transaction_new_for_budget', { 'year': currentYear, 'month': currentMonth }) }}" class="text-center font-bold bg-secondary hover:bg-secondary-hover text-white p-2 cursor-pointer rounded">
                             <i class="fa-solid fa-plus mr-1"></i>
                             Transaction
                         </a>
-                        {# TODO: the button is about prefill the form with the current year to rapidly add budgets for the current year #}
                         <a href="{{ path('budget_new') }}" class="text-center font-bold bg-secondary hover:bg-secondary-hover text-white p-2 cursor-pointer rounded">
                             <i class="fa-solid fa-plus mr-1"></i>
                             Budget
                         </a>
-                        {# TODO: the button is about prefill the form with the current user to rapidly add notifications for the current budget #}
                         <a href="#" class="text-center font-bold bg-secondary hover:bg-secondary-hover text-white p-2 cursor-pointer rounded">
                             <i class="fa-solid fa-plus mr-1"></i>
                             Notification
+                        </a>
+                        <a href="#" class="text-center font-bold bg-secondary hover:bg-secondary-hover text-white p-2 cursor-pointer rounded">
+                            <i class="fa-solid fa-pen-to-square mr-1"></i>
+                            Budget
                         </a>
                     </div>
                 </div>
