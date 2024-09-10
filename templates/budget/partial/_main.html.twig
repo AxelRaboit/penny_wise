@@ -30,6 +30,7 @@
                 </div>
 
                 <div class="w-full bg-secondary rounded-b p-2 bg-white">
+                    <p class="mb-2 font-bold text-sm bg-warning rounded p-1 text-center">You can add transactions and budgets for the current month ({{ budget.month|month_name }}) or year ({{ currentYear }}).</p>
                     <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
                         {# TODO: the button is about prefill the form with the current month to rapidly add transactions for the current budget #}
                         <a href="{{ path('transaction_new_for_budget', { 'year': currentYear, 'month': currentMonth }) }}" class="text-center font-bold bg-secondary hover:bg-secondary-hover text-white p-2 cursor-pointer rounded">
