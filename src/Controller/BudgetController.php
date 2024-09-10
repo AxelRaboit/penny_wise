@@ -51,11 +51,13 @@ final class BudgetController extends AbstractController
         $leftToSpendChart = $this->budgetService->createLeftToSpendChart($transactions);
         $totalSpendingForCurrentAndPreviousNthMonthsChart = $this->budgetService->createTotalSpendingForCurrentAndPreviousNthMonthsChart($year, $month, 3);
         $userLinks = $this->linkRepository->findByIndividual($user);
+        $totalSpendingYearsChart = $this->budgetService->createTotalSpendingForCurrentAndAdjacentYearsChart();
 
         $options = [
             'userLinks' => $userLinks,
             'leftToSpendChart' => $leftToSpendChart,
             'totalSpendingForCurrentAndPreviousNthMonthsChart' => $totalSpendingForCurrentAndPreviousNthMonthsChart,
+            'totalSpendingYearsChart' => $totalSpendingYearsChart,
             'budget' => $budget,
             'lastNthNotificationsFromBudget' => $lastNthNotificationsFromBudget,
             'yearWithMonths' => $yearWithMonths,

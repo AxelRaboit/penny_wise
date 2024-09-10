@@ -182,5 +182,31 @@ class BudgetRepository extends ServiceEntityRepository
 
         return (float) $qb->getSingleScalarResult();
     }
+
+    /**
+     * Retrieves the total spending per year, excluding the income category.
+     *
+     * @param int $startYear The starting year of the range.
+     * @param int $endYear The ending year of the range.
+     * @return array<array{year: int, total: float}> The total spending for each year.
+     */
+    public function getTotalSpendingPerYear(int $startYear, int $endYear): array
+    {
+        $qb = $this->createQueryBuilder('b')
+            ->leftJoin('b.transactions', 't')
+            ->leftJoin('t.transactionCategory', 'tc')
+            ->select('b.year, COALESCE(SUM(t.amount), 0) as total')
+            ->where('b.year BETWEEN :startYear AND :endYear')
+            ->andWhere('tc.id != :incomeCategoryId')
+            ->setParameter('startYear', $startYear)
+            ->setParameter('endYear', $endYear)
+            ->setParameter('incomeCategoryId', self::INCOME_CATEGORY_ID)
+            ->groupBy('b.year')
+            ->orderBy('b.year', 'ASC')
+            ->getQuery();
+
+        return $qb->getArrayResult();
+    }
+
 }
 

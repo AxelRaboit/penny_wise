@@ -86,8 +86,8 @@ final readonly class BudgetService
             'datasets' => [
                 [
                     'label' => 'Total Spending',
-                    'backgroundColor' => array_fill(0, $nMonths, 'rgb(201, 203, 207)'),
-                    'borderColor' => array_fill(0, $nMonths, 'rgb(201, 203, 207)'),
+                    'backgroundColor' => array_fill(0, $nMonths, 'rgb(30, 41, 59)'),
+                    'borderColor' => array_fill(0, $nMonths, 'rgb(30, 41, 59)'),
                     'data' => $totals,
                 ],
             ],
@@ -96,5 +96,37 @@ final readonly class BudgetService
         return $chart;
     }
 
+    public function createTotalSpendingForCurrentAndAdjacentYearsChart(): Chart
+    {
+        $currentYear = (int) date('Y');
 
+        $previousYear = $currentYear - 1;
+        $nextYear = $currentYear + 1;
+
+        $data = $this->budgetRepository->getTotalSpendingPerYear($previousYear, $nextYear);
+
+        $labels = [];
+        $totals = [];
+
+        foreach ($data as $totalData) {
+            $labels[] = $totalData['year'];
+            $totals[] = $totalData['total'];
+        }
+
+        $chart = $this->chartBuilder->createChart(Chart::TYPE_BAR);
+
+        $chart->setData([
+            'labels' => $labels,
+            'datasets' => [
+                [
+                    'label' => 'Total Spending per Year',
+                    'backgroundColor' => array_fill(0, count($labels), 'rgb(30, 41, 59)'),
+                    'borderColor' => array_fill(0, count($labels), 'rgb(30, 41, 59)'),
+                    'data' => $totals,
+                ],
+            ],
+        ]);
+
+        return $chart;
+    }
 }
