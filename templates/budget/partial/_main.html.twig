@@ -30,12 +30,6 @@
                 </div>
 
                 <div class="w-full bg-secondary rounded-b p-2 bg-white">
-                    <ul class="bg-warning rounded p-1 mb-2 text-sm font-bold">
-                        <li class="mb-1">• Add transactions and budgets for the current month ({{ budget.month|month_name }}) or year ({{ currentYear }}).</li>
-                        <li class="mb-1">• Add notifications for the current budget.</li>
-                        <li>• Update the budget for the current month ({{ budget.month|month_name }} {{ currentYear }}).</li>
-                        <li>• Copy and Paste bills from previous month to current month.</li>
-                    </ul>
                     <div class="grid grid-cols-2 sm:grid-cols-2 gap-2">
                         {# TODO: the button is about prefill the form with the current month to rapidly add transactions for the current budget #}
                         <a href="{{ path('transaction_new_for_budget', { 'year': currentYear, 'month': currentMonth }) }}" class="text-center font-bold bg-secondary hover:bg-secondary-hover text-white p-2 cursor-pointer rounded">
@@ -54,9 +48,13 @@
                             <i class="fa-solid fa-pen-to-square mr-1"></i>
                             Budget
                         </a>
+                        <a href="{{ path('copy_previous_month_bills', { year: currentYear, month: currentMonth }) }}" class="text-center font-bold bg-secondary hover:bg-secondary-hover text-white p-2 cursor-pointer rounded">
+                            <i class="fa-solid fa-copy mr-1"></i>
+                            Copy previous month's transaction bills
+                        </a>
                         <a href="#" class="text-center font-bold bg-secondary hover:bg-secondary-hover text-white p-2 cursor-pointer rounded">
                             <i class="fa-solid fa-copy mr-1"></i>
-                            Copy / Paste bills
+                            Copy / Paste previous month's transactions
                         </a>
                     </div>
                 </div>

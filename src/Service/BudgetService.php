@@ -63,7 +63,6 @@ final readonly class BudgetService
         return $chart;
     }
 
-
     public function createTotalSpendingForCurrentAndPreviousNthMonthsChart(int $year, int $month, int $nMonths): Chart
     {
         $data = $this->budgetRepository->getTotalSpendingForCurrentAndPreviousNthMonths($year, $month, $nMonths);

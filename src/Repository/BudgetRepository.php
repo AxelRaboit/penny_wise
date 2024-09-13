@@ -7,6 +7,7 @@ use App\Dto\TotalSpendingFromNMonthsDto;
 use App\Dto\YearDto;
 use App\Entity\Budget;
 use App\Enum\MonthEnum;
+use App\Util\BudgetHelper;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\Order;
 use Doctrine\Persistence\ManagerRegistry;
@@ -17,10 +18,8 @@ use Doctrine\Persistence\ManagerRegistry;
 class BudgetRepository extends ServiceEntityRepository
 {
     private const string INCOME_CATEGORY_ID = '4';
-    private const int MONTH_JANUARY = 1;
-    private const int MONTH_DECEMBER = 12;
 
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry, private readonly BudgetHelper $budgetHelper)
     {
         parent::__construct($registry, Budget::class);
     }
@@ -135,28 +134,12 @@ class BudgetRepository extends ServiceEntityRepository
                 'total' => $this->getTotalSpendingByMonth($year, $month),
             ];
 
-            $previousMonth = $this->getPreviousMonthAndYear($year, $month);
+            $previousMonth = $this->budgetHelper->getPreviousMonthAndYear($year, $month);
             $year = $previousMonth['year'];
             $month = $previousMonth['month'];
         }
 
         return new TotalSpendingFromNMonthsDto($totals);
-    }
-
-    /**
-     * Returns the previous month and year given a specific month and year.
-     *
-     * @param int $year
-     * @param int $month
-     * @return array<string, int>
-     */
-    private function getPreviousMonthAndYear(int $year, int $month): array
-    {
-        if ($month == self::MONTH_JANUARY) {
-            return ['year' => $year - 1, 'month' => self::MONTH_DECEMBER];
-        }
-
-        return ['year' => $year, 'month' => $month - 1];
     }
 
     /**

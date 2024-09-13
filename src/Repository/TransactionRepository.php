@@ -13,52 +13,20 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class TransactionRepository extends ServiceEntityRepository
 {
+    private const int BILL_CATEGORY_ID = 1;
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Transaction::class);
     }
 
-    /**
-     * @param Budget $budget
-     * @param string $transactionCategory
-     * @return Transaction[]
-     */
-    public function findByBudgetAndCategory(Budget $budget, string $transactionCategory): array
+    public function findBillsByBudget(Budget $budget): array
     {
-        $transactionCategoryValue = TransactionTypeEnum::fromString($transactionCategory)->getValue();
-
-        /** @var Transaction[] */
         return $this->createQueryBuilder('t')
             ->where('t.budget = :budget')
-            ->andWhere('t.transactionCategory = :transactionCategory')
+            ->andWhere('t.transactionCategory = :billCategory')
             ->setParameter('budget', $budget)
-            ->setParameter('transactionCategory', $transactionCategoryValue)
+            ->setParameter('billCategory', self::BILL_CATEGORY_ID)
             ->getQuery()
             ->getResult();
     }
-
-//    /**
-//     * @return Transaction[] Returns an array of Transaction objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('t')
-//            ->andWhere('t.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('t.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Transaction
-//    {
-//        return $this->createQueryBuilder('t')
-//            ->andWhere('t.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
 }

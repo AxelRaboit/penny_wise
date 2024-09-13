@@ -75,6 +75,27 @@ final class BudgetController extends AbstractController
         return $this->render(self::MONTHLY_BUDGET_TEMPLATE, $options);
     }
 
+    /**
+     * @throws Exception
+     */
+    #[Route('/budget/{year}/{month}/copy-bills', name: 'copy_previous_month_bills')]
+    public function copyPreviousMonthBills(int $year, int $month): Response
+    {
+        /** @var User $user */
+        $user = $this->getUser();
+        if (!$user instanceof User) {
+            throw $this->createNotFoundException('User not found');
+        }
+
+        $currentBudget = $this->budgetService->getBudgetByUser($user, $year, $month);
+        $this->transactionService->copyBillsFromPreviousMonth($currentBudget);
+
+        return $this->redirectToRoute('monthly_budget', [
+            'year' => $year,
+            'month' => $month,
+        ]);
+    }
+
     #[Route('/budget/new', name: 'budget_new')]
     public function new(Request $request): Response
     {
