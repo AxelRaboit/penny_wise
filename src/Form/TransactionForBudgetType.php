@@ -5,6 +5,7 @@ namespace App\Form;
 use Override;
 use Doctrine\ORM\QueryBuilder;
 use App\Entity\Transaction;
+use App\Entity\Budget;
 use App\Entity\TransactionCategory;
 use App\EventListener\TransactionForBudgetListener;
 use App\Repository\TransactionCategoryRepository;
@@ -44,9 +45,11 @@ final class TransactionForBudgetType extends AbstractType
                 'attr' => ['placeholder' => 'Enter a category (optional)'],
             ])
             ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) use ($budget): void {
+                /** @var Budget $budget */
                 $this->transactionForBudgetListener->onPreSetData($event, $budget);
             })
             ->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($budget): void {
+                /** @var Budget $budget */
                 $this->transactionForBudgetListener->onPostSubmit($event, $budget);
             });
     }
@@ -58,5 +61,7 @@ final class TransactionForBudgetType extends AbstractType
             'data_class' => Transaction::class,
             'budget' => null,
         ]);
+
+        $resolver->setAllowedTypes('budget', ['null', Budget::class]);
     }
 }

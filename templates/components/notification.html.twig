@@ -37,3 +37,9 @@
         {% endif %}
     </div>
 </div>
+
+{% block javascripts %}
+    {% block importmap %}
+        {{ importmap('notification') }}
+    {% endblock %}
+{% endblock %}

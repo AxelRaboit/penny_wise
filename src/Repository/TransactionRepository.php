@@ -19,15 +19,20 @@ class TransactionRepository extends ServiceEntityRepository
 
     /**
      * Find transactions by budget and transaction category.
+     *
+     * @return Transaction[] Returns an array of Transaction objects.
      */
     public function findTransactionsByBudgetAndCategory(Budget $budget, int $transactionCategoryId): array
     {
-        return $this->createQueryBuilder('t')
+        /** @var Transaction[] $result */
+        $result = $this->createQueryBuilder('t')
             ->where('t.budget = :budget')
             ->andWhere('t.transactionCategory = :transactionCategory')
             ->setParameter('budget', $budget)
             ->setParameter('transactionCategory', $transactionCategoryId)
             ->getQuery()
             ->getResult();
+
+        return $result;
     }
 }

@@ -153,16 +153,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function removeBudget(Budget $budget): static
-    {
-        // set the owning side to null (unless already changed)
-        if ($this->budgets->removeElement($budget) && $budget->getIndividual() === $this) {
-            $budget->setIndividual(null);
-        }
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Link>
      */

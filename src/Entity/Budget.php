@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use DateTimeInterface;
-use LogicException;
 use App\Entity\Trait\TimestampableTrait;
 use App\Enum\MonthEnum;
 use App\Repository\BudgetRepository;
@@ -25,22 +24,22 @@ class Budget
 
     #[ORM\ManyToOne(inversedBy: 'budgets')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $individual = null;
+    private User $individual;
 
     #[ORM\Column]
-    private ?int $year = null;
+    private int $year;
 
     #[ORM\Column]
-    private ?int $month = null;
+    private int $month;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?DateTimeInterface $startDate = null;
+    private DateTimeInterface $startDate;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?DateTimeInterface $endDate = null;
+    private DateTimeInterface $endDate;
 
     #[ORM\Column(length: 255)]
-    private ?string $currency = null;
+    private string $currency;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private string|float|null $startBalance = 0.0;
@@ -71,19 +70,19 @@ class Budget
         return $this->id;
     }
 
-    public function getIndividual(): ?User
+    public function getIndividual(): User
     {
         return $this->individual;
     }
 
-    public function setIndividual(?User $individual): static
+    public function setIndividual(User $individual): static
     {
         $this->individual = $individual;
 
         return $this;
     }
 
-    public function getYear(): ?int
+    public function getYear(): int
     {
         return $this->year;
     }
@@ -95,7 +94,7 @@ class Budget
         return $this;
     }
 
-    public function getMonth(): ?int
+    public function getMonth(): int
     {
         return $this->month;
     }
@@ -107,7 +106,7 @@ class Budget
         return $this;
     }
 
-    public function getStartDate(): ?DateTimeInterface
+    public function getStartDate(): DateTimeInterface
     {
         return $this->startDate;
     }
@@ -119,7 +118,7 @@ class Budget
         return $this;
     }
 
-    public function getEndDate(): ?DateTimeInterface
+    public function getEndDate(): DateTimeInterface
     {
         return $this->endDate;
     }
@@ -131,7 +130,7 @@ class Budget
         return $this;
     }
 
-    public function getCurrency(): ?string
+    public function getCurrency(): string
     {
         return $this->currency;
     }
@@ -175,10 +174,6 @@ class Budget
 
     public function getMonthLabel(): string
     {
-        if (!$this->startDate instanceof DateTimeInterface) {
-            throw new LogicException('Month label should not be null.');
-        }
-
         return $this->startDate->format('F');
     }
 

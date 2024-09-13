@@ -23,7 +23,7 @@ class AppExtension extends AbstractExtension
         try {
             $monthEnum = MonthEnum::from($monthNumber);
             return $monthEnum->getName();
-        } catch (ValueError) {
+        } catch (ValueError $valueError) {
             return "Invalid month number: " . $valueError->getMessage();
         }
     }

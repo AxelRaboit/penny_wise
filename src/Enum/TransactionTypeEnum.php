@@ -43,7 +43,7 @@ class TransactionTypeEnum implements Stringable
     public function __construct(private readonly int $value)
     {
         if (!isset(self::$valueToString[$value])) {
-            throw new InvalidArgumentException(sprintf('Invalid value \'%d\' for enum TransactionTypeEnum', $value));
+            throw new InvalidArgumentException(sprintf("Invalid value '%d' for enum TransactionTypeEnum", $value));
         }
     }
 
@@ -91,7 +91,7 @@ class TransactionTypeEnum implements Stringable
     public static function fromString(string $value): self
     {
         if (!isset(self::$stringToValue[$value])) {
-            throw new InvalidArgumentException(sprintf('Invalid string \'%s\' for enum TransactionTypeEnum', $value));
+            throw new InvalidArgumentException(sprintf("Invalid string '%s' for enum TransactionTypeEnum", $value));
         }
 
         return new self(self::$stringToValue[$value]);

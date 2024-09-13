@@ -23,10 +23,10 @@ class Transaction
     private ?string $description = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private string|float|null $amount = null;
+    private string|float $amount;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?DateTimeInterface $date = null;
+    private DateTimeInterface $date;
 
     #[ORM\ManyToOne(inversedBy: 'transactions')]
     #[ORM\JoinColumn(nullable: false)]
@@ -56,7 +56,7 @@ class Transaction
         return $this;
     }
 
-    public function getAmount(): string|float|null
+    public function getAmount(): string|float
     {
         return $this->amount;
     }
@@ -68,7 +68,7 @@ class Transaction
         return $this;
     }
 
-    public function getDate(): ?DateTimeInterface
+    public function getDate(): DateTimeInterface
     {
         return $this->date;
     }

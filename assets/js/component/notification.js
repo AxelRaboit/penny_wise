@@ -1,8 +1,12 @@
-document.addEventListener('DOMContentLoaded', function() {
+function initializeNotificationModal() {
     const notificationBubble = document.getElementById('notificationBubble');
     const notificationModal = document.getElementById('notificationModal');
     const closeNotificationModal = document.getElementById('closeNotificationModal');
     const body = document.body;
+
+    if (!notificationBubble || !notificationModal || !closeNotificationModal) {
+        return;
+    }
 
     const openModal = () => {
         notificationModal.classList.remove('translate-x-full');
@@ -15,6 +19,18 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     notificationBubble.addEventListener('click', openModal);
-
     closeNotificationModal.addEventListener('click', closeModal);
-});
+
+    document.addEventListener('click', function(event) {
+        const target = event.target;
+        if (target.tagName === 'A' && target.href) {
+            closeModal();
+        }
+    });
+
+    window.addEventListener('beforeunload', closeModal);
+}
+
+document.addEventListener('DOMContentLoaded', initializeNotificationModal);
+
+document.addEventListener('turbo:load', initializeNotificationModal);

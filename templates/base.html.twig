@@ -12,8 +12,6 @@
         {% block javascripts %}
             {% block importmap %}
                 {{ importmap('app') }}
-                {{ importmap('modal') }}
-                {{ importmap('notification') }}
             {% endblock %}
         {% endblock %}
     </head>
@@ -30,8 +28,6 @@
             {% endfor %}
 
             {% block body %}{% endblock %}
-
-            {% include 'components/notification.html.twig' %}
         </div>
     </body>
 </html>

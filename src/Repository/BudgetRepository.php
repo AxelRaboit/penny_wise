@@ -181,8 +181,12 @@ class BudgetRepository extends ServiceEntityRepository
             ->orderBy('b.year', 'ASC')
             ->getQuery();
 
-        return $qb->getArrayResult();
+        /** @var array<array{year: int, total: string}> $results */
+        $results = $qb->getArrayResult();
+
+        return array_map(static fn(array $result): array => [
+            'year' => (int) $result['year'],
+            'total' => (float) $result['total'],
+        ], $results);
     }
-
 }
-
