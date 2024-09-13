@@ -27,7 +27,7 @@ return [
         'entrypoint' => true,
     ],
     'topbar' => [
-        'path' => './assets/js/page/topbar.js',
+        'path' => './assets/js/component/topbar.js',
         'entrypoint' => true,
     ],
     // Pages
