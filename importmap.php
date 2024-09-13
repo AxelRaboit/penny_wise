@@ -22,6 +22,10 @@ return [
         'path' => './assets/js/component/modal.js',
         'entrypoint' => true,
     ],
+    'notification' => [
+        'path' => './assets/js/component/notification.js',
+        'entrypoint' => true,
+    ],
     'topbar' => [
         'path' => './assets/js/page/topbar.js',
         'entrypoint' => true,

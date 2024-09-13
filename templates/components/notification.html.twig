@@ -1,0 +1,39 @@
+<div id="notificationBubble" class="fixed bottom-4 right-4 bg-secondary hover:bg-secondary-hover text-white p-4 rounded-full cursor-pointer shadow-lg z-50">
+    <i class="fa-solid fa-bell"></i>
+</div>
+
+<div id="notificationModal" class="fixed top-0 right-0 w-full md:w-1/3 h-full bg-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out z-50 overflow-hidden">
+    <div class="bg-secondary text-white p-4 flex justify-between items-center">
+        <h2 class="text-2xl font-bold text-white">Notifications</h2>
+        <button id="closeNotificationModal" class="text-white hover:text-gray-200">
+            <i class="fa-solid fa-times text-xl"></i>
+        </button>
+    </div>
+
+    <div class="p-4 h-[calc(100%-4rem)] overflow-y-auto">
+        {% if lastNthNotificationsFromBudget|length > 0 %}
+            {% for notification in lastNthNotificationsFromBudget %}
+                <div class="flex flex-col bg-white border border-gray-300 mb-4 p-2 rounded-lg shadow">
+                    <div class="w-full">
+                        <div class="flex justify-between items-center mb-2">
+                            <p class="font-bold">{{ notification.title }}</p>
+                            <div class="flex space-x-2">
+                                <a href="#" class="bg-secondary hover:bg-secondary-hover text-white p-2 rounded-lg">
+                                    <i class="fa-solid fa-pencil"></i>
+                                </a>
+                                <a href="#" class="bg-danger hover:bg-danger-hover text-white p-2 rounded-lg">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <p>{{ notification.message }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="text-center p-4 bg-gray-100 border border-gray-300 rounded-lg">
+                <span class="font-bold text-gray-700">No notifications</span>
+            </div>
+        {% endif %}
+    </div>
+</div>
