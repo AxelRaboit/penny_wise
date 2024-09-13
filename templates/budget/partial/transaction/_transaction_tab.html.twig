@@ -17,9 +17,6 @@
                     <div class="w-full text-center border border-solid border-gray-300 p-2"><span class="font-bold">{{ transaction.category }}</span></div>
                     <div class="{{ loop.last ? 'rounded-br' : '' }} w-full text-center border border-solid border-gray-300 p-2"><span>{{ transaction.amount }}</span></div>
                     <div class="w-full text-center border border-solid border-gray-300 p-2">
-                        {#<a href="#" #}{#href="{{ path('transaction_edit', { 'year': transaction.budget.year, 'month': transaction.budget.month, 'id': transaction.id }) }}"#}{# class="text-center font-bold bg-secondary hover:bg-secondary-hover text-white p-2 cursor-pointer rounded mr-2">
-                            <i class="fa-solid fa-pencil"></i>
-                        </a>#}
                         <button type="button"
                                 data-action-url="{{ path('transaction_delete', { 'year': transaction.budget.year, 'month': transaction.budget.month, 'id': transaction.id }) }}"
                                 class="js-delete-button text-center font-bold bg-danger hover:bg-danger-hover text-white p-2 cursor-pointer rounded">
