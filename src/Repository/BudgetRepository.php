@@ -185,7 +185,7 @@ class BudgetRepository extends ServiceEntityRepository
         $results = $qb->getArrayResult();
 
         return array_map(static fn(array $result): array => [
-            'year' => (int) $result['year'],
+            'year' => $result['year'],
             'total' => (float) $result['total'],
         ], $results);
     }
