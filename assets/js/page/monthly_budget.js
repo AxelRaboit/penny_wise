@@ -10,3 +10,14 @@ attachModalEvents({
     cancelButtonId: 'cancelCopyBills',
     cancelLabel: 'Cancel',
 });
+
+attachModalEvents({
+    modalId: 'copyExpensesModal',
+    modalTitle: 'Copy Previous Month\'s Expenses',
+    modalMessage: 'Are you sure you want to copy the expenses from the previous month to the current month?',
+    triggerButtonSelector: '.js-copy-expenses-button',
+    confirmButtonId: 'confirmCopyExpenses',
+    confirmLabel: 'Copy',
+    cancelButtonId: 'cancelCopyExpenses',
+    cancelLabel: 'Cancel',
+});

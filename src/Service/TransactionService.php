@@ -25,30 +25,37 @@ final readonly class TransactionService
     }
 
     /**
-     * Copy bills from the previous month to the current month's budget.
+     * Copy transactions from the previous month to the current month's budget.
      *
-     * @param Budget $currentBudget The current budget to which bills will be copied.
-     * @return void
+     * @param Budget $currentBudget The current budget to which transactions will be copied.
+     * @param int $transactionCategoryId The ID of the transaction category to copy.
+     * @return bool Returns true if transactions were copied, false if there were no transactions to copy.
      * @throws Exception
      */
-    public function copyBillsFromPreviousMonth(Budget $currentBudget): void
+    public function copyTransactionsFromPreviousMonth(Budget $currentBudget, int $transactionCategoryId): bool
     {
         $previousMonthData = $this->budgetHelper->getPreviousMonthAndYear($currentBudget->getYear(), $currentBudget->getMonth());
         $previousBudget = $this->budgetService->getBudgetByUser($currentBudget->getIndividual(), $previousMonthData['year'], $previousMonthData['month']);
-        $previousBills = $this->transactionRepository->findBillsByBudget($previousBudget);
+        $previousTransactions = $this->transactionRepository->findTransactionsByBudgetAndCategory($previousBudget, $transactionCategoryId);
 
-        foreach ($previousBills as $bill) {
+        if (empty($previousTransactions)) {
+            return false;
+        }
+
+        foreach ($previousTransactions as $transaction) {
             $newTransaction = new Transaction();
-            $newTransaction->setDescription($bill->getDescription());
-            $newTransaction->setAmount($bill->getAmount());
+            $newTransaction->setDescription($transaction->getDescription());
+            $newTransaction->setAmount($transaction->getAmount());
             $newTransaction->setDate(new DateTimeImmutable());
             $newTransaction->setBudget($currentBudget);
-            $newTransaction->setTransactionCategory($bill->getTransactionCategory());
-            $newTransaction->setCategory($bill->getCategory());
+            $newTransaction->setTransactionCategory($transaction->getTransactionCategory());
+            $newTransaction->setCategory($transaction->getCategory());
 
             $this->entityManager->persist($newTransaction);
         }
 
         $this->entityManager->flush();
+
+        return true;
     }
 }

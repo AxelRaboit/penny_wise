@@ -55,10 +55,10 @@
                             Copy previous month's transaction bills
                         </button>
                         <button type="button"
-                                data-action-url=""
-                                class="js-copy-transactions-button text-center font-bold bg-secondary hover:bg-secondary-hover text-white p-2 cursor-pointer rounded">
+                                data-action-url="{{ path('copy_previous_month_expenses', { 'year': currentYear, 'month': currentMonth }) }}"
+                                class="js-copy-expenses-button text-center font-bold bg-secondary hover:bg-secondary-hover text-white p-2 cursor-pointer rounded">
                             <i class="fa-solid fa-copy mr-1"></i>
-                            Copy previous month's transaction
+                            Copy previous month's transaction expenses
                         </button>
                     </div>
                 </div>

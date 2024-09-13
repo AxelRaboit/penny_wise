@@ -22,6 +22,9 @@ final class BudgetController extends AbstractController
 {
     private const string MONTHLY_BUDGET_TEMPLATE = 'budget/monthly.html.twig';
     private const string NEW_BUDGET_TEMPLATE = 'budget/new.html.twig';
+    private const int BILL_CATEGORY_ID = 1;
+    private const int EXPENSE_CATEGORY_ID = 2;
+
     public function __construct(
         private readonly TransactionService     $transactionService,
         private readonly BudgetService          $budgetService,
@@ -81,14 +84,45 @@ final class BudgetController extends AbstractController
     #[Route('/budget/{year}/{month}/copy-bills', name: 'copy_previous_month_bills')]
     public function copyPreviousMonthBills(int $year, int $month): Response
     {
-        /** @var User $user */
         $user = $this->getUser();
         if (!$user instanceof User) {
             throw $this->createNotFoundException('User not found');
         }
 
         $currentBudget = $this->budgetService->getBudgetByUser($user, $year, $month);
-        $this->transactionService->copyBillsFromPreviousMonth($currentBudget);
+        $response = $this->transactionService->copyTransactionsFromPreviousMonth($currentBudget, self::BILL_CATEGORY_ID);
+
+        if (!$response) {
+            $this->addFlash('warning', 'No bills found to copy from the previous month.');
+        } else {
+            $this->addFlash('success', 'Bills copied successfully from the previous month.');
+        }
+
+
+        return $this->redirectToRoute('monthly_budget', [
+            'year' => $year,
+            'month' => $month,
+        ]);
+    }
+
+    /**
+     * @throws Exception
+     */
+    #[Route('/budget/{year}/{month}/copy-expenses', name: 'copy_previous_month_expenses')]
+    public function copyPreviousMonthExpenses(int $year, int $month): Response
+    {
+        $user = $this->getUser();
+        if (!$user instanceof User) {
+            throw $this->createNotFoundException('User not found');
+        }
+
+        $currentBudget = $this->budgetService->getBudgetByUser($user, $year, $month);
+        $response = $this->transactionService->copyTransactionsFromPreviousMonth($currentBudget, self::EXPENSE_CATEGORY_ID);
+        if (!$response) {
+            $this->addFlash('warning', 'No expenses found to copy from the previous month.');
+        } else {
+            $this->addFlash('success', 'Expenses copied successfully from the previous month.');
+        }
 
         return $this->redirectToRoute('monthly_budget', [
             'year' => $year,
