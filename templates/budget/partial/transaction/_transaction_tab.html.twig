@@ -22,10 +22,9 @@
                         </a>#}
                         <button type="button"
                                 data-action-url="{{ path('transaction_delete', { 'year': transaction.budget.year, 'month': transaction.budget.month, 'id': transaction.id }) }}"
-                                class="deleteButton text-center font-bold bg-danger hover:bg-danger-hover text-white p-2 cursor-pointer rounded">
+                                class="js-delete-button text-center font-bold bg-danger hover:bg-danger-hover text-white p-2 cursor-pointer rounded">
                             <i class="fa-solid fa-trash-can"></i>
                         </button>
-
                     </div>
                 </div>
             {% endfor %}
@@ -41,9 +40,6 @@
     </div>
 </div>
 
-{% include 'components/modal.html.twig' with { 'modalTitle': 'Confirm suppression', 'modalMessage': 'Are you sure you want to delete this transaction?'} %}
-
 {% block javascripts %}
     {{ importmap('transaction_tab') }}
-    {{ importmap('modal') }}
 {% endblock %}

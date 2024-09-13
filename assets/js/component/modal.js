@@ -1,3 +1,28 @@
+const createModal = ({modalId, modalTitle, modalMessage, confirmButtonId, cancelButtonId, confirmLabel = 'Yes', cancelLabel = 'No'}) => {
+    let existingModal = document.getElementById(modalId);
+    if (existingModal) {
+        return existingModal;
+    }
+
+    const modal = document.createElement('div');
+    modal.id = modalId;
+    modal.classList.add('fixed', 'inset-0', 'hidden', 'bg-gray-600', 'bg-opacity-50', 'flex', 'justify-center', 'items-center');
+
+    modal.innerHTML = `
+        <div class="bg-white rounded-lg shadow-lg p-4 w-1/3">
+            <h3 class="text-lg font-bold mb-4">${modalTitle}</h3>
+            <p class="mb-4">${modalMessage}</p>
+            <div class="flex justify-end">
+                <button id="${cancelButtonId}" class="bg-gray-500 text-white p-2 rounded mr-2">${cancelLabel}</button>
+                <button id="${confirmButtonId}" class="bg-red-500 text-white p-2 rounded">${confirmLabel}</button>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+    return modal;
+};
+
 const openModal = (modal) => {
     modal.classList.remove('hidden');
 };
@@ -6,10 +31,27 @@ const closeModal = (modal) => {
     modal.classList.add('hidden');
 };
 
-const attachModalEvents = function({modalSelector, triggerButtonSelector, confirmButtonSelector, cancelButtonSelector}) {
-    const modal = document.querySelector(modalSelector);
-    const confirmButton = modal.querySelector(confirmButtonSelector);
-    const cancelButton = modal.querySelector(cancelButtonSelector);
+const attachModalEvents = function({
+    modalId,
+    modalTitle,
+    modalMessage,
+    triggerButtonSelector,
+    confirmButtonId,
+    cancelButtonId,
+    confirmLabel,
+    cancelLabel,
+}) {
+    const modal = createModal({
+        modalId,
+        modalTitle,
+        modalMessage,
+        confirmButtonId,
+        cancelButtonId,
+        confirmLabel,
+        cancelLabel
+    });
+    const confirmButton = document.getElementById(confirmButtonId);
+    const cancelButton = document.getElementById(cancelButtonId);
     let actionUrl = '';
 
     const handleConfirm = () => {

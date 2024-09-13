@@ -78,7 +78,7 @@ class TransactionController extends AbstractController
     }
 
     #[Route('/transaction/delete/{year}/{month}/{id}', name: 'transaction_delete')]
-    public function delete(int $year, int $month, int $id, Request $request): RedirectResponse
+    public function delete(int $year, int $month, int $id): RedirectResponse
     {
         $transaction = $this->transactionRepository->find($id);
         if (!$transaction) {

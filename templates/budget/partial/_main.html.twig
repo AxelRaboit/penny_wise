@@ -48,14 +48,18 @@
                             <i class="fa-solid fa-pen-to-square mr-1"></i>
                             Budget
                         </a>
-                        <a href="{{ path('copy_previous_month_bills', { year: currentYear, month: currentMonth }) }}" class="text-center font-bold bg-secondary hover:bg-secondary-hover text-white p-2 cursor-pointer rounded">
+                        <button type="button"
+                                data-action-url="{{ path('copy_previous_month_bills', { 'year': currentYear, 'month': currentMonth }) }}"
+                                class="js-copy-bills-button text-center font-bold bg-secondary hover:bg-secondary-hover text-white p-2 cursor-pointer rounded">
                             <i class="fa-solid fa-copy mr-1"></i>
                             Copy previous month's transaction bills
-                        </a>
-                        <a href="#" class="text-center font-bold bg-secondary hover:bg-secondary-hover text-white p-2 cursor-pointer rounded">
+                        </button>
+                        <button type="button"
+                                data-action-url=""
+                                class="js-copy-transactions-button text-center font-bold bg-secondary hover:bg-secondary-hover text-white p-2 cursor-pointer rounded">
                             <i class="fa-solid fa-copy mr-1"></i>
-                            Copy / Paste previous month's transactions
-                        </a>
+                            Copy previous month's transaction
+                        </button>
                     </div>
                 </div>
             </div>
@@ -200,3 +204,6 @@
     </div>
 </div>
 
+{% block javascripts %}
+    {{ importmap('monthly_budget') }}
+{% endblock %}

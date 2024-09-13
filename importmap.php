@@ -26,6 +26,11 @@ return [
         'path' => './assets/js/page/topbar.js',
         'entrypoint' => true,
     ],
+    // Pages
+    'monthly_budget' => [
+        'path' => './assets/js/page/monthly_budget.js',
+        'entrypoint' => true,
+    ],
     // Partials
     'transaction_tab' => [
         'path' => './assets/js/partial/transaction_tab.js',
