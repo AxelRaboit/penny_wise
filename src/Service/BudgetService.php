@@ -6,7 +6,6 @@ use App\Entity\Budget;
 use App\Entity\Transaction;
 use App\Entity\User;
 use App\Repository\BudgetRepository;
-use Exception;
 use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
 use Symfony\UX\Chartjs\Model\Chart;
 
@@ -17,18 +16,11 @@ final readonly class BudgetService
         private ChartBuilderInterface $chartBuilder,
     ) {}
 
-    /**
-     * @throws Exception
-     */
-    public function getBudgetByUser(User $user, int $year, int $month): Budget
+    public function getBudgetByUser(User $user, int $year, int $month): ?Budget
     {
+        /** @var Budget|null $budget */
         $budget = $this->budgetRepository
             ->findOneBy(['individual' => $user, 'year' => $year, 'month' => $month]);
-
-        if ($budget === null) {
-            $message = `No budget found for user ${user}, year ${year} and month ${month}`;
-            throw new Exception($message);
-        }
 
         return $budget;
     }

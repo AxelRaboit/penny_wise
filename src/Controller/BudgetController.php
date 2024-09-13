@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Budget;
 use App\Entity\Transaction;
 use App\Entity\User;
+use App\Exception\NoPreviousBudgetException;
+use App\Exception\NoPreviousTransactionsException;
 use App\Form\BudgetType;
 use App\Repository\BudgetRepository;
 use App\Repository\LinkRepository;
@@ -16,6 +18,7 @@ use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Attribute\Route;
 
 final class BudgetController extends AbstractController
@@ -46,10 +49,14 @@ final class BudgetController extends AbstractController
         /** @var User $user */
         $user = $this->getUser();
         if(!$user instanceof User) {
-            throw new Exception('User not found');
+            throw $this->createNotFoundException('User not found');
         }
 
         $budget = $this->budgetService->getBudgetByUser($user, $year, $month);
+        if (!$budget instanceof Budget) {
+            throw $this->createNotFoundException('Budget not found');
+        }
+
         $transactions = $this->transactionService->getAllTransactionInformationByUser($budget);
         $yearWithMonths = $this->budgetRepository->getYearWithMonths($year);
         $lastNthNotificationsFromBudget = $this->notificationRepository->getNotificationsFromBudget($budget);
@@ -88,20 +95,16 @@ final class BudgetController extends AbstractController
     #[Route('/budget/{year}/{month}/copy-bills', name: 'copy_previous_month_bills')]
     public function copyPreviousMonthBills(int $year, int $month): Response
     {
+        /** @var User $user */
         $user = $this->getUser();
-        if (!$user instanceof User) {
-            throw $this->createNotFoundException('User not found');
-        }
-
         $currentBudget = $this->budgetService->getBudgetByUser($user, $year, $month);
-        $response = $this->transactionService->copyTransactionsFromPreviousMonth($currentBudget, self::BILL_CATEGORY_ID);
 
-        if (!$response) {
-            $this->addFlash('warning', 'No bills found to copy from the previous month.');
-        } else {
-            $this->addFlash('success', 'Bills copied successfully from the previous month.');
+        try {
+            $this->transactionService->copyTransactionsFromPreviousMonth($currentBudget, self::BILL_CATEGORY_ID);
+            $this->addFlash('success', 'Expenses copied successfully from the previous month.');
+        } catch (NoPreviousBudgetException|NoPreviousTransactionsException $exception) {
+            $this->addFlash('warning', $exception->getMessage());
         }
-
 
         return $this->redirectToRoute('monthly_budget', [
             'year' => $year,
@@ -115,17 +118,15 @@ final class BudgetController extends AbstractController
     #[Route('/budget/{year}/{month}/copy-expenses', name: 'copy_previous_month_expenses')]
     public function copyPreviousMonthExpenses(int $year, int $month): Response
     {
+        /** @var User $user */
         $user = $this->getUser();
-        if (!$user instanceof User) {
-            throw $this->createNotFoundException('User not found');
-        }
-
         $currentBudget = $this->budgetService->getBudgetByUser($user, $year, $month);
-        $response = $this->transactionService->copyTransactionsFromPreviousMonth($currentBudget, self::EXPENSE_CATEGORY_ID);
-        if (!$response) {
-            $this->addFlash('warning', 'No expenses found to copy from the previous month.');
-        } else {
+
+        try {
+            $this->transactionService->copyTransactionsFromPreviousMonth($currentBudget, self::EXPENSE_CATEGORY_ID);
             $this->addFlash('success', 'Expenses copied successfully from the previous month.');
+        } catch (NoPreviousBudgetException|NoPreviousTransactionsException $exception) {
+            $this->addFlash('warning', $exception->getMessage());
         }
 
         return $this->redirectToRoute('monthly_budget', [

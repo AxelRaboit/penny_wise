@@ -4,12 +4,15 @@ namespace App\Service;
 
 use App\Entity\Budget;
 use App\Entity\Transaction;
+use App\Exception\NoPreviousBudgetException;
+use App\Exception\NoPreviousTransactionsException;
 use App\Manager\TransactionManager;
 use App\Repository\TransactionRepository;
 use App\Util\BudgetHelper;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
+use InvalidArgumentException;
 
 final readonly class TransactionService
 {
@@ -28,17 +31,24 @@ final readonly class TransactionService
      *
      * @param Budget $currentBudget The current budget to which transactions will be copied.
      * @param int $transactionCategoryId The ID of the transaction category to copy.
-     * @return bool Returns true if transactions were copied, false if there were no transactions to copy.
+     * @throws NoPreviousBudgetException
+     * @throws NoPreviousTransactionsException
      * @throws Exception
      */
-    public function copyTransactionsFromPreviousMonth(Budget $currentBudget, int $transactionCategoryId): bool
+    public function copyTransactionsFromPreviousMonth(?Budget $currentBudget, int $transactionCategoryId): void
     {
+        if (!$currentBudget instanceof Budget) {
+            throw new InvalidArgumentException();
+        }
         $previousMonthData = $this->budgetHelper->getPreviousMonthAndYear($currentBudget->getYear(), $currentBudget->getMonth());
         $previousBudget = $this->budgetService->getBudgetByUser($currentBudget->getIndividual(), $previousMonthData['year'], $previousMonthData['month']);
-        $previousTransactions = $this->transactionRepository->findTransactionsByBudgetAndCategory($previousBudget, $transactionCategoryId);
+        if (!$previousBudget instanceof Budget) {
+            throw new NoPreviousBudgetException();
+        }
 
+        $previousTransactions = $this->transactionRepository->findTransactionsByBudgetAndCategory($previousBudget, $transactionCategoryId);
         if ($previousTransactions === []) {
-            return false;
+            throw new NoPreviousTransactionsException();
         }
 
         foreach ($previousTransactions as $transaction) {
@@ -54,7 +64,5 @@ final readonly class TransactionService
         }
 
         $this->entityManager->flush();
-
-        return true;
     }
 }
