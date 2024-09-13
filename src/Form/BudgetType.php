@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use Override;
 use App\Entity\Budget;
 use App\Enum\MonthEnum;
 use Symfony\Component\Form\AbstractType;
@@ -15,6 +16,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class BudgetType extends AbstractType
 {
+    #[Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -23,7 +25,7 @@ class BudgetType extends AbstractType
             ])
             ->add('month', ChoiceType::class, [
                 'choices' => array_combine(
-                    array_map(fn(MonthEnum $month) => $month->getName(), MonthEnum::all()),
+                    array_map(fn(MonthEnum $month): string => $month->getName(), MonthEnum::all()),
                     MonthEnum::all()
                 ),
                 'placeholder' => 'Choose a month',
@@ -44,6 +46,7 @@ class BudgetType extends AbstractType
         ;
     }
 
+    #[Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

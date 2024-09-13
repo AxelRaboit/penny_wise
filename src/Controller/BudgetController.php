@@ -21,8 +21,11 @@ use Symfony\Component\Routing\Attribute\Route;
 final class BudgetController extends AbstractController
 {
     private const string MONTHLY_BUDGET_TEMPLATE = 'budget/monthly.html.twig';
+
     private const string NEW_BUDGET_TEMPLATE = 'budget/new.html.twig';
+
     private const int BILL_CATEGORY_ID = 1;
+
     private const int EXPENSE_CATEGORY_ID = 2;
 
     public function __construct(

@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\DBAL\Types\Types;
+use LogicException;
 use App\Repository\TransactionCategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -13,7 +15,7 @@ class TransactionCategory
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
     #[ORM\SequenceGenerator(sequenceName: 'transaction_category_id_seq', allocationSize: 1, initialValue: 1)]
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
@@ -68,7 +70,7 @@ class TransactionCategory
     public function getLabel(): string
     {
         if ($this->name === null) {
-            throw new \LogicException('The name should not be null.');
+            throw new LogicException('The name should not be null.');
         }
 
         return ucfirst($this->name);

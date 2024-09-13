@@ -7,11 +7,14 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-final class RegistrationManager
+final readonly class RegistrationManager
 {
-    private const ROLE_USER = ['ROLE_USER'];
-    private const PASSWORD_FORM_FIELD = 'plainPassword';
-    public function __construct(private readonly UserPasswordHasherInterface $userPasswordHasher, private readonly EntityManagerInterface $entityManager){}
+    private const array ROLE_USER = ['ROLE_USER'];
+
+    private const string PASSWORD_FORM_FIELD = 'plainPassword';
+
+    public function __construct(private UserPasswordHasherInterface $userPasswordHasher, private EntityManagerInterface $entityManager){}
+
     public function onUserRegistered(FormInterface $form, User $user): void
     {
 

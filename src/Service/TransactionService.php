@@ -16,7 +16,6 @@ final readonly class TransactionService
     public function __construct(private TransactionManager $transactionManager, private EntityManagerInterface $entityManager, private BudgetService $budgetService, private TransactionRepository $transactionRepository, private BudgetHelper $budgetHelper){}
 
     /**
-     * @param Budget $budget
      * @return array<string, mixed> Returns an array of transactions with the type per categories
      */
     public function getAllTransactionInformationByUser(Budget $budget): array
@@ -38,7 +37,7 @@ final readonly class TransactionService
         $previousBudget = $this->budgetService->getBudgetByUser($currentBudget->getIndividual(), $previousMonthData['year'], $previousMonthData['month']);
         $previousTransactions = $this->transactionRepository->findTransactionsByBudgetAndCategory($previousBudget, $transactionCategoryId);
 
-        if (empty($previousTransactions)) {
+        if ($previousTransactions === []) {
             return false;
         }
 

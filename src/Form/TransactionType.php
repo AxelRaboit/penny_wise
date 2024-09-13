@@ -2,6 +2,8 @@
 
 namespace App\Form;
 
+use Override;
+use Doctrine\ORM\QueryBuilder;
 use App\Entity\Budget;
 use App\Entity\Transaction;
 use App\Entity\TransactionCategory;
@@ -16,6 +18,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TransactionType extends AbstractType
 {
+    #[Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -30,9 +33,7 @@ class TransactionType extends AbstractType
             ])
             ->add('transactionCategory', EntityType::class, [
                 'class' => TransactionCategory::class,
-                'query_builder' => function (TransactionCategoryRepository $repo) {
-                    return $repo->getAllExceptSavings();
-                },
+                'query_builder' => fn(TransactionCategoryRepository $repo): QueryBuilder => $repo->getAllExceptSavings(),
                 'choice_label' => 'getLabel',
                 'placeholder' => 'Choose a type',
             ])
@@ -47,6 +48,7 @@ class TransactionType extends AbstractType
         ;
     }
 
+    #[Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

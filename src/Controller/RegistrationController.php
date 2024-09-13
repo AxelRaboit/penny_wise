@@ -2,8 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
-use App\Form\RegistrationFormType;
 use App\Manager\RegistrationManager;
 use App\Service\RegistrationService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,6 +12,7 @@ use Symfony\Component\Routing\Attribute\Route;
 class RegistrationController extends AbstractController
 {
     public function __construct(private readonly RegistrationManager $registrationManager, private readonly  RegistrationService  $registrationService){}
+
     #[Route('/register', name: 'app_register')]
     public function register(Request $request): Response
     {

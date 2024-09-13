@@ -2,16 +2,17 @@
 
 namespace App\Entity\Trait;
 
+use Doctrine\DBAL\Types\Types;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use DateTimeInterface;
 
 trait TimestampableTrait
 {
-    #[ORM\Column(type: "datetime_immutable", nullable: true)]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private ?DateTimeInterface $createdAt = null;
 
-    #[ORM\Column(type: "datetime_immutable", nullable: true)]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private ?DateTimeInterface $updatedAt = null;
 
     #[ORM\PrePersist]

@@ -2,12 +2,20 @@
 
 namespace App\Enum;
 
-class TransactionTypeEnum
+use Stringable;
+use InvalidArgumentException;
+use Override;
+
+class TransactionTypeEnum implements Stringable
 {
     public const int INCOMES = 4;
+
     public const int EXPENSES = 2;
+
     public const int SAVINGS = 5;
+
     public const int BILLS = 1;
+
     public const int DEBTS = 3;
 
     /**
@@ -35,7 +43,7 @@ class TransactionTypeEnum
     public function __construct(private readonly int $value)
     {
         if (!isset(self::$valueToString[$value])) {
-            throw new \InvalidArgumentException("Invalid value '$value' for enum TransactionTypeEnum");
+            throw new InvalidArgumentException(sprintf('Invalid value \'%d\' for enum TransactionTypeEnum', $value));
         }
     }
 
@@ -74,6 +82,7 @@ class TransactionTypeEnum
         return self::$valueToString[$this->value];
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->getString();
@@ -82,8 +91,9 @@ class TransactionTypeEnum
     public static function fromString(string $value): self
     {
         if (!isset(self::$stringToValue[$value])) {
-            throw new \InvalidArgumentException("Invalid string '$value' for enum TransactionTypeEnum");
+            throw new InvalidArgumentException(sprintf('Invalid string \'%s\' for enum TransactionTypeEnum', $value));
         }
+
         return new self(self::$stringToValue[$value]);
     }
 

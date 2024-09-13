@@ -68,9 +68,7 @@ class BudgetRepository extends ServiceEntityRepository
             $yearsAndMonths[$year][] = new MonthDto($month, $monthEnum->getName());
         }
 
-        return array_map(static function (int $year, array $months): YearDto {
-            return new YearDto($year, $months);
-        }, array_keys($yearsAndMonths), $yearsAndMonths);
+        return array_map(static fn(int $year, array $months): YearDto => new YearDto($year, $months), array_keys($yearsAndMonths), $yearsAndMonths);
     }
 
     /**
@@ -114,11 +112,6 @@ class BudgetRepository extends ServiceEntityRepository
 
     /**
      * Retrieves the total spending for the current and previous n months.
-     *
-     * @param int $year
-     * @param int $month
-     * @param int $nMonths
-     * @return TotalSpendingFromNMonthsDto
      */
     public function getTotalSpendingForCurrentAndPreviousNthMonths(int $year, int $month, int $nMonths): TotalSpendingFromNMonthsDto
     {

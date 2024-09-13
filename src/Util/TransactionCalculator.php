@@ -7,15 +7,17 @@ use App\Entity\Transaction;
 final readonly class TransactionCalculator
 {
     private const string INCOMES_CATEGORY = 'incomes';
+
     private const string EXPENSES_CATEGORY = 'expenses';
+
     private const string BILLS_CATEGORY = 'bills';
+
     private const string DEBTS_CATEGORY = 'debts';
 
     private const string TRANSACTIONS = 'transactions';
 
     /**
      * @param array<Transaction> $transactions
-     * @return float
      */
     public function calculateTotalSpending(array $transactions): float
     {
@@ -36,17 +38,14 @@ final readonly class TransactionCalculator
 
     /**
      * @param array<Transaction> $transactions
-     * @return float
      */
     public function calculateTotalIncomes(array $transactions): float
     {
         return array_reduce(
             $this->flattenTransactions($transactions),
-            function (float $accumulator, Transaction $transaction): float {
-                return $transaction->getTransactionCategory()->getName() === self::INCOMES_CATEGORY
-                    ? $accumulator + (float) $transaction->getAmount() // Cast to float to avoid type issues
-                    : $accumulator;
-            },
+            fn(float $accumulator, Transaction $transaction): float => $transaction->getTransactionCategory()->getName() === self::INCOMES_CATEGORY
+                ? $accumulator + (float) $transaction->getAmount() // Cast to float to avoid type issues
+                : $accumulator,
             0.0
         );
     }
@@ -59,7 +58,7 @@ final readonly class TransactionCalculator
     {
         $flatTransactions = [];
 
-        if (!empty($transactions) && isset($transactions[0]) && $transactions[0] instanceof Transaction) {
+        if ($transactions !== [] && isset($transactions[0]) && $transactions[0] instanceof Transaction) {
             /** @var array<int, Transaction> $transactions */
             return $transactions;
         }

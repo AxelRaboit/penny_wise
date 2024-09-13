@@ -4,7 +4,6 @@ namespace App\Repository;
 
 use App\Entity\Budget;
 use App\Entity\Transaction;
-use App\Enum\TransactionTypeEnum;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -20,10 +19,6 @@ class TransactionRepository extends ServiceEntityRepository
 
     /**
      * Find transactions by budget and transaction category.
-     *
-     * @param Budget $budget
-     * @param int $transactionCategoryId
-     * @return array
      */
     public function findTransactionsByBudgetAndCategory(Budget $budget, int $transactionCategoryId): array
     {

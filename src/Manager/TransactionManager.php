@@ -7,14 +7,17 @@ use App\Entity\Transaction;
 use App\Enum\TransactionTypeEnum;
 use App\Repository\TransactionRepository;
 use App\Util\TransactionCalculator;
-use Doctrine\ORM\EntityManagerInterface;
 
 final readonly class TransactionManager
 {
     private const string EXPENSES_CATEGORY = 'expenses';
+
     private const string BILLS_CATEGORY = 'bills';
+
     private const string DEBTS_CATEGORY = 'debts';
+
     private const string INCOMES_CATEGORY = 'incomes';
+
     private const string TRANSACTIONS = 'transactions';
 
     public function __construct(private TransactionRepository $transactionRepository, private TransactionCalculator $transactionCalculator){}
@@ -22,7 +25,6 @@ final readonly class TransactionManager
     /**
      * Get all transactions by categories for a given budget
      *
-     * @param Budget $budget
      * @return array<string, array{type: string, transactions: Transaction[], total: float}>
      */
     public function getAllTransactionInformationByUser(Budget $budget): array
@@ -88,9 +90,7 @@ final readonly class TransactionManager
     /**
      * Calculate the remaining balance for a budget based on transactions
      *
-     * @param Budget $budget
      * @param array<string, array{type: string, transactions: Transaction[], total: float}> $transactions
-     * @return float
      */
     public function calculateRemainingBalance(Budget $budget, array $transactions): float
     {
@@ -104,7 +104,6 @@ final readonly class TransactionManager
      * Calculate the total incomes from structured transactions array
      *
      * @param array<string, array{type: string, transactions: Transaction[], total: float}> $transactions
-     * @return float
      */
     public function calculateTotalIncomes(array $transactions): float
     {
@@ -116,7 +115,6 @@ final readonly class TransactionManager
      * Calculate the total spending from structured transactions array
      *
      * @param array<string, array{type: string, transactions: Transaction[], total: float}> $transactions
-     * @return float
      */
     public function calculateTotalSpending(array $transactions): float
     {

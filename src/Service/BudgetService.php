@@ -25,7 +25,7 @@ final readonly class BudgetService
         $budget = $this->budgetRepository
             ->findOneBy(['individual' => $user, 'year' => $year, 'month' => $month]);
 
-        if (!$budget) {
+        if ($budget === null) {
             $message = `No budget found for user ${user}, year ${year} and month ${month}`;
             throw new Exception($message);
         }
@@ -35,7 +35,6 @@ final readonly class BudgetService
 
     /**
      * @param array<string, array<string, array<Transaction>>> $transactions
-     * @return Chart
      */
     public function createLeftToSpendChart(array $transactions): Chart
     {

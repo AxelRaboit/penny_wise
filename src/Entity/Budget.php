@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use DateTimeInterface;
+use LogicException;
 use App\Entity\Trait\TimestampableTrait;
 use App\Enum\MonthEnum;
 use App\Repository\BudgetRepository;
@@ -18,7 +20,7 @@ class Budget
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
     #[ORM\SequenceGenerator(sequenceName: 'budget_id_seq', allocationSize: 1, initialValue: 1)]
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'budgets')]
@@ -32,10 +34,10 @@ class Budget
     private ?int $month = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $startDate = null;
+    private ?DateTimeInterface $startDate = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $endDate = null;
+    private ?DateTimeInterface $endDate = null;
 
     #[ORM\Column(length: 255)]
     private ?string $currency = null;
@@ -105,24 +107,24 @@ class Budget
         return $this;
     }
 
-    public function getStartDate(): ?\DateTimeInterface
+    public function getStartDate(): ?DateTimeInterface
     {
         return $this->startDate;
     }
 
-    public function setStartDate(\DateTimeInterface $startDate): static
+    public function setStartDate(DateTimeInterface $startDate): static
     {
         $this->startDate = $startDate;
 
         return $this;
     }
 
-    public function getEndDate(): ?\DateTimeInterface
+    public function getEndDate(): ?DateTimeInterface
     {
         return $this->endDate;
     }
 
-    public function setEndDate(\DateTimeInterface $endDate): static
+    public function setEndDate(DateTimeInterface $endDate): static
     {
         $this->endDate = $endDate;
 
@@ -173,8 +175,8 @@ class Budget
 
     public function getMonthLabel(): string
     {
-        if ($this->startDate === null) {
-            throw new \LogicException('Month label should not be null.');
+        if (!$this->startDate instanceof DateTimeInterface) {
+            throw new LogicException('Month label should not be null.');
         }
 
         return $this->startDate->format('F');
@@ -212,11 +214,9 @@ class Budget
 
     public function removeNotification(Notification $notification): static
     {
-        if ($this->notifications->removeElement($notification)) {
-            // set the owning side to null (unless already changed)
-            if ($notification->getBudget() === $this) {
-                $notification->setBudget(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->notifications->removeElement($notification) && $notification->getBudget() === $this) {
+            $notification->setBudget(null);
         }
 
         return $this;

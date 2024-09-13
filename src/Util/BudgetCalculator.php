@@ -11,9 +11,7 @@ final readonly class BudgetCalculator
     public function __construct(private TransactionCalculator $transactionCalculator){}
 
     /**
-     * @param Budget $budget
      * @param array<Transaction> $transactions
-     * @return float
      */
     public function calculateRemainingBalance(Budget $budget, array $transactions): float
     {

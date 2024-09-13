@@ -19,7 +19,6 @@ enum MonthEnum: int
 
     /**
      * Get the name of the month.
-     * @return string
      */
     public function getName(): string
     {

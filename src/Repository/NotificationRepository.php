@@ -21,9 +21,7 @@ class NotificationRepository extends ServiceEntityRepository
     /**
      * Retrieves the last N notifications.
      *
-     * @param Budget $budget
      * @param int $nth Number of notifications to retrieve
-     *
      * @return Notification[] Returns an array of Notification objects
      */
     public function getLastNthNotificationsFromBudget(Budget $budget, int $nth): array

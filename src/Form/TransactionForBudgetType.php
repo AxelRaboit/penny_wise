@@ -2,6 +2,8 @@
 
 namespace App\Form;
 
+use Override;
+use Doctrine\ORM\QueryBuilder;
 use App\Entity\Transaction;
 use App\Entity\TransactionCategory;
 use App\EventListener\TransactionForBudgetListener;
@@ -19,6 +21,7 @@ final class TransactionForBudgetType extends AbstractType
 {
     public function __construct(private readonly TransactionForBudgetListener $transactionForBudgetListener){}
 
+    #[Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $budget = $builder->getOption('budget');
@@ -32,9 +35,7 @@ final class TransactionForBudgetType extends AbstractType
             ])
             ->add('transactionCategory', EntityType::class, [
                 'class' => TransactionCategory::class,
-                'query_builder' => function (TransactionCategoryRepository $repo) {
-                    return $repo->getAllExceptSavings();
-                },
+                'query_builder' => fn(TransactionCategoryRepository $repo): QueryBuilder => $repo->getAllExceptSavings(),
                 'choice_label' => 'getLabel',
                 'placeholder' => 'Choose a type',
             ])
@@ -50,6 +51,7 @@ final class TransactionForBudgetType extends AbstractType
             });
     }
 
+    #[Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

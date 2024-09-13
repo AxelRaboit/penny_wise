@@ -2,6 +2,7 @@
 
 namespace App\Twig;
 
+use Override;
 use App\Enum\MonthEnum;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
@@ -9,6 +10,7 @@ use ValueError;
 
 class AppExtension extends AbstractExtension
 {
+    #[Override]
     public function getFilters(): array
     {
         return [
@@ -21,7 +23,7 @@ class AppExtension extends AbstractExtension
         try {
             $monthEnum = MonthEnum::from($monthNumber);
             return $monthEnum->getName();
-        } catch (ValueError $e) {
+        } catch (ValueError) {
             return "Invalid month number: " . $valueError->getMessage();
         }
     }

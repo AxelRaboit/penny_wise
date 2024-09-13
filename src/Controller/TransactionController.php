@@ -48,7 +48,7 @@ class TransactionController extends AbstractController
         $budget = $this->budgetRepository
             ->findOneBy(['year' => $year, 'month' => $month]);
 
-        if (!$budget) {
+        if ($budget === null) {
             throw $this->createNotFoundException('Budget not found for the specified year and month.');
         }
 
@@ -81,7 +81,7 @@ class TransactionController extends AbstractController
     public function delete(int $year, int $month, int $id): RedirectResponse
     {
         $transaction = $this->transactionRepository->find($id);
-        if (!$transaction) {
+        if ($transaction === null) {
             throw $this->createNotFoundException('Transaction not found.');
         }
 

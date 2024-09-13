@@ -13,10 +13,15 @@ use Symfony\Component\Security\Core\User\UserInterface;
 final readonly class RedirectAuthenticatedUserListener
 {
     private const string LOGIN_ROUTE = 'app_login';
+
     private const string HOMEPAGE_ROUTE = 'app_homepage';
+
     private const string REGISTER_ROUTE = 'app_register';
+
     private const string ROUTE = '_route';
+
     private const string WDT_ROUTE = '_wdt';
+
     private const string PROFILER_ROUTE = '_profiler';
 
     public function __construct(private Security $security, private RouterInterface $router){}

@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Override;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -77,6 +78,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      *
      * @see UserInterface
      */
+    #[Override]
     public function getUserIdentifier(): string
     {
         return (string) $this->email;
@@ -87,6 +89,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      *
      * @return list<string>
      */
+    #[Override]
     public function getRoles(): array
     {
         $roles = $this->roles;
@@ -109,6 +112,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @see PasswordAuthenticatedUserInterface
      */
+    #[Override]
     public function getPassword(): string
     {
         return $this->password;
@@ -124,6 +128,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @see UserInterface
      */
+    #[Override]
     public function eraseCredentials(): void
     {
         // If you store any temporary, sensitive data on the user, clear it here
@@ -150,11 +155,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function removeBudget(Budget $budget): static
     {
-        if ($this->budgets->removeElement($budget)) {
-            // set the owning side to null (unless already changed)
-            if ($budget->getIndividual() === $this) {
-                $budget->setIndividual(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->budgets->removeElement($budget) && $budget->getIndividual() === $this) {
+            $budget->setIndividual(null);
         }
 
         return $this;
@@ -180,11 +183,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function removeLink(Link $link): static
     {
-        if ($this->links->removeElement($link)) {
-            // set the owning side to null (unless already changed)
-            if ($link->getIndividual() === $this) {
-                $link->setIndividual(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->links->removeElement($link) && $link->getIndividual() === $this) {
+            $link->setIndividual(null);
         }
 
         return $this;
