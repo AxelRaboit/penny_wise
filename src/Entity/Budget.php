@@ -54,15 +54,15 @@ class Budget
     private string|float|null $remainingBalance = 0.0;
 
     /**
-     * @var Collection<int, Notification>
+     * @var Collection<int, Note>
      */
-    #[ORM\OneToMany(targetEntity: Notification::class, mappedBy: 'budget')]
-    private Collection $notifications;
+    #[ORM\OneToMany(targetEntity: Note::class, mappedBy: 'budget')]
+    private Collection $notes;
 
     public function __construct()
     {
         $this->transactions = new ArrayCollection();
-        $this->notifications = new ArrayCollection();
+        $this->notes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -190,28 +190,28 @@ class Budget
     }
 
     /**
-     * @return Collection<int, Notification>
+     * @return Collection<int, Note>
      */
-    public function getNotifications(): Collection
+    public function getNotes(): Collection
     {
-        return $this->notifications;
+        return $this->notes;
     }
 
-    public function addNotification(Notification $notification): static
+    public function addNote(Note $note): static
     {
-        if (!$this->notifications->contains($notification)) {
-            $this->notifications->add($notification);
-            $notification->setBudget($this);
+        if (!$this->notes->contains($note)) {
+            $this->notes->add($note);
+            $note->setBudget($this);
         }
 
         return $this;
     }
 
-    public function removeNotification(Notification $notification): static
+    public function removeNote(Note $note): static
     {
         // set the owning side to null (unless already changed)
-        if ($this->notifications->removeElement($notification) && $notification->getBudget() === $this) {
-            $notification->setBudget(null);
+        if ($this->notes->removeElement($note) && $note->getBudget() === $this) {
+            $note->setBudget(null);
         }
 
         return $this;

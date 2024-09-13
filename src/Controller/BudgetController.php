@@ -10,7 +10,7 @@ use App\Exception\NoPreviousTransactionsException;
 use App\Form\BudgetType;
 use App\Repository\BudgetRepository;
 use App\Repository\LinkRepository;
-use App\Repository\NotificationRepository;
+use App\Repository\NoteRepository;
 use App\Service\BudgetService;
 use App\Service\TransactionService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -36,8 +36,8 @@ final class BudgetController extends AbstractController
         private readonly BudgetService          $budgetService,
         private readonly EntityManagerInterface $entityManager,
         private readonly BudgetRepository       $budgetRepository,
-        private readonly NotificationRepository $notificationRepository,
-        private readonly LinkRepository          $linkRepository,
+        private readonly NoteRepository         $noteRepository,
+        private readonly LinkRepository         $linkRepository,
     ){}
 
     /**
@@ -59,7 +59,7 @@ final class BudgetController extends AbstractController
 
         $transactions = $this->transactionService->getAllTransactionInformationByUser($budget);
         $yearWithMonths = $this->budgetRepository->getYearWithMonths($year);
-        $lastNthNotificationsFromBudget = $this->notificationRepository->getNotificationsFromBudget($budget);
+        $notesFromBudget = $this->noteRepository->getNotesFromBudget($budget);
         /** @var array<string, array<string, array<Transaction>>> $transactions */
         $leftToSpendChart = $this->budgetService->createLeftToSpendChart($transactions);
         $totalSpendingForCurrentAndPreviousNthMonthsChart = $this->budgetService->createTotalSpendingForCurrentAndPreviousNthMonthsChart($year, $month, 3);
@@ -72,7 +72,7 @@ final class BudgetController extends AbstractController
             'totalSpendingForCurrentAndPreviousNthMonthsChart' => $totalSpendingForCurrentAndPreviousNthMonthsChart,
             'totalSpendingYearsChart' => $totalSpendingYearsChart,
             'budget' => $budget,
-            'lastNthNotificationsFromBudget' => $lastNthNotificationsFromBudget,
+            'notesFromBudget' => $notesFromBudget,
             'yearWithMonths' => $yearWithMonths,
             'transactionCategories' => $transactions['transactionCategories'],
             'totalIncomesAndStartingBalance' => $transactions['totalIncomesAndStartingBalance'],
