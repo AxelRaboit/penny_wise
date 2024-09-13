@@ -74,10 +74,12 @@ final readonly class TransactionManager
         $totalDebts = $groupedTransactions[self::DEBTS_CATEGORY]['total'];
 
         $totalSpending = $totalExpenses + $totalBills + $totalDebts;
+        $totalIncomesAndStartingBalance = $totalIncomes + $budget->getStartBalance();
         $totalRemaining = $this->calculateRemainingBalance($budget, $groupedTransactions);
 
         return [
             'transactionCategories' => $transactionCategories,
+            'totalIncomesAndStartingBalance' => $totalIncomesAndStartingBalance,
             'totalIncomes' => $totalIncomes,
             'totalBills' => $totalBills,
             'totalExpenses' => $totalExpenses,

@@ -28,7 +28,7 @@ final readonly class TransactionCalculator
                 $category = $transaction->getTransactionCategory()->getName();
 
                 if (in_array($category, [self::EXPENSES_CATEGORY, self::BILLS_CATEGORY, self::DEBTS_CATEGORY], true)) {
-                    $totalSpending += (float) $transaction->getAmount(); // Cast to float to ensure the correct type
+                    $totalSpending += (float) $transaction->getAmount();
                 }
             }
         }
@@ -44,7 +44,7 @@ final readonly class TransactionCalculator
         return array_reduce(
             $this->flattenTransactions($transactions),
             fn(float $accumulator, Transaction $transaction): float => $transaction->getTransactionCategory()->getName() === self::INCOMES_CATEGORY
-                ? $accumulator + (float) $transaction->getAmount() // Cast to float to avoid type issues
+                ? $accumulator + (float) $transaction->getAmount()
                 : $accumulator,
             0.0
         );
@@ -73,7 +73,5 @@ final readonly class TransactionCalculator
 
         return $flatTransactions;
     }
-
-
 }
 

@@ -68,6 +68,7 @@ final class BudgetController extends AbstractController
             'lastNthNotificationsFromBudget' => $lastNthNotificationsFromBudget,
             'yearWithMonths' => $yearWithMonths,
             'transactionCategories' => $transactions['transactionCategories'],
+            'totalIncomesAndStartingBalance' => $transactions['totalIncomesAndStartingBalance'],
             'totalIncomes' => $transactions['totalIncomes'],
             'totalBills' => $transactions['totalBills'],
             'totalExpenses' => $transactions['totalExpenses'],
