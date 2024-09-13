@@ -37,4 +37,22 @@ class NotificationRepository extends ServiceEntityRepository
 
         return $notifications;
     }
+
+    /**
+     * Retrieves notifications associated with a specific budget.
+     *
+     * @return Notification[] Returns an array of Notification objects
+     */
+    public function getNotificationsFromBudget(Budget $budget): array
+    {
+        /** @var Notification[] $notifications */
+        $notifications = $this->createQueryBuilder('n')
+            ->where('n.budget = :budget')
+            ->setParameter('budget', $budget)
+            ->orderBy('n.id', Order::Descending->value)
+            ->getQuery()
+            ->getResult();
+
+        return $notifications;
+    }
 }

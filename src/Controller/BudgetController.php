@@ -52,7 +52,7 @@ final class BudgetController extends AbstractController
         $budget = $this->budgetService->getBudgetByUser($user, $year, $month);
         $transactions = $this->transactionService->getAllTransactionInformationByUser($budget);
         $yearWithMonths = $this->budgetRepository->getYearWithMonths($year);
-        $lastNthNotificationsFromBudget = $this->notificationRepository->getLastNthNotificationsFromBudget($budget, 5);
+        $lastNthNotificationsFromBudget = $this->notificationRepository->getNotificationsFromBudget($budget);
         /** @var array<string, array<string, array<Transaction>>> $transactions */
         $leftToSpendChart = $this->budgetService->createLeftToSpendChart($transactions);
         $totalSpendingForCurrentAndPreviousNthMonthsChart = $this->budgetService->createTotalSpendingForCurrentAndPreviousNthMonthsChart($year, $month, 3);
