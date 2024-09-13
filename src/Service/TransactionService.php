@@ -40,6 +40,7 @@ final readonly class TransactionService
         if (!$currentBudget instanceof Budget) {
             throw new InvalidArgumentException();
         }
+
         $previousMonthData = $this->budgetHelper->getPreviousMonthAndYear($currentBudget->getYear(), $currentBudget->getMonth());
         $previousBudget = $this->budgetService->getBudgetByUser($currentBudget->getIndividual(), $previousMonthData['year'], $previousMonthData['month']);
         if (!$previousBudget instanceof Budget) {
