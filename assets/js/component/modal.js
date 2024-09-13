@@ -1,24 +1,42 @@
-export function showModal(content) {
-    const app = document.getElementById('app');
+const openModal = (modal) => {
+    modal.classList.remove('hidden');
+};
 
-    const modal = document.createElement('div');
-    modal.classList.add('fixed', 'inset-0', 'z-50', 'flex', 'items-center', 'justify-center');
-    modal.id = 'modal';
-    modal.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
-    app.appendChild(modal);
+const closeModal = (modal) => {
+    modal.classList.add('hidden');
+};
 
-    const modalContent = document.createElement('div');
-    modalContent.classList.add('modal-content', 'relative', 'bg-white', 'rounded-lg', 'p-4', 'shadow-lg', 'flex', 'flex-col', 'items-center', 'justify-center');
-    modal.appendChild(modalContent);
+const attachModalEvents = function({modalSelector, triggerButtonSelector, confirmButtonSelector, cancelButtonSelector}) {
+    const modal = document.querySelector(modalSelector);
+    const confirmButton = modal.querySelector(confirmButtonSelector);
+    const cancelButton = modal.querySelector(cancelButtonSelector);
+    let actionUrl = '';
 
-    modalContent.innerHTML = content;
+    const handleConfirm = () => {
+        if (actionUrl) {
+            window.location.href = actionUrl;
+        }
+    };
 
-    const modalButton = document.createElement('button');
-    modalButton.classList.add('absolute', 'top-0', 'right-0', 'cursor-pointer');
-    modalButton.innerHTML = '<i class="fa-solid fa-circle-xmark text-secondary p-1"></i>';
-    modalContent.appendChild(modalButton);
+    const handleCancel = () => {
+        closeModal(modal);
+    };
 
-    modalButton.addEventListener('click', () => {
-        modal.remove();
-    });
-}
+    const attachEventToTrigger = (triggerButton) => {
+        triggerButton.addEventListener('click', function () {
+            actionUrl = triggerButton.getAttribute('data-action-url');
+            openModal(modal);
+        });
+    };
+
+    const triggerButtons = document.querySelectorAll(triggerButtonSelector);
+    triggerButtons.forEach(attachEventToTrigger);
+
+    confirmButton.removeEventListener('click', handleConfirm);
+    confirmButton.addEventListener('click', handleConfirm);
+
+    cancelButton.removeEventListener('click', handleCancel);
+    cancelButton.addEventListener('click', handleCancel);
+};
+
+export { attachModalEvents };

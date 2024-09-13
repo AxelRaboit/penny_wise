@@ -12,15 +12,23 @@
  * The "importmap:require" command can be used to add new entries to this file.
  */
 return [
+    // App
     'app' => [
         'path' => './assets/app.js',
         'entrypoint' => true,
     ],
+    // Components
     'modal' => [
         'path' => './assets/js/component/modal.js',
+        'entrypoint' => true,
     ],
     'topbar' => [
         'path' => './assets/js/page/topbar.js',
+        'entrypoint' => true,
+    ],
+    // Partials
+    'transaction_tab' => [
+        'path' => './assets/js/partial/transaction_tab.js',
         'entrypoint' => true,
     ],
     '@hotwired/stimulus' => [
