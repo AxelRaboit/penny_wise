@@ -32,6 +32,7 @@ final class TransactionForBudgetType extends AbstractType
         $builder
             ->add('description', TextType::class, [
                 'attr' => ['placeholder' => 'Enter a description'],
+                'required' => true,
             ])
             ->add('amount', NumberType::class, [
                 'attr' => ['placeholder' => 'Enter an amount'],

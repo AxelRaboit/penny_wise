@@ -46,6 +46,7 @@ final class TransactionForBudgetListener
             'choices' => $days,
             'multiple' => false,
             'mapped' => false,
+            'required' => true,
         ]);
     }
 

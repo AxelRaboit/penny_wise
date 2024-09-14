@@ -16,21 +16,24 @@
                     <i class="fa-solid fa-house mr-1"></i>
                     Home
                 </a>
-                <a href="{{ path('app_logout') }}" class="text-center font-bold text-white p-2 cursor-pointer rounded">
-                    <i class="fa-solid fa-right-from-bracket mr-1"></i>
-                    Logout
-                </a>
-                <a href="{{ path('budget_new') }}" class="text-center font-bold text-white p-2 cursor-pointer rounded">
+                {#<a href="{{ path('budget_new') }}" class="text-center font-bold text-white p-2 cursor-pointer rounded">
                     <i class="fa-solid fa-plus mr-1"></i>
                     Budget
                 </a>
                 <a href="{{ path('transaction_new') }}" class="text-center font-bold text-white p-2 cursor-pointer rounded">
                     <i class="fa-solid fa-plus mr-1"></i>
                     Transaction
-                </a>
+                </a>#}
                 <a href="#" class="text-center font-bold text-white p-2 cursor-pointer rounded">
                     <i class="fa-solid fa-screwdriver-wrench mr-1"></i>
                     Admin panel
+                </a>
+                <a href="#" class="text-center font-bold text-white p-2 cursor-pointer rounded">
+                    <i class="fa-solid fa-user mr-1"></i>
+                    {{ app.user.email }}
+                </a>
+                <a href="{{ path('app_logout') }}" class="text-center font-bold text-white p-2 cursor-pointer rounded">
+                    <i class="fa-solid fa-right-from-bracket mr-1"></i>
                 </a>
             </div>
         {% endif %}
