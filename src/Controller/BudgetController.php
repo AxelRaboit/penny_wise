@@ -5,14 +5,18 @@ namespace App\Controller;
 use App\Entity\Budget;
 use App\Entity\Transaction;
 use App\Entity\User;
+use App\Enum\MonthEnum;
 use App\Exception\NoPreviousBudgetException;
 use App\Exception\NoPreviousTransactionsException;
 use App\Form\BudgetType;
+use App\Manager\BudgetManager;
 use App\Repository\BudgetRepository;
 use App\Repository\LinkRepository;
 use App\Repository\NoteRepository;
 use App\Service\BudgetService;
 use App\Service\TransactionService;
+use App\Util\BudgetHelper;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -37,6 +41,8 @@ final class BudgetController extends AbstractController
         private readonly BudgetRepository       $budgetRepository,
         private readonly NoteRepository         $noteRepository,
         private readonly LinkRepository         $linkRepository,
+        private readonly BudgetManager          $budgetManager,
+        private readonly BudgetHelper           $budgetHelper,
     ){}
 
     /**
@@ -159,4 +165,82 @@ final class BudgetController extends AbstractController
             'form' => $form,
         ]);
     }
+
+    #[Route('/budget/create-next/{year}/{month}', name: 'create_next_month_budget')]
+    public function createNextMonthBudget(int $year, int $month): Response
+    {
+        /** @var User $user */
+        $user = $this->getUser();
+        if (!$user instanceof User) {
+            throw $this->createNotFoundException('User not found');
+        }
+
+        try {
+            $nextMonth = $this->budgetHelper->getNextMonthAndYear($year, $month);
+            $nextYear = $nextMonth['year'];
+            $nextMonthEnum = MonthEnum::from($nextMonth['month']);
+
+            $existingBudget = $this->budgetService->getBudgetByUser($user, $nextYear, $nextMonthEnum->value);
+            if ($existingBudget !== null) {
+                $this->addFlash(
+                    'warning',
+                    sprintf('Budget already exists for %s %d.', $nextMonthEnum->getName(), $nextYear)
+                );
+                return $this->redirectToRoute('monthly_budget', [
+                    'year' => $nextYear,
+                    'month' => $nextMonthEnum->value
+                ]);
+            }
+
+            $this->budgetManager->createBudgetForMonth($user, $nextYear, $nextMonthEnum);
+
+            $this->addFlash('success', sprintf('Budget for %s %d created successfully.', $nextMonthEnum->getName(), $nextYear));
+
+        } catch (Exception $e) {
+            $this->addFlash('error', sprintf('An error occurred while creating the budget: %s', $e->getMessage()));
+
+            return $this->redirectToRoute('monthly_budget', ['year' => $year, 'month' => $month]);
+        }
+
+        return $this->redirectToRoute('monthly_budget', ['year' => $nextYear, 'month' => $nextMonthEnum->value]);
+    }
+
+    #[Route('/budget/create-previous/{year}/{month}', name: 'create_previous_month_budget')]
+    public function createPreviousMonthBudget(int $year, int $month): Response
+    {
+        /** @var User $user */
+        $user = $this->getUser();
+        if (!$user instanceof User) {
+            throw $this->createNotFoundException('User not found');
+        }
+
+        try {
+            $previousMonth = $this->budgetHelper->getPreviousMonthAndYear($year, $month);
+            $previousYear = $previousMonth['year'];
+            $previousMonthEnum = MonthEnum::from($previousMonth['month']);
+
+            $existingBudget = $this->budgetService->getBudgetByUser($user, $previousYear, $previousMonthEnum->value);
+            if ($existingBudget !== null) {
+                $this->addFlash(
+                    'warning',
+                    sprintf('Budget already exists for %s %d.', $previousMonthEnum->getName(), $previousYear)
+                );
+                return $this->redirectToRoute('monthly_budget', [
+                    'year' => $previousYear,
+                    'month' => $previousMonthEnum->value
+                ]);
+            }
+
+            $this->budgetManager->createBudgetForMonth($user, $previousYear, $previousMonthEnum);
+
+            $this->addFlash('success', sprintf('Budget for %s %d created successfully.', $previousMonthEnum->getName(), $previousYear));
+
+        } catch (Exception $e) {
+            $this->addFlash('error', sprintf('An error occurred while creating the budget: %s', $e->getMessage()));
+            return $this->redirectToRoute('monthly_budget', ['year' => $year, 'month' => $month]);
+        }
+
+        return $this->redirectToRoute('monthly_budget', ['year' => $previousYear, 'month' => $previousMonthEnum->value]);
+    }
+
 }

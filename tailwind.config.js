@@ -27,18 +27,18 @@ module.exports = {
           ring: '#ececf1'     // Light color for ring
         },
         success: {
-          DEFAULT: '#10b981', // green-500
-          hover: '#059669',   // green-600
+          DEFAULT: '#059669',   // green-600
+          hover: '#10b981', // green-500
           ring: '#10b981'     // green-500
         },
         danger: {
-          DEFAULT: '#dc2626', // red-600
-          hover: '#ef4444',   // red-500
+          DEFAULT: '#ef4444',   // red-500
+          hover: '#dc2626', // red-600
           ring: '#dc2626'     // red-600
         },
         warning: {
-          DEFAULT: '#f59e0b', // yellow-500
-          hover: '#d97706',   // yellow-600
+          DEFAULT: '#d97706',   // yellow-600
+          hover: '#f59e0b', // yellow-500
           ring: '#f59e0b'     // yellow-500
         }
       }

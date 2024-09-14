@@ -2,12 +2,10 @@
 
 namespace App\Util;
 
+use App\Enum\MonthEnum;
+
 class BudgetHelper
 {
-    private const int MONTH_JANUARY = 1;
-
-    private const int MONTH_DECEMBER = 12;
-
     /**
      * Returns the previous month and year given a specific month and year.
      *
@@ -15,10 +13,28 @@ class BudgetHelper
      */
     public static function getPreviousMonthAndYear(int $year, int $month): array
     {
-        if ($month === self::MONTH_JANUARY) {
-            return ['year' => $year - 1, 'month' => self::MONTH_DECEMBER];
+        $currentMonthEnum = MonthEnum::from($month);
+
+        if ($currentMonthEnum === MonthEnum::January) {
+            return ['year' => $year - 1, 'month' => MonthEnum::December->value];
         }
 
-        return ['year' => $year, 'month' => $month - 1];
+        return ['year' => $year, 'month' => $currentMonthEnum->value - 1];
+    }
+
+    /**
+     * Returns the next month and year given a specific month and year.
+     *
+     * @return array<string, int>
+     */
+    public static function getNextMonthAndYear(int $year, int $month): array
+    {
+        $currentMonthEnum = MonthEnum::from($month);
+
+        if ($currentMonthEnum === MonthEnum::December) {
+            return ['year' => $year + 1, 'month' => MonthEnum::January->value];
+        }
+
+        return ['year' => $year, 'month' => $currentMonthEnum->value + 1];
     }
 }

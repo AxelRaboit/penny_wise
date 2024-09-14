@@ -21,3 +21,25 @@ attachModalEvents({
     cancelButtonId: 'cancelCopyExpenses',
     cancelLabel: 'Cancel',
 });
+
+attachModalEvents({
+    modalId: 'createPreviousBudgetModal',
+    modalTitle: 'Create Previous Month\'s Budget',
+    modalMessage: 'Are you sure you want to create a budget for the previous month?',
+    triggerButtonSelector: '.js-create-previous-budget-button',
+    confirmButtonId: 'confirmCreatePreviousBudget',
+    confirmLabel: 'Create',
+    cancelButtonId: 'cancelCreatePreviousBudget',
+    cancelLabel: 'Cancel',
+});
+
+attachModalEvents({
+    modalId: 'createNextBudgetModal',
+    modalTitle: 'Create Next Month\'s Budget',
+    modalMessage: 'Are you sure you want to create a budget for the next month?',
+    triggerButtonSelector: '.js-create-next-budget-button',
+    confirmButtonId: 'confirmCreateNextBudget',
+    confirmLabel: 'Create',
+    cancelButtonId: 'cancelCreateNextBudget',
+    cancelLabel: 'Cancel',
+});
