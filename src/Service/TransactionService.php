@@ -14,7 +14,6 @@ use App\Repository\TransactionRepository;
 use App\Util\BudgetHelper;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
-use Exception;
 use InvalidArgumentException;
 
 final readonly class TransactionService
@@ -32,12 +31,8 @@ final readonly class TransactionService
     /**
      * Copy transactions from the previous month to the current month's budget.
      *
-     * @param Budget $currentBudget         the current budget to which transactions will be copied
-     * @param int    $transactionCategoryId the ID of the transaction category to copy
-     *
-     * @throws NoPreviousBudgetException
-     * @throws NoPreviousTransactionsException
-     * @throws Exception
+     * @param Budget|null $currentBudget         the current budget to which transactions will be copied
+     * @param int         $transactionCategoryId the ID of the transaction category to copy
      */
     public function copyTransactionsFromPreviousMonth(?Budget $currentBudget, int $transactionCategoryId): void
     {
@@ -75,13 +70,13 @@ final readonly class TransactionService
     {
         $previousMonthData = $this->budgetHelper->getPreviousMonthAndYear($currentBudget->getYear(), $currentBudget->getMonth());
         $previousBudget = $this->budgetService->getBudgetByUser($currentBudget->getIndividual(), $previousMonthData['year'], $previousMonthData['month']);
+
         if (!$previousBudget instanceof Budget) {
             throw new NoPreviousBudgetException();
         }
 
-        $transactions = $this->getAllTransactionInformationByUser($previousBudget);
-        /** @var float $totalLeftToSpend */
-        $totalLeftToSpend = $transactions['totalRemaining'];
+        $transactionInfoDto = $this->getAllTransactionInformationByUser($previousBudget);
+        $totalLeftToSpend = $transactionInfoDto->getTotalLeftToSpend();
 
         $this->transactionManager->copyTransactionsFromPreviousMonth($currentBudget, $totalLeftToSpend);
     }

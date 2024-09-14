@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\Budget;
-use App\Entity\Transaction;
 use App\Entity\User;
 use App\Enum\MonthEnum;
 use App\Exception\NoPreviousBudgetException;

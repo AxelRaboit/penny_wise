@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Dto;
 
 final readonly class TransactionInformationDto
@@ -18,6 +20,9 @@ final readonly class TransactionInformationDto
         private float $totalSpending
     ) {}
 
+    /**
+     * @return array<string, mixed>
+     */
     public function getTransactionCategories(): array
     {
         return $this->transactionCategories;

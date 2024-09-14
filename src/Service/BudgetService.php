@@ -6,7 +6,6 @@ namespace App\Service;
 
 use App\Dto\TransactionInformationDto;
 use App\Entity\Budget;
-use App\Entity\Transaction;
 use App\Entity\User;
 use App\Enum\MonthEnum;
 use App\Repository\BudgetRepository;
@@ -34,7 +33,8 @@ final readonly class BudgetService
     public function createLeftToSpendChart(TransactionInformationDto $transactions): Chart
     {
         $chart = $this->chartBuilder->createChart(Chart::TYPE_DOUGHNUT);
-        $totalSpending = $transactions->getTotalLeftToSpend() ?? $transactions->getTotalSpending() ?? self::DEFAULT_BALANCE;
+
+        $totalSpending = $transactions->getTotalLeftToSpend() > 0 ? $transactions->getTotalLeftToSpend() : $transactions->getTotalSpending();
         $isDataPresent = $totalSpending > self::DEFAULT_BALANCE;
 
         $chart->setData([
