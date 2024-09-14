@@ -6,7 +6,6 @@ namespace App\Service;
 
 use App\Entity\Budget;
 use App\Entity\Transaction;
-use App\Entity\User;
 use App\Exception\NoPreviousBudgetException;
 use App\Exception\NoPreviousTransactionsException;
 use App\Manager\TransactionManager;
@@ -80,6 +79,7 @@ final readonly class TransactionService
         }
 
         $transactions = $this->getAllTransactionInformationByUser($previousBudget);
+        /** @var float $totalLeftToSpend */
         $totalLeftToSpend = $transactions['totalRemaining'];
 
         $this->transactionManager->copyTransactionsFromPreviousMonth($currentBudget, $totalLeftToSpend);
