@@ -91,7 +91,7 @@ class BudgetRepository extends ServiceEntityRepository
      *
      * @return YearDto A data transfer object containing the specified year and an array of months
      */
-    public function getYearWithMonths(int $year): YearDto
+    public function getAllBudgetsAndTransactionsFromYear(int $year): YearDto
     {
         $qb = $this->createQueryBuilder('b')
             ->select('b.month')

@@ -65,7 +65,7 @@ final class BudgetController extends AbstractController
         }
 
         $transactions = $this->transactionService->getAllTransactionInformationByUser($budget);
-        $yearWithMonths = $this->budgetRepository->getYearWithMonths($year);
+        $budgetsAndTransactionsFromYear = $this->budgetRepository->getAllBudgetsAndTransactionsFromYear($year);
         $notesFromBudget = $this->noteRepository->getNotesFromBudget($budget);
         /** @var array<string, array<string, array<Transaction>>> $transactions */
         $leftToSpendChart = $this->budgetService->createLeftToSpendChart($transactions);
@@ -80,7 +80,7 @@ final class BudgetController extends AbstractController
             'totalSpendingYearsChart' => $totalSpendingYearsChart,
             'budget' => $budget,
             'notesFromBudget' => $notesFromBudget,
-            'yearWithMonths' => $yearWithMonths,
+            'budgetsAndTransactionsFromYear' => $budgetsAndTransactionsFromYear,
             'transactionCategories' => $transactions['transactionCategories'],
             'totalIncomesAndStartingBalance' => $transactions['totalIncomesAndStartingBalance'],
             'totalIncomes' => $transactions['totalIncomes'],

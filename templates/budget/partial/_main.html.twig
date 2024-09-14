@@ -3,21 +3,16 @@
         <div class="p-1 rounded mb-4">
             <div id="monthlyMonth">
                 <div class="text-center bg-secondary rounded-t">
-                    <h2 class="text-xl font-bold p-2 text-white">{{ budget.month|month_name }} {{ yearWithMonths.getYear() }}</h2>
+                    <h2 class="text-xl font-bold p-2 text-white">{{ budget.getMonth()|month_name }} {{ budget.getYear() }}</h2>
                 </div>
                 <div class="w-full bg-secondary rounded-b p-2 bg-white">
                     <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                        {% for month in yearWithMonths.getMonths() %}
-                            <a href="{{ path('monthly_budget', {year: yearWithMonths.getYear(), month: month.getMonthNumber()}) }}"
-                               class="text-sm text-center font-bold py-2 px-4 rounded
-                       {% if month.getMonthNumber() == currentMonth %}
-                           bg-primary text-white hover:bg-primary-hover
-                       {% else %}
-                           bg-secondary text-white hover:bg-secondary-hover
-                       {% endif %}">
-                                {{ month.getMonthName() }}
-                            </a>
-                        {% endfor %}
+                    {% for month in budgetsAndTransactionsFromYear.getMonths() %}
+                        <a href="{{ path('monthly_budget', {year: budget.getYear(), month: month.getMonthNumber()}) }}" class="text-sm text-center font-bold py-2 px-4 rounded
+                            {{ month.getMonthNumber() == currentMonth ? 'bg-primary text-white hover:bg-primary-hover' : 'bg-secondary text-white hover:bg-secondary-hover' }}">
+                            {{ month.getMonthName() }}
+                        </a>
+                    {% endfor %}
                     </div>
                 </div>
             </div>
@@ -113,7 +108,7 @@
                 <h2 class="rounded-t text-center font-bold p-2 bg-secondary text-white">
                     <span class="font-bold text-xl text-white">Spending limit</span>
                     {% if budget.spendingLimit is not null and totalSpending|number_format(2, '.', ' ') > budget.spendingLimit|number_format(2, '.', ' ') %}
-                        <span class="bg-danger text-white rounded p-1 ml-2">Exceeded</span>
+                        <span class="bg-danger text-white rounded p-1 ml-2">Exceeded (<span class="font-bold text-xl text-secondary text-white">{{ budget.currency|currency_symbol }}</span> {{ totalSpending|number_format(2, '.', ' ') - budget.spendingLimit|number_format(2, '.', ' ') }})</span>
                     {% endif %}
                 </h2>
                 <div class="flex flex-col md:flex-row bg-white">
@@ -150,7 +145,7 @@
                     <div class="w-full text-center border-l border-solid border-gray-300 p-2 bg-secondary"><span class="font-bold text-xl text-white">{{ budget.currency|currency_symbol }}</span><span class="text-white">{{ totalIncomesAndStartingBalance|number_format(2, '.', ' ') }}</span></div>
                 </div>
                 <div class="flex flex-col md:flex-row bg-white rounded-b">
-                    <div class="w-full text-center p-2 bg-primary"><span class="font-bold text-white">Total spending</span></div>
+                    <div class="w-full text-center p-2 {{ budget.spendingLimit is not null and totalSpending|number_format(2, '.', ' ') > budget.spendingLimit|number_format(2, '.', ' ') ? 'bg-danger' : 'bg-primary' }}"><span class="font-bold text-white">Total spending</span></div>
                     <div class="w-full text-center border-l border-solid border-gray-300 p-2 {{ budget.spendingLimit is not null and totalSpending|number_format(2, '.', ' ') > budget.spendingLimit|number_format(2, '.', ' ') ? 'bg-danger' : 'bg-primary' }}"><span class="font-bold text-xl text-white">{{ budget.currency|currency_symbol }}</span><span class="text-white">{{ totalSpending|number_format(2, '.', ' ') }}</span></div>
                 </div>
                 <div class="flex flex-col md:flex-row bg-white rounded-b">
