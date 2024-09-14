@@ -61,6 +61,9 @@ class Budget
     #[ORM\OneToMany(targetEntity: Note::class, mappedBy: 'budget')]
     private Collection $notes;
 
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
+    private ?string $spendingLimit;
+
     public function __construct()
     {
         $this->transactions = new ArrayCollection();
@@ -215,6 +218,18 @@ class Budget
         if ($this->notes->removeElement($note) && $note->getBudget() === $this) {
             $note->setBudget(null);
         }
+
+        return $this;
+    }
+
+    public function getSpendingLimit(): ?string
+    {
+        return $this->spendingLimit;
+    }
+
+    public function setSpendingLimit(?string $spendingLimit): static
+    {
+        $this->spendingLimit = $spendingLimit;
 
         return $this;
     }

@@ -45,6 +45,9 @@ class BudgetType extends AbstractType
             ->add('start_balance', NumberType::class, [
                 'attr' => ['placeholder' => 'Choose a start balance'],
             ])
+            ->add('spending_limit', NumberType::class, [
+                'attr' => ['placeholder' => 'Choose a spending limit'],
+            ])
         ;
     }
 

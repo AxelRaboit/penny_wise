@@ -3,7 +3,7 @@
         <div class="p-1 rounded mb-4">
             <div id="monthlyMonth">
                 <div class="text-center bg-secondary rounded-t">
-                    <h2 class="text-2xl font-bold p-2 text-white">{{ budget.month|month_name }} {{ yearWithMonths.getYear() }}</h2>
+                    <h2 class="text-xl font-bold p-2 text-white">{{ budget.month|month_name }} {{ yearWithMonths.getYear() }}</h2>
                 </div>
                 <div class="w-full bg-secondary rounded-b p-2 bg-white">
                     <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
@@ -26,7 +26,7 @@
         <div class="p-1 rounded mb-4">
             <div>
                 <div class="text-center bg-secondary rounded-t">
-                    <h2 class="text-2xl font-bold p-2 text-white">Actions</h2>
+                    <h2 class="text-xl font-bold p-2 text-white">Actions</h2>
                 </div>
 
                 <div class="w-full bg-secondary rounded-b p-2 bg-white">
@@ -88,7 +88,7 @@
     <div>
         <div class="p-1 rounded mb-4">
             <div id="monthlyOverview">
-                <h2 class="rounded-t text-center text-2xl font-bold p-2 bg-secondary text-white">Overview</h2>
+                <h2 class="rounded-t text-center text-xl font-bold p-2 bg-secondary text-white">Overview</h2>
                 <div class="flex flex-col md:flex-row bg-white">
                     <div class="w-full text-center border border-solid border-gray-300 p-2"><span class="font-bold">Currency</span></div>
                     <div class="w-full text-center border border-solid border-gray-300 p-2"><span>{{ budget.currency|currency_symbol }}</span></div>
@@ -108,9 +108,23 @@
             </div>
         </div>
 
+        <div class="p-1 rounded mb-4">
+            <div id="monthlyOverview">
+                <h2 class="rounded-t text-center font-bold p-2 bg-secondary text-white">
+                    <span class="font-bold text-xl text-white">Spending limit</span>
+                    {% if budget.spendingLimit is not null and totalSpending|number_format(2, '.', ' ') > budget.spendingLimit|number_format(2, '.', ' ') %}
+                        <span class="bg-danger text-white rounded p-1 ml-2">Exceeded</span>
+                    {% endif %}
+                </h2>
+                <div class="flex flex-col md:flex-row bg-white">
+                    <div class="w-full text-center border border-solid border-gray-300 p-2"><span class="font-bold text-xl text-secondary">{{ budget.currency|currency_symbol }}</span><span class="font-bold">{{ budget.spendingLimit|number_format(2, '.', ' ') }}</span></div>
+                </div>
+            </div>
+        </div>
+
         <div class="p-1 rounded">
             <div id="monthlyOverview">
-                <h2 class="rounded-t text-center text-2xl font-bold p-2 bg-secondary text-white">Cash Flow</h2>
+                <h2 class="rounded-t text-center text-xl font-bold p-2 bg-secondary text-white">Cash Flow</h2>
                 <div class="flex flex-col md:flex-row bg-white">
                     <div class="w-full text-center border border-solid border-gray-300 p-2"><span class="font-bold">Start Balance</span></div>
                     <div class="w-full text-center border border-solid border-gray-300 p-2"><span class="font-bold text-secondary mr-1">+</span><span>{{ budget.startBalance|number_format(2, '.', ' ') }}</span></div>
@@ -133,20 +147,16 @@
                 </div>
                 <div class="flex flex-col md:flex-row bg-white rounded-b">
                     <div class="w-full text-center p-2 bg-secondary"><span class="font-bold text-white">Total incomes</span></div>
-                    <div class="w-full text-center border border-solid border-gray-300 p-2 bg-success"><span class="font-bold text-xl text-secondary">{{ budget.currency|currency_symbol }}</span> <span>{{ totalIncomesAndStartingBalance|number_format(2, '.', ' ') }}</span></div>
+                    <div class="w-full text-center border-l border-solid border-gray-300 p-2 bg-secondary"><span class="font-bold text-xl text-white">{{ budget.currency|currency_symbol }}</span><span class="text-white">{{ totalIncomesAndStartingBalance|number_format(2, '.', ' ') }}</span></div>
                 </div>
                 <div class="flex flex-col md:flex-row bg-white rounded-b">
-                    <div class="w-full text-center p-2 bg-secondary"><span class="font-bold text-white">Total spending</span></div>
-                    <div class="w-full text-center border border-solid border-gray-300 p-2 bg-danger"><span class="font-bold text-xl text-secondary">{{ budget.currency|currency_symbol }}</span> <span>{{ totalSpending|number_format(2, '.', ' ') }}</span></div>
+                    <div class="w-full text-center p-2 bg-primary"><span class="font-bold text-white">Total spending</span></div>
+                    <div class="w-full text-center border-l border-solid border-gray-300 p-2 {{ budget.spendingLimit is not null and totalSpending|number_format(2, '.', ' ') > budget.spendingLimit|number_format(2, '.', ' ') ? 'bg-danger' : 'bg-primary' }}"><span class="font-bold text-xl text-white">{{ budget.currency|currency_symbol }}</span><span class="text-white">{{ totalSpending|number_format(2, '.', ' ') }}</span></div>
                 </div>
                 <div class="flex flex-col md:flex-row bg-white rounded-b">
-                    <div class="rounded-bl w-full text-center p-2 bg-primary"><span class="font-bold text-white">Left</span></div>
-                    <div class="rounded-br w-full text-center border border-solid border-gray-300 p-2 bg-warning"><span class="font-bold text-xl text-secondary">{{ budget.currency|currency_symbol }}</span>
-                        {% if totalRemaining < 0 %}
-                            <span class="bg-danger text-white rounded p-1">{{ totalRemaining|number_format(2, '.', ' ') }}</span>
-                        {% else %}
-                            <span>{{ totalRemaining|number_format(2, '.', ' ') }}</span>
-                        {% endif %}
+                    <div class="rounded-bl w-full text-center p-2 {{ totalRemaining < 0 ? 'bg-danger' : 'bg-success' }}"><span class="font-bold text-white">Left</span></div>
+                    <div class="rounded-br w-full text-center p-2 border-l border-solid border-gray-300 {{ totalRemaining < 0 ? 'bg-danger' : 'bg-success' }}"><span class="font-bold text-xl text-white">{{ budget.currency|currency_symbol }}</span>
+                        <span class="text-white">{{ totalRemaining|number_format(2, '.', ' ') }}</span>
                     </div>
                 </div>
             </div>
@@ -157,7 +167,7 @@
         <div class="p-1 rounded mb-4">
             <div>
                 <div class="text-center bg-secondary rounded-t">
-                    <h2 class="text-2xl font-bold p-2 text-white">Links</h2>
+                    <h2 class="text-xl font-bold p-2 text-white">Links</h2>
                 </div>
 
                 <div class="w-full bg-secondary rounded-b p-2 bg-white">
@@ -179,7 +189,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div class="p-1 rounded">
                 <div class="text-center bg-secondary p-2 rounded-t">
-                    <h2 class="text-2xl font-bold text-white">Total monthly spending</h2>
+                    <h2 class="text-xl font-bold text-white">Total monthly spending</h2>
                 </div>
                 <div class="pb-4 bg-white rounded-b">
                     {{ render_chart(totalSpendingForCurrentAndPreviousNthMonthsChart) }}
@@ -187,7 +197,7 @@
             </div>
             <div class="p-1 rounded">
                 <div class="text-center bg-secondary p-2 rounded-t">
-                    <h2 class="text-2xl font-bold text-white">Total yearly spending</h2>
+                    <h2 class="text-xl font-bold text-white">Total yearly spending</h2>
                 </div>
                 <div class="pb-4 bg-white rounded-b">
                     {{ render_chart(totalSpendingYearsChart) }}
@@ -195,7 +205,7 @@
             </div>
             <div class="p-1 rounded">
                 <div class="text-center bg-secondary p-2 rounded-t">
-                    <h2 class="text-2xl font-bold text-white">Left to spend</h2>
+                    <h2 class="text-xl font-bold text-white">Left to spend</h2>
                 </div>
                 <div class="pb-4 bg-white rounded-b">
                     {% if leftToSpendChart.data.isDataPresent is same as true %}
