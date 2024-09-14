@@ -1,6 +1,7 @@
 PHP = php
 BIN = bin/console
 BIN_UNIT = bin/phpunit
+
 SYMFONY = symfony
 SYMFONY_CONSOLE = $(SYMFONY) console
 VENDOR_BIN_STAN = vendor/bin/phpstan
@@ -9,6 +10,8 @@ TAILWIND_INIT = $(BIN) tailwind:init
 TAILWIND_BUILD = $(BIN) tailwind:build
 TAILWIND_WATCH = $(TAILWIND_BUILD) --watch
 TWIG_COMPONENT = $(BIN) debug:twig-component
+
+CS_FIXER = tools/php-cs-fixer/vendor/bin/php-cs-fixer
 
 VENDOR_BIN_RECTOR = vendor/bin/rector
 
@@ -37,6 +40,9 @@ test:
 
 stan:
 	$(VENDOR_BIN_STAN) analyse src tests
+
+csfixer:
+	$(CS_FIXER) fix src
 
 rector:
 	$(VENDOR_BIN_RECTOR) process src
