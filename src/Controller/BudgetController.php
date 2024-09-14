@@ -16,7 +16,6 @@ use App\Repository\NoteRepository;
 use App\Service\BudgetService;
 use App\Service\TransactionService;
 use App\Util\BudgetHelper;
-use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -181,7 +180,7 @@ final class BudgetController extends AbstractController
             $nextMonthEnum = MonthEnum::from($nextMonth['month']);
 
             $existingBudget = $this->budgetService->getBudgetByUser($user, $nextYear, $nextMonthEnum->value);
-            if ($existingBudget !== null) {
+            if ($existingBudget instanceof Budget) {
                 $this->addFlash(
                     'warning',
                     sprintf('Budget already exists for %s %d.', $nextMonthEnum->getName(), $nextYear)
@@ -196,8 +195,8 @@ final class BudgetController extends AbstractController
 
             $this->addFlash('success', sprintf('Budget for %s %d created successfully.', $nextMonthEnum->getName(), $nextYear));
 
-        } catch (Exception $e) {
-            $this->addFlash('error', sprintf('An error occurred while creating the budget: %s', $e->getMessage()));
+        } catch (Exception $exception) {
+            $this->addFlash('error', sprintf('An error occurred while creating the budget: %s', $exception->getMessage()));
 
             return $this->redirectToRoute('monthly_budget', ['year' => $year, 'month' => $month]);
         }
@@ -220,7 +219,7 @@ final class BudgetController extends AbstractController
             $previousMonthEnum = MonthEnum::from($previousMonth['month']);
 
             $existingBudget = $this->budgetService->getBudgetByUser($user, $previousYear, $previousMonthEnum->value);
-            if ($existingBudget !== null) {
+            if ($existingBudget instanceof Budget) {
                 $this->addFlash(
                     'warning',
                     sprintf('Budget already exists for %s %d.', $previousMonthEnum->getName(), $previousYear)
@@ -235,8 +234,8 @@ final class BudgetController extends AbstractController
 
             $this->addFlash('success', sprintf('Budget for %s %d created successfully.', $previousMonthEnum->getName(), $previousYear));
 
-        } catch (Exception $e) {
-            $this->addFlash('error', sprintf('An error occurred while creating the budget: %s', $e->getMessage()));
+        } catch (Exception $exception) {
+            $this->addFlash('error', sprintf('An error occurred while creating the budget: %s', $exception->getMessage()));
             return $this->redirectToRoute('monthly_budget', ['year' => $year, 'month' => $month]);
         }
 

@@ -12,7 +12,9 @@ use Exception;
 final readonly class BudgetManager
 {
     private const string EURO_CURRENCY = 'EUR';
+
     private const float START_BALANCE = 0.0;
+
     private const string LAST_DAY_OF_THIS_MONTH = 'last day of this month';
 
     public function __construct(private EntityManagerInterface $entityManager) {}
