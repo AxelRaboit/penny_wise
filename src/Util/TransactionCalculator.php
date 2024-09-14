@@ -53,27 +53,34 @@ final readonly class TransactionCalculator
     }
 
     /**
-     * @param array<int, Transaction|array{type: string, transactions: array<Transaction>, total: float}> $transactions
+     * Flatten an array of transactions or transaction categories into a single array of Transaction objects.
      *
-     * @return array<Transaction>
+     * @param array<int, mixed> $transactions an array of transactions or transaction categories
+     *
+     * @return array<int, Transaction> a flattened array of Transaction objects
      */
     private function flattenTransactions(array $transactions): array
     {
         $flatTransactions = [];
 
         if ([] !== $transactions && isset($transactions[0]) && $transactions[0] instanceof Transaction) {
-            /* @var array<int, Transaction> $transactions */
-            return $transactions;
+            return array_filter($transactions, fn ($transaction): bool => $transaction instanceof Transaction);
         }
 
         foreach ($transactions as $categoryData) {
-            if (is_array($categoryData)) {
-                /** @var array<Transaction> $transactionArray */
+            if (is_array($categoryData) && isset($categoryData[self::TRANSACTIONS])) {
                 $transactionArray = $categoryData[self::TRANSACTIONS];
-                $flatTransactions = array_merge($flatTransactions, $transactionArray);
+
+                if (is_array($transactionArray)) {
+                    foreach ($transactionArray as $transaction) {
+                        if ($transaction instanceof Transaction) {
+                            $flatTransactions[] = $transaction;
+                        }
+                    }
+                }
             }
         }
 
-        return $flatTransactions;
+        return array_filter($flatTransactions, fn ($transaction): true => $transaction instanceof Transaction);
     }
 }

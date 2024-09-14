@@ -48,12 +48,14 @@ final class TransactionForBudgetType extends AbstractType
                 'attr' => ['placeholder' => 'Enter a category (optional)'],
             ])
             ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) use ($budget): void {
-                /* @var Budget $budget */
-                $this->transactionForBudgetListener->onPreSetData($event, $budget);
+                if ($budget instanceof Budget) {
+                    $this->transactionForBudgetListener->onPreSetData($event, $budget);
+                }
             })
             ->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($budget): void {
-                /* @var Budget $budget */
-                $this->transactionForBudgetListener->onPostSubmit($event, $budget);
+                if ($budget instanceof Budget) {
+                    $this->transactionForBudgetListener->onPostSubmit($event, $budget);
+                }
             });
     }
 

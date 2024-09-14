@@ -80,7 +80,7 @@ fix:
 	make fix-php
 
 stan:
-	@$(PHPSTAN) analyse -c phpstan.neon --memory-limit 1G
+	@$(PHP_STAN) analyse -c phpstan.neon --memory-limit 1G
 
 lint-php:
 	@$(PHP_CS_FIXER) fix --dry-run --config=.php-cs-fixer.dist.php

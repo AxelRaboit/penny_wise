@@ -27,5 +27,5 @@ return RectorConfig::configure()
         SymfonySetList::SYMFONY_CONSTRUCTOR_INJECTION,
         DoctrineSetList::DOCTRINE_CODE_QUALITY,
     ])
-    ->withPHPStanConfigs([__DIR__.'/phpstan.dist.neon'])
+    ->withPHPStanConfigs([__DIR__.'/phpstan.neon'])
     ->withCache('./var/cache/rector', FileCacheStorage::class);
