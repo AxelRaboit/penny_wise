@@ -6,6 +6,7 @@ namespace App\Service;
 
 use App\Entity\Budget;
 use App\Entity\Transaction;
+use App\Entity\User;
 use App\Exception\NoPreviousBudgetException;
 use App\Exception\NoPreviousTransactionsException;
 use App\Manager\TransactionManager;
@@ -68,5 +69,19 @@ final readonly class TransactionService
         }
 
         $this->entityManager->flush();
+    }
+
+    public function copyLeftToSpendFromPreviousMonth(Budget $currentBudget): void
+    {
+        $previousMonthData = $this->budgetHelper->getPreviousMonthAndYear($currentBudget->getYear(), $currentBudget->getMonth());
+        $previousBudget = $this->budgetService->getBudgetByUser($currentBudget->getIndividual(), $previousMonthData['year'], $previousMonthData['month']);
+        if (!$previousBudget instanceof Budget) {
+            throw new NoPreviousBudgetException();
+        }
+
+        $transactions = $this->getAllTransactionInformationByUser($previousBudget);
+        $totalLeftToSpend = $transactions['totalRemaining'];
+
+        $this->transactionManager->copyTransactionsFromPreviousMonth($currentBudget, $totalLeftToSpend);
     }
 }

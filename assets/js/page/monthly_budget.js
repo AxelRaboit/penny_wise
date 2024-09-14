@@ -54,3 +54,14 @@ attachModalEvents({
     cancelButtonId: 'cancelDeleteBudget',
     cancelLabel: 'Cancel',
 });
+
+attachModalEvents({
+    modalId: 'copyLeftToSpendModal',
+    modalTitle: 'Copy left to spend from previous month',
+    modalMessage: 'Are you sure you want to copy the left to spend from the previous month to the current month?',
+    triggerButtonSelector: '.js-copy-left-to-spend-button',
+    confirmButtonId: 'confirmCopyLeftToSpend',
+    confirmLabel: 'Initialize',
+    cancelButtonId: 'cancelCopyLeftToSpend',
+    cancelLabel: 'Cancel',
+});

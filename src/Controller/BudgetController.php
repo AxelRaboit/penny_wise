@@ -268,4 +268,30 @@ final class BudgetController extends AbstractController
 
         return $this->redirectToRoute('monthly_budget', ['year' => $previousMonth['year'], 'month' => $previousMonth['month']]);
     }
+
+    #[Route('/budget/copy-left-to-spend/{year}/{month}', name: 'copy_left_to_spend')]
+    public function copyLeftToSpend(int $year, int $month): RedirectResponse
+    {
+        /** @var User $user */
+        $user = $this->getUser();
+        if (!$user instanceof User) {
+            throw $this->createNotFoundException('User not found');
+        }
+
+        $currentBudget = $this->budgetService->getBudgetByUser($user, $year, $month);
+        if (!$currentBudget instanceof Budget) {
+            throw $this->createNotFoundException('Budget not found');
+        }
+
+        try {
+            $this->transactionService->copyLeftToSpendFromPreviousMonth($currentBudget);
+            $this->addFlash('success', sprintf('Left to spend from previous month copied successfully for for %s %d.', MonthEnum::from($month)->getName(), $year));
+        } catch (Exception $exception) {
+            $this->addFlash('error', sprintf('An error occurred while copying left to spend from previous month: %s', $exception->getMessage()));
+
+            return $this->redirectToRoute('monthly_budget', ['year' => $year, 'month' => $month]);
+        }
+
+        return $this->redirectToRoute('monthly_budget', ['year' => $year, 'month' => $month]);
+    }
 }

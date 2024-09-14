@@ -43,11 +43,12 @@
                             <i class="fa-solid fa-pen-to-square mr-1"></i>
                             Budget
                         </a>
-                        {# TODO: initialize start balance needs to refer to the left to spend for the previous month #}
-                        <a href="#" class="text-center font-bold bg-secondary hover:bg-secondary-hover text-white p-2 cursor-pointer rounded">
+                        <button type="button"
+                                data-action-url="{{ path('copy_left_to_spend', {year: currentYear, month: currentMonth}) }}"
+                                class="js-copy-left-to-spend-button text-center font-bold bg-secondary hover:bg-secondary-hover text-white p-2 cursor-pointer rounded">
                             <i class="fa-solid fa-forward mr-1"></i>
                             Initialize starting balance
-                        </a>
+                        </button>
                         <button type="button"
                                 data-action-url="{{ path('create_previous_month_budget', {year: currentYear, month: currentMonth}) }}"
                                 class="js-create-previous-budget-button text-center font-bold bg-success hover:bg-success-hover text-white p-2 cursor-pointer rounded">

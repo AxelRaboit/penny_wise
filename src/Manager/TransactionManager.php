@@ -156,4 +156,12 @@ final readonly class TransactionManager
 
         $this->entityManager->flush();
     }
+
+    public function copyTransactionsFromPreviousMonth(Budget $currentBudget, float $totalLeftToSpend): void
+    {
+        $currentBudget->setStartBalance($totalLeftToSpend);
+
+        $this->entityManager->persist($currentBudget);
+        $this->entityManager->flush();
+    }
 }
