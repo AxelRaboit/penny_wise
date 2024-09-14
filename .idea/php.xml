@@ -152,6 +152,7 @@
       <path value="$PROJECT_DIR$/vendor/symfony/ux-chartjs" />
       <path value="$PROJECT_DIR$/vendor/rector/rector" />
       <path value="$PROJECT_DIR$/vendor/tales-from-a-dev/flowbite-bundle" />
+      <path value="$PROJECT_DIR$/vendor/symfony/ux-live-component" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.3" />

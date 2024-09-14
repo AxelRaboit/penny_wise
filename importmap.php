@@ -12,12 +12,10 @@
  * The "importmap:require" command can be used to add new entries to this file.
  */
 return [
-    // App
     'app' => [
         'path' => './assets/app.js',
         'entrypoint' => true,
     ],
-    // Components
     'modal' => [
         'path' => './assets/js/component/modal.js',
         'entrypoint' => true,
@@ -30,12 +28,10 @@ return [
         'path' => './assets/js/component/topbar.js',
         'entrypoint' => true,
     ],
-    // Pages
     'monthly_budget' => [
         'path' => './assets/js/page/monthly_budget.js',
         'entrypoint' => true,
     ],
-    // Partials
     'transaction_tab' => [
         'path' => './assets/js/partial/transaction_tab.js',
         'entrypoint' => true,
@@ -51,5 +47,8 @@ return [
     ],
     'chart.js' => [
         'version' => '3.9.1',
+    ],
+    '@symfony/ux-live-component' => [
+        'path' => './vendor/symfony/ux-live-component/assets/dist/live_controller.js',
     ],
 ];
