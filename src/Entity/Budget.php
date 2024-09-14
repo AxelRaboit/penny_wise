@@ -62,7 +62,7 @@ class Budget
     private Collection $notes;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
-    private ?string $spendingLimit;
+    private ?string $spendingLimit = null;
 
     public function __construct()
     {
