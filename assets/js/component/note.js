@@ -32,5 +32,5 @@ function initializeNoteModal() {
     window.addEventListener('beforeunload', closeModal);
 }
 
-document.addEventListener('DOMContentLoaded', initializeNoteModal);
-/*document.addEventListener('turbo:load', initializeNoteModal);*/ // Tester avec Turbo
+/*document.addEventListener('DOMContentLoaded', initializeNoteModal);*/
+document.addEventListener('turbo:load', initializeNoteModal);
