@@ -18,19 +18,19 @@ function initializeNoteModal() {
         body.classList.remove('overflow-hidden');
     };
 
+    const handleClickOutsideModal = (event) => {
+        if (!noteModal.contains(event.target) && !noteBubble.contains(event.target)) {
+            closeModal();
+        }
+    };
+
     noteBubble.addEventListener('click', openModal);
     closeNoteModal.addEventListener('click', closeModal);
 
-    document.addEventListener('click', function(event) {
-        const target = event.target;
-        if (target.tagName === 'A' && target.href) {
-            closeModal();
-        }
-    });
+    document.addEventListener('click', handleClickOutsideModal);
 
     window.addEventListener('beforeunload', closeModal);
 }
 
 document.addEventListener('DOMContentLoaded', initializeNoteModal);
-
-document.addEventListener('turbo:load', initializeNoteModal);
+/*document.addEventListener('turbo:load', initializeNoteModal);*/ // Tester avec Turbo
