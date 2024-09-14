@@ -103,7 +103,7 @@
                 </div>
                 <div class="flex flex-col md:flex-row bg-white rounded-b">
                     <div class="rounded-bl w-full text-center bg-primary p-2"><span class="font-bold text-white">Start Balance</span></div>
-                    <div class="rounded-br w-full text-center border border-solid border-gray-300 p-2"><span><span class="font-bold text-xl text-secondary">{{ budget.currency|currency_symbol }}</span> {{ budget.startBalance }}</span></div>
+                    <div class="rounded-br w-full text-center border border-solid border-gray-300 p-2"><span><span class="font-bold text-xl text-secondary">{{ budget.currency|currency_symbol }}</span> {{ budget.startBalance|number_format(2, '.', ' ') }}</span></div>
                 </div>
             </div>
         </div>
@@ -113,35 +113,41 @@
                 <h2 class="rounded-t text-center text-2xl font-bold p-2 bg-secondary text-white">Cash Flow</h2>
                 <div class="flex flex-col md:flex-row bg-white">
                     <div class="w-full text-center border border-solid border-gray-300 p-2"><span class="font-bold">Start Balance</span></div>
-                    <div class="w-full text-center border border-solid border-gray-300 p-2"><span class="font-bold text-secondary mr-1">+</span><span>{{ budget.startBalance }}</span></div>
+                    <div class="w-full text-center border border-solid border-gray-300 p-2"><span class="font-bold text-secondary mr-1">+</span><span>{{ budget.startBalance|number_format(2, '.', ' ') }}</span></div>
                 </div>
                 <div class="flex flex-col md:flex-row bg-white">
                     <div class="w-full text-center border border-solid border-gray-300 p-2"><span class="font-bold">Incomes</span></div>
-                    <div class="w-full text-center border border-solid border-gray-300 p-2"><span class="font-bold text-secondary mr-1">+</span><span>{{ totalIncomes }}</span></div>
+                    <div class="w-full text-center border border-solid border-gray-300 p-2"><span class="font-bold text-secondary mr-1">+</span><span>{{ totalIncomes|number_format(2, '.', ' ') }}</span></div>
                 </div>
                 <div class="flex flex-col md:flex-row bg-white">
                     <div class="w-full text-center border border-solid border-gray-300 p-2"><span class="font-bold">Bills</span></div>
-                    <div class="w-full text-center border border-solid border-gray-300 p-2"><span class="font-bold text-danger mr-1">-</span><span>{{ totalBills }}</span></div>
+                    <div class="w-full text-center border border-solid border-gray-300 p-2"><span class="font-bold text-danger mr-1">-</span><span>{{ totalBills|number_format(2, '.', ' ') }}</span></div>
                 </div>
                 <div class="flex flex-col md:flex-row bg-white">
                     <div class="w-full text-center border border-solid border-gray-300 p-2"><span class="font-bold">Expenses</span></div>
-                    <div class="w-full text-center border border-solid border-gray-300 p-2"><span class="font-bold text-danger mr-1">-</span><span>{{ totalExpenses }}</span></div>
+                    <div class="w-full text-center border border-solid border-gray-300 p-2"><span class="font-bold text-danger mr-1">-</span><span>{{ totalExpenses|number_format(2, '.', ' ') }}</span></div>
                 </div>
                 <div class="flex flex-col md:flex-row bg-white">
                     <div class="rounded-bl w-full text-center border border-solid border-gray-300 p-2"><span class="font-bold">Debts</span></div>
-                    <div class="rounded-br w-full text-center border border-solid border-gray-300 p-2"><span class="font-bold text-danger mr-1">-</span><span>{{ totalDebts }}</span></div>
+                    <div class="rounded-br w-full text-center border border-solid border-gray-300 p-2"><span class="font-bold text-danger mr-1">-</span><span>{{ totalDebts|number_format(2, '.', ' ') }}</span></div>
                 </div>
                 <div class="flex flex-col md:flex-row bg-white rounded-b">
                     <div class="w-full text-center p-2 bg-secondary"><span class="font-bold text-white">Total incomes</span></div>
-                    <div class="w-full text-center border border-solid border-gray-300 p-2 bg-success"><span class="font-bold text-xl text-secondary">{{ budget.currency|currency_symbol }}</span> <span>{{ totalIncomesAndStartingBalance }}</span></div>
+                    <div class="w-full text-center border border-solid border-gray-300 p-2 bg-success"><span class="font-bold text-xl text-secondary">{{ budget.currency|currency_symbol }}</span> <span>{{ totalIncomesAndStartingBalance|number_format(2, '.', ' ') }}</span></div>
                 </div>
                 <div class="flex flex-col md:flex-row bg-white rounded-b">
                     <div class="w-full text-center p-2 bg-secondary"><span class="font-bold text-white">Total spending</span></div>
-                    <div class="w-full text-center border border-solid border-gray-300 p-2 bg-danger"><span class="font-bold text-xl text-secondary">{{ budget.currency|currency_symbol }}</span> <span>{{ totalSpending }}</span></div>
+                    <div class="w-full text-center border border-solid border-gray-300 p-2 bg-danger"><span class="font-bold text-xl text-secondary">{{ budget.currency|currency_symbol }}</span> <span>{{ totalSpending|number_format(2, '.', ' ') }}</span></div>
                 </div>
                 <div class="flex flex-col md:flex-row bg-white rounded-b">
                     <div class="rounded-bl w-full text-center p-2 bg-primary"><span class="font-bold text-white">Left</span></div>
-                    <div class="rounded-br w-full text-center border border-solid border-gray-300 p-2 bg-warning"><span class="font-bold text-xl text-secondary">{{ budget.currency|currency_symbol }}</span> <span>{{ totalRemaining }}</span></div>
+                    <div class="rounded-br w-full text-center border border-solid border-gray-300 p-2 bg-warning"><span class="font-bold text-xl text-secondary">{{ budget.currency|currency_symbol }}</span>
+                        {% if totalRemaining < 0 %}
+                            <span class="bg-danger text-white rounded p-1">{{ totalRemaining|number_format(2, '.', ' ') }}</span>
+                        {% else %}
+                            <span>{{ totalRemaining|number_format(2, '.', ' ') }}</span>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
         </div>
