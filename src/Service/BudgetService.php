@@ -14,6 +14,8 @@ use Symfony\UX\Chartjs\Model\Chart;
 
 final readonly class BudgetService
 {
+    private const float DEFAULT_BALANCE = 0.0;
+
     public function __construct(
         private BudgetRepository $budgetRepository,
         private ChartBuilderInterface $chartBuilder,
@@ -34,8 +36,10 @@ final readonly class BudgetService
     public function createLeftToSpendChart(array $transactions): Chart
     {
         $chart = $this->chartBuilder->createChart(Chart::TYPE_DOUGHNUT);
-        $isDataPresent = $transactions['totalSpending'] > 0 ?? false;
 
+        /** @var float $totalSpending */
+        $totalSpending = $transactions['totalSpending'] ?? self::DEFAULT_BALANCE;
+        $isDataPresent = $totalSpending > self::DEFAULT_BALANCE;
 
         $chart->setData([
             'labels' => ['Total Spending', 'Remaining Balance'],
