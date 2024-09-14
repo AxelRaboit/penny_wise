@@ -6,7 +6,7 @@ use App\Dto\MonthDto;
 use App\Dto\TotalSpendingFromNMonthsDto;
 use App\Dto\YearDto;
 use App\Entity\Budget;
-use App\Entity\Transaction;
+use App\Entity\User;
 use App\Enum\MonthEnum;
 use App\Util\BudgetHelper;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -191,9 +191,17 @@ class BudgetRepository extends ServiceEntityRepository
         ], $results);
     }
 
-    public function findMonthlyBudgetFromUser($user, int $year, MonthEnum $monthEnum): ?Budget
+    /**
+     * Finds the monthly budget for a specific user, given the year and month.
+     *
+     * @param User $user The user for whom the monthly budget is being searched.
+     * @param int $year The year for which the budget is searched.
+     * @param MonthEnum $monthEnum The month for which the budget is searched.
+     * @return Budget|null The found Budget entity, or null if no budget is found.
+     */
+    public function findMonthlyBudgetFromUser(User $user, int $year, MonthEnum $monthEnum): ?Budget
     {
-        return $this->createQueryBuilder('b')
+        $result = $this->createQueryBuilder('b')
             ->where('b.individual = :user')
             ->andWhere('b.year = :year')
             ->andWhere('b.month = :month')
@@ -202,5 +210,8 @@ class BudgetRepository extends ServiceEntityRepository
             ->setParameter('month', $monthEnum)
             ->getQuery()
             ->getOneOrNullResult();
+
+        return $result instanceof Budget ? $result : null;
     }
+
 }

@@ -36,6 +36,11 @@ class TransactionRepository extends ServiceEntityRepository
         return $result;
     }
 
+    /**
+     * Retrieve transactions associated with a specific budget.
+     *
+     * @return Transaction[] Returns an array of Transaction objects.
+     */
     public function findTransactionsByBudget(Budget $budget): array
     {
         /** @var Transaction[] $result */

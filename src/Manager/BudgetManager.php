@@ -6,7 +6,6 @@ use App\Entity\Budget;
 use App\Entity\User;
 use App\Enum\MonthEnum;
 use App\Exception\NoPreviousBudgetException;
-use App\Repository\BudgetRepository;
 use App\Service\BudgetService;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
