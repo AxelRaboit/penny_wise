@@ -1,44 +1,69 @@
 <div class="bg-primary px-5 py-3">
     <div class="flex items-center justify-between">
         <div class="flex items-center justify-between">
-            <div class="text-white font-bold text-xl mr-2">
+            <a href="{{ path('app_homepage') }}" class="text-white font-bold text-xl mr-2">
                 SPENDING WISE
-            </div>
-            <a href="{{ path('app_homepage') }}" class="text-center font-bold text-white px-3 py-2 cursor-pointer rounded bg-secondary hover:bg-secondary-hover">
-                <i class="fa-solid fa-house mr-1"></i>
             </a>
         </div>
 
         <div>
             {% if app.user %}
                 <div class="flex items-center justify-between">
-                    <div class="block md:hidden mr-5">
-                        <button id="js-menu-toggle" class="text-white focus:outline-none">
-                            <i class="fa-solid fa-bars text-xl"></i>
-                        </button>
-                    </div>
-
                     <div>
-                        <button id="userDropdownButton" class="flex items-center text-center p-2 cursor-pointer rounded focus:outline-none">
+                        <button id="js-user-dropdown-button" class="flex items-center text-center p-2 cursor-pointer rounded focus:outline-none">
                             <img src="{{ asset('media/logo.png') }}" alt="{{ app.user.email }}" class="w-8 h-8 rounded-full">
                         </button>
-                        <div id="userDropdownMenu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded shadow-lg z-50">
-                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-t">
-                                <i class="fa-solid fa-user mr-1"></i> Profile
-                            </a>
-                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                <i class="fa-solid fa-screwdriver-wrench mr-1"></i> Admin panel
-                            </a>
-                            <a href="{{ path('app_logout') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-b">
-                                <i class="fa-solid fa-right-from-bracket mr-1"></i> Logout
-                            </a>
+                        <div id="js-user-dropdown-menu" class="hidden absolute right-0 mt-2 w-64 bg-white rounded z-50">
+                            <div class="flex items-center p-4">
+                                <div class="w-10 h-10">
+                                    <img src="{{ asset('media/logo.png') }}" alt="{{ app.user.email }}" class="w-full h-full rounded-full">
+                                </div>
+                                <div class="ml-3">
+                                    {% if app.user.firstname and app.user.lastname %}
+                                        <span class="block text-sm font-bold text-gray-700">
+                                            {{ app.user.firstname }} {{ app.user.lastname }}
+                                        </span>
+                                    {% endif %}
+                                    <span class="block text-sm text-gray-500">
+                                        {{ app.user.email }}
+                                    </span>
+                                    <a href="#" class="block text-sm text-tertiary mt-1">
+                                        Show your profile
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="border-t border-gray-200">
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    <i class="fa-solid fa-gauge mr-1"></i> Admin dashboard
+                                </a>
+                                <a href="{{ path('app_homepage') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    <i class="fa-solid fa-money-bill mr-1"></i> Annual budget
+                                </a>
+                                <a href="{{ path('app_logout') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-b">
+                                    <i class="fa-solid fa-right-from-bracket mr-1"></i> Logout
+                                </a>
+                            </div>
+                            <div class="border-t border-gray-200 mt-2">
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    <i class="fa-solid fa-language mr-1"></i> Language: <span class="font-bold">English</span>
+                                </a>
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    <i class="fa-solid fa-moon mr-1"></i> Appearance: <span class="font-bold">Dark</span>
+                                </a>
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    <i class="fa-solid fa-screwdriver-wrench mr-1"></i> Settings
+                                </a>
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    <i class="fa-solid fa-question mr-1"></i> Help
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
             {% endif %}
         </div>
     </div>
-    {{ include('partial/_burger_menu.html.twig') }}
 </div>
 
 {% block javascripts %}

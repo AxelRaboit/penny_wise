@@ -19,6 +19,11 @@ module.exports = {
           hover: '#334155',   // slate-700
           ring: '#1e293b'     // slate-800
         },
+        tertiary: { // yellow-600
+          DEFAULT: '#d97706', // yellow-600
+          hover: '#f59e0b', // yellow-500
+          ring: '#f59e0b' // yellow-500
+        },
         accent: {
           DEFAULT: '#ececf1', // Light accent color
           hover: '#e2e2e7',   // Slightly darker light for hover
