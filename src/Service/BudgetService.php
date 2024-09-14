@@ -38,7 +38,7 @@ final readonly class BudgetService
         $chart = $this->chartBuilder->createChart(Chart::TYPE_DOUGHNUT);
 
         /** @var float $totalSpending */
-        $totalSpending = $transactions['totalRemaining'] || $transactions['totalSpending'] ?? self::DEFAULT_BALANCE;
+        $totalSpending = $transactions['totalRemaining'] ?? $transactions['totalSpending'] ?? self::DEFAULT_BALANCE;
         $isDataPresent = $totalSpending > self::DEFAULT_BALANCE;
 
         $chart->setData([
