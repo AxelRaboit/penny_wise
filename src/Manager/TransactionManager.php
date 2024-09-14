@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Manager;
 
+use App\Dto\TransactionInformationDto;
 use App\Entity\Budget;
 use App\Entity\Transaction;
 use App\Enum\TransactionTypeEnum;
@@ -25,12 +26,7 @@ final readonly class TransactionManager
 
     public function __construct(private TransactionRepository $transactionRepository, private TransactionCalculator $transactionCalculator, private EntityManagerInterface $entityManager) {}
 
-    /**
-     * Get all transactions by categories for a given budget.
-     *
-     * @return array<string, array{type: string, transactions: Transaction[], total: float}>
-     */
-    public function getAllTransactionInformationByUser(Budget $budget): array
+    public function getAllTransactionInformationByUser(Budget $budget): TransactionInformationDto
     {
         $transactions = $this->transactionRepository->findBy(['budget' => $budget]);
 
@@ -64,13 +60,6 @@ final readonly class TransactionManager
             }
         }
 
-        $transactionCategories = [
-            self::EXPENSES_CATEGORY => $groupedTransactions[self::EXPENSES_CATEGORY],
-            self::BILLS_CATEGORY => $groupedTransactions[self::BILLS_CATEGORY],
-            self::DEBTS_CATEGORY => $groupedTransactions[self::DEBTS_CATEGORY],
-            self::INCOMES_CATEGORY => $groupedTransactions[self::INCOMES_CATEGORY],
-        ];
-
         $totalIncomes = $groupedTransactions[self::INCOMES_CATEGORY]['total'];
         $totalBills = $groupedTransactions[self::BILLS_CATEGORY]['total'];
         $totalExpenses = $groupedTransactions[self::EXPENSES_CATEGORY]['total'];
@@ -80,16 +69,16 @@ final readonly class TransactionManager
         $totalIncomesAndStartingBalance = $totalIncomes + $budget->getStartBalance();
         $totalRemaining = $this->calculateRemainingBalance($budget, $groupedTransactions);
 
-        return [
-            'transactionCategories' => $transactionCategories,
-            'totalIncomesAndStartingBalance' => $totalIncomesAndStartingBalance,
-            'totalIncomes' => $totalIncomes,
-            'totalBills' => $totalBills,
-            'totalExpenses' => $totalExpenses,
-            'totalDebts' => $totalDebts,
-            'totalRemaining' => $totalRemaining,
-            'totalSpending' => $totalSpending,
-        ];
+        return new TransactionInformationDto(
+            $groupedTransactions,
+            $totalIncomesAndStartingBalance,
+            $totalIncomes,
+            $totalBills,
+            $totalExpenses,
+            $totalDebts,
+            $totalRemaining,
+            $totalSpending
+        );
     }
 
     /**

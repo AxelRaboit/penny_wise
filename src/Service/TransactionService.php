@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use App\Dto\TransactionInformationDto;
 use App\Entity\Budget;
 use App\Entity\Transaction;
 use App\Exception\NoPreviousBudgetException;
@@ -21,9 +22,9 @@ final readonly class TransactionService
     public function __construct(private TransactionManager $transactionManager, private EntityManagerInterface $entityManager, private BudgetService $budgetService, private TransactionRepository $transactionRepository, private BudgetHelper $budgetHelper) {}
 
     /**
-     * @return array<string, mixed> Returns an array of transactions with the type per categories
+     * @return TransactionInformationDto Returns a data transfer object with transaction information by user for a given budget
      */
-    public function getAllTransactionInformationByUser(Budget $budget): array
+    public function getAllTransactionInformationByUser(Budget $budget): TransactionInformationDto
     {
         return $this->transactionManager->getAllTransactionInformationByUser($budget);
     }

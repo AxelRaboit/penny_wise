@@ -67,7 +67,6 @@ final class BudgetController extends AbstractController
         $transactions = $this->transactionService->getAllTransactionInformationByUser($budget);
         $budgetsAndTransactionsFromYear = $this->budgetRepository->getAllBudgetsAndTransactionsFromYear($year);
         $notesFromBudget = $this->noteRepository->getNotesFromBudget($budget);
-        /** @var array<string, array<string, array<Transaction>>> $transactions */
         $leftToSpendChart = $this->budgetService->createLeftToSpendChart($transactions);
         $totalSpendingForCurrentAndPreviousNthMonthsChart = $this->budgetService->createTotalSpendingForCurrentAndPreviousNthMonthsChart($year, $month, 3);
         $userLinks = $this->linkRepository->findByIndividual($user);
@@ -81,14 +80,14 @@ final class BudgetController extends AbstractController
             'budget' => $budget,
             'notesFromBudget' => $notesFromBudget,
             'budgetsAndTransactionsFromYear' => $budgetsAndTransactionsFromYear,
-            'transactionCategories' => $transactions['transactionCategories'],
-            'totalIncomesAndStartingBalance' => $transactions['totalIncomesAndStartingBalance'],
-            'totalIncomes' => $transactions['totalIncomes'],
-            'totalBills' => $transactions['totalBills'],
-            'totalExpenses' => $transactions['totalExpenses'],
-            'totalDebts' => $transactions['totalDebts'],
-            'totalRemaining' => $transactions['totalRemaining'],
-            'totalSpending' => $transactions['totalSpending'],
+            'transactionCategories' => $transactions->getTransactionCategories(),
+            'totalIncomesAndStartingBalance' => $transactions->getTotalIncomesAndStartingBalance(),
+            'totalIncomes' => $transactions->getTotalIncomes(),
+            'totalBills' => $transactions->getTotalBills(),
+            'totalExpenses' => $transactions->getTotalExpenses(),
+            'totalDebts' => $transactions->getTotalDebts(),
+            'totalLeftToSpend' => $transactions->getTotalLeftToSpend(),
+            'totalSpending' => $transactions->getTotalSpending(),
             'currentYear' => $year,
             'currentMonth' => $month,
         ];

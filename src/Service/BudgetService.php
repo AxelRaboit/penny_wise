@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use App\Dto\TransactionInformationDto;
 use App\Entity\Budget;
 use App\Entity\Transaction;
 use App\Entity\User;
@@ -30,15 +31,10 @@ final readonly class BudgetService
         return $budget;
     }
 
-    /**
-     * @param array<string, array<string, array<Transaction>>> $transactions
-     */
-    public function createLeftToSpendChart(array $transactions): Chart
+    public function createLeftToSpendChart(TransactionInformationDto $transactions): Chart
     {
         $chart = $this->chartBuilder->createChart(Chart::TYPE_DOUGHNUT);
-
-        /** @var float $totalSpending */
-        $totalSpending = $transactions['totalRemaining'] ?? $transactions['totalSpending'] ?? self::DEFAULT_BALANCE;
+        $totalSpending = $transactions->getTotalLeftToSpend() ?? $transactions->getTotalSpending() ?? self::DEFAULT_BALANCE;
         $isDataPresent = $totalSpending > self::DEFAULT_BALANCE;
 
         $chart->setData([
@@ -55,8 +51,8 @@ final readonly class BudgetService
                         'rgb(30, 41, 59)',
                     ],
                     'data' => [
-                        $transactions['totalSpending'],
-                        $transactions['totalRemaining'],
+                        $transactions->getTotalSpending(),
+                        $transactions->getTotalLeftToSpend(),
                     ],
                 ],
             ],
