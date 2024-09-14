@@ -33,7 +33,7 @@
     </div>
     <div class="flex bg-white rounded-b">
         <div class="rounded-bl w-full text-center p-2 bg-primary"><span class="font-bold text-white">Total</span></div>
-        <div class="rounded-br w-full text-center p-2"><span class="text-secondary font-bold">{{ budget.currency|currency_symbol }}</span> <span>{{ transactionCategory.total }}</span></div>
+        <div class="rounded-br w-full text-center p-2"><span class="text-secondary font-bold">{{ budget.currency|currency_symbol }}</span><span>{{ transactionCategory.total|number_format(2, '.', ' ') }}</span></div>
     </div>
 </div>
 
