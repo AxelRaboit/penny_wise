@@ -108,7 +108,7 @@
                 <h2 class="rounded-t text-center font-bold p-2 bg-secondary text-white">
                     <span class="font-bold text-xl text-white">Spending limit</span>
                     {% if budget.spendingLimit is not null and totalSpending|number_format(2, '.', ' ') > budget.spendingLimit|number_format(2, '.', ' ') %}
-                        <span class="bg-danger text-white rounded p-1 ml-2">Exceeded (<span class="font-bold text-xl text-secondary text-white">{{ budget.currency|currency_symbol }}</span> {{ totalSpending|number_format(2, '.', ' ') - budget.spendingLimit|number_format(2, '.', ' ') }})</span>
+                        <span class="bg-danger text-white rounded p-1 ml-2">Exceeded (<span class="font-bold text-xl text-secondary text-white">{{ budget.currency|currency_symbol }}</span> {{ totalSpending - budget.spendingLimit|number_format(2, '.', ' ') }})</span>
                     {% endif %}
                 </h2>
                 <div class="flex flex-col md:flex-row bg-white">
