@@ -34,8 +34,12 @@ final readonly class BudgetService
     public function createLeftToSpendChart(array $transactions): Chart
     {
         $chart = $this->chartBuilder->createChart(Chart::TYPE_DOUGHNUT);
+        $isDataPresent = $transactions['totalSpending'] > 0 ?? false;
+
+
         $chart->setData([
             'labels' => ['Total Spending', 'Remaining Balance'],
+            'isDataPresent' => $isDataPresent,
             'datasets' => [
                 [
                     'backgroundColor' => [

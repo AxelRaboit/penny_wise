@@ -151,7 +151,6 @@
       <path value="$PROJECT_DIR$/vendor/twig/intl-extra" />
       <path value="$PROJECT_DIR$/vendor/symfony/ux-chartjs" />
       <path value="$PROJECT_DIR$/vendor/rector/rector" />
-      <path value="$PROJECT_DIR$/vendor/tales-from-a-dev/flowbite-bundle" />
       <path value="$PROJECT_DIR$/vendor/symfony/ux-live-component" />
       <path value="$PROJECT_DIR$/vendor/vincentlanglet/twig-cs-fixer" />
     </include_path>

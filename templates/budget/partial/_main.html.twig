@@ -191,7 +191,13 @@
                     <h2 class="text-2xl font-bold text-white">Left to spend</h2>
                 </div>
                 <div class="pb-4 bg-white rounded-b">
-                    {{ render_chart(leftToSpendChart) }}
+                    {% if leftToSpendChart.data.isDataPresent is same as true %}
+                        {{ render_chart(leftToSpendChart) }}
+                    {% else %}
+                        <div class="flex bg-white rounded-b">
+                            <div class="w-full text-center p-2 bg-white rounded-b"><span class="font-bold text-primary">No data</span></div>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         </div>

@@ -1,4 +1,6 @@
 import './bootstrap.js';
+
+Turbo.session.drive = false;
 /*
  * Welcome to your app's main JavaScript file!
  *
