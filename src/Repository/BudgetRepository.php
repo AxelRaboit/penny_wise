@@ -6,6 +6,7 @@ use App\Dto\MonthDto;
 use App\Dto\TotalSpendingFromNMonthsDto;
 use App\Dto\YearDto;
 use App\Entity\Budget;
+use App\Entity\Transaction;
 use App\Enum\MonthEnum;
 use App\Util\BudgetHelper;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -188,5 +189,18 @@ class BudgetRepository extends ServiceEntityRepository
             'year' => $result['year'],
             'total' => (float) $result['total'],
         ], $results);
+    }
+
+    public function findMonthlyBudgetFromUser($user, int $year, MonthEnum $monthEnum): ?Budget
+    {
+        return $this->createQueryBuilder('b')
+            ->where('b.individual = :user')
+            ->andWhere('b.year = :year')
+            ->andWhere('b.month = :month')
+            ->setParameter('user', $user)
+            ->setParameter('year', $year)
+            ->setParameter('month', $monthEnum)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 }

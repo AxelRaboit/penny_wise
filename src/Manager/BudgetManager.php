@@ -5,6 +5,9 @@ namespace App\Manager;
 use App\Entity\Budget;
 use App\Entity\User;
 use App\Enum\MonthEnum;
+use App\Exception\NoPreviousBudgetException;
+use App\Repository\BudgetRepository;
+use App\Service\BudgetService;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
@@ -17,7 +20,7 @@ final readonly class BudgetManager
 
     private const string LAST_DAY_OF_THIS_MONTH = 'last day of this month';
 
-    public function __construct(private EntityManagerInterface $entityManager) {}
+    public function __construct(private EntityManagerInterface $entityManager, private BudgetService $budgetService, private TransactionManager $transactionManager) {}
 
     /**
      * Create a budget for a given user, year, and month.
@@ -41,6 +44,19 @@ final readonly class BudgetManager
         $newBudget->setStartBalance(self::START_BALANCE);
 
         $this->entityManager->persist($newBudget);
+        $this->entityManager->flush();
+    }
+
+    public function deleteBudgetForMonth(User $user, int $year, int $month): void
+    {
+        $budget = $this->budgetService->getBudgetByUser($user, $year, $month);
+        if (!$budget instanceof Budget) {
+            throw new NoPreviousBudgetException();
+        }
+
+        $this->transactionManager->findAndDeleteTransactionsByBudget($budget);
+
+        $this->entityManager->remove($budget);
         $this->entityManager->flush();
     }
 }

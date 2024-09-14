@@ -7,6 +7,7 @@ use App\Entity\Transaction;
 use App\Enum\TransactionTypeEnum;
 use App\Repository\TransactionRepository;
 use App\Util\TransactionCalculator;
+use Doctrine\ORM\EntityManagerInterface;
 
 final readonly class TransactionManager
 {
@@ -20,7 +21,7 @@ final readonly class TransactionManager
 
     private const string TRANSACTIONS = 'transactions';
 
-    public function __construct(private TransactionRepository $transactionRepository, private TransactionCalculator $transactionCalculator){}
+    public function __construct(private TransactionRepository $transactionRepository, private TransactionCalculator $transactionCalculator, private EntityManagerInterface $entityManager){}
 
     /**
      * Get all transactions by categories for a given budget
@@ -139,5 +140,15 @@ final readonly class TransactionManager
         }
 
         return $flatTransactions;
+    }
+
+    public function findAndDeleteTransactionsByBudget(Budget $budget): void
+    {
+        $transactions = $this->transactionRepository->findTransactionsByBudget($budget);
+        foreach ($transactions as $transaction) {
+            $this->entityManager->remove($transaction);
+        }
+
+        $this->entityManager->flush();
     }
 }

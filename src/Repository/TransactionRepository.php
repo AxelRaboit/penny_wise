@@ -35,4 +35,16 @@ class TransactionRepository extends ServiceEntityRepository
 
         return $result;
     }
+
+    public function findTransactionsByBudget(Budget $budget): array
+    {
+        /** @var Transaction[] $result */
+        $result = $this->createQueryBuilder('t')
+            ->where('t.budget = :budget')
+            ->setParameter('budget', $budget)
+            ->getQuery()
+            ->getResult();
+
+        return $result;
+    }
 }

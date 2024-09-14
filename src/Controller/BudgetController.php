@@ -19,6 +19,7 @@ use App\Util\BudgetHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -242,4 +243,25 @@ final class BudgetController extends AbstractController
         return $this->redirectToRoute('monthly_budget', ['year' => $previousYear, 'month' => $previousMonthEnum->value]);
     }
 
+    #[Route('/budget/delete/{year}/{month}', name: 'delete_monthly_budget')]
+    public function deleteMonthlyBudgetAndItsTransactions(int $year, int $month): RedirectResponse
+    {
+        /** @var User $user */
+        $user = $this->getUser();
+        if (!$user instanceof User) {
+            throw $this->createNotFoundException('User not found');
+        }
+
+        $previousMonth = $this->budgetHelper->getPreviousMonthAndYear($year, $month);
+
+        try {
+            $this->budgetManager->deleteBudgetForMonth($user, $year, $month);
+            $this->addFlash('success', sprintf('Budget for %s %d deleted successfully.', MonthEnum::from($month)->getName(), $year));
+        } catch (Exception $exception) {
+            $this->addFlash('error', sprintf('An error occurred while deleting the budget: %s', $exception->getMessage()));
+            return $this->redirectToRoute('monthly_budget', ['year' => $year, 'month' => $month]);
+        }
+
+        return $this->redirectToRoute('monthly_budget', ['year' => $previousMonth['year'], 'month' => $previousMonth['month']]);
+    }
 }

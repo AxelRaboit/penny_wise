@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Entity\Budget;
 use App\Entity\Transaction;
 use App\Entity\User;
+use App\Enum\MonthEnum;
 use App\Repository\BudgetRepository;
 use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
 use Symfony\UX\Chartjs\Model\Chart;
@@ -20,7 +21,7 @@ final readonly class BudgetService
     {
         /** @var Budget|null $budget */
         $budget = $this->budgetRepository
-            ->findOneBy(['individual' => $user, 'year' => $year, 'month' => $month]);
+            ->findMonthlyBudgetFromUser($user, $year, MonthEnum::from($month));
 
         return $budget;
     }

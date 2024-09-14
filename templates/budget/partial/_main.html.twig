@@ -72,6 +72,12 @@
                             <i class="fa-solid fa-copy mr-1"></i>
                             Copy previous month's transaction expenses
                         </button>
+                        <button type="button"
+                                data-action-url="{{ path('delete_monthly_budget', { 'year': currentYear, 'month': currentMonth }) }}"
+                                class="js-delete-budget-button text-center font-bold bg-danger hover:bg-danger-hover text-white p-2 cursor-pointer rounded">
+                            <i class="fa-solid fa-copy mr-1"></i>
+                            Delete month's budget and transactions
+                        </button>
                     </div>
                 </div>
             </div>

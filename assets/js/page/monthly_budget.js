@@ -2,7 +2,7 @@ import { attachModalEvents } from '../component/modal.js';
 
 attachModalEvents({
     modalId: 'copyBillsModal',
-    modalTitle: 'Copy Previous Month\'s Bills',
+    modalTitle: 'Copy previous month\'s bills',
     modalMessage: 'Are you sure you want to copy the bills from the previous month to the current month?',
     triggerButtonSelector: '.js-copy-bills-button',
     confirmButtonId: 'confirmCopyBills',
@@ -13,7 +13,7 @@ attachModalEvents({
 
 attachModalEvents({
     modalId: 'copyExpensesModal',
-    modalTitle: 'Copy Previous Month\'s Expenses',
+    modalTitle: 'Copy previous month\'s expenses',
     modalMessage: 'Are you sure you want to copy the expenses from the previous month to the current month?',
     triggerButtonSelector: '.js-copy-expenses-button',
     confirmButtonId: 'confirmCopyExpenses',
@@ -24,7 +24,7 @@ attachModalEvents({
 
 attachModalEvents({
     modalId: 'createPreviousBudgetModal',
-    modalTitle: 'Create Previous Month\'s Budget',
+    modalTitle: 'Create previous month\'s budget',
     modalMessage: 'Are you sure you want to create a budget for the previous month?',
     triggerButtonSelector: '.js-create-previous-budget-button',
     confirmButtonId: 'confirmCreatePreviousBudget',
@@ -35,11 +35,22 @@ attachModalEvents({
 
 attachModalEvents({
     modalId: 'createNextBudgetModal',
-    modalTitle: 'Create Next Month\'s Budget',
+    modalTitle: 'Create next month\'s budget',
     modalMessage: 'Are you sure you want to create a budget for the next month?',
     triggerButtonSelector: '.js-create-next-budget-button',
     confirmButtonId: 'confirmCreateNextBudget',
     confirmLabel: 'Create',
     cancelButtonId: 'cancelCreateNextBudget',
+    cancelLabel: 'Cancel',
+});
+
+attachModalEvents({
+    modalId: 'deleteBudgetModal',
+    modalTitle: 'Delete month\'s budget and transactions',
+    modalMessage: 'Are you sure you want to delete the monthly budget?',
+    triggerButtonSelector: '.js-delete-budget-button',
+    confirmButtonId: 'confirmDeleteBudget',
+    confirmLabel: 'Delete',
+    cancelButtonId: 'cancelDeleteBudget',
     cancelLabel: 'Cancel',
 });
