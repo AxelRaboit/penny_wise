@@ -32,8 +32,8 @@ module.exports = {
           ring: '#10b981'     // green-500
         },
         danger: {
-          DEFAULT: '#ef4444',   // red-500
-          hover: '#dc2626', // red-600
+          DEFAULT: '#dc2626', // red-600
+          hover: '#ef4444',   // red-500
           ring: '#dc2626'     // red-600
         },
         warning: {
