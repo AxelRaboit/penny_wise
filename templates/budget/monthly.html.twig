@@ -4,12 +4,12 @@
 
 {% block body %}
     <div class="mb-4">
-        {% include 'budget/partial/_main.html.twig' %}
+        {{ include('budget/partial/_main.html.twig') }}
     </div>
 
     <div class="mb-4">
-        {% include 'budget/partial/transaction/_transactions.html.twig' %}
+        {{ include('budget/partial/transaction/_transactions.html.twig') }}
     </div>
 
-    {% include 'components/note.html.twig' %}
+    {{ include('components/note.html.twig') }}
 {% endblock %}

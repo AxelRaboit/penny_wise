@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Manager\RegistrationManager;
@@ -11,7 +13,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class RegistrationController extends AbstractController
 {
-    public function __construct(private readonly RegistrationManager $registrationManager, private readonly  RegistrationService  $registrationService){}
+    public function __construct(private readonly RegistrationManager $registrationManager, private readonly RegistrationService $registrationService) {}
 
     #[Route('/register', name: 'app_register')]
     public function register(Request $request): Response

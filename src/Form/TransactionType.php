@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Form;
 
-use Override;
-use Doctrine\ORM\QueryBuilder;
 use App\Entity\Budget;
 use App\Entity\Transaction;
 use App\Entity\TransactionCategory;
 use App\Repository\TransactionCategoryRepository;
+use Doctrine\ORM\QueryBuilder;
+use Override;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -33,7 +35,7 @@ class TransactionType extends AbstractType
             ])
             ->add('transactionCategory', EntityType::class, [
                 'class' => TransactionCategory::class,
-                'query_builder' => fn(TransactionCategoryRepository $repo): QueryBuilder => $repo->getAllExceptSavings(),
+                'query_builder' => fn (TransactionCategoryRepository $repo): QueryBuilder => $repo->getAllExceptSavings(),
                 'choice_label' => 'getLabel',
                 'placeholder' => 'Choose a type',
             ])

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Entity\Transaction;
@@ -17,7 +19,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class TransactionController extends AbstractController
 {
-    public function __construct(private readonly EntityManagerInterface $entityManager, private readonly BudgetRepository $budgetRepository, private readonly TransactionRepository $transactionRepository){}
+    public function __construct(private readonly EntityManagerInterface $entityManager, private readonly BudgetRepository $budgetRepository, private readonly TransactionRepository $transactionRepository) {}
 
     #[Route('/transaction/new', name: 'transaction_new')]
     public function new(Request $request): Response
@@ -48,7 +50,7 @@ class TransactionController extends AbstractController
         $budget = $this->budgetRepository
             ->findOneBy(['year' => $year, 'month' => $month]);
 
-        if ($budget === null) {
+        if (null === $budget) {
             throw $this->createNotFoundException('Budget not found for the specified year and month.');
         }
 
@@ -81,7 +83,7 @@ class TransactionController extends AbstractController
     public function delete(int $year, int $month, int $id): RedirectResponse
     {
         $transaction = $this->transactionRepository->find($id);
-        if ($transaction === null) {
+        if (null === $transaction) {
             throw $this->createNotFoundException('Transaction not found.');
         }
 
@@ -91,6 +93,7 @@ class TransactionController extends AbstractController
             $this->addFlash('success', 'Transaction deleted successfully.');
         } catch (Exception $exception) {
             $this->addFlash('error', sprintf('Error deleting transaction: %s', $exception->getMessage()));
+
             return $this->redirectToRoute('monthly_budget', [
                 'year' => $year,
                 'month' => $month,

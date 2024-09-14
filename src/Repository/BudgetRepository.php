@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repository;
 
 use App\Dto\MonthDto;
@@ -52,9 +54,9 @@ class BudgetRepository extends ServiceEntityRepository
         return $formattedResults;
     }
 
-
     /**
      * @param array<array{year: int, month: int}> $results
+     *
      * @return array<YearDto>
      */
     private function transformToYearAndMonthDtos(array $results): array
@@ -69,7 +71,7 @@ class BudgetRepository extends ServiceEntityRepository
             $yearsAndMonths[$year][] = new MonthDto($month, $monthEnum->getName());
         }
 
-        return array_map(static fn(int $year, array $months): YearDto => new YearDto($year, $months), array_keys($yearsAndMonths), $yearsAndMonths);
+        return array_map(static fn (int $year, array $months): YearDto => new YearDto($year, $months), array_keys($yearsAndMonths), $yearsAndMonths);
     }
 
     /**
@@ -78,6 +80,7 @@ class BudgetRepository extends ServiceEntityRepository
     public function findAllBudgets(): array
     {
         $results = $this->findUniqueYearsAndMonthsRaw();
+
         return $this->transformToYearAndMonthDtos($results);
     }
 
@@ -110,7 +113,6 @@ class BudgetRepository extends ServiceEntityRepository
         return new YearDto($year, $result);
     }
 
-
     /**
      * Retrieves the total spending for the current and previous n months.
      */
@@ -118,7 +120,7 @@ class BudgetRepository extends ServiceEntityRepository
     {
         $totals = [];
 
-        for ($i = 0; $i < $nMonths; $i++) {
+        for ($i = 0; $i < $nMonths; ++$i) {
             $monthEnum = MonthEnum::from($month);
 
             $totals[] = [
@@ -139,9 +141,10 @@ class BudgetRepository extends ServiceEntityRepository
     /**
      * Retrieves the total spending for a given year and month, excluding a specific income category.
      *
-     * @param int $year The year for which the total spending is calculated.
-     * @param int $month The month for which the total spending is calculated.
-     * @return float     The total spending amount for the specified year and month.
+     * @param int $year  the year for which the total spending is calculated
+     * @param int $month the month for which the total spending is calculated
+     *
+     * @return float the total spending amount for the specified year and month
      */
     private function getTotalSpendingByMonth(int $year, int $month): float
     {
@@ -163,9 +166,10 @@ class BudgetRepository extends ServiceEntityRepository
     /**
      * Retrieves the total spending per year, excluding the income category.
      *
-     * @param int $startYear The starting year of the range.
-     * @param int $endYear The ending year of the range.
-     * @return array<array{year: int, total: float}> The total spending for each year.
+     * @param int $startYear the starting year of the range
+     * @param int $endYear   the ending year of the range
+     *
+     * @return array<array{year: int, total: float}> the total spending for each year
      */
     public function getTotalSpendingPerYear(int $startYear, int $endYear): array
     {
@@ -185,7 +189,7 @@ class BudgetRepository extends ServiceEntityRepository
         /** @var array<array{year: int, total: string}> $results */
         $results = $qb->getArrayResult();
 
-        return array_map(static fn(array $result): array => [
+        return array_map(static fn (array $result): array => [
             'year' => $result['year'],
             'total' => (float) $result['total'],
         ], $results);
@@ -194,10 +198,11 @@ class BudgetRepository extends ServiceEntityRepository
     /**
      * Finds the monthly budget for a specific user, given the year and month.
      *
-     * @param User $user The user for whom the monthly budget is being searched.
-     * @param int $year The year for which the budget is searched.
-     * @param MonthEnum $monthEnum The month for which the budget is searched.
-     * @return Budget|null The found Budget entity, or null if no budget is found.
+     * @param User      $user      the user for whom the monthly budget is being searched
+     * @param int       $year      the year for which the budget is searched
+     * @param MonthEnum $monthEnum the month for which the budget is searched
+     *
+     * @return Budget|null the found Budget entity, or null if no budget is found
      */
     public function findMonthlyBudgetFromUser(User $user, int $year, MonthEnum $monthEnum): ?Budget
     {
@@ -213,5 +218,4 @@ class BudgetRepository extends ServiceEntityRepository
 
         return $result instanceof Budget ? $result : null;
     }
-
 }

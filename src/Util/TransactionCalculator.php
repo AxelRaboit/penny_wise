@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Util;
 
 use App\Entity\Transaction;
@@ -43,7 +45,7 @@ final readonly class TransactionCalculator
     {
         return array_reduce(
             $this->flattenTransactions($transactions),
-            fn(float $accumulator, Transaction $transaction): float => $transaction->getTransactionCategory()->getName() === self::INCOMES_CATEGORY
+            fn (float $accumulator, Transaction $transaction): float => self::INCOMES_CATEGORY === $transaction->getTransactionCategory()->getName()
                 ? $accumulator + (float) $transaction->getAmount()
                 : $accumulator,
             0.0
@@ -52,14 +54,15 @@ final readonly class TransactionCalculator
 
     /**
      * @param array<int, Transaction|array{type: string, transactions: array<Transaction>, total: float}> $transactions
+     *
      * @return array<Transaction>
      */
     private function flattenTransactions(array $transactions): array
     {
         $flatTransactions = [];
 
-        if ($transactions !== [] && isset($transactions[0]) && $transactions[0] instanceof Transaction) {
-            /** @var array<int, Transaction> $transactions */
+        if ([] !== $transactions && isset($transactions[0]) && $transactions[0] instanceof Transaction) {
+            /* @var array<int, Transaction> $transactions */
             return $transactions;
         }
 
@@ -74,4 +77,3 @@ final readonly class TransactionCalculator
         return $flatTransactions;
     }
 }
-

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repository;
 
 use App\Entity\TransactionCategory;
@@ -23,6 +25,5 @@ class TransactionCategoryRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('t')
             ->andWhere('t.name NOT IN (:values)')
             ->setParameter('values', [TransactionTypeEnum::SAVINGS()]);
-        ;
     }
 }

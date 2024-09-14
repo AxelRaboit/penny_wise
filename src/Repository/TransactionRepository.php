@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repository;
 
 use App\Entity\Budget;
@@ -20,7 +22,7 @@ class TransactionRepository extends ServiceEntityRepository
     /**
      * Find transactions by budget and transaction category.
      *
-     * @return Transaction[] Returns an array of Transaction objects.
+     * @return Transaction[] returns an array of Transaction objects
      */
     public function findTransactionsByBudgetAndCategory(Budget $budget, int $transactionCategoryId): array
     {
@@ -39,7 +41,7 @@ class TransactionRepository extends ServiceEntityRepository
     /**
      * Retrieve transactions associated with a specific budget.
      *
-     * @return Transaction[] Returns an array of Transaction objects.
+     * @return Transaction[] returns an array of Transaction objects
      */
     public function findTransactionsByBudget(Budget $budget): array
     {

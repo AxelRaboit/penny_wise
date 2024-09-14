@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Form;
 
-use Override;
 use App\Entity\Budget;
 use App\Enum\MonthEnum;
+use Override;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -25,11 +27,11 @@ class BudgetType extends AbstractType
             ])
             ->add('month', ChoiceType::class, [
                 'choices' => array_combine(
-                    array_map(fn(MonthEnum $month): string => $month->getName(), MonthEnum::all()),
+                    array_map(fn (MonthEnum $month): string => $month->getName(), MonthEnum::all()),
                     MonthEnum::all()
                 ),
                 'placeholder' => 'Choose a month',
-                'choice_value' => fn(?MonthEnum $month) => $month?->value,
+                'choice_value' => fn (?MonthEnum $month) => $month?->value,
             ])
             ->add('start_date', DateType::class, [
                 'widget' => 'single_text',

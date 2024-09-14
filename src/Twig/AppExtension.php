@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Twig;
 
-use Override;
 use App\Enum\MonthEnum;
+use Override;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use ValueError;
@@ -22,9 +24,10 @@ class AppExtension extends AbstractExtension
     {
         try {
             $monthEnum = MonthEnum::from($monthNumber);
+
             return $monthEnum->getName();
         } catch (ValueError $valueError) {
-            return "Invalid month number: " . $valueError->getMessage();
+            return 'Invalid month number: '.$valueError->getMessage();
         }
     }
 }

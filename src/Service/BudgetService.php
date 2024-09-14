@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Service;
 
 use App\Entity\Budget;
@@ -13,7 +15,7 @@ use Symfony\UX\Chartjs\Model\Chart;
 final readonly class BudgetService
 {
     public function __construct(
-        private BudgetRepository      $budgetRepository,
+        private BudgetRepository $budgetRepository,
         private ChartBuilderInterface $chartBuilder,
     ) {}
 
@@ -38,15 +40,15 @@ final readonly class BudgetService
                 [
                     'backgroundColor' => [
                         'rgb(201, 203, 207)',
-                        'rgb(30, 41, 59)'
+                        'rgb(30, 41, 59)',
                     ],
                     'borderColor' => [
                         'rgb(201, 203, 207)',
-                        'rgb(30, 41, 59)'
+                        'rgb(30, 41, 59)',
                     ],
                     'data' => [
                         $transactions['totalSpending'],
-                        $transactions['totalRemaining']
+                        $transactions['totalRemaining'],
                     ],
                 ],
             ],
@@ -63,7 +65,7 @@ final readonly class BudgetService
         $totals = [];
 
         foreach ($data->getMonthlyTotals() as $totalData) {
-            $labels[] = $totalData['monthName'] . ' ' . $totalData['year'];
+            $labels[] = $totalData['monthName'].' '.$totalData['year'];
             $totals[] = $totalData['total'];
         }
 

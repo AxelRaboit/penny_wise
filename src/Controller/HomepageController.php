@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Repository\BudgetRepository;
@@ -11,7 +13,7 @@ final class HomepageController extends AbstractController
 {
     private const string HOMEPAGE_TEMPLATE = 'homepage/index.html.twig';
 
-    public function __construct(private readonly BudgetRepository $budgetRepository){}
+    public function __construct(private readonly BudgetRepository $budgetRepository) {}
 
     #[Route('/', name: 'app_homepage')]
     public function index(): Response

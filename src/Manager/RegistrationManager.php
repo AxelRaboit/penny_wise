@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Manager;
 
 use App\Entity\User;
@@ -13,11 +15,10 @@ final readonly class RegistrationManager
 
     private const string PASSWORD_FORM_FIELD = 'plainPassword';
 
-    public function __construct(private UserPasswordHasherInterface $userPasswordHasher, private EntityManagerInterface $entityManager){}
+    public function __construct(private UserPasswordHasherInterface $userPasswordHasher, private EntityManagerInterface $entityManager) {}
 
     public function onUserRegistered(FormInterface $form, User $user): void
     {
-
         /** @var string $password */
         $password = $form->get(self::PASSWORD_FORM_FIELD)->getData();
 

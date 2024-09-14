@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\EventListener;
 
 use App\Entity\Budget;
@@ -10,11 +12,11 @@ use DateMalformedStringException;
 use DatePeriod;
 use DateTime;
 use Exception;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
-use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 #[AsEventListener(event: FormEvents::PRE_SET_DATA, method: 'onPreSetData')]
 #[AsEventListener(event: FormEvents::POST_SUBMIT, method: 'onPostSubmit')]
@@ -60,6 +62,7 @@ final class TransactionForBudgetListener
 
         if (!is_numeric($day)) {
             $form->get('date')->addError(new FormError('The selected day is invalid.'));
+
             return;
         }
 
@@ -87,7 +90,6 @@ final class TransactionForBudgetListener
             }
 
             $transaction->setDate($fullDate);
-
         } catch (Exception $exception) {
             $form->get('date')->addError(new FormError(
                 sprintf(

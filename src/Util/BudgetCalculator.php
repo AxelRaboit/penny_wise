@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Util;
 
 use App\Entity\Budget;
@@ -7,8 +9,7 @@ use App\Entity\Transaction;
 
 final readonly class BudgetCalculator
 {
-
-    public function __construct(private TransactionCalculator $transactionCalculator){}
+    public function __construct(private TransactionCalculator $transactionCalculator) {}
 
     /**
      * @param array<Transaction> $transactions

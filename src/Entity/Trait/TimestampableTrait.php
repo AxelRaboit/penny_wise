@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity\Trait;
 
-use Doctrine\DBAL\Types\Types;
 use DateTimeImmutable;
-use Doctrine\ORM\Mapping as ORM;
 use DateTimeInterface;
+use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
 
 trait TimestampableTrait
 {
@@ -36,6 +38,7 @@ trait TimestampableTrait
     public function setCreatedAt(?DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
+
         return $this;
     }
 
@@ -47,6 +50,7 @@ trait TimestampableTrait
     public function setUpdatedAt(?DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
         return $this;
     }
 }

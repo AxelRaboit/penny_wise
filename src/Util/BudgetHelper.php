@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Util;
 
 use App\Enum\MonthEnum;
@@ -15,7 +17,7 @@ class BudgetHelper
     {
         $currentMonthEnum = MonthEnum::from($month);
 
-        if ($currentMonthEnum === MonthEnum::January) {
+        if (MonthEnum::January === $currentMonthEnum) {
             return ['year' => $year - 1, 'month' => MonthEnum::December->value];
         }
 
@@ -31,7 +33,7 @@ class BudgetHelper
     {
         $currentMonthEnum = MonthEnum::from($month);
 
-        if ($currentMonthEnum === MonthEnum::December) {
+        if (MonthEnum::December === $currentMonthEnum) {
             return ['year' => $year + 1, 'month' => MonthEnum::January->value];
         }
 

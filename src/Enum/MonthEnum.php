@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Enum;
 
 enum MonthEnum: int
@@ -40,6 +42,7 @@ enum MonthEnum: int
 
     /**
      * Get the list of all months as an array of MonthEnum.
+     *
      * @return MonthEnum[]
      */
     public static function all(): array

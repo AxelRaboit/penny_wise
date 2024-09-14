@@ -16,7 +16,7 @@
         {% endblock %}
     </head>
     <body>
-        {% include 'components/topbar.html.twig' %}
+        {{ include('components/topbar.html.twig') }}
 
         <div class="p-4" id="app">
             {% for label, messages in app.flashes %}

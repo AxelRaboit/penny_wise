@@ -18,7 +18,7 @@
                     <div class="{{ loop.last ? 'rounded-br' : '' }} w-full text-center border border-solid border-gray-300 p-2"><span>{{ transaction.amount }}</span></div>
                     <div class="w-full text-center border border-solid border-gray-300 p-2">
                         <button type="button"
-                                data-action-url="{{ path('transaction_delete', { 'year': transaction.budget.year, 'month': transaction.budget.month, 'id': transaction.id }) }}"
+                                data-action-url="{{ path('transaction_delete', {year: transaction.budget.year, month: transaction.budget.month, id: transaction.id}) }}"
                                 class="js-delete-button text-center font-bold bg-danger hover:bg-danger-hover text-white py-2 px-3 cursor-pointer rounded">
                             <i class="fa-solid fa-trash-can"></i>
                         </button>

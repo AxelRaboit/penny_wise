@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Entity\Budget;
@@ -35,15 +37,15 @@ final class BudgetController extends AbstractController
     private const int EXPENSE_CATEGORY_ID = 2;
 
     public function __construct(
-        private readonly TransactionService     $transactionService,
-        private readonly BudgetService          $budgetService,
+        private readonly TransactionService $transactionService,
+        private readonly BudgetService $budgetService,
         private readonly EntityManagerInterface $entityManager,
-        private readonly BudgetRepository       $budgetRepository,
-        private readonly NoteRepository         $noteRepository,
-        private readonly LinkRepository         $linkRepository,
-        private readonly BudgetManager          $budgetManager,
-        private readonly BudgetHelper           $budgetHelper,
-    ){}
+        private readonly BudgetRepository $budgetRepository,
+        private readonly NoteRepository $noteRepository,
+        private readonly LinkRepository $linkRepository,
+        private readonly BudgetManager $budgetManager,
+        private readonly BudgetHelper $budgetHelper,
+    ) {}
 
     /**
      * @throws Exception
@@ -53,7 +55,7 @@ final class BudgetController extends AbstractController
     {
         /** @var User $user */
         $user = $this->getUser();
-        if(!$user instanceof User) {
+        if (!$user instanceof User) {
             throw $this->createNotFoundException('User not found');
         }
 
@@ -186,16 +188,16 @@ final class BudgetController extends AbstractController
                     'warning',
                     sprintf('Budget already exists for %s %d.', $nextMonthEnum->getName(), $nextYear)
                 );
+
                 return $this->redirectToRoute('monthly_budget', [
                     'year' => $nextYear,
-                    'month' => $nextMonthEnum->value
+                    'month' => $nextMonthEnum->value,
                 ]);
             }
 
             $this->budgetManager->createBudgetForMonth($user, $nextYear, $nextMonthEnum);
 
             $this->addFlash('success', sprintf('Budget for %s %d created successfully.', $nextMonthEnum->getName(), $nextYear));
-
         } catch (Exception $exception) {
             $this->addFlash('error', sprintf('An error occurred while creating the budget: %s', $exception->getMessage()));
 
@@ -225,18 +227,19 @@ final class BudgetController extends AbstractController
                     'warning',
                     sprintf('Budget already exists for %s %d.', $previousMonthEnum->getName(), $previousYear)
                 );
+
                 return $this->redirectToRoute('monthly_budget', [
                     'year' => $previousYear,
-                    'month' => $previousMonthEnum->value
+                    'month' => $previousMonthEnum->value,
                 ]);
             }
 
             $this->budgetManager->createBudgetForMonth($user, $previousYear, $previousMonthEnum);
 
             $this->addFlash('success', sprintf('Budget for %s %d created successfully.', $previousMonthEnum->getName(), $previousYear));
-
         } catch (Exception $exception) {
             $this->addFlash('error', sprintf('An error occurred while creating the budget: %s', $exception->getMessage()));
+
             return $this->redirectToRoute('monthly_budget', ['year' => $year, 'month' => $month]);
         }
 
@@ -259,6 +262,7 @@ final class BudgetController extends AbstractController
             $this->addFlash('success', sprintf('Budget for %s %d deleted successfully.', MonthEnum::from($month)->getName(), $year));
         } catch (Exception $exception) {
             $this->addFlash('error', sprintf('An error occurred while deleting the budget: %s', $exception->getMessage()));
+
             return $this->redirectToRoute('monthly_budget', ['year' => $year, 'month' => $month]);
         }
 

@@ -8,7 +8,7 @@
                 <div class="w-full bg-secondary rounded-b p-2 bg-white">
                     <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
                         {% for month in yearWithMonths.getMonths() %}
-                            <a href="{{ path('monthly_budget', { 'year': yearWithMonths.getYear(), 'month': month.getMonthNumber() }) }}"
+                            <a href="{{ path('monthly_budget', {year: yearWithMonths.getYear(), month: month.getMonthNumber()}) }}"
                                class="text-sm text-center font-bold py-2 px-4 rounded
                        {% if month.getMonthNumber() == currentMonth %}
                            bg-primary text-white hover:bg-primary-hover
@@ -31,7 +31,7 @@
 
                 <div class="w-full bg-secondary rounded-b p-2 bg-white">
                     <div class="grid grid-cols-2 sm:grid-cols-2 gap-2">
-                        <a href="{{ path('transaction_new_for_budget', { 'year': currentYear, 'month': currentMonth }) }}" class="text-center font-bold bg-secondary hover:bg-secondary-hover text-white p-2 cursor-pointer rounded">
+                        <a href="{{ path('transaction_new_for_budget', {year: currentYear, month: currentMonth}) }}" class="text-center font-bold bg-secondary hover:bg-secondary-hover text-white p-2 cursor-pointer rounded">
                             <i class="fa-solid fa-plus mr-1"></i>
                             Transaction
                         </a>
@@ -49,31 +49,31 @@
                             Initialize starting balance
                         </a>
                         <button type="button"
-                                data-action-url="{{ path('create_previous_month_budget', { 'year': currentYear, 'month': currentMonth }) }}"
+                                data-action-url="{{ path('create_previous_month_budget', {year: currentYear, month: currentMonth}) }}"
                                 class="js-create-previous-budget-button text-center font-bold bg-success hover:bg-success-hover text-white p-2 cursor-pointer rounded">
                             <i class="fa-solid fa-plus mr-1"></i>
                             Create previous month's budget
                         </button>
                         <button type="button"
-                                data-action-url="{{ path('create_next_month_budget', { 'year': currentYear, 'month': currentMonth }) }}"
+                                data-action-url="{{ path('create_next_month_budget', {year: currentYear, month: currentMonth}) }}"
                                 class="js-create-next-budget-button text-center font-bold bg-success hover:bg-success-hover text-white p-2 cursor-pointer rounded">
                             <i class="fa-solid fa-plus mr-1"></i>
                             Create next month's budget
                         </button>
                         <button type="button"
-                                data-action-url="{{ path('copy_previous_month_bills', { 'year': currentYear, 'month': currentMonth }) }}"
+                                data-action-url="{{ path('copy_previous_month_bills', {year: currentYear, month: currentMonth}) }}"
                                 class="js-copy-bills-button text-center font-bold bg-warning hover:bg-warning-hover text-white p-2 cursor-pointer rounded">
                             <i class="fa-solid fa-copy mr-1"></i>
                             Copy previous month's transaction bills
                         </button>
                         <button type="button"
-                                data-action-url="{{ path('copy_previous_month_expenses', { 'year': currentYear, 'month': currentMonth }) }}"
+                                data-action-url="{{ path('copy_previous_month_expenses', {year: currentYear, month: currentMonth}) }}"
                                 class="js-copy-expenses-button text-center font-bold bg-warning hover:bg-warning-hover text-white p-2 cursor-pointer rounded">
                             <i class="fa-solid fa-copy mr-1"></i>
                             Copy previous month's transaction expenses
                         </button>
                         <button type="button"
-                                data-action-url="{{ path('delete_monthly_budget', { 'year': currentYear, 'month': currentMonth }) }}"
+                                data-action-url="{{ path('delete_monthly_budget', {year: currentYear, month: currentMonth}) }}"
                                 class="js-delete-budget-button text-center font-bold bg-danger hover:bg-danger-hover text-white p-2 cursor-pointer rounded">
                             <i class="fa-solid fa-copy mr-1"></i>
                             Delete month's budget and transactions

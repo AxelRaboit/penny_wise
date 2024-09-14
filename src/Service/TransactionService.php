@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Service;
 
 use App\Entity\Budget;
@@ -16,7 +18,7 @@ use InvalidArgumentException;
 
 final readonly class TransactionService
 {
-    public function __construct(private TransactionManager $transactionManager, private EntityManagerInterface $entityManager, private BudgetService $budgetService, private TransactionRepository $transactionRepository, private BudgetHelper $budgetHelper){}
+    public function __construct(private TransactionManager $transactionManager, private EntityManagerInterface $entityManager, private BudgetService $budgetService, private TransactionRepository $transactionRepository, private BudgetHelper $budgetHelper) {}
 
     /**
      * @return array<string, mixed> Returns an array of transactions with the type per categories
@@ -29,8 +31,9 @@ final readonly class TransactionService
     /**
      * Copy transactions from the previous month to the current month's budget.
      *
-     * @param Budget $currentBudget The current budget to which transactions will be copied.
-     * @param int $transactionCategoryId The ID of the transaction category to copy.
+     * @param Budget $currentBudget         the current budget to which transactions will be copied
+     * @param int    $transactionCategoryId the ID of the transaction category to copy
+     *
      * @throws NoPreviousBudgetException
      * @throws NoPreviousTransactionsException
      * @throws Exception
@@ -48,7 +51,7 @@ final readonly class TransactionService
         }
 
         $previousTransactions = $this->transactionRepository->findTransactionsByBudgetAndCategory($previousBudget, $transactionCategoryId);
-        if ($previousTransactions === []) {
+        if ([] === $previousTransactions) {
             throw new NoPreviousTransactionsException();
         }
 

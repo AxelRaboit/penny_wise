@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Manager;
 
 use App\Entity\Budget;
@@ -21,10 +23,10 @@ final readonly class TransactionManager
 
     private const string TRANSACTIONS = 'transactions';
 
-    public function __construct(private TransactionRepository $transactionRepository, private TransactionCalculator $transactionCalculator, private EntityManagerInterface $entityManager){}
+    public function __construct(private TransactionRepository $transactionRepository, private TransactionCalculator $transactionCalculator, private EntityManagerInterface $entityManager) {}
 
     /**
-     * Get all transactions by categories for a given budget
+     * Get all transactions by categories for a given budget.
      *
      * @return array<string, array{type: string, transactions: Transaction[], total: float}>
      */
@@ -91,7 +93,7 @@ final readonly class TransactionManager
     }
 
     /**
-     * Calculate the remaining balance for a budget based on transactions
+     * Calculate the remaining balance for a budget based on transactions.
      *
      * @param array<string, array{type: string, transactions: Transaction[], total: float}> $transactions
      */
@@ -104,31 +106,34 @@ final readonly class TransactionManager
     }
 
     /**
-     * Calculate the total incomes from structured transactions array
+     * Calculate the total incomes from structured transactions array.
      *
      * @param array<string, array{type: string, transactions: Transaction[], total: float}> $transactions
      */
     public function calculateTotalIncomes(array $transactions): float
     {
         $flatTransactions = $this->flattenTransactions($transactions);
+
         return $this->transactionCalculator->calculateTotalIncomes($flatTransactions);
     }
 
     /**
-     * Calculate the total spending from structured transactions array
+     * Calculate the total spending from structured transactions array.
      *
      * @param array<string, array{type: string, transactions: Transaction[], total: float}> $transactions
      */
     public function calculateTotalSpending(array $transactions): float
     {
         $flatTransactions = $this->flattenTransactions($transactions);
+
         return $this->transactionCalculator->calculateTotalSpending($flatTransactions);
     }
 
     /**
-     * Flatten the structured transactions array to get only Transaction objects
+     * Flatten the structured transactions array to get only Transaction objects.
      *
      * @param array<string, array{type: string, transactions: Transaction[], total: float}> $transactions
+     *
      * @return Transaction[]
      */
     private function flattenTransactions(array $transactions): array

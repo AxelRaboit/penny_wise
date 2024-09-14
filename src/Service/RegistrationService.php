@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Service;
 
 use App\Entity\User;
@@ -10,7 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 final readonly class RegistrationService
 {
-    public function __construct(private FormFactoryInterface $formFactory){}
+    public function __construct(private FormFactoryInterface $formFactory) {}
 
     /**
      * @return array{user: User, form: FormInterface}
@@ -18,7 +20,7 @@ final readonly class RegistrationService
     public function createFormWithUser(Request $request): array
     {
         $user = new User();
-        $form =$this->formFactory->create(RegistrationFormType::class, $user);
+        $form = $this->formFactory->create(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
         return ['user' => $user, 'form' => $form];

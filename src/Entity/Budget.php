@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
-use DateTimeInterface;
 use App\Entity\Trait\TimestampableTrait;
 use App\Enum\MonthEnum;
 use App\Repository\BudgetRepository;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;

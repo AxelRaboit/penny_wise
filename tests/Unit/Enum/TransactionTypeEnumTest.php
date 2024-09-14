@@ -1,24 +1,27 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\Unit\Enum;
 
 use App\Enum\TransactionTypeEnum;
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
 class TransactionTypeEnumTest extends TestCase
 {
     public function testEnumValues(): void
     {
-        $this->assertEquals('Incomes', TransactionTypeEnum::INCOMES()->getString());
-        $this->assertEquals('Expenses', TransactionTypeEnum::EXPENSES()->getString());
-        $this->assertEquals('Savings', TransactionTypeEnum::SAVINGS()->getString());
-        $this->assertEquals('Bills', TransactionTypeEnum::BILLS()->getString());
-        $this->assertEquals('Debts', TransactionTypeEnum::DEBTS()->getString());
+        $this->assertSame('Incomes', TransactionTypeEnum::INCOMES()->getString());
+        $this->assertSame('Expenses', TransactionTypeEnum::EXPENSES()->getString());
+        $this->assertSame('Savings', TransactionTypeEnum::SAVINGS()->getString());
+        $this->assertSame('Bills', TransactionTypeEnum::BILLS()->getString());
+        $this->assertSame('Debts', TransactionTypeEnum::DEBTS()->getString());
     }
 
     public function testInvalidEnumValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         new TransactionTypeEnum(777);
     }
 }

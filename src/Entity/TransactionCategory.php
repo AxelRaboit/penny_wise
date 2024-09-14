@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
-use Doctrine\DBAL\Types\Types;
-use LogicException;
 use App\Repository\TransactionCategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use LogicException;
 
 #[ORM\Entity(repositoryClass: TransactionCategoryRepository::class)]
 class TransactionCategory
@@ -69,7 +71,7 @@ class TransactionCategory
 
     public function getLabel(): string
     {
-        if ($this->name === null) {
+        if (null === $this->name) {
             throw new LogicException('The name should not be null.');
         }
 

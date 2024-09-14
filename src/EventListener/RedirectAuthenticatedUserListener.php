@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\EventListener;
 
 use Symfony\Bundle\SecurityBundle\Security;
@@ -24,7 +26,7 @@ final readonly class RedirectAuthenticatedUserListener
 
     private const string PROFILER_ROUTE = '_profiler';
 
-    public function __construct(private Security $security, private RouterInterface $router){}
+    public function __construct(private Security $security, private RouterInterface $router) {}
 
     public function onKernelRequest(RequestEvent $event): void
     {
@@ -33,7 +35,7 @@ final readonly class RedirectAuthenticatedUserListener
         /** @var string|null $route */
         $route = $request->attributes->get(self::ROUTE);
 
-        if (in_array($route, [self::WDT_ROUTE, self::PROFILER_ROUTE])) {
+        if (in_array($route, [self::WDT_ROUTE, self::PROFILER_ROUTE], true)) {
             return;
         }
 
@@ -46,14 +48,14 @@ final readonly class RedirectAuthenticatedUserListener
 
     private function redirectAuthenticatedUser(RequestEvent $event, ?string $route): void
     {
-        if (in_array($route, [self::LOGIN_ROUTE, self::REGISTER_ROUTE])) {
+        if (in_array($route, [self::LOGIN_ROUTE, self::REGISTER_ROUTE], true)) {
             $event->setResponse(new RedirectResponse($this->router->generate(self::HOMEPAGE_ROUTE)));
         }
     }
 
     private function redirectUnauthenticatedUser(RequestEvent $event, ?string $route): void
     {
-        if ($route !== self::LOGIN_ROUTE) {
+        if (self::LOGIN_ROUTE !== $route) {
             $event->setResponse(new RedirectResponse($this->router->generate(self::LOGIN_ROUTE)));
         }
     }

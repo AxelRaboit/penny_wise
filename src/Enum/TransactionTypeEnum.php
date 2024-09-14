@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Enum;
 
-use Stringable;
 use InvalidArgumentException;
 use Override;
+use Stringable;
 
 class TransactionTypeEnum implements Stringable
 {
@@ -19,7 +21,7 @@ class TransactionTypeEnum implements Stringable
     public const int DEBTS = 3;
 
     /**
-     * @var array<int, string> $valueToString
+     * @var array<int, string>
      */
     private static array $valueToString = [
         self::INCOMES => 'Incomes',
@@ -30,7 +32,7 @@ class TransactionTypeEnum implements Stringable
     ];
 
     /**
-     * @var array<string, int> $stringToValue
+     * @var array<string, int>
      */
     private static array $stringToValue = [
         'Incomes' => self::INCOMES,
