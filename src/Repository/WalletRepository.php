@@ -218,4 +218,14 @@ class WalletRepository extends ServiceEntityRepository
 
         return $result instanceof Wallet ? $result : null;
     }
+
+    public function userHasWallet(User $user): bool
+    {
+        $qb = $this->createQueryBuilder('w')
+            ->select('COUNT(w.id)')
+            ->where('w.individual = :user')
+            ->setParameter('user', $user);
+
+        return (int) $qb->getQuery()->getSingleScalarResult() > 0;
+    }
 }
