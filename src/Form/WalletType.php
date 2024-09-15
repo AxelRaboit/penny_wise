@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Form;
 
 use App\Entity\Wallet;
+use App\Enum\CurrencyEnum;
 use App\Enum\MonthEnum;
 use Override;
 use Symfony\Component\Form\AbstractType;
@@ -39,8 +40,13 @@ class WalletType extends AbstractType
             ->add('end_date', DateType::class, [
                 'widget' => 'single_text',
             ])
-            ->add('currency', TextType::class, [
-                'attr' => ['placeholder' => 'Choose a currency'],
+            ->add('currency', ChoiceType::class, [
+                'choices' => array_combine(
+                    array_map(fn (CurrencyEnum $currency) => $currency->getLabel(), CurrencyEnum::all()),
+                    CurrencyEnum::all()
+                ),
+                'placeholder' => 'Choose a currency',
+                'choice_value' => fn (?CurrencyEnum $currency) => $currency?->value,
             ])
             ->add('start_balance', NumberType::class, [
                 'attr' => ['placeholder' => 'Choose a start balance'],
