@@ -13,6 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class DashboardController extends AbstractController
 {
     public function __construct(private readonly WalletRepository $walletRepository) {}
+
     #[Route('/dashboard', name: 'dashboard')]
     public function index(): Response
     {
