@@ -41,8 +41,6 @@ final readonly class RedirectAuthenticatedUserListener
 
         if ($user instanceof UserInterface) {
             $this->redirectAuthenticatedUser($event, $route);
-        } else {
-            $this->redirectUnauthenticatedUser($event, $route);
         }
     }
 
@@ -50,13 +48,6 @@ final readonly class RedirectAuthenticatedUserListener
     {
         if (in_array($route, [self::LOGIN_ROUTE, self::REGISTER_ROUTE], true)) {
             $event->setResponse(new RedirectResponse($this->router->generate(self::HOMEPAGE_ROUTE)));
-        }
-    }
-
-    private function redirectUnauthenticatedUser(RequestEvent $event, ?string $route): void
-    {
-        if (self::LOGIN_ROUTE !== $route) {
-            $event->setResponse(new RedirectResponse($this->router->generate(self::LOGIN_ROUTE)));
         }
     }
 }

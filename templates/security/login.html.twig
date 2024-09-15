@@ -16,12 +16,10 @@
 
                 <div class="space-y-4">
                     <div>
-                        <label for="username" class="block text-gray-600">Email</label>
-                        <input type="email" value="{{ last_username }}" name="_username" id="username" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500" autocomplete="email" required autofocus>
+                        <input placeholder="Email" type="email" value="{{ last_username }}" name="_username" id="username" class="w-full p-3 border border-gray-300 rounded-md" autocomplete="email" required autofocus>
                     </div>
                     <div>
-                        <label for="password" class="block text-gray-600">Password</label>
-                        <input type="password" name="_password" id="password" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500" autocomplete="current-password" required>
+                        <input placeholder="Password" type="password" name="_password" id="password" class="w-full p-3 border border-gray-300 rounded-md" autocomplete="current-password" required>
                     </div>
 
                     <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
@@ -31,14 +29,18 @@
                             <input type="checkbox" name="_remember_me" id="_remember_me" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
                             <label for="_remember_me" class="ml-2 block text-sm text-gray-600">Remember me</label>
                         </div>
-                        <a href="#" class="text-sm text-secondary hover:underline">Forgot password?</a>
+                        <a href="#" class="text-sm text-gray-600 hover:underline">Forgot password?</a>
                     </div>
 
                     <div class="mt-6">
                         <button type="submit" class="w-full bg-secondary text-white p-3 rounded-md hover:bg-secondary-hover">
-                            Submit
+                            Login
                         </button>
                     </div>
+                </div>
+
+                <div class="mt-4 text-right">
+                    <a href="{{ path('app_register') }}" class="text-sm text-gray-600 hover:underline ml-2">Don't have an account? Register</a>
                 </div>
             </form>
         </div>
