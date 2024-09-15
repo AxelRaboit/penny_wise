@@ -35,11 +35,11 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div class="bg-gray-50 p-4 rounded-md">
                             <h3 class="font-semibold text-gray-700">First Name</h3>
-                            <p class="text-gray-800">{{ app.user.userInformation.firstname ?? 'N/A' }}</p>
+                            <p class="text-gray-800">{{ app.user.userInformation.firstname ?? '-' }}</p>
                         </div>
                         <div class="bg-gray-50 p-4 rounded-md">
                             <h3 class="font-semibold text-gray-700">Last Name</h3>
-                            <p class="text-gray-800">{{ app.user.userInformation.lastname ?? 'N/A' }}</p>
+                            <p class="text-gray-800">{{ app.user.userInformation.lastname ?? '-' }}</p>
                         </div>
                         <div class="bg-gray-50 p-4 rounded-md">
                             <h3 class="font-semibold text-gray-700">Email</h3>
@@ -49,13 +49,21 @@
                 </div>
             </div>
 
-            <div class="mt-6 text-right">
-                <a href="{{ path('profile_edit') }}" class="bg-primary hover:bg-primary-hover text-white font-bold py-2 px-4 rounded-md">
-                    Edit Profile
-                </a>
-                <a href="{{ path('app_logout') }}" class="bg-danger hover:bg-danger-hover text-white font-bold py-2 px-4 rounded-md ml-2">
-                    Logout
-                </a>
+            <div class="mt-6 flex justify-between">
+                <div>
+                    <a href="{{ app.request.headers.get('referer') ?: path('wallet_list') }}" class="bg-primary hover:bg-primary-hover text-white font-bold py-2 px-4 rounded-md">
+                        <i class="fa-solid fa-arrow-left mr-1"></i> Back
+                    </a>
+                </div>
+
+                <div>
+                    <a href="{{ path('profile_edit') }}" class="bg-primary hover:bg-primary-hover text-white font-bold py-2 px-4 rounded-md">
+                        Edit Profile
+                    </a>
+                    <a href="{{ path('app_logout') }}" class="bg-danger hover:bg-danger-hover text-white font-bold py-2 px-4 rounded-md ml-2">
+                        Logout
+                    </a>
+                </div>
             </div>
         </div>
     </div>
