@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Entity\Trait\TimestampableTrait;
+use App\Enum\CurrencyEnum;
 use App\Enum\MonthEnum;
 use App\Repository\WalletRepository;
 use DateTimeInterface;
@@ -140,9 +141,9 @@ class Wallet
         return $this->currency;
     }
 
-    public function setCurrency(string $currency): static
+    public function setCurrency(CurrencyEnum $currency): static
     {
-        $this->currency = $currency;
+        $this->currency = $currency->value;
 
         return $this;
     }
