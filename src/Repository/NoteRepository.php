@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use App\Entity\Budget;
+use App\Entity\Wallet;
 use App\Entity\Note;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\Order;
@@ -21,16 +21,16 @@ class NoteRepository extends ServiceEntityRepository
     }
 
     /**
-     * Retrieves notes associated with a specific budget.
+     * Retrieves notes associated with a specific wallet.
      *
      * @return Note[] Returns an array of Note objects
      */
-    public function getNotesFromBudget(Budget $budget): array
+    public function getNotesFromWallet(Wallet $wallet): array
     {
         /** @var Note[] $notes */
         $notes = $this->createQueryBuilder('n')
-            ->where('n.budget = :budget')
-            ->setParameter('budget', $budget)
+            ->where('n.wallet = :wallet')
+            ->setParameter('wallet', $wallet)
             ->orderBy('n.id', Order::Descending->value)
             ->getQuery()
             ->getResult();

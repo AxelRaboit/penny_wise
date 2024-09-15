@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use App\Entity\Budget;
+use App\Entity\Wallet;
 use App\Entity\Transaction;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -20,17 +20,17 @@ class TransactionRepository extends ServiceEntityRepository
     }
 
     /**
-     * Find transactions by budget and transaction category.
+     * Find transactions by wallet and transaction category.
      *
      * @return Transaction[] returns an array of Transaction objects
      */
-    public function findTransactionsByBudgetAndCategory(Budget $budget, int $transactionCategoryId): array
+    public function findTransactionsByWalletAndCategory(Wallet $wallet, int $transactionCategoryId): array
     {
         /** @var Transaction[] $result */
         $result = $this->createQueryBuilder('t')
-            ->where('t.budget = :budget')
+            ->where('t.wallet = :wallet')
             ->andWhere('t.transactionCategory = :transactionCategory')
-            ->setParameter('budget', $budget)
+            ->setParameter('wallet', $wallet)
             ->setParameter('transactionCategory', $transactionCategoryId)
             ->getQuery()
             ->getResult();
@@ -39,16 +39,16 @@ class TransactionRepository extends ServiceEntityRepository
     }
 
     /**
-     * Retrieve transactions associated with a specific budget.
+     * Retrieve transactions associated with a specific wallet.
      *
      * @return Transaction[] returns an array of Transaction objects
      */
-    public function findTransactionsByBudget(Budget $budget): array
+    public function findTransactionsByWallet(Wallet $wallet): array
     {
         /** @var Transaction[] $result */
         $result = $this->createQueryBuilder('t')
-            ->where('t.budget = :budget')
-            ->setParameter('budget', $budget)
+            ->where('t.wallet = :wallet')
+            ->setParameter('wallet', $wallet)
             ->getQuery()
             ->getResult();
 

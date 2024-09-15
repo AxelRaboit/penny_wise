@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Entity;
 
-use App\Entity\Budget;
+use App\Entity\Wallet;
 use App\Entity\Transaction;
 use App\Entity\TransactionCategory;
 use App\Entity\User;
@@ -22,13 +22,13 @@ class TransactionTest extends KernelTestCase
 
     private const string CURRENCY = 'EUR';
 
-    private const string BUDGET_START_DATE = '2024-06-01';
+    private const string WALLET_START_DATE = '2024-06-01';
 
-    private const string BUDGET_END_DATE = '2024-06-30';
+    private const string WALLET_END_DATE = '2024-06-30';
 
-    private const int BUDGET_YEAR = 2024;
+    private const int WALLET_YEAR = 2024;
 
-    private const float BUDGET_START_BALANCE = 1000.00;
+    private const float WALLET_START_BALANCE = 1000.00;
 
     private const string CATEGORY_NAME = 'Test Category';
 
@@ -61,8 +61,8 @@ class TransactionTest extends KernelTestCase
 
     public function testTransactionType(): void
     {
-        $budget = $this->createBudget();
-        $this->entityManager->persist($budget);
+        $wallet = $this->createWallet();
+        $this->entityManager->persist($wallet);
 
         $transactionCategory = $this->createTransactionCategory();
         $this->save($transactionCategory);
@@ -71,37 +71,37 @@ class TransactionTest extends KernelTestCase
         $transaction->setCategory(self::CATEGORY_NAME);
         $transaction->setAmount(self::TRANSACTION_AMOUNT);
         $transaction->setDate(new DateTime(self::TRANSACTION_DATE));
-        $transaction->setBudget($budget);
+        $transaction->setWallet($wallet);
         $transaction->setTransactionCategory($transactionCategory);
         $this->save($transaction);
 
         $this->assertNotNull($transaction->getId());
         $this->assertNotNull($transaction->getAmount());
         $this->assertNotNull($transaction->getDate());
-        $this->assertNotNull($transaction->getBudget());
+        $this->assertNotNull($transaction->getWallet());
         $this->assertNotNull($transaction->getCategory());
         $this->assertNotNull($transaction->getTransactionCategory());
 
         $this->assertSame($transaction->getId(), $transaction->getId());
         $this->assertSame(self::TRANSACTION_AMOUNT, $transaction->getAmount());
         $this->assertSame(new DateTime(self::TRANSACTION_DATE), $transaction->getDate());
-        $this->assertSame($budget, $transaction->getBudget());
+        $this->assertSame($wallet, $transaction->getWallet());
         $this->assertSame(self::CATEGORY_NAME, $transaction->getCategory());
         $this->assertSame($transactionCategory, $transaction->getTransactionCategory());
-        $this->assertSame(self::BUDGET_START_BALANCE, $transaction->getBudget()->getStartBalance());
-        $this->assertNotNull($transaction->getBudget()->getStartDate());
-        $this->assertSame(self::BUDGET_START_DATE, $transaction->getBudget()->getStartDate()->format('Y-m-d'));
-        $this->assertNotNull($transaction->getBudget()->getEndDate());
-        $this->assertSame(self::BUDGET_END_DATE, $transaction->getBudget()->getEndDate()->format('Y-m-d'));
-        $this->assertSame(self::CURRENCY, $transaction->getBudget()->getCurrency());
-        $this->assertSame($this->getUser(), $transaction->getBudget()->getIndividual());
+        $this->assertSame(self::WALLET_START_BALANCE, $transaction->getWallet()->getStartBalance());
+        $this->assertNotNull($transaction->getWallet()->getStartDate());
+        $this->assertSame(self::WALLET_START_DATE, $transaction->getWallet()->getStartDate()->format('Y-m-d'));
+        $this->assertNotNull($transaction->getWallet()->getEndDate());
+        $this->assertSame(self::WALLET_END_DATE, $transaction->getWallet()->getEndDate()->format('Y-m-d'));
+        $this->assertSame(self::CURRENCY, $transaction->getWallet()->getCurrency());
+        $this->assertSame($this->getUser(), $transaction->getWallet()->getIndividual());
 
-        $budget->addTransaction($transaction);
+        $wallet->addTransaction($transaction);
 
         $this->entityManager->flush();
 
-        $this->assertCount(1, $budget->getTransactions());
-        $this->assertTrue($budget->getTransactions()->contains($transaction));
+        $this->assertCount(1, $wallet->getTransactions());
+        $this->assertTrue($wallet->getTransactions()->contains($transaction));
     }
 
     #[Override]
@@ -132,18 +132,18 @@ class TransactionTest extends KernelTestCase
         $this->entityManager->flush();
     }
 
-    private function createBudget(): Budget
+    private function createWallet(): Wallet
     {
-        $budget = new Budget();
-        $budget->setIndividual($this->getUser());
-        $budget->setYear(self::BUDGET_YEAR);
-        $budget->setMonth(MonthEnum::June);
-        $budget->setStartDate(new DateTime(self::BUDGET_START_DATE));
-        $budget->setEndDate(new DateTime(self::BUDGET_END_DATE));
-        $budget->setCurrency(self::CURRENCY);
-        $budget->setStartBalance(self::BUDGET_START_BALANCE);
+        $wallet = new Wallet();
+        $wallet->setIndividual($this->getUser());
+        $wallet->setYear(self::WALLET_YEAR);
+        $wallet->setMonth(MonthEnum::June);
+        $wallet->setStartDate(new DateTime(self::WALLET_START_DATE));
+        $wallet->setEndDate(new DateTime(self::WALLET_END_DATE));
+        $wallet->setCurrency(self::CURRENCY);
+        $wallet->setStartBalance(self::WALLET_START_BALANCE);
 
-        return $budget;
+        return $wallet;
     }
 
     private function createTransactionCategory(): TransactionCategory

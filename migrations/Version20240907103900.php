@@ -20,13 +20,13 @@ final class Version20240907103900 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE budget ALTER remaining_balance SET NOT NULL');
+        $this->addSql('ALTER TABLE wallet ALTER remaining_balance SET NOT NULL');
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE SCHEMA public');
-        $this->addSql('ALTER TABLE budget ALTER remaining_balance DROP NOT NULL');
+        $this->addSql('ALTER TABLE wallet ALTER remaining_balance DROP NOT NULL');
     }
 }

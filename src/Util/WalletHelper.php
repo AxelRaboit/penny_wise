@@ -6,7 +6,7 @@ namespace App\Util;
 
 use App\Enum\MonthEnum;
 
-class BudgetHelper
+class WalletHelper
 {
     /**
      * Returns the previous month and year given a specific month and year.

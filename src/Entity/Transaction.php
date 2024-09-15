@@ -32,7 +32,7 @@ class Transaction
 
     #[ORM\ManyToOne(inversedBy: 'transactions')]
     #[ORM\JoinColumn(nullable: false)]
-    private Budget $budget;
+    private Wallet $wallet;
 
     #[ORM\ManyToOne(inversedBy: 'transactions')]
     #[ORM\JoinColumn(nullable: false)]
@@ -82,14 +82,14 @@ class Transaction
         return $this;
     }
 
-    public function getBudget(): Budget
+    public function getWallet(): Wallet
     {
-        return $this->budget;
+        return $this->wallet;
     }
 
-    public function setBudget(Budget $budget): static
+    public function setWallet(Wallet $wallet): static
     {
-        $this->budget = $budget;
+        $this->wallet = $wallet;
 
         return $this;
     }

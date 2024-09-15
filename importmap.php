@@ -30,8 +30,8 @@ return [
         'path' => './assets/js/component/topbar.js',
         'entrypoint' => true,
     ],
-    'monthly_budget' => [
-        'path' => './assets/js/page/monthly_budget.js',
+    'monthly_wallet' => [
+        'path' => './assets/js/page/monthly_wallet.js',
         'entrypoint' => true,
     ],
     'transaction_tab' => [

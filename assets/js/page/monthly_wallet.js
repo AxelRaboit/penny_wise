@@ -23,35 +23,35 @@ attachModalEvents({
 });
 
 attachModalEvents({
-    modalId: 'createPreviousBudgetModal',
-    modalTitle: 'Create previous month\'s budget',
-    modalMessage: 'Are you sure you want to create a budget for the previous month?',
-    triggerButtonSelector: '.js-create-previous-budget-button',
-    confirmButtonId: 'confirmCreatePreviousBudget',
+    modalId: 'createPreviousWalletModal',
+    modalTitle: 'Create previous month\'s wallet',
+    modalMessage: 'Are you sure you want to create a wallet for the previous month?',
+    triggerButtonSelector: '.js-create-previous-wallet-button',
+    confirmButtonId: 'confirmCreatePreviousWallet',
     confirmLabel: 'Create',
-    cancelButtonId: 'cancelCreatePreviousBudget',
+    cancelButtonId: 'cancelCreatePreviousWallet',
     cancelLabel: 'Cancel',
 });
 
 attachModalEvents({
-    modalId: 'createNextBudgetModal',
-    modalTitle: 'Create next month\'s budget',
-    modalMessage: 'Are you sure you want to create a budget for the next month?',
-    triggerButtonSelector: '.js-create-next-budget-button',
-    confirmButtonId: 'confirmCreateNextBudget',
+    modalId: 'createNextWalletModal',
+    modalTitle: 'Create next month\'s wallet',
+    modalMessage: 'Are you sure you want to create a wallet for the next month?',
+    triggerButtonSelector: '.js-create-next-wallet-button',
+    confirmButtonId: 'confirmCreateNextWallet',
     confirmLabel: 'Create',
-    cancelButtonId: 'cancelCreateNextBudget',
+    cancelButtonId: 'cancelCreateNextWallet',
     cancelLabel: 'Cancel',
 });
 
 attachModalEvents({
-    modalId: 'deleteBudgetModal',
-    modalTitle: 'Delete month\'s budget and transactions',
-    modalMessage: 'Are you sure you want to delete the monthly budget?',
-    triggerButtonSelector: '.js-delete-budget-button',
-    confirmButtonId: 'confirmDeleteBudget',
+    modalId: 'deleteWalletModal',
+    modalTitle: 'Delete month\'s wallet and transactions',
+    modalMessage: 'Are you sure you want to delete the monthly wallet?',
+    triggerButtonSelector: '.js-delete-wallet-button',
+    confirmButtonId: 'confirmDeleteWallet',
     confirmLabel: 'Delete',
-    cancelButtonId: 'cancelDeleteBudget',
+    cancelButtonId: 'cancelDeleteWallet',
     cancelLabel: 'Cancel',
 });
 

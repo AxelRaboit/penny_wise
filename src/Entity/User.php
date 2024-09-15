@@ -41,10 +41,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private string $password;
 
     /**
-     * @var Collection<int, Budget>
+     * @var Collection<int, Wallet>
      */
-    #[ORM\OneToMany(targetEntity: Budget::class, mappedBy: 'individual')]
-    private Collection $budgets;
+    #[ORM\OneToMany(targetEntity: Wallet::class, mappedBy: 'individual')]
+    private Collection $wallets;
 
     /**
      * @var Collection<int, Link>
@@ -60,7 +60,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __construct()
     {
-        $this->budgets = new ArrayCollection();
+        $this->wallets = new ArrayCollection();
         $this->links = new ArrayCollection();
     }
 
@@ -144,18 +144,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, Budget>
+     * @return Collection<int, Wallet>
      */
-    public function getBudgets(): Collection
+    public function getWallets(): Collection
     {
-        return $this->budgets;
+        return $this->wallets;
     }
 
-    public function addBudget(Budget $budget): static
+    public function addWallet(Wallet $wallet): static
     {
-        if (!$this->budgets->contains($budget)) {
-            $this->budgets->add($budget);
-            $budget->setIndividual($this);
+        if (!$this->wallets->contains($wallet)) {
+            $this->wallets->add($wallet);
+            $wallet->setIndividual($this);
         }
 
         return $this;

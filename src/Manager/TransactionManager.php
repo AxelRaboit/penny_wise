@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Manager;
 
 use App\Dto\TransactionInformationDto;
-use App\Entity\Budget;
+use App\Entity\Wallet;
 use App\Entity\Transaction;
 use App\Enum\TransactionTypeEnum;
 use App\Repository\TransactionRepository;
@@ -26,9 +26,9 @@ final readonly class TransactionManager
 
     public function __construct(private TransactionRepository $transactionRepository, private TransactionCalculator $transactionCalculator, private EntityManagerInterface $entityManager) {}
 
-    public function getAllTransactionInformationByUser(Budget $budget): TransactionInformationDto
+    public function getAllTransactionInformationByUser(Wallet $wallet): TransactionInformationDto
     {
-        $transactions = $this->transactionRepository->findBy(['budget' => $budget]);
+        $transactions = $this->transactionRepository->findBy(['wallet' => $wallet]);
 
         $groupedTransactions = [
             self::EXPENSES_CATEGORY => ['type' => TransactionTypeEnum::EXPENSES()->getString(), self::TRANSACTIONS => [], 'total' => 0],
@@ -66,8 +66,8 @@ final readonly class TransactionManager
         $totalDebts = $groupedTransactions[self::DEBTS_CATEGORY]['total'];
 
         $totalSpending = $totalExpenses + $totalBills + $totalDebts;
-        $totalIncomesAndStartingBalance = $totalIncomes + $budget->getStartBalance();
-        $totalRemaining = $this->calculateRemainingBalance($budget, $groupedTransactions);
+        $totalIncomesAndStartingBalance = $totalIncomes + $wallet->getStartBalance();
+        $totalRemaining = $this->calculateRemainingBalance($wallet, $groupedTransactions);
 
         return new TransactionInformationDto(
             $groupedTransactions,
@@ -82,16 +82,16 @@ final readonly class TransactionManager
     }
 
     /**
-     * Calculate the remaining balance for a budget based on transactions.
+     * Calculate the remaining balance for a wallet based on transactions.
      *
      * @param array<string, array{type: string, transactions: Transaction[], total: float}> $transactions
      */
-    public function calculateRemainingBalance(Budget $budget, array $transactions): float
+    public function calculateRemainingBalance(Wallet $wallet, array $transactions): float
     {
         $totalIncomes = $this->calculateTotalIncomes($transactions);
         $totalSpending = $this->calculateTotalSpending($transactions);
 
-        return $budget->getStartBalance() + $totalIncomes - $totalSpending;
+        return $wallet->getStartBalance() + $totalIncomes - $totalSpending;
     }
 
     /**
@@ -136,9 +136,9 @@ final readonly class TransactionManager
         return $flatTransactions;
     }
 
-    public function findAndDeleteTransactionsByBudget(Budget $budget): void
+    public function findAndDeleteTransactionsByWallet(Wallet $wallet): void
     {
-        $transactions = $this->transactionRepository->findTransactionsByBudget($budget);
+        $transactions = $this->transactionRepository->findTransactionsByWallet($wallet);
         foreach ($transactions as $transaction) {
             $this->entityManager->remove($transaction);
         }
@@ -146,11 +146,11 @@ final readonly class TransactionManager
         $this->entityManager->flush();
     }
 
-    public function copyTransactionsFromPreviousMonth(Budget $currentBudget, float $totalLeftToSpend): void
+    public function copyTransactionsFromPreviousMonth(Wallet $currentWallet, float $totalLeftToSpend): void
     {
-        $currentBudget->setStartBalance($totalLeftToSpend);
+        $currentWallet->setStartBalance($totalLeftToSpend);
 
-        $this->entityManager->persist($currentBudget);
+        $this->entityManager->persist($currentWallet);
         $this->entityManager->flush();
     }
 }

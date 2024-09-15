@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Form;
 
-use App\Entity\Budget;
+use App\Entity\Wallet;
 use App\Enum\MonthEnum;
 use Override;
 use Symfony\Component\Form\AbstractType;
@@ -16,7 +16,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class BudgetType extends AbstractType
+class WalletType extends AbstractType
 {
     #[Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -47,6 +47,7 @@ class BudgetType extends AbstractType
             ])
             ->add('spending_limit', NumberType::class, [
                 'attr' => ['placeholder' => 'Choose a spending limit'],
+                'required' => false,
             ])
         ;
     }
@@ -55,7 +56,7 @@ class BudgetType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Budget::class,
+            'data_class' => Wallet::class,
         ]);
     }
 }

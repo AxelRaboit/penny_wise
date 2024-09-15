@@ -5,48 +5,48 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Dto\TransactionInformationDto;
-use App\Entity\Budget;
+use App\Entity\Wallet;
 use App\Entity\Transaction;
-use App\Exception\NoPreviousBudgetException;
+use App\Exception\NoPreviousWalletException;
 use App\Exception\NoPreviousTransactionsException;
 use App\Manager\TransactionManager;
 use App\Repository\TransactionRepository;
-use App\Util\BudgetHelper;
+use App\Util\WalletHelper;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use InvalidArgumentException;
 
 final readonly class TransactionService
 {
-    public function __construct(private TransactionManager $transactionManager, private EntityManagerInterface $entityManager, private BudgetService $budgetService, private TransactionRepository $transactionRepository, private BudgetHelper $budgetHelper) {}
+    public function __construct(private TransactionManager $transactionManager, private EntityManagerInterface $entityManager, private WalletService $walletService, private TransactionRepository $transactionRepository, private WalletHelper $walletHelper) {}
 
     /**
-     * @return TransactionInformationDto Returns a data transfer object with transaction information by user for a given budget
+     * @return TransactionInformationDto Returns a data transfer object with transaction information by user for a given wallet
      */
-    public function getAllTransactionInformationByUser(Budget $budget): TransactionInformationDto
+    public function getAllTransactionInformationByUser(Wallet $wallet): TransactionInformationDto
     {
-        return $this->transactionManager->getAllTransactionInformationByUser($budget);
+        return $this->transactionManager->getAllTransactionInformationByUser($wallet);
     }
 
     /**
-     * Copy transactions from the previous month to the current month's budget.
+     * Copy transactions from the previous month to the current month's wallet.
      *
-     * @param Budget|null $currentBudget         the current budget to which transactions will be copied
+     * @param Wallet|null $currentWallet         the current wallet to which transactions will be copied
      * @param int         $transactionCategoryId the ID of the transaction category to copy
      */
-    public function copyTransactionsFromPreviousMonth(?Budget $currentBudget, int $transactionCategoryId): void
+    public function copyTransactionsFromPreviousMonth(?Wallet $currentWallet, int $transactionCategoryId): void
     {
-        if (!$currentBudget instanceof Budget) {
+        if (!$currentWallet instanceof Wallet) {
             throw new InvalidArgumentException();
         }
 
-        $previousMonthData = $this->budgetHelper->getPreviousMonthAndYear($currentBudget->getYear(), $currentBudget->getMonth());
-        $previousBudget = $this->budgetService->getBudgetByUser($currentBudget->getIndividual(), $previousMonthData['year'], $previousMonthData['month']);
-        if (!$previousBudget instanceof Budget) {
-            throw new NoPreviousBudgetException();
+        $previousMonthData = $this->walletHelper->getPreviousMonthAndYear($currentWallet->getYear(), $currentWallet->getMonth());
+        $previousWallet = $this->walletService->getWalletByUser($currentWallet->getIndividual(), $previousMonthData['year'], $previousMonthData['month']);
+        if (!$previousWallet instanceof Wallet) {
+            throw new NoPreviousWalletException();
         }
 
-        $previousTransactions = $this->transactionRepository->findTransactionsByBudgetAndCategory($previousBudget, $transactionCategoryId);
+        $previousTransactions = $this->transactionRepository->findTransactionsByWalletAndCategory($previousWallet, $transactionCategoryId);
         if ([] === $previousTransactions) {
             throw new NoPreviousTransactionsException();
         }
@@ -56,7 +56,7 @@ final readonly class TransactionService
             $newTransaction->setDescription($transaction->getDescription());
             $newTransaction->setAmount($transaction->getAmount());
             $newTransaction->setDate(new DateTimeImmutable());
-            $newTransaction->setBudget($currentBudget);
+            $newTransaction->setWallet($currentWallet);
             $newTransaction->setTransactionCategory($transaction->getTransactionCategory());
             $newTransaction->setCategory($transaction->getCategory());
 
@@ -66,18 +66,18 @@ final readonly class TransactionService
         $this->entityManager->flush();
     }
 
-    public function copyLeftToSpendFromPreviousMonth(Budget $currentBudget): void
+    public function copyLeftToSpendFromPreviousMonth(Wallet $currentWallet): void
     {
-        $previousMonthData = $this->budgetHelper->getPreviousMonthAndYear($currentBudget->getYear(), $currentBudget->getMonth());
-        $previousBudget = $this->budgetService->getBudgetByUser($currentBudget->getIndividual(), $previousMonthData['year'], $previousMonthData['month']);
+        $previousMonthData = $this->walletHelper->getPreviousMonthAndYear($currentWallet->getYear(), $currentWallet->getMonth());
+        $previousWallet = $this->walletService->getWalletByUser($currentWallet->getIndividual(), $previousMonthData['year'], $previousMonthData['month']);
 
-        if (!$previousBudget instanceof Budget) {
-            throw new NoPreviousBudgetException();
+        if (!$previousWallet instanceof Wallet) {
+            throw new NoPreviousWalletException();
         }
 
-        $transactionInfoDto = $this->getAllTransactionInformationByUser($previousBudget);
+        $transactionInfoDto = $this->getAllTransactionInformationByUser($previousWallet);
         $totalLeftToSpend = $transactionInfoDto->getTotalLeftToSpend();
 
-        $this->transactionManager->copyTransactionsFromPreviousMonth($currentBudget, $totalLeftToSpend);
+        $this->transactionManager->copyTransactionsFromPreviousMonth($currentWallet, $totalLeftToSpend);
     }
 }

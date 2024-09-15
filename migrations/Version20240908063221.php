@@ -21,7 +21,7 @@ final class Version20240908063221 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE notification ADD budget_id INT NOT NULL');
-        $this->addSql('ALTER TABLE notification ADD CONSTRAINT FK_BF5476CA36ABA6B8 FOREIGN KEY (budget_id) REFERENCES budget (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE notification ADD CONSTRAINT FK_BF5476CA36ABA6B8 FOREIGN KEY (budget_id) REFERENCES wallet (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('CREATE INDEX IDX_BF5476CA36ABA6B8 ON notification (budget_id)');
     }
 

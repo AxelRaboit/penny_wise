@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\Transaction;
-use App\Form\TransactionForBudgetType;
+use App\Form\TransactionForWalletType;
 use App\Form\TransactionType;
-use App\Repository\BudgetRepository;
+use App\Repository\WalletRepository;
 use App\Repository\TransactionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class TransactionController extends AbstractController
 {
-    public function __construct(private readonly EntityManagerInterface $entityManager, private readonly BudgetRepository $budgetRepository, private readonly TransactionRepository $transactionRepository) {}
+    public function __construct(private readonly EntityManagerInterface $entityManager, private readonly WalletRepository $walletRepository, private readonly TransactionRepository $transactionRepository) {}
 
     #[Route('/transaction/new', name: 'transaction_new')]
     public function new(Request $request): Response
@@ -33,9 +33,9 @@ class TransactionController extends AbstractController
             $this->entityManager->persist($transaction);
             $this->entityManager->flush();
 
-            return $this->redirectToRoute('monthly_budget', [
-                'year' => $transaction->getBudget()->getYear(),
-                'month' => $transaction->getBudget()->getMonth(),
+            return $this->redirectToRoute('monthly_wallet', [
+                'year' => $transaction->getWallet()->getYear(),
+                'month' => $transaction->getWallet()->getMonth(),
             ]);
         }
 
@@ -44,21 +44,21 @@ class TransactionController extends AbstractController
         ]);
     }
 
-    #[Route('/transaction/new/{year}/{month}', name: 'transaction_new_for_budget')]
-    public function newForBudget(int $year, int $month, Request $request): Response
+    #[Route('/transaction/new/{year}/{month}', name: 'transaction_new_for_wallet')]
+    public function newForWallet(int $year, int $month, Request $request): Response
     {
-        $budget = $this->budgetRepository
+        $wallet = $this->walletRepository
             ->findOneBy(['year' => $year, 'month' => $month]);
 
-        if (null === $budget) {
-            throw $this->createNotFoundException('Budget not found for the specified year and month.');
+        if (null === $wallet) {
+            throw $this->createNotFoundException('Wallet not found for the specified year and month.');
         }
 
         $transaction = new Transaction();
-        $transaction->setBudget($budget);
+        $transaction->setWallet($wallet);
 
-        $form = $this->createForm(TransactionForBudgetType::class, $transaction, [
-            'budget' => $budget,
+        $form = $this->createForm(TransactionForWalletType::class, $transaction, [
+            'wallet' => $wallet,
         ]);
 
         $form->handleRequest($request);
@@ -67,15 +67,15 @@ class TransactionController extends AbstractController
             $this->entityManager->persist($transaction);
             $this->entityManager->flush();
 
-            return $this->redirectToRoute('monthly_budget', [
+            return $this->redirectToRoute('monthly_wallet', [
                 'year' => $year,
                 'month' => $month,
             ]);
         }
 
-        return $this->render('transaction/new_for_budget.html.twig', [
+        return $this->render('transaction/new_for_wallet.html.twig', [
             'form' => $form,
-            'budget' => $budget,
+            'wallet' => $wallet,
         ]);
     }
 
@@ -94,13 +94,13 @@ class TransactionController extends AbstractController
         } catch (Exception $exception) {
             $this->addFlash('error', sprintf('Error deleting transaction: %s', $exception->getMessage()));
 
-            return $this->redirectToRoute('monthly_budget', [
+            return $this->redirectToRoute('monthly_wallet', [
                 'year' => $year,
                 'month' => $month,
             ]);
         }
 
-        return $this->redirectToRoute('monthly_budget', [
+        return $this->redirectToRoute('monthly_wallet', [
             'year' => $year,
             'month' => $month,
         ]);

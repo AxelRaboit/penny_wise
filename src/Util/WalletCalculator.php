@@ -4,22 +4,22 @@ declare(strict_types=1);
 
 namespace App\Util;
 
-use App\Entity\Budget;
+use App\Entity\Wallet;
 use App\Entity\Transaction;
 
-final readonly class BudgetCalculator
+final readonly class WalletCalculator
 {
     public function __construct(private TransactionCalculator $transactionCalculator) {}
 
     /**
      * @param array<Transaction> $transactions
      */
-    public function calculateRemainingBalance(Budget $budget, array $transactions): float
+    public function calculateRemainingBalance(Wallet $wallet, array $transactions): float
     {
         dump($transactions);
         $totalIncomes = $this->transactionCalculator->calculateTotalIncomes($transactions);
         $totalSpending = $this->transactionCalculator->calculateTotalSpending($transactions);
 
-        return $budget->getStartBalance() + $totalIncomes - $totalSpending;
+        return $wallet->getStartBalance() + $totalIncomes - $totalSpending;
     }
 }

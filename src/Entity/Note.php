@@ -24,7 +24,7 @@ class Note
 
     #[ORM\ManyToOne(inversedBy: 'notes')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Budget $budget = null;
+    private ?Wallet $wallet = null;
 
     public function getId(): ?int
     {
@@ -55,14 +55,14 @@ class Note
         return $this;
     }
 
-    public function getBudget(): ?Budget
+    public function getWallet(): ?Wallet
     {
-        return $this->budget;
+        return $this->wallet;
     }
 
-    public function setBudget(?Budget $budget): static
+    public function setWallet(?Wallet $wallet): static
     {
-        $this->budget = $budget;
+        $this->wallet = $wallet;
 
         return $this;
     }

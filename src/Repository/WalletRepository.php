@@ -7,24 +7,24 @@ namespace App\Repository;
 use App\Dto\MonthDto;
 use App\Dto\TotalSpendingFromNMonthsDto;
 use App\Dto\YearDto;
-use App\Entity\Budget;
+use App\Entity\Wallet;
 use App\Entity\User;
 use App\Enum\MonthEnum;
-use App\Util\BudgetHelper;
+use App\Util\WalletHelper;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\Order;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Budget>
+ * @extends ServiceEntityRepository<Wallet>
  */
-class BudgetRepository extends ServiceEntityRepository
+class WalletRepository extends ServiceEntityRepository
 {
     private const string INCOME_CATEGORY_ID = '4';
 
-    public function __construct(ManagerRegistry $registry, private readonly BudgetHelper $budgetHelper)
+    public function __construct(ManagerRegistry $registry, private readonly WalletHelper $walletHelper)
     {
-        parent::__construct($registry, Budget::class);
+        parent::__construct($registry, Wallet::class);
     }
 
     /**
@@ -77,7 +77,7 @@ class BudgetRepository extends ServiceEntityRepository
     /**
      * @return array<YearDto>
      */
-    public function findAllBudgets(): array
+    public function findAllWallets(): array
     {
         $results = $this->findUniqueYearsAndMonthsRaw();
 
@@ -91,7 +91,7 @@ class BudgetRepository extends ServiceEntityRepository
      *
      * @return YearDto A data transfer object containing the specified year and an array of months
      */
-    public function getAllBudgetsAndTransactionsFromYear(int $year): YearDto
+    public function getAllWalletsAndTransactionsFromYear(int $year): YearDto
     {
         $qb = $this->createQueryBuilder('b')
             ->select('b.month')
@@ -130,7 +130,7 @@ class BudgetRepository extends ServiceEntityRepository
                 'total' => $this->getTotalSpendingByMonth($year, $month),
             ];
 
-            $previousMonth = $this->budgetHelper->getPreviousMonthAndYear($year, $month);
+            $previousMonth = $this->walletHelper->getPreviousMonthAndYear($year, $month);
             $year = $previousMonth['year'];
             $month = $previousMonth['month'];
         }
@@ -196,15 +196,15 @@ class BudgetRepository extends ServiceEntityRepository
     }
 
     /**
-     * Finds the monthly budget for a specific user, given the year and month.
+     * Finds the monthly wallet for a specific user, given the year and month.
      *
-     * @param User      $user      the user for whom the monthly budget is being searched
-     * @param int       $year      the year for which the budget is searched
-     * @param MonthEnum $monthEnum the month for which the budget is searched
+     * @param User      $user      the user for whom the monthly wallet is being searched
+     * @param int       $year      the year for which the wallet is searched
+     * @param MonthEnum $monthEnum the month for which the wallet is searched
      *
-     * @return Budget|null the found Budget entity, or null if no budget is found
+     * @return Wallet|null the found Wallet entity, or null if no wallet is found
      */
-    public function findMonthlyBudgetFromUser(User $user, int $year, MonthEnum $monthEnum): ?Budget
+    public function findMonthlyWalletFromUser(User $user, int $year, MonthEnum $monthEnum): ?Wallet
     {
         $result = $this->createQueryBuilder('b')
             ->where('b.individual = :user')
@@ -216,6 +216,6 @@ class BudgetRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
 
-        return $result instanceof Budget ? $result : null;
+        return $result instanceof Wallet ? $result : null;
     }
 }

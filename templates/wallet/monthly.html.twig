@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ wallet.month|month_name }} {{ wallet.year }} {{ parent() }}{% endblock %}
+
+{% block body %}
+    <div class="mb-4">
+        {{ include('wallet/partial/_main.html.twig') }}
+    </div>
+
+    <div class="mb-4">
+        {{ include('wallet/partial/transaction/_transactions.html.twig') }}
+    </div>
+
+    {{ include('components/note.html.twig') }}
+{% endblock %}

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Form;
 
-use App\Entity\Budget;
+use App\Entity\Wallet;
 use App\Entity\Transaction;
 use App\Entity\TransactionCategory;
 use App\Repository\TransactionCategoryRepository;
@@ -43,8 +43,8 @@ class TransactionType extends AbstractType
                 'required' => false,
                 'attr' => ['placeholder' => 'Choose a category'],
             ])
-            ->add('budget', EntityType::class, [
-                'class' => Budget::class,
+            ->add('wallet', EntityType::class, [
+                'class' => Wallet::class,
                 'choice_label' => 'getMonthLabel',
             ])
         ;

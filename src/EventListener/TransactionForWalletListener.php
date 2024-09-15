@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\EventListener;
 
-use App\Entity\Budget;
+use App\Entity\Wallet;
 use App\Entity\Transaction;
 use DateInterval;
 use DateMalformedPeriodStringException;
@@ -20,20 +20,20 @@ use Symfony\Component\Form\FormEvents;
 
 #[AsEventListener(event: FormEvents::PRE_SET_DATA, method: 'onPreSetData')]
 #[AsEventListener(event: FormEvents::POST_SUBMIT, method: 'onPostSubmit')]
-final class TransactionForBudgetListener
+final class TransactionForWalletListener
 {
     /**
      * @throws DateMalformedStringException
      * @throws DateMalformedPeriodStringException
      */
-    public function onPreSetData(FormEvent $event, Budget $budget): void
+    public function onPreSetData(FormEvent $event, Wallet $wallet): void
     {
         $form = $event->getForm();
-        $startDateFromBudget = $budget->getStartDate();
+        $startDateFromWallet = $wallet->getStartDate();
 
-        $endDateFromBudget = DateTime::createFromInterface($budget->getEndDate())->modify('+1 day');
+        $endDateFromWallet = DateTime::createFromInterface($wallet->getEndDate())->modify('+1 day');
 
-        $dateIntervalPeriod = new DatePeriod($startDateFromBudget, new DateInterval('P1D'), $endDateFromBudget);
+        $dateIntervalPeriod = new DatePeriod($startDateFromWallet, new DateInterval('P1D'), $endDateFromWallet);
 
         $days = [];
         foreach ($dateIntervalPeriod as $date) {
@@ -50,7 +50,7 @@ final class TransactionForBudgetListener
         ]);
     }
 
-    public function onPostSubmit(FormEvent $event, Budget $budget): void
+    public function onPostSubmit(FormEvent $event, Wallet $wallet): void
     {
         $form = $event->getForm();
         $transaction = $event->getData();
@@ -69,21 +69,21 @@ final class TransactionForBudgetListener
 
         $day = (int) $day;
 
-        $startDateFromBudget = $budget->getStartDate();
-        $month = (int) $startDateFromBudget->format('m');
-        $year = (int) $startDateFromBudget->format('Y');
+        $startDateFromWallet = $wallet->getStartDate();
+        $month = (int) $startDateFromWallet->format('m');
+        $year = (int) $startDateFromWallet->format('Y');
 
         try {
             $fullDate = new DateTime(sprintf('%d-%02d-%02d', $year, $month, $day));
 
-            if ($fullDate < $budget->getStartDate() || $fullDate > $budget->getEndDate()) {
+            if ($fullDate < $wallet->getStartDate() || $fullDate > $wallet->getEndDate()) {
                 $form->get('date')->addError(new FormError(
                     sprintf(
                         'The selected day must be between day %s (%s) and day %s (%s)',
-                        $budget->getStartDate()->format('d'),
-                        $budget->getStartDate()->format('Y-m-d'),
-                        $budget->getEndDate()->format('d'),
-                        $budget->getEndDate()->format('Y-m-d')
+                        $wallet->getStartDate()->format('d'),
+                        $wallet->getStartDate()->format('Y-m-d'),
+                        $wallet->getEndDate()->format('d'),
+                        $wallet->getEndDate()->format('Y-m-d')
                     )
                 ));
 

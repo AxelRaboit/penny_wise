@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Form;
 
-use App\Entity\Budget;
+use App\Entity\Wallet;
 use App\Entity\Transaction;
 use App\Entity\TransactionCategory;
-use App\EventListener\TransactionForBudgetListener;
+use App\EventListener\TransactionForWalletListener;
 use App\Repository\TransactionCategoryRepository;
 use Doctrine\ORM\QueryBuilder;
 use Override;
@@ -20,14 +20,14 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-final class TransactionForBudgetType extends AbstractType
+final class TransactionForWalletType extends AbstractType
 {
-    public function __construct(private readonly TransactionForBudgetListener $transactionForBudgetListener) {}
+    public function __construct(private readonly TransactionForWalletListener $transactionForWalletListener) {}
 
     #[Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $budget = $builder->getOption('budget');
+        $wallet = $builder->getOption('wallet');
 
         $builder
             ->add('description', TextType::class, [
@@ -47,14 +47,14 @@ final class TransactionForBudgetType extends AbstractType
                 'required' => false,
                 'attr' => ['placeholder' => 'Enter a category (optional)'],
             ])
-            ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) use ($budget): void {
-                if ($budget instanceof Budget) {
-                    $this->transactionForBudgetListener->onPreSetData($event, $budget);
+            ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) use ($wallet): void {
+                if ($wallet instanceof Wallet) {
+                    $this->transactionForWalletListener->onPreSetData($event, $wallet);
                 }
             })
-            ->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($budget): void {
-                if ($budget instanceof Budget) {
-                    $this->transactionForBudgetListener->onPostSubmit($event, $budget);
+            ->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($wallet): void {
+                if ($wallet instanceof Wallet) {
+                    $this->transactionForWalletListener->onPostSubmit($event, $wallet);
                 }
             });
     }
@@ -64,9 +64,9 @@ final class TransactionForBudgetType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Transaction::class,
-            'budget' => null,
+            'wallet' => null,
         ]);
 
-        $resolver->setAllowedTypes('budget', ['null', Budget::class]);
+        $resolver->setAllowedTypes('wallet', ['null', Wallet::class]);
     }
 }

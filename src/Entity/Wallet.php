@@ -6,25 +6,25 @@ namespace App\Entity;
 
 use App\Entity\Trait\TimestampableTrait;
 use App\Enum\MonthEnum;
-use App\Repository\BudgetRepository;
+use App\Repository\WalletRepository;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: BudgetRepository::class)]
-class Budget
+#[ORM\Entity(repositoryClass: WalletRepository::class)]
+class Wallet
 {
     use TimestampableTrait;
 
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
-    #[ORM\SequenceGenerator(sequenceName: 'budget_id_seq', allocationSize: 1, initialValue: 1)]
+    #[ORM\SequenceGenerator(sequenceName: 'wallet_id_seq', allocationSize: 1, initialValue: 1)]
     #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'budgets')]
+    #[ORM\ManyToOne(inversedBy: 'wallets')]
     #[ORM\JoinColumn(nullable: false)]
     private User $individual;
 
@@ -49,7 +49,7 @@ class Budget
     /**
      * @var Collection<int, Transaction>
      */
-    #[ORM\OneToMany(targetEntity: Transaction::class, mappedBy: 'budget')]
+    #[ORM\OneToMany(targetEntity: Transaction::class, mappedBy: 'wallet')]
     private Collection $transactions;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
@@ -58,7 +58,7 @@ class Budget
     /**
      * @var Collection<int, Note>
      */
-    #[ORM\OneToMany(targetEntity: Note::class, mappedBy: 'budget')]
+    #[ORM\OneToMany(targetEntity: Note::class, mappedBy: 'wallet')]
     private Collection $notes;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
@@ -171,7 +171,7 @@ class Budget
     {
         if (!$this->transactions->contains($transaction)) {
             $this->transactions->add($transaction);
-            $transaction->setBudget($this);
+            $transaction->setWallet($this);
         }
 
         return $this;
@@ -206,7 +206,7 @@ class Budget
     {
         if (!$this->notes->contains($note)) {
             $this->notes->add($note);
-            $note->setBudget($this);
+            $note->setWallet($this);
         }
 
         return $this;
@@ -215,8 +215,8 @@ class Budget
     public function removeNote(Note $note): static
     {
         // set the owning side to null (unless already changed)
-        if ($this->notes->removeElement($note) && $note->getBudget() === $this) {
-            $note->setBudget(null);
+        if ($this->notes->removeElement($note) && $note->getWallet() === $this) {
+            $note->setWallet(null);
         }
 
         return $this;

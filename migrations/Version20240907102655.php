@@ -20,13 +20,13 @@ final class Version20240907102655 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE budget RENAME COLUMN left_balance TO remaining_balance');
+        $this->addSql('ALTER TABLE wallet RENAME COLUMN left_balance TO remaining_balance');
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE SCHEMA public');
-        $this->addSql('ALTER TABLE budget RENAME COLUMN remaining_balance TO left_balance');
+        $this->addSql('ALTER TABLE wallet RENAME COLUMN remaining_balance TO left_balance');
     }
 }

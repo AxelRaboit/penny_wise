@@ -5,29 +5,29 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Dto\TransactionInformationDto;
-use App\Entity\Budget;
+use App\Entity\Wallet;
 use App\Entity\User;
 use App\Enum\MonthEnum;
-use App\Repository\BudgetRepository;
+use App\Repository\WalletRepository;
 use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
 use Symfony\UX\Chartjs\Model\Chart;
 
-final readonly class BudgetService
+final readonly class WalletService
 {
     private const float DEFAULT_BALANCE = 0.0;
 
     public function __construct(
-        private BudgetRepository $budgetRepository,
+        private WalletRepository      $walletRepository,
         private ChartBuilderInterface $chartBuilder,
     ) {}
 
-    public function getBudgetByUser(User $user, int $year, int $month): ?Budget
+    public function getWalletByUser(User $user, int $year, int $month): ?Wallet
     {
-        /** @var Budget|null $budget */
-        $budget = $this->budgetRepository
-            ->findMonthlyBudgetFromUser($user, $year, MonthEnum::from($month));
+        /** @var Wallet|null $wallet */
+        $wallet = $this->walletRepository
+            ->findMonthlyWalletFromUser($user, $year, MonthEnum::from($month));
 
-        return $budget;
+        return $wallet;
     }
 
     public function createLeftToSpendChart(TransactionInformationDto $transactions): Chart
@@ -63,7 +63,7 @@ final readonly class BudgetService
 
     public function createTotalSpendingForCurrentAndPreviousNthMonthsChart(int $year, int $month, int $nMonths): Chart
     {
-        $data = $this->budgetRepository->getTotalSpendingForCurrentAndPreviousNthMonths($year, $month, $nMonths);
+        $data = $this->walletRepository->getTotalSpendingForCurrentAndPreviousNthMonths($year, $month, $nMonths);
 
         $labels = [];
         $totals = [];
@@ -100,7 +100,7 @@ final readonly class BudgetService
         $previousYear = $currentYear - 1;
         $nextYear = $currentYear + 1;
 
-        $data = $this->budgetRepository->getTotalSpendingPerYear($previousYear, $nextYear);
+        $data = $this->walletRepository->getTotalSpendingPerYear($previousYear, $nextYear);
 
         $labels = [];
         $totals = [];
