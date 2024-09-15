@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Entity\UserInformation;
 use App\Form\UserInformationType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Entity\User;
 
 class ProfileController extends AbstractController
 {
@@ -37,16 +39,28 @@ class ProfileController extends AbstractController
         $userInformation = $user->getUserInformation() ?? new UserInformation();
         $userInformation->setUser($user);
 
-        $form = $this->createForm(UserInformationType::class, $userInformation);
+        $hasAvatar = null !== $userInformation->getAvatarName();
+
+        $form = $this->createForm(UserInformationType::class, $userInformation, ['has_avatar' => $hasAvatar]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($form->get('remove_avatar')->getData()) {
+            if ($form->has('remove_avatar') && $form->get('remove_avatar')->getData()) {
                 $oldAvatarName = $userInformation->getAvatarName();
                 if ($oldAvatarName) {
-                    $avatarPath = $this->getParameter('avatars_directory') . '/' . $oldAvatarName;
-                    if (file_exists($avatarPath)) {
-                        unlink($avatarPath);
+                    $filesystem = new Filesystem();
+
+                    $avatarDirectory = $this->getParameter('avatars_directory');
+                    if (is_string($avatarDirectory)) {
+                        $avatarPath = sprintf('%s/%s', $avatarDirectory, $oldAvatarName);
+
+                        if ($filesystem->exists($avatarPath)) {
+                            try {
+                                $filesystem->remove($avatarPath);
+                            } catch (IOExceptionInterface $exception) {
+                                $this->addFlash('danger', sprintf('An error occurred while deleting the avatar: %s', $exception->getMessage()));
+                            }
+                        }
                     }
 
                     $userInformation->setAvatarName(null);

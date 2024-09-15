@@ -11,39 +11,39 @@
 
             <div class="grid grid-cols-1 gap-6">
                 <div class="flex flex-col mb-2">
-                    {{ form_label(form.firstname, null, { 'label_attr': {'class': 'text-gray-700 font-semibold'} }) }}
-                    {{ form_widget(form.firstname, { 'attr': {'class': 'rounded-md shadow-sm p-2 border border-gray-300 focus:ring-primary focus:border-primary'} }) }}
+                    {{ form_label(form.firstname, null, {label_attr: {class: 'text-gray-700 font-semibold'}}) }}
+                    {{ form_widget(form.firstname, {attr: {class: 'rounded-md shadow-sm p-2 border border-gray-300 focus:ring-primary focus:border-primary'}}) }}
                     {{ form_errors(form.firstname) }}
                 </div>
 
                 <div class="flex flex-col mb-2">
-                    {{ form_label(form.lastname, null, { 'label_attr': {'class': 'text-gray-700 font-semibold'} }) }}
-                    {{ form_widget(form.lastname, { 'attr': {'class': 'rounded-md shadow-sm p-2 border border-gray-300 focus:ring-primary focus:border-primary'} }) }}
+                    {{ form_label(form.lastname, null, {label_attr: {class: 'text-gray-700 font-semibold'}}) }}
+                    {{ form_widget(form.lastname, {attr: {class: 'rounded-md shadow-sm p-2 border border-gray-300 focus:ring-primary focus:border-primary'}}) }}
                     {{ form_errors(form.lastname) }}
                 </div>
 
                 <div class="flex flex-col mb-2">
-                    {{ form_label(form.avatarFile, 'Upload New Avatar', { 'label_attr': {'class': 'text-gray-700 font-semibold'} }) }}
-                    {{ form_widget(form.avatarFile, { 'attr': {'class': 'rounded-md shadow-sm p-2 border border-gray-300 focus:ring-primary focus:border-primary'} }) }}
+                    {{ form_label(form.avatarFile, 'Upload New Avatar', {label_attr: {class: 'text-gray-700 font-semibold'}}) }}
+                    {{ form_widget(form.avatarFile, {attr: {class: 'rounded-md shadow-sm p-2 border border-gray-300 focus:ring-primary focus:border-primary'}}) }}
                     {{ form_errors(form.avatarFile) }}
 
                     {% if app.user.userInformation and app.user.userInformation.avatarName %}
                         <div class="flex items-center mt-4">
                             <img src="{{ asset('uploads/avatars/' ~ app.user.userInformation.avatarName) }}" alt="Current Avatar" class="w-16 h-16 rounded-full mr-4 shadow-md">
+
                             <div class="flex items-center">
-                                {{ form_widget(form.remove_avatar, { 'attr': {'class': 'ml-2'} }) }}
+                                {{ form_widget(form.remove_avatar, {attr: {class: 'ml-2'}}) }}
                                 <label for="{{ form.remove_avatar.vars.id }}" class="ml-2 text-sm text-red-600">Remove current avatar</label>
                             </div>
                         </div>
                     {% endif %}
-                    {{ form_errors(form.remove_avatar) }}
                 </div>
             </div>
 
             <div class="mt-4 flex justify-between">
-                    <a href="{{ app.request.headers.get('referer') ?: path('app_homepage') }}" class="bg-primary hover:bg-primary-hover text-white font-bold py-2 px-4 rounded-md">
-                        <i class="fa-solid fa-arrow-left mr-1"></i> Back
-                    </a>
+                <a href="{{ app.request.headers.get('referer') ?: path('app_homepage') }}" class="bg-primary hover:bg-primary-hover text-white font-bold py-2 px-4 rounded-md">
+                    <i class="fa-solid fa-arrow-left mr-1"></i> Back
+                </a>
                 <button type="submit" class="bg-primary hover:bg-primary-hover text-white font-bold py-2 px-4 rounded-md">
                     Save Changes
                 </button>

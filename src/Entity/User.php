@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Override;
+use Serializable;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -18,7 +19,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[ORM\Table(name: '`user`')]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
-class User implements UserInterface, PasswordAuthenticatedUserInterface, \Serializable
+class User implements UserInterface, PasswordAuthenticatedUserInterface, Serializable
 {
     use TimestampableTrait;
 
@@ -201,21 +202,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \Serial
         return $this;
     }
 
-    public function serialize(): ?string
+    #[Override]
+    public function serialize(): string
     {
-        return serialize(array(
+        return serialize([
             $this->id,
             $this->email,
             $this->password,
-        ));
+        ]);
     }
 
+    #[Override]
     public function unserialize($data): void
     {
-        list(
-            $this->id,
-            $this->email,
-            $this->password,
-            ) = unserialize($data);
+        $dataArray = unserialize($data);
+
+        if (is_array($dataArray)) {
+            if (isset($dataArray[0]) && is_int($dataArray[0])) {
+                $this->id = $dataArray[0];
+            }
+
+            if (isset($dataArray[1]) && is_string($dataArray[1])) {
+                $this->email = $dataArray[1];
+            }
+
+            if (isset($dataArray[2]) && is_string($dataArray[2])) {
+                $this->password = $dataArray[2];
+            }
+        }
     }
 }

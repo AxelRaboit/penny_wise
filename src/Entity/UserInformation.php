@@ -6,6 +6,7 @@ namespace App\Entity;
 
 use App\Repository\UserInformationRepository;
 use DateTimeImmutable;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Serializer\Annotation\Ignore;
@@ -18,7 +19,7 @@ class UserInformation
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
     #[ORM\SequenceGenerator(sequenceName: 'user_information_id_seq', allocationSize: 1, initialValue: 1)]
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
 
     #[ORM\OneToOne(targetEntity: User::class, inversedBy: 'userInformation')]
@@ -31,7 +32,7 @@ class UserInformation
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $lastname = null;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $avatarName = null;
 
     /**
@@ -41,7 +42,7 @@ class UserInformation
     #[Ignore]
     private ?File $avatarFile = null;
 
-    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private ?DateTimeImmutable $updatedAt = null;
 
     public function getId(): ?int
@@ -77,7 +78,7 @@ class UserInformation
     {
         $this->avatarFile = $avatarFile;
 
-        if ($avatarFile !== null) {
+        if ($avatarFile instanceof File) {
             $this->updatedAt = new DateTimeImmutable();
         }
 
