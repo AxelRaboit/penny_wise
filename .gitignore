@@ -9,6 +9,13 @@
 /vendor/
 ###< symfony/framework-bundle ###
 
+###> public/uploads ###
+/public/uploads/*
+!/public/uploads/.gitkeep
+/public/uploads/avatars/*
+!/public/uploads/avatars/.gitkeep
+###< public/uploads ###
+
 ###> node_modules ###
 /node_modules/
 ###< node_modules ###
