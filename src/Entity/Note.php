@@ -26,6 +26,9 @@ class Note
     #[ORM\JoinColumn(nullable: false)]
     private ?Wallet $wallet = null;
 
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $expiration = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -63,6 +66,18 @@ class Note
     public function setWallet(?Wallet $wallet): static
     {
         $this->wallet = $wallet;
+
+        return $this;
+    }
+
+    public function getExpiration(): ?\DateTimeInterface
+    {
+        return $this->expiration;
+    }
+
+    public function setExpiration(?\DateTimeInterface $expiration): static
+    {
+        $this->expiration = $expiration;
 
         return $this;
     }
