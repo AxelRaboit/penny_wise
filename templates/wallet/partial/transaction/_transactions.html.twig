@@ -1,14 +1,14 @@
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
     <div class="flex flex-col">
-        {{ include('wallet/partial/transaction/_transaction_tab.html.twig', {transactionCategory: transactionCategories.incomes}) }}
+        {{ include('wallet/partial/transaction/_transaction.html.twig', {transactionCategory: transactionCategories.incomes}) }}
     </div>
     <div class="flex flex-col">
-        {{ include('wallet/partial/transaction/_transaction_tab.html.twig', {transactionCategory: transactionCategories.bills}) }}
+        {{ include('wallet/partial/transaction/_transaction.html.twig', {transactionCategory: transactionCategories.bills}) }}
     </div>
     <div class="flex flex-col">
-        {{ include('wallet/partial/transaction/_transaction_tab.html.twig', {transactionCategory: transactionCategories.expenses}) }}
+        {{ include('wallet/partial/transaction/_transaction.html.twig', {transactionCategory: transactionCategories.expenses}) }}
     </div>
     <div class="flex flex-col">
-        {{ include('wallet/partial/transaction/_transaction_tab.html.twig', {transactionCategory: transactionCategories.debts}) }}
+        {{ include('wallet/partial/transaction/_transaction.html.twig', {transactionCategory: transactionCategories.debts}) }}
     </div>
 </div>

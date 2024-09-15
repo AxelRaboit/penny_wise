@@ -23,7 +23,7 @@ class RegistrationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->registrationManager->onUserRegistered($form, $user);
 
-            return $this->redirectToRoute('app_homepage');
+            return $this->redirectToRoute('wallet_list');
         }
 
         return $this->render('registration/register.html.twig', [

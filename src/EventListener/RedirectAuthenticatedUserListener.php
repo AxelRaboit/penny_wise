@@ -16,7 +16,7 @@ final readonly class RedirectAuthenticatedUserListener
 {
     private const string LOGIN_ROUTE = 'app_login';
 
-    private const string HOMEPAGE_ROUTE = 'app_homepage';
+    private const string WALLET_LIST_ROUTE = 'wallet_list';
 
     private const string REGISTER_ROUTE = 'app_register';
 
@@ -47,7 +47,7 @@ final readonly class RedirectAuthenticatedUserListener
     private function redirectAuthenticatedUser(RequestEvent $event, ?string $route): void
     {
         if (in_array($route, [self::LOGIN_ROUTE, self::REGISTER_ROUTE], true)) {
-            $event->setResponse(new RedirectResponse($this->router->generate(self::HOMEPAGE_ROUTE)));
+            $event->setResponse(new RedirectResponse($this->router->generate(self::WALLET_LIST_ROUTE)));
         }
     }
 }

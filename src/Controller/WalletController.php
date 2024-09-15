@@ -31,6 +31,8 @@ final class WalletController extends AbstractController
 
     private const string NEW_WALLET_TEMPLATE = 'wallet/new.html.twig';
 
+    private const string WALLET_LIST_TEMPLATE = 'wallet/wallet_list.html.twig';
+
     private const int BILL_CATEGORY_ID = 1;
 
     private const int EXPENSE_CATEGORY_ID = 2;
@@ -45,6 +47,16 @@ final class WalletController extends AbstractController
         private readonly WalletManager $walletManager,
         private readonly WalletHelper $walletHelper,
     ) {}
+
+    #[Route('/', name: 'wallet_list')]
+    public function index(): Response
+    {
+        $options = [
+            'wallets' => $this->walletRepository->findAllWallets(),
+        ];
+
+        return $this->render(self::WALLET_LIST_TEMPLATE, $options);
+    }
 
     /**
      * @throws Exception
