@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Manager;
 
 use App\Entity\User;
+use App\Entity\UserInformation;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -30,7 +31,18 @@ final readonly class RegistrationManager
         );
         $user->setRoles(self::ROLE_USER);
 
+        $userInformation = $this->createUserInformation($user);
+        $user->setUserInformation($userInformation);
+
         $this->entityManager->persist($user);
         $this->entityManager->flush();
+    }
+
+    private function createUserInformation(User $user): UserInformation
+    {
+        $userInformation = new UserInformation();
+        $userInformation->setUser($user);
+
+        return $userInformation;
     }
 }

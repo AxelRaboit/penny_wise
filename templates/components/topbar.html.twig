@@ -10,24 +10,33 @@
             {% if app.user %}
                 <div class="flex items-center justify-between">
                     <div>
-                        <button id="js-user-dropdown-button" class="flex items-center text-center p-2 cursor-pointer rounded focus:outline-none">
-                            <img src="{{ asset('media/logo.png') }}" alt="{{ app.user.email }}" class="w-8 h-8 rounded-full">
+                        <button id="js-user-dropdown-button" class="flex items-center text-center p-2 cursor-pointer rounded-md focus:outline-none">
+                            {% if app.user.userInformation and app.user.userInformation.avatarName %}
+                                <img src="{{ asset('uploads/avatars/' ~ app.user.userInformation.avatarName) }}" alt="Avatar" class="w-8 h-8 rounded-full">
+                            {% else %}
+                                <img src="{{ asset('media/logo.png') }}" alt="Default Avatar" class="w-8 h-8 rounded-full">
+                            {% endif %}
                         </button>
-                        <div id="js-user-dropdown-menu" class="hidden absolute right-0 mt-2 w-64 bg-white rounded z-50">
+                        <div id="js-user-dropdown-menu" class="hidden absolute right-0 mt-2 w-64 bg-white rounded-md z-50">
                             <div class="flex items-center p-4">
                                 <div class="w-10 h-10">
-                                    <img src="{{ asset('media/logo.png') }}" alt="{{ app.user.email }}" class="w-full h-full rounded-full">
+                                    {% if app.user.userInformation and app.user.userInformation.avatarName %}
+                                        <img src="{{ asset('uploads/avatars/' ~ app.user.userInformation.avatarName) }}" alt="Avatar" class="rounded-full w-8 h-8">
+                                    {% else %}
+                                        <img src="{{ asset('media/logo.png') }}" alt="Default Avatar" class="rounded-full w-8 h-8">
+                                    {% endif %}
                                 </div>
+
                                 <div class="ml-3">
-                                    {% if app.user.firstname and app.user.lastname %}
+                                    {% if app.user.userInformation.firstname and app.user.userInformation.lastname %}
                                         <span class="block text-sm font-bold text-gray-700">
-                                            {{ app.user.firstname }} {{ app.user.lastname }}
+                                            {{ app.user.userInformation.firstname }} {{ app.user.userInformation.lastname }}
                                         </span>
                                     {% endif %}
                                     <span class="block text-sm text-gray-500">
                                         {{ app.user.email }}
                                     </span>
-                                    <a href="{{ path('show_profile') }}" class="block text-sm text-tertiary mt-1">Show your profile</a>
+                                    <a href="{{ path('profile_show') }}" class="block text-sm text-tertiary mt-1">Show your profile</a>
                                 </div>
                             </div>
 
@@ -38,7 +47,7 @@
                                 <a href="{{ path('app_homepage') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                                     <i class="fa-solid fa-money-bill mr-1"></i> Annual wallet
                                 </a>
-                                <a href="{{ path('app_logout') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-b">
+                                <a href="{{ path('app_logout') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-b-md">
                                     <i class="fa-solid fa-right-from-bracket mr-1"></i> Logout
                                 </a>
                             </div>
@@ -56,7 +65,16 @@
                                     <i class="fa-solid fa-question mr-1"></i> Help
                                 </a>
                             </div>
-                            <div class="border-t border-gray-200 mt-2 text-center">
+
+                            {#{% if wallets is empty %}
+                                <div class="border-t border-gray-200 mt-2 text-center">
+                                    <a href="{{ path('wallet_new') }}" class="block px-4 py-2 bg-primary hover:bg-primary-hover py-2 px-4">
+                                        <i class="fa-regular fa-lightbulb mr-4 text-white"></i><span class="font-bold text-white ">Create your first wallet</span>
+                                    </a>
+                                </div>
+                            {% endif %}#}
+
+                            <div class="border-t border-gray-200 text-center">
                                 <span class="text-xs text-gray-500">© 2024 Spending Wise</span>
                             </div>
                         </div>

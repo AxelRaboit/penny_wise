@@ -1,6 +1,6 @@
 <div class="p-1 rounded">
     <div id="monthlyBill">
-        <h2 class="rounded-t text-center text-xl font-bold p-2 bg-secondary text-white">{{ transactionCategory.type|capitalize }}</h2>
+        <h2 class="rounded-t-md text-center text-xl font-bold p-2 bg-secondary text-white">{{ transactionCategory.type|capitalize }}</h2>
 
         <div class="flex bg-white">
             <div class="w-full text-center bg-primary"><span class="font-bold text-white">Date</span></div>
@@ -12,9 +12,9 @@
         {% for transactions in transactionCategory %}
             {% for transaction in transactions %}
                 <div class="flex {{ cycle(['bg-white', 'bg-quaternary'], loop.index) }}">
-                    <div class="{{ loop.last ? 'rounded-bl' : '' }} w-full flex items-center justify-center"><span class="font-bold p-2">{{ transaction.date|date('d M Y') }}</span></div>
+                    <div class="{{ loop.last ? 'rounded-bl-md' : '' }} w-full flex items-center justify-center"><span class="font-bold p-2">{{ transaction.date|date('d M Y') }}</span></div>
                     <div class="w-full flex items-center justify-center"><span class="font-bold">{{ transaction.category }}</span></div>
-                    <div class="{{ loop.last ? 'rounded-br' : '' }} w-full flex items-center justify-center">
+                    <div class="{{ loop.last ? 'rounded-br-md' : '' }} w-full flex items-center justify-center">
                         <span class="w-full flex items-center justify-center">{{ transaction.amount }}</span>
                     </div>
                     <div class="w-full flex items-center justify-center py-2">
@@ -33,10 +33,10 @@
         {% endfor %}
     </div>
     <div class="flex bg-white rounded-b">
-        <div class="rounded-bl w-full text-center p-2 bg-primary">
+        <div class="rounded-bl-md w-full text-center p-2 bg-primary">
             <span class="font-bold text-white">Total</span>
         </div>
-        <div class="rounded-br w-full text-center p-2 flex items-stretch">
+        <div class="rounded-br-md w-full text-center p-2 flex items-stretch">
             <span class="bg-secondary text-white text-left px-2 py-1 w-1/6 h-full flex items-center justify-center rounded">
             {{ wallet.currency.value|currency_symbol }}
         </span>

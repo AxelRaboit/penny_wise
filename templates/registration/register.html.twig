@@ -11,7 +11,7 @@
 
             <div class="space-y-4">
                 <div>
-                    {{ form_row(registrationForm.email, {attr: {class: 'w-full p-2 border rounded'}}) }}
+                    {{ form_row(registrationForm.email, {attr: {class: 'w-full p-2 border rounded-md'}}) }}
                 </div>
                 <div>
                     {{ form_row(registrationForm.plainPassword, {attr: {class: 'w-full p-2 border rounded'}}) }}
@@ -26,7 +26,9 @@
             </div>
 
             <div class="mt-4">
-                <twig:Button type="submit" color="primary" size="md" fullWidth="true">Soumettre</twig:Button>
+                <button type="submit" class="bg-primary hover:bg-primary-hover text-white font-bold py-2 px-4 rounded-md">
+                    Register
+                </button>
             </div>
 
             {{ form_end(registrationForm) }}

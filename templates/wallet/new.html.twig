@@ -4,7 +4,7 @@
 
 {% block body %}
     <div>
-        <div class="bg-white shadow-lg rounded max-w-lg mx-auto"> <!-- Limiter la largeur avec max-w-lg et centrer avec mx-auto -->
+        <div class="bg-white shadow-lg rounded-md max-w-lg mx-auto">
             <div class="bg-secondary text-white text-center py-4 rounded-t">
                 <h1 class="text-xl font-bold text-white">Add a New Wallet</h1>
             </div>
@@ -48,7 +48,7 @@
                     </div>
                 </div>
 
-                <button type="submit" class="text-center font-bold bg-primary hover:bg-primary-hover text-white py-2 px-4 rounded w-full">
+                <button type="submit" class="text-center font-bold bg-primary hover:bg-primary-hover text-white py-2 px-4 rounded-md w-full">
                     Add Wallet
                 </button>
                 {{ form_end(form) }}

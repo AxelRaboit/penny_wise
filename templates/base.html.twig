@@ -19,7 +19,7 @@
 
         <div id="app">
             {% for label, messages in app.flashes %}
-                <div class="p-4 mb-4 text-sm text-white text-center {{ label == 'success' ? 'bg-success' : 'bg-danger' }} rounded" role="alert">
+                <div class="p-4 mb-4 text-sm text-white text-center {{ label == 'success' ? 'bg-success' : 'bg-danger' }} rounded-md" role="alert">
                     {% for message in messages %}
                         <span class="font-bold text-white">{{ label|capitalize }}:</span> {{ message }}
                     {% endfor %}

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Entity\Trait\TimestampableTrait;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -17,8 +18,10 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[ORM\Table(name: '`user`')]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
-class User implements UserInterface, PasswordAuthenticatedUserInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface, \Serializable
 {
+    use TimestampableTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
     #[ORM\SequenceGenerator(sequenceName: 'user_id_seq', allocationSize: 1, initialValue: 1)]
@@ -52,11 +55,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Link::class, mappedBy: 'individual')]
     private Collection $links;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $firstname = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $lastname = null;
+    #[ORM\OneToOne(targetEntity: UserInformation::class, cascade: ['persist', 'remove'])]
+    private ?UserInformation $userInformation = null;
 
     public function __construct()
     {
@@ -189,27 +189,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getFirstname(): ?string
+    public function getUserInformation(): ?UserInformation
     {
-        return $this->firstname;
+        return $this->userInformation;
     }
 
-    public function setFirstname(?string $firstname): static
+    public function setUserInformation(?UserInformation $userInformation): self
     {
-        $this->firstname = $firstname;
+        $this->userInformation = $userInformation;
 
         return $this;
     }
 
-    public function getLastname(): ?string
+    public function serialize(): ?string
     {
-        return $this->lastname;
+        return serialize(array(
+            $this->id,
+            $this->email,
+            $this->password,
+        ));
     }
 
-    public function setLastname(?string $lastname): static
+    public function unserialize($data): void
     {
-        $this->lastname = $lastname;
-
-        return $this;
+        list(
+            $this->id,
+            $this->email,
+            $this->password,
+            ) = unserialize($data);
     }
 }

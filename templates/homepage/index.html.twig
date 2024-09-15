@@ -7,15 +7,15 @@
         {% if wallets is not empty %}
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {% for year in wallets %}
-                    <div class="p-1 rounded mb-4">
-                        <div class="text-center bg-secondary rounded-t">
+                    <div class="p-1 rounded-md mb-4">
+                        <div class="text-center bg-secondary rounded-t-md">
                             <h2 class="text-xl font-bold p-2 text-white">{{ year.getYear() }}</h2>
                         </div>
-                        <div class="w-full bg-secondary rounded-b p-2 bg-white">
+                        <div class="w-full bg-secondary rounded-b-md p-2 bg-white">
                             <div class="grid grid-cols-3 gap-2">
                                 {% for month in year.getMonths() %}
                                     <a href="{{ path('monthly_wallet', {year: year.getYear(), month: month.getMonthNumber()}) }}"
-                                       class="text-sm font-bold py-2 px-4 rounded bg-secondary text-white hover:bg-secondary-hover text-center">
+                                       class="text-sm font-bold py-2 px-4 rounded-md bg-secondary text-white hover:bg-secondary-hover text-center">
                                         {{ month.getMonthName() }}
                                     </a>
                                 {% endfor %}
@@ -25,8 +25,8 @@
                 {% endfor %}
             </div>
         {% else %}
-            <div class="text-center bg-white p-6 rounded shadow-md w-full max-w-md">
-                <img src="{{ asset('media/logo.png') }}" alt="logo" class="w-full rounded mb-4">
+            <div class="text-center bg-white p-6 rounded-md shadow-md w-full max-w-md">
+                <img src="{{ asset('media/logo.png') }}" alt="logo" class="w-full rounded-md mb-4">
                 <h2 class="text-xl font-bold mb-4">Welcome!</h2>
                 <p class="mb-4">It looks like you don't have any wallets yet. Why not create your first one?</p>
                 <a href="{{ path('wallet_new') }}" class="text-center font-bold bg-primary hover:bg-primary-hover text-white py-2 px-4 rounded">
