@@ -114,7 +114,7 @@
                 <div class="flex flex-col md:flex-row bg-white">
                     <div class="w-full text-center border border-solid border-gray-300 p-2">
                         {% if budget.spendingLimit is not null %}<span class="font-bold text-xl text-secondary">{{ budget.currency|currency_symbol }}</span>{% endif %}
-                        <span class="font-bold">{{ budget.spendingLimit is not null ? budget.spendingLimit|number_format(2, '.', ' ') : '<i class="fa-solid fa-infinity"></i>' | raw }}</span>
+                        <span class="font-bold">{{ budget.spendingLimit is not null ? budget.spendingLimit|number_format(2, '.', ' ') : '<i class="fa-solid fa-infinity"></i>'|raw }}</span>
                     </div>
                 </div>
             </div>
