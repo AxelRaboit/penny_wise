@@ -38,7 +38,7 @@ final readonly class BudgetService
         $isDataPresent = $totalSpending > self::DEFAULT_BALANCE;
 
         $chart->setData([
-            'labels' => ['Total Spending', 'Remaining Balance'],
+            'labels' => ['Total spent', 'Left to spend'],
             'isDataPresent' => $isDataPresent,
             'datasets' => [
                 [
@@ -82,7 +82,7 @@ final readonly class BudgetService
             'labels' => $labels,
             'datasets' => [
                 [
-                    'label' => 'Total Spending',
+                    'label' => 'Total spent',
                     'backgroundColor' => array_fill(0, $nMonths, 'rgb(30, 41, 59)'),
                     'borderColor' => array_fill(0, $nMonths, 'rgb(30, 41, 59)'),
                     'data' => $totals,
@@ -116,7 +116,7 @@ final readonly class BudgetService
             'labels' => $labels,
             'datasets' => [
                 [
-                    'label' => 'Total Spending per Year',
+                    'label' => 'Total spent per year',
                     'backgroundColor' => array_fill(0, count($labels), 'rgb(30, 41, 59)'),
                     'borderColor' => array_fill(0, count($labels), 'rgb(30, 41, 59)'),
                     'data' => $totals,

@@ -24,6 +24,11 @@ module.exports = {
           hover: '#f59e0b', // yellow-500
           ring: '#f59e0b' // yellow-500
         },
+        quaternary: { // cool-gray-200
+          DEFAULT: '#e5e7eb', // cool-gray-200
+          hover: '#d1d5db',   // cool-gray-300
+          ring: '#e5e7eb'     // cool-gray-200
+        },
         accent: {
           DEFAULT: '#ececf1', // Light accent color
           hover: '#e2e2e7',   // Slightly darker light for hover
