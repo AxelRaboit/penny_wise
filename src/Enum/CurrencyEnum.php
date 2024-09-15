@@ -45,6 +45,9 @@ enum CurrencyEnum: string
         };
     }
 
+    /**
+     * @return CurrencyEnum[]
+     */
     public static function all(): array
     {
         return [

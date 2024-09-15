@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Manager;
 
-use App\Entity\Wallet;
 use App\Entity\User;
+use App\Entity\Wallet;
 use App\Enum\MonthEnum;
 use App\Exception\NoPreviousWalletException;
 use App\Service\WalletService;
@@ -15,8 +15,6 @@ use Exception;
 
 final readonly class WalletManager
 {
-    private const string EURO_CURRENCY = 'EUR';
-
     private const float START_BALANCE = 0.0;
 
     private const string LAST_DAY_OF_THIS_MONTH = 'last day of this month';
@@ -28,7 +26,7 @@ final readonly class WalletManager
      *
      * @throws Exception
      */
-    public function createWalletForMonth(User $user, int $year, MonthEnum $monthEnum): void
+    public function createWalletForMonth(User $user, int $year, MonthEnum $monthEnum, Wallet $currentWallet): void
     {
         $newWallet = new Wallet();
 
@@ -36,12 +34,12 @@ final readonly class WalletManager
         $startDate = new DateTimeImmutable($firstDayOfMonth);
         $endDate = $startDate->modify(self::LAST_DAY_OF_THIS_MONTH);
 
+        $newWallet->setCurrency($currentWallet->getCurrency());
         $newWallet->setStartDate($startDate);
         $newWallet->setEndDate($endDate);
         $newWallet->setIndividual($user);
         $newWallet->setYear($year);
         $newWallet->setMonth($monthEnum);
-        $newWallet->setCurrency(self::EURO_CURRENCY);
         $newWallet->setStartBalance(self::START_BALANCE);
 
         $this->entityManager->persist($newWallet);

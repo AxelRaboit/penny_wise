@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Dto\TransactionInformationDto;
-use App\Entity\Wallet;
 use App\Entity\User;
+use App\Entity\Wallet;
 use App\Enum\MonthEnum;
 use App\Repository\WalletRepository;
 use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
@@ -17,7 +17,7 @@ final readonly class WalletService
     private const float DEFAULT_BALANCE = 0.0;
 
     public function __construct(
-        private WalletRepository      $walletRepository,
+        private WalletRepository $walletRepository,
         private ChartBuilderInterface $chartBuilder,
     ) {}
 

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\EventListener;
 
-use App\Entity\Wallet;
 use App\Entity\Transaction;
+use App\Entity\Wallet;
 use DateInterval;
 use DateMalformedPeriodStringException;
 use DateMalformedStringException;

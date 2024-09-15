@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Entity;
 
-use App\Entity\Wallet;
 use App\Entity\Transaction;
 use App\Entity\TransactionCategory;
 use App\Entity\User;
+use App\Entity\Wallet;
+use App\Enum\CurrencyEnum;
 use App\Enum\MonthEnum;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
@@ -140,7 +141,7 @@ class TransactionTest extends KernelTestCase
         $wallet->setMonth(MonthEnum::June);
         $wallet->setStartDate(new DateTime(self::WALLET_START_DATE));
         $wallet->setEndDate(new DateTime(self::WALLET_END_DATE));
-        $wallet->setCurrency(self::CURRENCY);
+        $wallet->setCurrency(CurrencyEnum::EUR);
         $wallet->setStartBalance(self::WALLET_START_BALANCE);
 
         return $wallet;

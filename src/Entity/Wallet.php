@@ -136,9 +136,9 @@ class Wallet
         return $this;
     }
 
-    public function getCurrency(): string
+    public function getCurrency(): CurrencyEnum
     {
-        return $this->currency;
+        return CurrencyEnum::from($this->currency);
     }
 
     public function setCurrency(CurrencyEnum $currency): static

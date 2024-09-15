@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Dto\TransactionInformationDto;
-use App\Entity\Wallet;
 use App\Entity\Transaction;
-use App\Exception\NoPreviousWalletException;
+use App\Entity\Wallet;
 use App\Exception\NoPreviousTransactionsException;
+use App\Exception\NoPreviousWalletException;
 use App\Manager\TransactionManager;
 use App\Repository\TransactionRepository;
 use App\Util\WalletHelper;

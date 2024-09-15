@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Manager;
 
 use App\Dto\TransactionInformationDto;
-use App\Entity\Wallet;
 use App\Entity\Transaction;
+use App\Entity\Wallet;
 use App\Enum\TransactionTypeEnum;
 use App\Repository\TransactionRepository;
 use App\Util\TransactionCalculator;

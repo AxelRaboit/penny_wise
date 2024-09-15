@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Entity\Wallet;
 use App\Entity\User;
+use App\Entity\Wallet;
 use App\Enum\MonthEnum;
-use App\Exception\NoPreviousWalletException;
 use App\Exception\NoPreviousTransactionsException;
+use App\Exception\NoPreviousWalletException;
 use App\Form\WalletType;
 use App\Manager\WalletManager;
-use App\Repository\WalletRepository;
 use App\Repository\LinkRepository;
 use App\Repository\NoteRepository;
-use App\Service\WalletService;
+use App\Repository\WalletRepository;
 use App\Service\TransactionService;
+use App\Service\WalletService;
 use App\Util\WalletHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
@@ -36,14 +36,14 @@ final class WalletController extends AbstractController
     private const int EXPENSE_CATEGORY_ID = 2;
 
     public function __construct(
-        private readonly TransactionService     $transactionService,
-        private readonly WalletService          $walletService,
+        private readonly TransactionService $transactionService,
+        private readonly WalletService $walletService,
         private readonly EntityManagerInterface $entityManager,
-        private readonly WalletRepository       $walletRepository,
-        private readonly NoteRepository         $noteRepository,
-        private readonly LinkRepository         $linkRepository,
-        private readonly WalletManager          $walletManager,
-        private readonly WalletHelper           $walletHelper,
+        private readonly WalletRepository $walletRepository,
+        private readonly NoteRepository $noteRepository,
+        private readonly LinkRepository $linkRepository,
+        private readonly WalletManager $walletManager,
+        private readonly WalletHelper $walletHelper,
     ) {}
 
     /**
@@ -193,7 +193,12 @@ final class WalletController extends AbstractController
                 ]);
             }
 
-            $this->walletManager->createWalletForMonth($user, $nextYear, $nextMonthEnum);
+            $currentWallet = $this->walletService->getWalletByUser($user, $year, $month);
+            if (!$currentWallet instanceof Wallet) {
+                throw $this->createNotFoundException();
+            }
+
+            $this->walletManager->createWalletForMonth($user, $nextYear, $nextMonthEnum, $currentWallet);
 
             $this->addFlash('success', sprintf('Wallet for %s %d created successfully.', $nextMonthEnum->getName(), $nextYear));
         } catch (Exception $exception) {
@@ -232,7 +237,12 @@ final class WalletController extends AbstractController
                 ]);
             }
 
-            $this->walletManager->createWalletForMonth($user, $previousYear, $previousMonthEnum);
+            $currentWallet = $this->walletService->getWalletByUser($user, $year, $month);
+            if (!$currentWallet instanceof Wallet) {
+                throw $this->createNotFoundException();
+            }
+
+            $this->walletManager->createWalletForMonth($user, $previousYear, $previousMonthEnum, $currentWallet);
 
             $this->addFlash('success', sprintf('Wallet for %s %d created successfully.', $previousMonthEnum->getName(), $previousYear));
         } catch (Exception $exception) {

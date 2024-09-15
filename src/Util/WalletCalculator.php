@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Util;
 
-use App\Entity\Wallet;
 use App\Entity\Transaction;
+use App\Entity\Wallet;
 
 final readonly class WalletCalculator
 {

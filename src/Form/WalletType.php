@@ -13,7 +13,6 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -42,8 +41,8 @@ class WalletType extends AbstractType
             ])
             ->add('currency', ChoiceType::class, [
                 'choices' => array_combine(
-                    array_map(fn (CurrencyEnum $currency) => $currency->getLabel(), CurrencyEnum::all()),
-                    CurrencyEnum::all()
+                    array_map(fn (CurrencyEnum $currency): string => $currency->getLabel(), CurrencyEnum::cases()),
+                    CurrencyEnum::cases()
                 ),
                 'placeholder' => 'Choose a currency',
                 'choice_value' => fn (?CurrencyEnum $currency) => $currency?->value,
