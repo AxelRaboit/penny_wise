@@ -6,6 +6,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Entity\UserInformation;
+use App\Form\ProfileType;
 use App\Form\UserInformationType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -41,7 +42,9 @@ class ProfileController extends AbstractController
 
         $hasAvatar = null !== $userInformation->getAvatarName();
 
-        $form = $this->createForm(UserInformationType::class, $userInformation, ['has_avatar' => $hasAvatar]);
+        $form = $this->createForm(ProfileType::class, $user, [
+            'has_avatar' => $hasAvatar,
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
