@@ -27,25 +27,25 @@
 
                     <div class="flex flex-col mb-2">
                         {{ form_label(form.date, null, {label_attr: {class: 'text-gray-700 font-semibold'}}) }}
-                        {{ form_widget(form.date, {attr: {class: 'rounded-md shadow-sm p-2 border border-gray-300 focus:ring-primary focus:border-primary bg-white'}}) }}
+                        {{ form_widget(form.date, {attr: {class: 'rounded-md shadow-sm p-2 bg-white'}}) }}
                         {{ form_errors(form.date) }}
                     </div>
 
                     <div class="flex flex-col mb-2">
                         {{ form_label(form.amount, null, {label_attr: {class: 'text-gray-700 font-semibold'}}) }}
-                        {{ form_widget(form.amount, {attr: {class: 'rounded-md shadow-sm p-2 border border-gray-300 focus:ring-primary focus:border-primary'}}) }}
+                        {{ form_widget(form.amount, {attr: {class: 'rounded-md shadow-sm p-2'}}) }}
                         {{ form_errors(form.amount) }}
                     </div>
 
                     <div class="flex flex-col mb-2">
                         {{ form_label(form.transactionCategory, null, {label_attr: {class: 'text-gray-700 font-semibold'}}) }}
-                        {{ form_widget(form.transactionCategory, {attr: {class: 'rounded-md shadow-sm p-2 border border-gray-300 focus:ring-primary focus:border-primary'}}) }}
+                        {{ form_widget(form.transactionCategory, {attr: {class: 'rounded-md shadow-sm p-2 bg-white'}}) }}
                         {{ form_errors(form.transactionCategory) }}
                     </div>
 
                     <div class="flex flex-col mb-2">
                         {{ form_label(form.wallet, null, {label_attr: {class: 'text-gray-700 font-semibold'}}) }}
-                        {{ form_widget(form.wallet, {attr: {class: 'rounded-md shadow-sm p-2 border border-gray-300 focus:ring-primary focus:border-primary'}}) }}
+                        {{ form_widget(form.wallet, {attr: {class: 'rounded-md shadow-sm p-2 bg-white'}}) }}
                         {{ form_errors(form.wallet) }}
                     </div>
                 </div>
