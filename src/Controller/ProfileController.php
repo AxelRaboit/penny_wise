@@ -47,7 +47,7 @@ class ProfileController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($form->has('remove_avatar') && $form->get('remove_avatar')->getData()) {
+            if ($form->get('userInformation')->has('remove_avatar') && $form->get('userInformation')->get('remove_avatar')->getData()) {
                 $oldAvatarName = $userInformation->getAvatarName();
                 if ($oldAvatarName) {
                     $filesystem = new Filesystem();
@@ -59,10 +59,15 @@ class ProfileController extends AbstractController
                         if ($filesystem->exists($avatarPath)) {
                             try {
                                 $filesystem->remove($avatarPath);
+                                $this->addFlash('success', 'Avatar successfully removed.');
                             } catch (IOExceptionInterface $exception) {
                                 $this->addFlash('danger', sprintf('An error occurred while deleting the avatar: %s', $exception->getMessage()));
                             }
+                        } else {
+                            $this->addFlash('warning', 'Avatar file does not exist.');
                         }
+                    } else {
+                        $this->addFlash('danger', 'Avatar directory is not properly configured.');
                     }
 
                     $userInformation->setAvatarName(null);
