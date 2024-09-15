@@ -56,7 +56,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Seriali
     #[ORM\OneToMany(targetEntity: Link::class, mappedBy: 'individual')]
     private Collection $links;
 
-    #[ORM\OneToOne(targetEntity: UserInformation::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(targetEntity: UserInformation::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
     private ?UserInformation $userInformation = null;
 
     public function __construct()
