@@ -27,7 +27,6 @@ class ProfileType extends AbstractType
                 'label' => false,
                 'has_avatar' => $hasAvatar,
             ]);
-        ;
     }
 
     #[Override]

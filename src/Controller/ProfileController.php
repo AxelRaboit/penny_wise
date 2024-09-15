@@ -7,7 +7,6 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Entity\UserInformation;
 use App\Form\ProfileType;
-use App\Form\UserInformationType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
