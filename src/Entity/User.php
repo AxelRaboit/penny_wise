@@ -59,6 +59,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Seriali
     #[ORM\OneToOne(targetEntity: UserInformation::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
     private ?UserInformation $userInformation = null;
 
+    #[ORM\Column]
+    private ?bool $active = null;
+
     public function __construct()
     {
         $this->wallets = new ArrayCollection();
@@ -230,5 +233,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Seriali
                 $this->password = $dataArray[2];
             }
         }
+    }
+
+    public function isActive(): ?bool
+    {
+        return $this->active;
+    }
+
+    public function setActive(bool $active): static
+    {
+        $this->active = $active;
+
+        return $this;
     }
 }

@@ -30,6 +30,7 @@ final readonly class RegistrationManager
             )
         );
         $user->setRoles(self::ROLE_USER);
+        $user->setActive(true);
 
         $userInformation = $this->createUserInformation($user);
         $user->setUserInformation($userInformation);
