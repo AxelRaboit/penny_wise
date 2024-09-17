@@ -58,7 +58,7 @@ final readonly class TransactionService
             $newTransaction->setDate(new DateTimeImmutable());
             $newTransaction->setWallet($currentWallet);
             $newTransaction->setTransactionCategory($transaction->getTransactionCategory());
-            $newTransaction->setCategory($transaction->getCategory());
+            $newTransaction->setNature($transaction->getNature());
 
             $this->entityManager->persist($newTransaction);
         }

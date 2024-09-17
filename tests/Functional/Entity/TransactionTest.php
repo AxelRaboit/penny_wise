@@ -69,7 +69,7 @@ class TransactionTest extends KernelTestCase
         $this->save($transactionCategory);
 
         $transaction = new Transaction();
-        $transaction->setCategory(self::CATEGORY_NAME);
+        $transaction->setNature(self::CATEGORY_NAME);
         $transaction->setAmount(self::TRANSACTION_AMOUNT);
         $transaction->setDate(new DateTime(self::TRANSACTION_DATE));
         $transaction->setWallet($wallet);
@@ -80,14 +80,14 @@ class TransactionTest extends KernelTestCase
         $this->assertNotNull($transaction->getAmount());
         $this->assertNotNull($transaction->getDate());
         $this->assertNotNull($transaction->getWallet());
-        $this->assertNotNull($transaction->getCategory());
+        $this->assertNotNull($transaction->getNature());
         $this->assertNotNull($transaction->getTransactionCategory());
 
         $this->assertSame($transaction->getId(), $transaction->getId());
         $this->assertSame(self::TRANSACTION_AMOUNT, $transaction->getAmount());
         $this->assertSame(new DateTime(self::TRANSACTION_DATE), $transaction->getDate());
         $this->assertSame($wallet, $transaction->getWallet());
-        $this->assertSame(self::CATEGORY_NAME, $transaction->getCategory());
+        $this->assertSame(self::CATEGORY_NAME, $transaction->getNature());
         $this->assertSame($transactionCategory, $transaction->getTransactionCategory());
         $this->assertSame(self::WALLET_START_BALANCE, $transaction->getWallet()->getStartBalance());
         $this->assertNotNull($transaction->getWallet()->getStartDate());

@@ -40,9 +40,9 @@ class TransactionType extends AbstractType
                 'placeholder' => 'Choose a type',
                 'autocomplete' => true,
             ])
-            ->add('category', TextType::class, [
+            ->add('nature', TextType::class, [
                 'required' => false,
-                'attr' => ['placeholder' => 'Choose a category'],
+                'attr' => ['placeholder' => 'Choose a nature'],
             ])
             ->add('wallet', EntityType::class, [
                 'class' => Wallet::class,

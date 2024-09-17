@@ -6,7 +6,6 @@ namespace App\Form;
 
 use App\Entity\Wallet;
 use App\Enum\CurrencyEnum;
-use App\Enum\MonthEnum;
 use App\EventListener\WalletListener;
 use Override;
 use Symfony\Component\Form\AbstractType;
@@ -62,7 +61,6 @@ class WalletType extends AbstractType
             ->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event): void {
                 $this->walletListener->onPostSubmit($event);
             });
-        ;
     }
 
     #[Override]

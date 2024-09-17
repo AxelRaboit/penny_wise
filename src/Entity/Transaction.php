@@ -39,7 +39,7 @@ class Transaction
     private TransactionCategory $transactionCategory;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $category = null;
+    private ?string $nature = null;
 
     public function getId(): ?int
     {
@@ -106,14 +106,14 @@ class Transaction
         return $this;
     }
 
-    public function getCategory(): ?string
+    public function getNature(): ?string
     {
-        return $this->category;
+        return $this->nature;
     }
 
-    public function setCategory(?string $category): static
+    public function setNature(?string $nature): static
     {
-        $this->category = $category;
+        $this->nature = $nature;
 
         return $this;
     }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Repository\NoteRepository;
+use DateTimeInterface;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -27,7 +28,7 @@ class Note
     private ?Wallet $wallet = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $expiration = null;
+    private ?DateTimeInterface $expiration = null;
 
     public function getId(): ?int
     {
@@ -70,12 +71,12 @@ class Note
         return $this;
     }
 
-    public function getExpiration(): ?\DateTimeInterface
+    public function getExpiration(): ?DateTimeInterface
     {
         return $this->expiration;
     }
 
-    public function setExpiration(?\DateTimeInterface $expiration): static
+    public function setExpiration(?DateTimeInterface $expiration): static
     {
         $this->expiration = $expiration;
 
