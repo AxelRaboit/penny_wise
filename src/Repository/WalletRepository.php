@@ -198,13 +198,13 @@ class WalletRepository extends ServiceEntityRepository
     /**
      * Finds the wallet for a specific user, given the year and month.
      *
-     * @param User      $user      the user for whom the monthly wallet is being searched
-     * @param int       $year      the year for which the wallet is searched
-     * @param int       $month     the month for which the wallet is searched
+     * @param User $user  the user for whom the monthly wallet is being searched
+     * @param int  $year  the year for which the wallet is searched
+     * @param int  $month the month for which the wallet is searched
      *
      * @return Wallet|null the found Wallet entity, or null if no wallet is found
      */
-    public function findWalletFromUser(User $user, int $year, int$month): ?Wallet
+    public function findWalletFromUser(User $user, int $year, int $month): ?Wallet
     {
         $month = MonthEnum::from($month);
 

@@ -7,7 +7,6 @@ namespace App\Service;
 use App\Dto\TransactionInformationDto;
 use App\Entity\User;
 use App\Entity\Wallet;
-use App\Enum\MonthEnum;
 use App\Repository\WalletRepository;
 use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
 use Symfony\UX\Chartjs\Model\Chart;
