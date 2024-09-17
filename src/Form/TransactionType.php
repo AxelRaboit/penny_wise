@@ -38,6 +38,7 @@ class TransactionType extends AbstractType
                 'query_builder' => fn (TransactionCategoryRepository $repo): QueryBuilder => $repo->getAllExceptSavings(),
                 'choice_label' => 'getLabel',
                 'placeholder' => 'Choose a type',
+                'autocomplete' => true,
             ])
             ->add('category', TextType::class, [
                 'required' => false,
@@ -45,7 +46,9 @@ class TransactionType extends AbstractType
             ])
             ->add('wallet', EntityType::class, [
                 'class' => Wallet::class,
-                'choice_label' => 'getMonthLabel',
+                'placeholder' => 'Choose a wallet',
+                'choice_label' => 'getMonthWithYearLabel',
+                'autocomplete' => true,
             ])
         ;
     }

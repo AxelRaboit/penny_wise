@@ -183,6 +183,11 @@ class Wallet
         return $this->startDate->format('F');
     }
 
+    public function getMonthWithYearLabel(): string
+    {
+        return $this->startDate->format('F Y');
+    }
+
     public function getRemainingBalance(): string|float|null
     {
         return $this->remainingBalance;
