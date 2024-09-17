@@ -276,6 +276,7 @@ final class WalletController extends AbstractController
         }
 
         $previousMonth = $this->walletHelper->getPreviousMonthAndYear($year, $month);
+        $nextMonth = $this->walletHelper->getNextMonthAndYear($year, $month);
 
         try {
             $this->walletManager->deleteWalletForMonth($user, $year, $month);
@@ -286,7 +287,17 @@ final class WalletController extends AbstractController
             return $this->redirectToRoute('monthly_wallet', ['year' => $year, 'month' => $month]);
         }
 
-        return $this->redirectToRoute('monthly_wallet', ['year' => $previousMonth['year'], 'month' => $previousMonth['month']]);
+        $previousWallet = $this->walletRepository->findWalletFromUser($user, $previousMonth['year'], $previousMonth['month']);
+        if ($previousWallet) {
+            return $this->redirectToRoute('monthly_wallet', ['year' => $previousMonth['year'], 'month' => $previousMonth['month']]);
+        }
+
+        $nextWallet = $this->walletRepository->findWalletFromUser($user, $nextMonth['year'], $nextMonth['month']);
+        if ($nextWallet) {
+            return $this->redirectToRoute('monthly_wallet', ['year' => $nextMonth['year'], 'month' => $nextMonth['month']]);
+        }
+
+        return $this->redirectToRoute('wallet_list');
     }
 
     #[Route('/wallet/copy-left-to-spend/{year}/{month}', name: 'copy_left_to_spend')]

@@ -25,7 +25,7 @@ final readonly class WalletService
     {
         /** @var Wallet|null $wallet */
         $wallet = $this->walletRepository
-            ->findMonthlyWalletFromUser($user, $year, MonthEnum::from($month));
+            ->findWalletFromUser($user, $year, $month);
 
         return $wallet;
     }
