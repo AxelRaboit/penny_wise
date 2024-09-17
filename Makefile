@@ -11,6 +11,8 @@ PHP_CS_FIXER = $(PHP) ./tools/php-cs-fixer/vendor/bin/php-cs-fixer
 TWIG_CS_FIXER = $(PHP) vendor/bin/twig-cs-fixer
 RECTOR = $(PHP) vendor/bin/rector
 
+ASSET_MAP = $(BIN) asset-map:compile
+
 TAILWIND_INIT = $(BIN) tailwind:init
 TAILWIND_BUILD = $(BIN) tailwind:build
 TAILWIND_WATCH = $(TAILWIND_BUILD) --watch
@@ -19,8 +21,11 @@ TWIG_COMPONENT = $(BIN) debug:twig-component
 
 all: help
 
-tailwind-init:
+init:
 	$(PHP) $(TAILWIND_BUILD)
+
+compile:
+	$(PHP) $(ASSET_MAP)
 
 dev:
 	$(PHP) $(TAILWIND_BUILD)

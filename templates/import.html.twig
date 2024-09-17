@@ -1,0 +1,15 @@
+{% set importmapEntries = ['app', 'topbar'] %}
+
+{% if page_requires_monthly is defined and page_requires_monthly is same as(true) %}
+    {% set importmapEntries = importmapEntries|merge(['monthly']) %}
+{% endif %}
+
+{% if page_requires_transaction is defined and page_requires_transaction is same as(true) %}
+    {% set importmapEntries = importmapEntries|merge(['transaction']) %}
+{% endif %}
+
+{% if page_requires_note is defined and page_requires_note is same as(true) %}
+    {% set importmapEntries = importmapEntries|merge(['note']) %}
+{% endif %}
+
+{{ importmap(importmapEntries) }}

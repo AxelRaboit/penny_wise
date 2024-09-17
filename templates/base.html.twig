@@ -9,9 +9,7 @@
         {% endblock %}
 
         {% block javascripts %}
-            {% block importmap %}
-                {{ importmap('app') }}
-            {% endblock %}
+            {% include 'import.html.twig' %}
         {% endblock %}
     </head>
     <body>

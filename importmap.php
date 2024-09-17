@@ -16,10 +16,6 @@ return [
         'path' => './assets/app.js',
         'entrypoint' => true,
     ],
-    'modal' => [
-        'path' => './assets/js/component/modal.js',
-        'entrypoint' => true,
-    ],
     'note' => [
         'path' => './assets/js/component/note.js',
         'entrypoint' => true,
@@ -28,11 +24,11 @@ return [
         'path' => './assets/js/component/topbar.js',
         'entrypoint' => true,
     ],
-    'monthly_wallet' => [
-        'path' => './assets/js/page/monthly_wallet.js',
+    'monthly' => [
+        'path' => './assets/js/page/monthly.js',
         'entrypoint' => true,
     ],
-    'transaction_tab' => [
+    'transaction' => [
         'path' => './assets/js/partial/transaction_tab.js',
         'entrypoint' => true,
     ],
@@ -53,5 +49,9 @@ return [
     ],
     'tom-select' => [
         'version' => '2.3.1',
+    ],
+    'tom-select/dist/css/tom-select.default.css' => [
+        'version' => '2.3.1',
+        'type' => 'css',
     ],
 ];

@@ -2,6 +2,10 @@
 
 {% block title %}{{ wallet.month|month_name }} {{ wallet.year }} {{ parent() }}{% endblock %}
 
+{% set page_requires_monthly = true %}
+{% set page_requires_transaction = true %}
+{% set page_requires_note = true %}
+
 {% block body %}
     <div class="mb-4">
         {{ include('wallet/partial/_wallet_dashboard.html.twig') }}
