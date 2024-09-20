@@ -13,7 +13,7 @@
             {% for transaction in transactions %}
                 <div class="flex {{ cycle(['bg-white', 'bg-quaternary'], loop.index) }}">
                     <div class="{{ loop.last ? 'rounded-bl-md' : '' }} w-full flex items-center justify-center"><span class="font-bold p-2">{{ transaction.date|date('d M Y') }}</span></div>
-                    <div class="w-full flex items-center justify-center"><span class="font-bold">{{ transaction.category }}</span></div>
+                    <div class="w-full flex items-center justify-center"><span class="font-bold">{{ transaction.nature }}</span></div>
                     <div class="{{ loop.last ? 'rounded-br-md' : '' }} w-full flex items-center justify-center">
                         <span class="w-full flex items-center justify-center">{{ transaction.amount }}</span>
                     </div>
