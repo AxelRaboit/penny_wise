@@ -42,7 +42,6 @@ final class TransactionForWalletListener
         }
 
         $form->add('date', ChoiceType::class, [
-            'label' => 'Day',
             'choices' => $days,
             'multiple' => false,
             'mapped' => false,

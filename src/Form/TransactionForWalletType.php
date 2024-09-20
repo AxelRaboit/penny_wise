@@ -42,8 +42,9 @@ final class TransactionForWalletType extends AbstractType
                 'query_builder' => fn (TransactionCategoryRepository $repo): QueryBuilder => $repo->getAllExceptSavings(),
                 'choice_label' => 'getLabel',
                 'placeholder' => 'Choose a type',
+                'autocomplete' => true,
             ])
-            ->add('category', TextType::class, [
+            ->add('nature', TextType::class, [
                 'required' => false,
                 'attr' => ['placeholder' => 'Enter a category (optional)'],
             ])

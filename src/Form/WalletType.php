@@ -50,6 +50,7 @@ class WalletType extends AbstractType
                 ),
                 'placeholder' => 'Choose a currency',
                 'choice_value' => fn (?CurrencyEnum $currency) => $currency?->value,
+                'autocomplete' => true,
             ])
             ->add('start_balance', NumberType::class, [
                 'attr' => ['placeholder' => 'Choose a start balance'],
