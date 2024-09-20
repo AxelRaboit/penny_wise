@@ -41,7 +41,7 @@ debug-twig-component:
 	$(PHP) $(TWIG_COMPONENT)
 
 cc:
-	$(SYMFONY_CONSOLE) cache:clear
+	$(SYMFONY) cache:clear
 
 run:
 	$(SYMFONY_BIN) server:start
