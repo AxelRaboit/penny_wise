@@ -230,7 +230,7 @@ class Wallet
 
     public function getSpendingLimit(): ?float
     {
-        return $this->spendingLimit !== null ? (float) $this->spendingLimit : null;
+        return null !== $this->spendingLimit ? (float) $this->spendingLimit : null;
     }
 
     public function setSpendingLimit(string|float|int|null $spendingLimit): static
@@ -239,7 +239,7 @@ class Wallet
             $spendingLimit = (float) $spendingLimit;
         }
 
-        $this->spendingLimit = $spendingLimit !== null ? number_format((float) $spendingLimit, 2, '.', '') : null;
+        $this->spendingLimit = null !== $spendingLimit ? number_format((float) $spendingLimit, 2, '.', '') : null;
 
         return $this;
     }
