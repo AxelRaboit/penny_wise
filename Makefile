@@ -84,6 +84,10 @@ fix:
 	make rector-fix
 	make fix-php
 
+prepare:
+	make fix
+	make test
+
 stan:
 	@$(PHP_STAN) analyse -c phpstan.neon --memory-limit 1G
 
