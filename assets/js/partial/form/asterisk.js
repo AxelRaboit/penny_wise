@@ -9,7 +9,7 @@ if (requiredInputs.length > 0) {
         if (label) {
             if (!label.querySelector('.asterisk')) {
                 const asterisk = document.createElement('span');
-                asterisk.classList.add('asterisk', 'text-red-500', 'text-sm', 'font-bold');
+                asterisk.classList.add('asterisk', 'text-danger', 'text-sm', 'font-bold');
                 asterisk.innerHTML = '*';
                 label.appendChild(asterisk);
             }

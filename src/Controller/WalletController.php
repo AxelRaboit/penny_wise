@@ -9,6 +9,7 @@ use App\Entity\Wallet;
 use App\Enum\MonthEnum;
 use App\Exception\NoPreviousTransactionsException;
 use App\Exception\NoPreviousWalletException;
+use App\Form\WalletForYearType;
 use App\Form\WalletType;
 use App\Manager\WalletManager;
 use App\Repository\LinkRepository;
@@ -56,6 +57,35 @@ final class WalletController extends AbstractController
         ];
 
         return $this->render(self::WALLET_LIST_TEMPLATE, $options);
+    }
+
+    #[Route('/wallet/new/{year}', name: 'wallet_new_for_year')]
+    public function newWalletForYear(int $year, Request $request): Response
+    {
+        $wallet = new Wallet();
+        $wallet->setYear($year);
+
+        $form = $this->createForm(WalletForYearType::class, $wallet);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var User $user */
+            $user = $this->getUser();
+            $wallet->setIndividual($user);
+            $this->entityManager->persist($wallet);
+            $this->entityManager->flush();
+
+            return $this->redirectToRoute('monthly_wallet', [
+                'year' => $wallet->getYear(),
+                'month' => $wallet->getMonth(),
+            ]);
+        }
+
+        return $this->render('wallet/new_wallet_for_year.html.twig', [
+            'form' => $form,
+            'wallet' => $wallet,
+        ]);
     }
 
     /**

@@ -6,11 +6,6 @@ namespace App\EventListener;
 
 use App\Entity\Wallet;
 use App\Enum\MonthEnum;
-use DateInterval;
-use DateMalformedPeriodStringException;
-use DateMalformedStringException;
-use DatePeriod;
-use DateTime;
 use DateTimeImmutable;
 use DateTimeInterface;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
@@ -28,8 +23,8 @@ class WalletListener
         $form = $event->getForm();
 
         $months = array_combine(
-            array_map(fn(MonthEnum $month) => $month->getName(), MonthEnum::all()),
-            array_map(fn(MonthEnum $month) => $month->value, MonthEnum::all())
+            array_map(fn (MonthEnum $month): string => $month->getName(), MonthEnum::all()),
+            array_map(fn (MonthEnum $month) => $month->value, MonthEnum::all())
         );
 
         $form->add('month', ChoiceType::class, [
@@ -55,16 +50,18 @@ class WalletListener
 
         if (!is_numeric($month) || !is_numeric($year)) {
             $form->addError(new FormError('Please select a valid month and year.'));
+
             return;
         }
 
         $startDate = DateTimeImmutable::createFromFormat('Y-m-d', sprintf('%04d-%02d-01', $year, $month));
-        $endDate = (clone $startDate)->modify('last day of this month');
-
-        if (!$startDate || !$endDate) {
+        if (!$startDate) {
             $form->addError(new FormError('Invalid date selection.'));
+
             return;
         }
+
+        $endDate = $startDate->modify('last day of this month');
 
         $wallet->setStartDate($startDate);
         $wallet->setEndDate($endDate);

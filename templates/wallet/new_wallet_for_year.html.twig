@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Wallet {{ parent() }}{% endblock %}
+{% block title %}New Wallet for {{ wallet.year }}{% endblock %}
 
 {% block body %}
     <div>
@@ -20,33 +20,35 @@
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div class="flex flex-col mb-2">
-                        {{ form_label(form.year, null, {label_attr: {class: 'text-gray-700 font-semibold'}}) }}
-                        {{ form_widget(form.year, {attr: {class: 'rounded-md shadow-sm p-2'}}) }}
-                        {{ form_errors(form.year) }}
-                    </div>
-
-                    <div class="flex flex-col mb-2">
                         {{ form_label(form.month, null, {label_attr: {class: 'text-gray-700 font-semibold'}}) }}
-                        {{ form_widget(form.month) }}
-                        {{ form_errors(form.month) }}
+                        {{ form_widget(form.month, {attr: {class: 'rounded-md shadow-sm p-2'}}) }}
+                        <div class="text-danger text-sm">
+                            {{ form_errors(form.month) }}
+                        </div>
                     </div>
 
                     <div class="flex flex-col mb-2">
                         {{ form_label(form.currency, null, {label_attr: {class: 'text-gray-700 font-semibold'}}) }}
-                        {{ form_widget(form.currency, {attr: {class: 'rounded-md shadow-sm bg-white'}}) }}
-                        {{ form_errors(form.currency) }}
+                        {{ form_widget(form.currency, {attr: {class: 'rounded-md shadow-sm p-2 bg-white'}}) }}
+                        <div class="text-danger text-sm">
+                            {{ form_errors(form.currency) }}
+                        </div>
                     </div>
 
                     <div class="flex flex-col mb-2">
                         {{ form_label(form.start_balance, null, {label_attr: {class: 'text-gray-700 font-semibold'}}) }}
                         {{ form_widget(form.start_balance, {attr: {class: 'rounded-md shadow-sm p-2'}}) }}
-                        {{ form_errors(form.start_balance) }}
+                        <div class="text-danger text-sm">
+                            {{ form_errors(form.start_balance) }}
+                        </div>
                     </div>
 
                     <div class="flex flex-col mb-2">
                         {{ form_label(form.spending_limit, null, {label_attr: {class: 'text-gray-700 font-semibold'}}) }}
                         {{ form_widget(form.spending_limit, {attr: {class: 'rounded-md shadow-sm p-2'}}) }}
-                        {{ form_errors(form.spending_limit) }}
+                        <div class="text-danger text-sm">
+                            {{ form_errors(form.spending_limit) }}
+                        </div>
                     </div>
                 </div>
 
