@@ -105,4 +105,31 @@ class TransactionController extends AbstractController
             'month' => $month,
         ]);
     }
+
+    #[Route('/transaction/edit/{id}/{year}/{month}', name: 'transaction_edit_for_wallet')]
+    public function editTransactionForWallet(Request $request, Transaction $transaction, int $year, int $month): Response
+    {
+        $wallet = $this->walletRepository
+            ->findOneBy(['year' => $year, 'month' => $month]);
+
+        $form = $this->createForm(TransactionForWalletType::class, $transaction, [
+            'wallet' => $wallet,
+        ]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->entityManager->flush();
+            $this->addFlash('success', 'Transaction updated successfully.');
+
+            return $this->redirectToRoute('monthly_wallet', [
+                'year' => $transaction->getWallet()->getYear(),
+                'month' => $transaction->getWallet()->getMonth(),
+            ]);
+        }
+
+        return $this->render('transaction/edit_for_wallet.html.twig', [
+            'form' => $form,
+            'transaction' => $transaction,
+        ]);
+    }
 }

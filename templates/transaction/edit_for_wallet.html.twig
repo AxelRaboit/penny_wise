@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Transaction {{ parent() }}{% endblock %}
+
+{% block body %}
+    <div>
+        <div class="bg-white shadow-md rounded-md max-w-lg mx-auto">
+            {{ include('transaction/partials/form/_title.html.twig', {
+                title: 'Edit Transaction',
+            }) }}
+
+            <div class="p-6">
+                {{ form_start(form) }}
+
+                {{ include('transaction/partials/form/_fields.html.twig') }}
+
+                {{ include('transaction/partials/form/_action_buttons.html.twig', {
+                    submit_label: 'Save Changes',
+                    cancel_label: 'Cancel',
+                }) }}
+
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

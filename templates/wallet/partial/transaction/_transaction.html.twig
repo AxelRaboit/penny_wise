@@ -17,7 +17,13 @@
                     <div class="{{ loop.last ? 'rounded-br-md' : '' }} w-full flex items-center justify-center">
                         <span class="w-full flex items-center justify-center">{{ transaction.amount }}</span>
                     </div>
-                    <div class="w-full flex items-center justify-center py-2">
+                    <div class="w-full flex items-center justify-center py-2 space-x-2 mr-2">
+                        <a href="{{ path('transaction_edit_for_wallet', {year: transaction.wallet.year, month: transaction.wallet.month, id: transaction.id}) }}">
+                            <button type="button"
+                                class="text-center font-bold bg-secondary hover:bg-secondary-hover text-white py-2 px-3 cursor-pointer rounded">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </button>
+                        </a>
                         <button type="button"
                                 data-action-url="{{ path('transaction_delete', {year: transaction.wallet.year, month: transaction.wallet.month, id: transaction.id}) }}"
                                 class="js-delete-button text-center font-bold bg-danger hover:bg-danger-hover text-white py-2 px-3 cursor-pointer rounded">

@@ -46,6 +46,10 @@ final class TransactionForWalletListener
             'multiple' => false,
             'mapped' => false,
             'required' => true,
+            'autocomplete' => true,
+            'attr' => [
+                'required' => 'required',
+            ],
         ]);
     }
 
