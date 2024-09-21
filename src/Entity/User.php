@@ -10,7 +10,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Override;
-use Serializable;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -205,6 +204,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    /**
+     * Serializes the user object to an array.
+     *
+     * @return array<string, int|string|null> The array representation of the user object
+     */
     public function __serialize(): array
     {
         return [
@@ -214,11 +218,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         ];
     }
 
+    /**
+     * Unserializes the user data from an array.
+     *
+     * @param array<string, mixed> $data The serialized user data
+     */
     public function __unserialize(array $data): void
     {
-        $this->id = $data['id'] ?? null;
-        $this->email = $data['email'] ?? null;
-        $this->password = $data['password'] ?? '';
+        $this->id = isset($data['id']) && is_int($data['id']) ? $data['id'] : null;
+        $this->email = isset($data['email']) && is_string($data['email']) ? $data['email'] : null;
+        $this->password = isset($data['password']) && is_string($data['password']) ? $data['password'] : '';
     }
 
     public function isActive(): ?bool
