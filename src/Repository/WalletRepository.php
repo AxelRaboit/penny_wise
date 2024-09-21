@@ -10,6 +10,7 @@ use App\Dto\YearDto;
 use App\Entity\User;
 use App\Entity\Wallet;
 use App\Enum\MonthEnum;
+use App\Exception\WalletNotFoundWithinLimitException;
 use App\Util\WalletHelper;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\Order;
@@ -240,7 +241,9 @@ class WalletRepository extends ServiceEntityRepository
      * @param int  $month         the month from which the search starts
      * @param int  $maxMonthsBack the maximum number of months to search backward
      *
-     * @return Wallet|null the found wallet or null if no previous wallet is found within the limit
+     * @return Wallet|null the found wallet or null if no previous wallet is found within the limit or if the limit is exceeded
+     *
+     * @throws WalletNotFoundWithinLimitException
      */
     public function findPreviousWallet(User $user, int $year, int $month, int $maxMonthsBack = 12): ?Wallet
     {
@@ -260,6 +263,10 @@ class WalletRepository extends ServiceEntityRepository
 
             --$month;
             ++$monthsSearched;
+        }
+
+        if ($monthsSearched >= $maxMonthsBack) {
+            throw new WalletNotFoundWithinLimitException($maxMonthsBack);
         }
 
         return null;
