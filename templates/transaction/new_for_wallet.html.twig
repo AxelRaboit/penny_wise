@@ -22,6 +22,7 @@
                 {{ include('transaction/partials/form/_fields.html.twig') }}
 
                 {{ include('transaction/partials/form/_action_buttons.html.twig', {
+                    transaction: transaction,
                     submit_label: 'Add Transaction',
                     cancel_label: 'Back',
                 }) }}

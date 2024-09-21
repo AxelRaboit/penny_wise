@@ -76,6 +76,7 @@ class TransactionController extends AbstractController
         return $this->render('transaction/new_for_wallet.html.twig', [
             'form' => $form,
             'wallet' => $wallet,
+            'transaction' => $transaction,
         ]);
     }
 
