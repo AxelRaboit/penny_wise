@@ -29,20 +29,6 @@ class WalletType extends AbstractType
             ->add('year', IntegerType::class, [
                 'attr' => ['placeholder' => 'Choose a year'],
             ])
-            /*->add('month', ChoiceType::class, [
-                'choices' => array_combine(
-                    array_map(fn (MonthEnum $month): string => $month->getName(), MonthEnum::all()),
-                    MonthEnum::all()
-                ),
-                'placeholder' => 'Choose a month',
-                'choice_value' => fn (?MonthEnum $month) => $month?->value,
-            ])*/
-            ->add('start_date', DateType::class, [
-                'widget' => 'single_text',
-            ])
-            ->add('end_date', DateType::class, [
-                'widget' => 'single_text',
-            ])
             ->add('currency', ChoiceType::class, [
                 'choices' => array_combine(
                     array_map(fn (CurrencyEnum $currency): string => $currency->getLabel(), CurrencyEnum::cases()),
@@ -59,6 +45,9 @@ class WalletType extends AbstractType
                 'attr' => ['placeholder' => 'Choose a spending limit'],
                 'required' => false,
             ])
+            ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event): void {
+                $this->walletListener->onPreSetData($event);
+            })
             ->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event): void {
                 $this->walletListener->onPostSubmit($event);
             });

@@ -35,10 +35,10 @@ class Wallet
     #[ORM\Column]
     private int $month;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[ORM\Column(type: Types::DATE_IMMUTABLE)]
     private DateTimeInterface $startDate;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[ORM\Column(type: Types::DATE_IMMUTABLE)]
     private DateTimeInterface $endDate;
 
     #[ORM\Column(length: 255)]
