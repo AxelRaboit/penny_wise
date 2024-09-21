@@ -37,7 +37,7 @@ return (new PhpCsFixer\Config())
         'no_unreachable_default_argument_value' => true,
         'no_useless_else' => true,
         'no_useless_return' => true,
-        'php_unit_strict' => true,
+        'php_unit_strict' => false,
         'strict_comparison' => true,
         'strict_param' => true,
         'modernize_strpos' => true,
