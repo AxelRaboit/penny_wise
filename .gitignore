@@ -40,10 +40,6 @@
 /assets/vendor/
 ###< symfony/asset-mapper ###
 
-###> phpstan/phpstan ###
-phpstan.neon
-###< phpstan/phpstan ###
-
 ###> todo ###
 .todo.md
 ###< todo ###
