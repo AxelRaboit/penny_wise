@@ -230,4 +230,38 @@ class WalletRepository extends ServiceEntityRepository
 
         return (int) $qb->getQuery()->getSingleScalarResult() > 0;
     }
+
+    /**
+     * Finds the previous wallet for a given user based on the specified year and month.
+     * The method searches backward month-by-month until a wallet is found or the limit of months is reached.
+     *
+     * @param User $user          the user for whom the previous wallet is being searched
+     * @param int  $year          the year from which the search starts
+     * @param int  $month         the month from which the search starts
+     * @param int  $maxMonthsBack the maximum number of months to search backward
+     *
+     * @return Wallet|null the found wallet or null if no previous wallet is found within the limit
+     */
+    public function findPreviousWallet(User $user, int $year, int $month, int $maxMonthsBack = 12): ?Wallet
+    {
+        --$month;
+        $monthsSearched = 0;
+
+        while ($year > 0 && $monthsSearched < $maxMonthsBack) {
+            if (0 === $month) {
+                $month = 12;
+                --$year;
+            }
+
+            $wallet = $this->findWalletFromUser($user, $year, $month);
+            if ($wallet instanceof Wallet) {
+                return $wallet;
+            }
+
+            --$month;
+            ++$monthsSearched;
+        }
+
+        return null;
+    }
 }

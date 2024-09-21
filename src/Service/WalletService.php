@@ -125,4 +125,9 @@ final readonly class WalletService
 
         return $chart;
     }
+
+    public function findPreviousWallet(User $user, int $year, int $month): ?Wallet
+    {
+        return $this->walletRepository->findPreviousWallet($user, $year, $month);
+    }
 }

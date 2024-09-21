@@ -68,8 +68,7 @@ final readonly class TransactionService
 
     public function copyLeftToSpendFromPreviousMonth(Wallet $currentWallet): void
     {
-        $previousMonthData = $this->walletHelper->getPreviousMonthAndYear($currentWallet->getYear(), $currentWallet->getMonth());
-        $previousWallet = $this->walletService->getWalletByUser($currentWallet->getIndividual(), $previousMonthData['year'], $previousMonthData['month']);
+        $previousWallet = $this->walletService->findPreviousWallet($currentWallet->getIndividual(), $currentWallet->getYear(), $currentWallet->getMonth());
 
         if (!$previousWallet instanceof Wallet) {
             throw new NoPreviousWalletException();

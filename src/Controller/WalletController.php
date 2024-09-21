@@ -346,7 +346,7 @@ final class WalletController extends AbstractController
 
         try {
             $this->transactionService->copyLeftToSpendFromPreviousMonth($currentWallet);
-            $this->addFlash('success', sprintf('Left to spend from previous month copied successfully for for %s %d.', MonthEnum::from($month)->getName(), $year));
+            $this->addFlash('success', sprintf('Left to spend from previous month copied successfully for %s %d.', MonthEnum::from($month)->getName(), $year));
         } catch (Exception $exception) {
             $this->addFlash('error', sprintf('An error occurred while copying left to spend from previous month: %s', $exception->getMessage()));
 
