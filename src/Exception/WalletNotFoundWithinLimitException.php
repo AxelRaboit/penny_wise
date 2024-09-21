@@ -10,7 +10,7 @@ class WalletNotFoundWithinLimitException extends Exception
 {
     public function __construct(int $limit)
     {
-        $message = sprintf('No wallet found within the limit of %d.', $limit);
+        $message = sprintf('No wallet found within the limit of %d months.', $limit);
         parent::__construct($message);
     }
 }
