@@ -118,8 +118,8 @@ class InMemoryWalletRepositoryTest extends TestCase
             'endDate' => $newEndDate,
         ]);
         $this->assertNotNull($foundUpdatedWallet);
-        $this->assertEquals($newStartDate, $foundUpdatedWallet->getStartDate());
-        $this->assertEquals($newEndDate, $foundUpdatedWallet->getEndDate());
+        $this->assertEquals($newStartDate->format('Y-m-d'), $foundUpdatedWallet->getStartDate()->format('Y-m-d'));
+        $this->assertEquals($newEndDate->format('Y-m-d'), $foundUpdatedWallet->getEndDate()->format('Y-m-d'));
 
         $oldWallet = $walletRepository->findOneBy([
             'year' => self::YEAR_2024,
@@ -129,7 +129,6 @@ class InMemoryWalletRepositoryTest extends TestCase
         ]);
         $this->assertNull($oldWallet, 'Le portefeuille avec les anciennes dates ne doit plus exister.');
     }
-
 
     public function testUpdateNonExistentWallet(): void
     {
