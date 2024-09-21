@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Unit\Repository;
+namespace App\Tests\Unit\Repository;
 
 use App\Entity\User;
 use App\Repository\Test\InMemoryUserRepository;
