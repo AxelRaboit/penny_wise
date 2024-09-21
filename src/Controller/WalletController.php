@@ -230,8 +230,8 @@ final class WalletController extends AbstractController
                 );
 
                 return $this->redirectToRoute('monthly_wallet', [
-                    'year' => $nextYear,
-                    'month' => $nextMonthEnum->value,
+                    'year' => $year,
+                    'month' => $month,
                 ]);
             }
 
