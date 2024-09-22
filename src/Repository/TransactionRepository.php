@@ -56,4 +56,25 @@ class TransactionRepository extends ServiceEntityRepository
 
         return $result;
     }
+
+    /**
+     * Retrieve transactions associated with a specific wallet, along with their related transaction category and tags.
+     *
+     * @return Transaction[] returns an array of Transaction objects with related entities
+     */
+    public function findTransactionsByWalletWithRelations(Wallet $wallet): array
+    {
+        /** @var Transaction[] $result */
+        $result = $this->createQueryBuilder('t')
+            ->leftJoin('t.transactionCategory', 'tc')
+            ->addSelect('tc')
+            ->leftJoin('t.tag', 'tg')
+            ->addSelect('tg')
+            ->where('t.wallet = :wallet')
+            ->setParameter('wallet', $wallet)
+            ->getQuery()
+            ->getResult();
+
+        return $result;
+    }
 }

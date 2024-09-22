@@ -30,7 +30,7 @@ final readonly class TransactionManager
 
     public function getAllTransactionInformationByUser(Wallet $wallet): TransactionInformationDto
     {
-        $transactions = $this->transactionRepository->findTransactionsByWallet($wallet);
+        $transactions = $this->transactionRepository->findTransactionsByWalletWithRelations($wallet);
 
         $groupedTransactions = [
             'Incomes' => ['type' => TransactionTypeEnum::INCOMES->getString(), self::TRANSACTIONS => [], 'total' => 0],
