@@ -11,52 +11,64 @@ use App\Enum\TransactionTypeEnum;
 use App\Repository\TransactionRepository;
 use App\Util\TransactionCalculator;
 use Doctrine\ORM\EntityManagerInterface;
+use UnexpectedValueException;
 
 final readonly class TransactionManager
 {
-    private const string EXPENSES_CATEGORY = 'expenses';
-
-    private const string BILLS_CATEGORY = 'bills';
-
-    private const string DEBTS_CATEGORY = 'debts';
-
-    private const string INCOMES_CATEGORY = 'incomes';
-
     private const string TRANSACTIONS = 'transactions';
 
-    public function __construct(private TransactionRepository $transactionRepository, private TransactionCalculator $transactionCalculator, private EntityManagerInterface $entityManager) {}
+    private const string INCOMES_CATEGORY = 'Incomes';
+
+    private const string EXPENSES_CATEGORY = 'Expenses';
+
+    private const string BILLS_CATEGORY = 'Bills';
+
+    private const string DEBTS_CATEGORY = 'Debts';
+
+    public function __construct(
+        private TransactionRepository $transactionRepository,
+        private TransactionCalculator $transactionCalculator,
+        private EntityManagerInterface $entityManager
+    ) {}
+
+    /**
+     * Centralize category names in one method for reuse.
+     *
+     * @return array<string, string>
+     */
+    public function getTransactionCategoryNames(): array
+    {
+        return [
+            'expenses' => 'Expenses',
+            'bills' => 'Bills',
+            'debts' => 'Debts',
+            'incomes' => 'Incomes',
+        ];
+    }
 
     public function getAllTransactionInformationByUser(Wallet $wallet): TransactionInformationDto
     {
         $transactions = $this->transactionRepository->findBy(['wallet' => $wallet]);
 
         $groupedTransactions = [
-            self::EXPENSES_CATEGORY => ['type' => TransactionTypeEnum::EXPENSES()->getString(), self::TRANSACTIONS => [], 'total' => 0],
-            self::BILLS_CATEGORY => ['type' => TransactionTypeEnum::BILLS()->getString(), self::TRANSACTIONS => [], 'total' => 0],
-            self::DEBTS_CATEGORY => ['type' => TransactionTypeEnum::DEBTS()->getString(), self::TRANSACTIONS => [], 'total' => 0],
-            self::INCOMES_CATEGORY => ['type' => TransactionTypeEnum::INCOMES()->getString(), self::TRANSACTIONS => [], 'total' => 0],
+            'Incomes' => ['type' => TransactionTypeEnum::INCOMES()->getString(), self::TRANSACTIONS => [], 'total' => 0],
+            'Bills' => ['type' => TransactionTypeEnum::BILLS()->getString(), self::TRANSACTIONS => [], 'total' => 0],
+            'Expenses' => ['type' => TransactionTypeEnum::EXPENSES()->getString(), self::TRANSACTIONS => [], 'total' => 0],
+            'Debts' => ['type' => TransactionTypeEnum::DEBTS()->getString(), self::TRANSACTIONS => [], 'total' => 0],
         ];
 
         foreach ($transactions as $transaction) {
             if ($transaction instanceof Transaction) {
                 $transactionCategory = $transaction->getTransactionCategory();
-                $category = $transactionCategory->getName();
+                $category = ucfirst(mb_strtolower((string) $transactionCategory->getName()));
 
-                match ($category) {
-                    self::EXPENSES_CATEGORY => $groupedTransactions[self::EXPENSES_CATEGORY][self::TRANSACTIONS][] = $transaction,
-                    self::BILLS_CATEGORY => $groupedTransactions[self::BILLS_CATEGORY][self::TRANSACTIONS][] = $transaction,
-                    self::DEBTS_CATEGORY => $groupedTransactions[self::DEBTS_CATEGORY][self::TRANSACTIONS][] = $transaction,
-                    self::INCOMES_CATEGORY => $groupedTransactions[self::INCOMES_CATEGORY][self::TRANSACTIONS][] = $transaction,
-                    default => null,
-                };
+                if (array_key_exists($category, $groupedTransactions)) {
+                    $groupedTransactions[$category][self::TRANSACTIONS][] = $transaction;
 
-                match ($category) {
-                    self::EXPENSES_CATEGORY => $groupedTransactions[self::EXPENSES_CATEGORY]['total'] += $transaction->getAmount(),
-                    self::BILLS_CATEGORY => $groupedTransactions[self::BILLS_CATEGORY]['total'] += $transaction->getAmount(),
-                    self::DEBTS_CATEGORY => $groupedTransactions[self::DEBTS_CATEGORY]['total'] += $transaction->getAmount(),
-                    self::INCOMES_CATEGORY => $groupedTransactions[self::INCOMES_CATEGORY]['total'] += $transaction->getAmount(),
-                    default => null,
-                };
+                    $groupedTransactions[$category]['total'] += $transaction->getAmount();
+                } else {
+                    throw new UnexpectedValueException('Unknown category : '.$category);
+                }
             }
         }
 
@@ -128,7 +140,6 @@ final readonly class TransactionManager
     private function flattenTransactions(array $transactions): array
     {
         $flatTransactions = [];
-
         foreach ($transactions as $categoryData) {
             $flatTransactions = array_merge($flatTransactions, $categoryData[self::TRANSACTIONS]);
         }
@@ -149,7 +160,6 @@ final readonly class TransactionManager
     public function copyTransactionsFromPreviousMonth(Wallet $currentWallet, float $totalLeftToSpend): void
     {
         $currentWallet->setStartBalance($totalLeftToSpend);
-
         $this->entityManager->persist($currentWallet);
         $this->entityManager->flush();
     }
