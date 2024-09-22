@@ -63,6 +63,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?bool $active = null;
 
+    /**
+     * @var Collection<int, TransactionTag>
+     */
+    #[ORM\OneToMany(targetEntity: TransactionTag::class, mappedBy: 'user')]
+    private Collection $transactionTags;
+
     #[ORM\PrePersist]
     public function onPrePersist(): void
     {
@@ -80,6 +86,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->wallets = new ArrayCollection();
         $this->links = new ArrayCollection();
+        $this->transactionTags = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -253,6 +260,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setActive(bool $active): static
     {
         $this->active = $active;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, TransactionTag>
+     */
+    public function getTransactionTags(): Collection
+    {
+        return $this->transactionTags;
+    }
+
+    public function addTransactionTag(TransactionTag $transactionTag): self
+    {
+        if (!$this->transactionTags->contains($transactionTag)) {
+            $this->transactionTags[] = $transactionTag;
+            $transactionTag->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTransactionTag(TransactionTag $transactionTag): self
+    {
+        if ($this->transactionTags->removeElement($transactionTag) && $transactionTag->getUser() === $this) {
+            $transactionTag->setUser(null);
+        }
 
         return $this;
     }
