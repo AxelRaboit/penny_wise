@@ -1,6 +1,6 @@
-<div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-3 xxl:grid-cols-3 gap-4">
+<div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-3 xxl:grid-cols-3 gap-1">
     <div>
-        <div class="p-1 rounded-md mb-4">
+        <div class="p-1 rounded-md mb-1">
             <div id="monthlyMonth">
                 <div class="text-center bg-secondary rounded-t-md">
                     <h2 class="text-md font-bold p-2 text-white">{{ wallet.getMonth()|month_name }} {{ wallet.getYear() }}</h2>
@@ -18,7 +18,7 @@
             </div>
         </div>
 
-        <div class="p-1 rounded-md mb-4">
+        <div class="p-1 rounded-md mb-1">
             <div>
                 <div class="text-center bg-secondary rounded-t-md">
                     <h2 class="text-md font-bold p-2 text-white">Actions</h2>
@@ -93,7 +93,7 @@
     </div>
 
     <div>
-        <div class="p-1 rounded-md mb-4">
+        <div class="p-1 rounded-md mb-1">
             <div id="monthlyOverview">
                 <h2 class="rounded-t-md text-center text-md font-bold p-2 bg-secondary text-white">Overview</h2>
                 <div class="flex flex-col md:flex-row bg-quaternary">
@@ -115,7 +115,7 @@
             </div>
         </div>
 
-        <div class="p-1 rounded-md mb-4">
+        <div class="p-1 rounded-md mb-1">
             <div id="monthlyOverview">
                 <h2 class="rounded-t-md text-center font-bold p-2 bg-secondary text-white">
                     <span class="font-bold text-md text-white">Spend limit</span>
@@ -123,6 +123,15 @@
                         <span class="bg-danger text-white text-xs rounded-md p-1 ml-2">
                             Exceeded (<span class="font-bold text-secondary text-white text-xs">{{ wallet.currency.value|currency_symbol }}</span>
                             {{ (totalSpending - wallet.spendingLimit)|number_format(2, '.', ' ') }})
+                        </span>
+                    {% elseif wallet.spendingLimit is not null and totalSpending < wallet.spendingLimit %}
+                        <span class="bg-success text-white text-xs rounded-md p-1 ml-2">
+                            Left (<span class="font-bold text-secondary text-white text-xs">{{ wallet.currency.value|currency_symbol }}</span>
+                            {{ (wallet.spendingLimit - totalSpending)|number_format(2, '.', ' ') }})
+                        </span>
+                    {% else %}
+                        <span class="bg-success text-white text-xs rounded-md p-1 ml-2">
+                            Unlimited
                         </span>
                     {% endif %}
                 </h2>
@@ -201,7 +210,7 @@
     </div>
 
     <div>
-        <div class="p-1 rounded-md mb-4">
+        <div class="p-1 rounded-md mb-1">
             <div>
                 <div class="text-center bg-secondary rounded-t-md">
                     <h2 class="text-md font-bold p-2 text-white">Links</h2>
@@ -227,7 +236,7 @@
             </div>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-2 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-2 gap-2">
             <div class="p-1 rounded-md">
                 <div class="text-center bg-secondary p-2 rounded-t-md">
                     <h2 class="text-md font-bold text-white">Total monthly spent</h2>

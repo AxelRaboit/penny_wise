@@ -7,7 +7,6 @@ namespace App\Repository;
 use App\Entity\Transaction;
 use App\Entity\Wallet;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Collections\Order;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -23,7 +22,7 @@ class TransactionRepository extends ServiceEntityRepository
     /**
      * Find transactions by wallet and transaction category.
      *
-     * @return Transaction[] returns an array of Transaction objects
+     * @return Transaction[] Returns an array of Transaction objects
      */
     public function findTransactionsByWalletAndCategory(Wallet $wallet, int $transactionCategoryId): array
     {
@@ -42,7 +41,7 @@ class TransactionRepository extends ServiceEntityRepository
     /**
      * Retrieve transactions associated with a specific wallet.
      *
-     * @return Transaction[] returns an array of Transaction objects
+     * @return Transaction[] Returns an array of Transaction objects
      */
     public function findTransactionsByWallet(Wallet $wallet): array
     {
@@ -50,7 +49,7 @@ class TransactionRepository extends ServiceEntityRepository
         $result = $this->createQueryBuilder('t')
             ->where('t.wallet = :wallet')
             ->setParameter('wallet', $wallet)
-            ->orderBy('t.createdAt', Order::Descending->value)
+            ->orderBy('t.createdAt', 'DESC')
             ->getQuery()
             ->getResult();
 
@@ -60,7 +59,7 @@ class TransactionRepository extends ServiceEntityRepository
     /**
      * Retrieve transactions associated with a specific wallet, along with their related transaction category and tags.
      *
-     * @return Transaction[] returns an array of Transaction objects with related entities
+     * @return Transaction[] Returns an array of Transaction objects with related entities
      */
     public function findTransactionsByWalletWithRelations(Wallet $wallet): array
     {
@@ -72,6 +71,26 @@ class TransactionRepository extends ServiceEntityRepository
             ->addSelect('tg')
             ->where('t.wallet = :wallet')
             ->setParameter('wallet', $wallet)
+            ->getQuery()
+            ->getResult();
+
+        return $result;
+    }
+
+    /**
+     * Return all transactions of a specific category for a given wallet.
+     *
+     * @return Transaction[] Returns an array of Transaction objects
+     */
+    public function findTransactionsByCategory(Wallet $wallet, string $category): array
+    {
+        /** @var Transaction[] $result */
+        $result = $this->createQueryBuilder('t')
+            ->join('t.transactionCategory', 'tc')
+            ->where('t.wallet = :wallet')
+            ->andWhere('LOWER(tc.name) = LOWER(:category)')
+            ->setParameter('wallet', $wallet)
+            ->setParameter('category', $category)
             ->getQuery()
             ->getResult();
 

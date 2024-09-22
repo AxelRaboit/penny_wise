@@ -127,4 +127,12 @@ final readonly class TransactionService
 
         return $transactionsDto->getLeftMinusBudget();
     }
+
+    /**
+     * Delete all transactions of a specific category for a given wallet.
+     */
+    public function deleteTransactionsByCategory(Wallet $wallet, string $category): bool
+    {
+        return $this->transactionManager->deleteTransactionsByCategory($wallet, $category);
+    }
 }

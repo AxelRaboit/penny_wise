@@ -160,4 +160,23 @@ final readonly class TransactionManager
             'percentageUsed' => $percentageUsed,
         ];
     }
+
+    /**
+     * Delete all transactions of a specific category for a given wallet.
+     */
+    public function deleteTransactionsByCategory(Wallet $wallet, string $category): bool
+    {
+        $transactions = $this->transactionRepository->findTransactionsByCategory($wallet, $category);
+        if ([] === $transactions) {
+            return false;
+        }
+
+        foreach ($transactions as $transaction) {
+            $this->entityManager->remove($transaction);
+        }
+
+        $this->entityManager->flush();
+
+        return true;
+    }
 }

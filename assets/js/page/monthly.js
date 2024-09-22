@@ -87,3 +87,14 @@ attachModalEvents({
     cancelButtonId: 'cancelCopyDebts',
     cancelLabel: 'Cancel',
 });
+
+attachModalEvents({
+    modalId: 'deleteTransactionsFromCategoryModal',
+    modalTitle: 'Delete transactions',
+    modalMessage: 'Are you sure you want to delete all transactions from the selected category?',
+    triggerButtonSelector: '.js-delete-transactions-from-category-button',
+    confirmButtonId: 'confirmDeleteTransactionsFromCategory',
+    confirmLabel: 'Delete',
+    cancelButtonId: 'cancelDeleteTransactionsFromCategory',
+    cancelLabel: 'Cancel',
+});

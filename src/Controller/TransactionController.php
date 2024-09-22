@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\Transaction;
+use App\Entity\User;
+use App\Entity\Wallet;
 use App\Form\TransactionForWalletType;
 use App\Form\TransactionType;
 use App\Repository\TransactionRepository;
@@ -20,7 +22,12 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class TransactionController extends AbstractController
 {
-    public function __construct(private readonly EntityManagerInterface $entityManager, private readonly WalletRepository $walletRepository, private readonly TransactionRepository $transactionRepository, private readonly TransactionService $transactionService) {}
+    public function __construct(
+        private readonly EntityManagerInterface $entityManager,
+        private readonly WalletRepository $walletRepository,
+        private readonly TransactionRepository $transactionRepository,
+        private readonly TransactionService $transactionService,
+    ) {}
 
     #[Route('/transaction/new', name: 'transaction_new')]
     public function new(Request $request): Response
@@ -134,6 +141,33 @@ class TransactionController extends AbstractController
         return $this->render('transaction/edit_for_wallet.html.twig', [
             'form' => $form,
             'transaction' => $transaction,
+        ]);
+    }
+
+    #[Route('/transaction/delete-category/{year}/{month}/{category}', name: 'delete_transactions_from_category')]
+    public function deleteTransactionCategory(int $year, int $month, string $category): RedirectResponse
+    {
+        /** @var User $user */
+        $user = $this->getUser();
+        if (!$user instanceof User) {
+            throw $this->createNotFoundException('User not found.');
+        }
+
+        $wallet = $this->walletRepository->findWalletFromUser($user, $year, $month);
+        if (!$wallet instanceof Wallet) {
+            throw $this->createNotFoundException('Wallet not found for the specified year, month, and user.');
+        }
+
+        $isDeleted = $this->transactionService->deleteTransactionsByCategory($wallet, $category);
+        if (!$isDeleted) {
+            $this->addFlash('warning', sprintf('No transactions found for the category %s.', $category));
+        } else {
+            $this->addFlash('success', sprintf('All transactions in category %s deleted successfully.', ucfirst($category)));
+        }
+
+        return $this->redirectToRoute('monthly_wallet', [
+            'year' => $year,
+            'month' => $month,
         ]);
     }
 }
