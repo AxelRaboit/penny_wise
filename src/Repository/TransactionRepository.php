@@ -7,6 +7,7 @@ namespace App\Repository;
 use App\Entity\Transaction;
 use App\Entity\Wallet;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\Order;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -49,6 +50,7 @@ class TransactionRepository extends ServiceEntityRepository
         $result = $this->createQueryBuilder('t')
             ->where('t.wallet = :wallet')
             ->setParameter('wallet', $wallet)
+            ->orderBy('t.createdAt', Order::Descending->value)
             ->getQuery()
             ->getResult();
 

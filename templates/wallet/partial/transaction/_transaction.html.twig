@@ -4,6 +4,7 @@
 
         <div class="flex bg-white">
             <div class="w-full text-center bg-primary"><span class="font-bold text-white">Date</span></div>
+            <div class="w-full text-center bg-primary"><span class="font-bold text-white">Tags</span></div>
             <div class="w-full text-center bg-primary"><span class="font-bold text-white">Nature</span></div>
             <div class="w-full text-center bg-primary"><span class="font-bold text-white">Actual</span></div>
             <div class="w-full text-center bg-primary"><span class="font-bold text-white">Actions</span></div>
@@ -12,15 +13,28 @@
         {% for transactions in transactionCategory %}
             {% for transaction in transactions %}
                 <div class="flex {{ cycle(['bg-white', 'bg-quaternary'], loop.index) }}">
-                    <div class="{{ loop.last ? 'rounded-bl-md' : '' }} w-full flex items-center justify-center"><span class="font-bold p-2">{{ transaction.date ? transaction.date|date('d M Y') : '-' }}</span></div>
-                    <div class="w-full flex items-center justify-center"><span class="font-bold text-center">{{ transaction.nature }}</span></div>
+                    <div class="{{ loop.last ? 'rounded-bl-md' : '' }} w-full flex items-center justify-center">
+                        <span class="p-2">{{ transaction.date ? transaction.date|date('d M Y') : '-' }}</span>
+                    </div>
+                    <div class="w-full flex items-center justify-center space-x-2">
+                        {% if transaction.tag|length > 0 %}
+                            {% for tag in transaction.tag %}
+                                <span class="bg-secondary text-white px-2 py-1 rounded text-xs" style="background-color: {{ tag.color }};">#{{ tag.name }}</span>
+                            {% endfor %}
+                        {% else %}
+                            <span>-</span>
+                        {% endif %}
+                    </div>
+                    <div class="w-full flex items-center justify-center">
+                        <span class="font-bold text-center">{{ transaction.nature }}</span>
+                    </div>
                     <div class="{{ loop.last ? 'rounded-br-md' : '' }} w-full flex items-center justify-center">
                         <span class="w-full flex items-center justify-center">{{ transaction.amount }}</span>
                     </div>
                     <div class="w-full flex items-center justify-center py-2 space-x-2 mr-2">
                         <a href="{{ path('transaction_edit_for_wallet', {year: transaction.wallet.year, month: transaction.wallet.month, id: transaction.id}) }}">
                             <button type="button"
-                                class="text-center font-bold bg-secondary hover:bg-secondary-hover text-white py-2 px-3 cursor-pointer rounded">
+                                    class="text-center font-bold bg-secondary hover:bg-secondary-hover text-white py-2 px-3 cursor-pointer rounded">
                                 <i class="fa-solid fa-pen-to-square"></i>
                             </button>
                         </a>
@@ -34,7 +48,9 @@
             {% endfor %}
         {% else %}
             <div class="flex bg-white rounded-b-md">
-                <div class="w-full text-center border border-solid border-gray-300 p-2"><span class="ont-bold">No {{ transactionCategory.type }}</span></div>
+                <div class="w-full text-center border border-solid border-gray-300 p-2">
+                    <span class="font-bold">No {{ transactionCategory.type }}</span>
+                </div>
             </div>
         {% endfor %}
     </div>
@@ -44,11 +60,11 @@
         </div>
         <div class="rounded-br-md w-full text-center p-2 flex items-stretch">
             <span class="bg-secondary text-white text-left px-2 py-1 w-1/6 h-full flex items-center justify-center rounded">
-            {{ wallet.currency.value|currency_symbol }}
-        </span>
+                {{ wallet.currency.value|currency_symbol }}
+            </span>
             <span class="text-right w-5/6 flex items-center justify-end px-2">
-            {{ transactionCategory.total|number_format(2, '.', ' ') }}
-        </span>
+                {{ transactionCategory.total|number_format(2, '.', ' ') }}
+            </span>
         </div>
     </div>
 </div>

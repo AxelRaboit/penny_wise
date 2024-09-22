@@ -36,4 +36,12 @@
             {{ form_errors(form.transactionCategory) }}
         </div>
     </div>
+
+    <div class="flex flex-col mb-2">
+        {{ form_label(form.tag, 'Tags', {label_attr: {class: 'text-gray-700 font-semibold'}}) }}
+        {{ form_widget(form.tag) }}
+        <div class="text-danger text-sm">
+            {{ form_errors(form.tag) }}
+        </div>
+    </div>
 </div>

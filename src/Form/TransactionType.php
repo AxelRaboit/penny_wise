@@ -6,6 +6,7 @@ namespace App\Form;
 
 use App\Entity\Transaction;
 use App\Entity\TransactionCategory;
+use App\Entity\TransactionTag;
 use App\Entity\Wallet;
 use App\Repository\TransactionCategoryRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -45,6 +46,13 @@ class TransactionType extends AbstractType
                 'class' => Wallet::class,
                 'placeholder' => 'Choose a wallet',
                 'choice_label' => 'getMonthWithYearLabel',
+                'autocomplete' => true,
+            ])
+            ->add('tag', EntityType::class, [
+                'class' => TransactionTag::class,
+                'multiple' => true,
+                'choice_label' => 'getName',
+                'placeholder' => 'Choose a tag',
                 'autocomplete' => true,
             ])
         ;

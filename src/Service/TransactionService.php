@@ -78,4 +78,9 @@ final readonly class TransactionService
 
         $this->transactionManager->copyTransactionsFromPreviousMonth($currentWallet, $totalLeftToSpend);
     }
+
+    public function handleTransactionTags(Transaction $transaction): void
+    {
+        $this->transactionManager->handleTransactionTags($transaction);
+    }
 }

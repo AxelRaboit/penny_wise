@@ -6,6 +6,7 @@ namespace App\Form;
 
 use App\Entity\Transaction;
 use App\Entity\TransactionCategory;
+use App\Entity\TransactionTag;
 use App\Entity\Wallet;
 use App\EventListener\TransactionForWalletListener;
 use App\Repository\TransactionCategoryRepository;
@@ -43,6 +44,13 @@ final class TransactionForWalletType extends AbstractType
             ->add('nature', TextType::class, [
                 'required' => false,
                 'attr' => ['placeholder' => 'Enter a category (optional)'],
+            ])
+            ->add('tag', EntityType::class, [
+                'class' => TransactionTag::class,
+                'multiple' => true,
+                'choice_label' => 'getName',
+                'placeholder' => 'Choose a tag',
+                'autocomplete' => true,
             ])
             ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) use ($wallet): void {
                 if ($wallet instanceof Wallet) {

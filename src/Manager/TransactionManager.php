@@ -48,7 +48,7 @@ final readonly class TransactionManager
 
     public function getAllTransactionInformationByUser(Wallet $wallet): TransactionInformationDto
     {
-        $transactions = $this->transactionRepository->findBy(['wallet' => $wallet]);
+        $transactions = $this->transactionRepository->findTransactionsByWallet($wallet);
 
         $groupedTransactions = [
             'Incomes' => ['type' => TransactionTypeEnum::INCOMES()->getString(), self::TRANSACTIONS => [], 'total' => 0],
@@ -161,6 +161,16 @@ final readonly class TransactionManager
     {
         $currentWallet->setStartBalance($totalLeftToSpend);
         $this->entityManager->persist($currentWallet);
+        $this->entityManager->flush();
+    }
+
+    public function handleTransactionTags(Transaction $transaction): void
+    {
+        foreach ($transaction->getTag() as $tag) {
+            $transaction->addTag($tag);
+        }
+
+        $this->entityManager->persist($transaction);
         $this->entityManager->flush();
     }
 }

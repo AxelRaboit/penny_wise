@@ -9,6 +9,7 @@ use App\Form\TransactionForWalletType;
 use App\Form\TransactionType;
 use App\Repository\TransactionRepository;
 use App\Repository\WalletRepository;
+use App\Service\TransactionService;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,7 +20,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class TransactionController extends AbstractController
 {
-    public function __construct(private readonly EntityManagerInterface $entityManager, private readonly WalletRepository $walletRepository, private readonly TransactionRepository $transactionRepository) {}
+    public function __construct(private readonly EntityManagerInterface $entityManager, private readonly WalletRepository $walletRepository, private readonly TransactionRepository $transactionRepository, private readonly TransactionService $transactionService) {}
 
     #[Route('/transaction/new', name: 'transaction_new')]
     public function new(Request $request): Response
@@ -30,6 +31,7 @@ class TransactionController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $this->transactionService->handleTransactionTags($transaction);
             $this->entityManager->persist($transaction);
             $this->entityManager->flush();
 
@@ -64,6 +66,7 @@ class TransactionController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $this->transactionService->handleTransactionTags($transaction);
             $this->entityManager->persist($transaction);
             $this->entityManager->flush();
 

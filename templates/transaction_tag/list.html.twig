@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Transaction Tags List {{ parent() }}{% endblock %}
+
+{% set page_requires_transaction_tag_list = true %}
+
+{% block body %}
+    <div class="bg-white shadow-md rounded-md max-w-lg mx-auto mt-6">
+        <div class="bg-secondary text-center py-4 rounded-t-md">
+            <h1 class="text-xl font-bold text-white">Transaction Tags</h1>
+        </div>
+
+        <div class="p-6">
+            <table class="min-w-full bg-white">
+                <thead>
+                <tr>
+                    <th class="px-4 py-2 text-left">Name</th>
+                    <th class="px-4 py-2 text-center">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for tag in transactionTags %}
+                    <tr>
+                        <td class="px-4 py-2">
+                            <span class="px-2 py-1 rounded-md font-semibold text-white"
+                                  style="background-color: {{ tag.color }};"
+                                  class="text-opacity-75"
+                            >
+                                #{{ tag.name }}
+                            </span>
+                        </td>
+                        <td class="px-4 py-2 text-center space-x-2">
+                            <a href="{{ path('transaction_tag_edit', {id: tag.id}) }}" class="bg-primary hover:bg-primary-hover text-white font-bold py-2 px-3 rounded-md">
+                                <i class="fa-solid fa-pen-to-square"></i> Edit
+                            </a>
+
+                            <button type="button"
+                                    data-action-url="{{ path('transaction_tag_delete', {id: tag.id}) }}"
+                                    class="js-delete-transaction-tag-button text-center font-bold bg-danger hover:bg-danger-hover text-white p-2 cursor-pointer rounded">
+                                <i class="fa-solid fa-trash"></i>
+                                Delete
+                            </button>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="2" class="text-center py-4">No transaction tags found.</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="flex justify-between mt-4">
+                <a href="{{ app.request.headers.get('referer') ?: path('wallet_list') }}" class="bg-primary hover:bg-primary-hover text-white font-bold py-2 px-4 rounded-md">
+                    <i class="fa-solid fa-arrow-left"></i> Back
+                </a>
+
+                <a href="{{ path('transaction_tag_new') }}" class="bg-secondary hover:bg-secondary-hover text-white font-bold py-2 px-4 rounded-md">
+                    <i class="fa-solid fa-plus"></i> Add Tag
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
