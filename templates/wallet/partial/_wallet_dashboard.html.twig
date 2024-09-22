@@ -3,16 +3,16 @@
         <div class="p-1 rounded-md mb-4">
             <div id="monthlyMonth">
                 <div class="text-center bg-secondary rounded-t-md">
-                    <h2 class="text-xl font-bold p-2 text-white">{{ wallet.getMonth()|month_name }} {{ wallet.getYear() }}</h2>
+                    <h2 class="text-md font-bold p-2 text-white">{{ wallet.getMonth()|month_name }} {{ wallet.getYear() }}</h2>
                 </div>
                 <div class="w-full bg-secondary rounded-b-md p-2 bg-white">
                     <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                    {% for month in walletsAndTransactionsFromYear.getMonths() %}
-                        <a href="{{ path('monthly_wallet', {year: wallet.getYear(), month: month.getMonthNumber()}) }}" class="text-sm text-center font-bold py-2 px-4 rounded
-                            {{ month.getMonthNumber() == currentMonth ? 'bg-primary text-white hover:bg-primary-hover' : 'bg-secondary text-white hover:bg-secondary-hover' }}">
-                            {{ month.getMonthName() }}
-                        </a>
-                    {% endfor %}
+                        {% for month in walletsAndTransactionsFromYear.getMonths() %}
+                            <a href="{{ path('monthly_wallet', {year: wallet.getYear(), month: month.getMonthNumber()}) }}" class="text-sm text-center font-bold py-2 px-4 rounded-md
+                                {{ month.getMonthNumber() == currentMonth ? 'bg-primary text-white hover:bg-primary-hover' : 'bg-secondary text-white hover:bg-secondary-hover' }}">
+                                {{ month.getMonthName() }}
+                            </a>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
@@ -21,57 +21,57 @@
         <div class="p-1 rounded-md mb-4">
             <div>
                 <div class="text-center bg-secondary rounded-t-md">
-                    <h2 class="text-xl font-bold p-2 text-white">Actions</h2>
+                    <h2 class="text-md font-bold p-2 text-white">Actions</h2>
                 </div>
 
                 <div class="w-full bg-secondary rounded-b-md p-2 bg-white">
                     <div class="grid grid-cols-2 sm:grid-cols-2 gap-2">
-                        <a href="{{ path('transaction_new_for_wallet', {year: currentYear, month: currentMonth}) }}" class="text-center font-bold bg-secondary hover:bg-secondary-hover text-white p-2 cursor-pointer rounded">
+                        <a href="{{ path('transaction_new_for_wallet', {year: currentYear, month: currentMonth}) }}" class="text-center font-bold bg-secondary hover:bg-secondary-hover text-white text-xs p-2 cursor-pointer rounded">
                             <i class="fa-solid fa-plus mr-1"></i>
                             Transaction
                         </a>
-                        <a href="{{ path('wallet_new_for_year', {year: currentYear}) }}" class="text-center font-bold bg-secondary hover:bg-secondary-hover text-white p-2 cursor-pointer rounded">
+                        <a href="{{ path('wallet_new_for_year', {year: currentYear}) }}" class="text-center font-bold bg-secondary hover:bg-secondary-hover text-white text-xs p-2 cursor-pointer rounded">
                             <i class="fa-solid fa-plus mr-1"></i>
                             Wallet
                         </a>
-                        <a href="{{ path('wallet_edit', {id: wallet.id}) }}" class="text-center font-bold bg-secondary hover:bg-secondary-hover text-white p-2 cursor-pointer rounded">
+                        <a href="{{ path('wallet_edit', {id: wallet.id}) }}" class="text-center font-bold bg-secondary hover:bg-secondary-hover text-white text-xs p-2 cursor-pointer rounded">
                             <i class="fa-solid fa-pen-to-square mr-1"></i>
                             Wallet
                         </a>
                         <button type="button"
                                 data-action-url="{{ path('copy_left_to_spend', {year: currentYear, month: currentMonth}) }}"
-                                class="js-copy-left-to-spend-button text-center font-bold bg-secondary hover:bg-secondary-hover text-white p-2 cursor-pointer rounded">
+                                class="js-copy-left-to-spend-button text-center font-bold bg-secondary hover:bg-secondary-hover text-white text-xs p-2 cursor-pointer rounded">
                             <i class="fa-solid fa-forward mr-1"></i>
                             Initialize starting balance
                         </button>
                         <button type="button"
                                 data-action-url="{{ path('create_previous_month_wallet', {year: currentYear, month: currentMonth}) }}"
-                                class="js-create-previous-wallet-button text-center font-bold bg-success hover:bg-success-hover text-white p-2 cursor-pointer rounded">
+                                class="js-create-previous-wallet-button text-center font-bold bg-success hover:bg-success-hover text-white text-xs p-2 cursor-pointer rounded">
                             <i class="fa-solid fa-plus mr-1"></i>
                             Create previous month's wallet
                         </button>
                         <button type="button"
                                 data-action-url="{{ path('create_next_month_wallet', {year: currentYear, month: currentMonth}) }}"
-                                class="js-create-next-wallet-button text-center font-bold bg-success hover:bg-success-hover text-white p-2 cursor-pointer rounded">
+                                class="js-create-next-wallet-button text-center font-bold bg-success hover:bg-success-hover text-white text-xs p-2 cursor-pointer rounded">
                             <i class="fa-solid fa-plus mr-1"></i>
                             Create next month's wallet
                         </button>
                         <button type="button"
                                 data-action-url="{{ path('copy_previous_month_bills', {year: currentYear, month: currentMonth}) }}"
-                                class="js-copy-bills-button text-center font-bold bg-warning hover:bg-warning-hover text-white p-2 cursor-pointer rounded">
+                                class="js-copy-bills-button text-center font-bold bg-warning hover:bg-warning-hover text-white text-xs p-2 cursor-pointer rounded">
                             <i class="fa-solid fa-copy mr-1"></i>
                             Copy previous month's transaction bills
                         </button>
                         <button type="button"
                                 data-action-url="{{ path('copy_previous_month_expenses', {year: currentYear, month: currentMonth}) }}"
-                                class="js-copy-expenses-button text-center font-bold bg-warning hover:bg-warning-hover text-white p-2 cursor-pointer rounded">
+                                class="js-copy-expenses-button text-center font-bold bg-warning hover:bg-warning-hover text-white text-xs p-2 cursor-pointer rounded">
                             <i class="fa-solid fa-copy mr-1"></i>
                             Copy previous month's transaction expenses
                         </button>
                         <button type="button"
                                 data-action-url="{{ path('delete_monthly_wallet', {year: currentYear, month: currentMonth}) }}"
-                                class="js-delete-wallet-button text-center font-bold bg-danger hover:bg-danger-hover text-white p-2 cursor-pointer rounded">
-                            <i class="fa-solid fa-copy mr-1"></i>
+                                class="js-delete-wallet-button text-center font-bold bg-danger hover:bg-danger-hover text-white text-xs p-2 cursor-pointer rounded">
+                            <i class="fa-solid fa-trash-can mr-1"></i>
                             Delete month's wallet and transactions
                         </button>
                     </div>
@@ -83,22 +83,22 @@
     <div>
         <div class="p-1 rounded-md mb-4">
             <div id="monthlyOverview">
-                <h2 class="rounded-t-md text-center text-xl font-bold p-2 bg-secondary text-white">Overview</h2>
+                <h2 class="rounded-t-md text-center text-md font-bold p-2 bg-secondary text-white">Overview</h2>
                 <div class="flex flex-col md:flex-row bg-quaternary">
-                    <div class="w-full text-center p-2"><span class="font-bold">Currency</span></div>
-                    <div class="w-full text-center p-2"><span>{{ wallet.currency.value|currency_symbol }}</span></div>
+                    <div class="w-full text-center p-2"><span class="font-bold text-xs">Currency</span></div>
+                    <div class="w-full text-center p-2"><span class="text-xs">{{ wallet.currency.value|currency_symbol }}</span></div>
                 </div>
                 <div class="flex flex-col md:flex-row bg-white">
-                    <div class="w-full text-center p-2"><span class="font-bold">Start Date</span></div>
-                    <div class="w-full text-center p-2"><span>{{ wallet.startDate|date('d M Y') }}</span></div>
+                    <div class="w-full text-center p-2"><span class="font-bold text-xs">Start Date</span></div>
+                    <div class="w-full text-center p-2"><span class="text-xs">{{ wallet.startDate|date('d M Y') }}</span></div>
                 </div>
                 <div class="flex flex-col md:flex-row bg-quaternary">
-                    <div class="w-full text-center p-2"><span class="font-bold">End Date</span></div>
-                    <div class="w-full text-center p-2"><span>{{ wallet.endDate|date('d M Y') }}</span></div>
+                    <div class="w-full text-center p-2"><span class="font-bold text-xs">End Date</span></div>
+                    <div class="w-full text-center p-2"><span class="text-xs">{{ wallet.endDate|date('d M Y') }}</span></div>
                 </div>
                 <div class="flex flex-col md:flex-row bg-white rounded-b-md">
-                    <div class="rounded-bl-md w-full text-center bg-primary p-2"><span class="font-bold text-white">Start Balance</span></div>
-                    <div class="rounded-br-md w-full text-center p-2"><span><span class="font-bold text-xl text-secondary">{{ wallet.currency.value|currency_symbol }}</span> {{ wallet.startBalance|number_format(2, '.', ' ') }}</span></div>
+                    <div class="rounded-bl-md w-full text-center bg-primary p-2"><span class="font-bold text-white text-xs">Start Balance</span></div>
+                    <div class="rounded-br-md w-full text-center p-2"><span class="text-xs"><span class="font-bold text-xs text-secondary">{{ wallet.currency.value|currency_symbol }}</span> {{ wallet.startBalance|number_format(2, '.', ' ') }}</span></div>
                 </div>
             </div>
         </div>
@@ -106,15 +106,15 @@
         <div class="p-1 rounded-md mb-4">
             <div id="monthlyOverview">
                 <h2 class="rounded-t-md text-center font-bold p-2 bg-secondary text-white">
-                    <span class="font-bold text-xl text-white">Spend limit</span>
+                    <span class="font-bold text-md text-white">Spend limit</span>
                     {% if wallet.spendingLimit is not null and totalSpending|number_format(2, '.', ' ') > wallet.spendingLimit|number_format(2, '.', ' ') %}
-                        <span class="bg-danger text-white rounded-md p-1 ml-2">Exceeded (<span class="font-bold text-xl text-secondary text-white">{{ wallet.currency.value|currency_symbol }}</span> {{ (totalSpending - wallet.spendingLimit)|number_format(2, '.', ' ') }})</span>
+                        <span class="bg-danger text-white text-xs rounded-md p-1 ml-2">Exceeded (<span class="font-bold text-secondary text-white text-xs">{{ wallet.currency.value|currency_symbol }}</span> {{ (totalSpending - wallet.spendingLimit)|number_format(2, '.', ' ') }})</span>
                     {% endif %}
                 </h2>
                 <div class="flex flex-col md:flex-row bg-white">
                     <div class="w-full text-center border border-solid border-gray-300 p-2">
-                        {% if wallet.spendingLimit is not null %}<span class="font-bold text-xl text-secondary">{{ wallet.currency.value|currency_symbol }}</span>{% endif %}
-                        <span class="font-bold">{{ wallet.spendingLimit is not null ? wallet.spendingLimit|number_format(2, '.', ' ') : '<i class="fa-solid fa-infinity"></i>'|raw }}</span>
+                        {% if wallet.spendingLimit is not null %}<span class="font-bold text-xs text-secondary">{{ wallet.currency.value|currency_symbol }}</span>{% endif %}
+                        <span class="font-bold text-xs">{{ wallet.spendingLimit is not null ? wallet.spendingLimit|number_format(2, '.', ' ') : '<i class="fa-solid fa-infinity"></i>'|raw }}</span>
                     </div>
                 </div>
             </div>
@@ -122,62 +122,62 @@
 
         <div class="p-1 rounded">
             <div id="monthlyOverview">
-                <h2 class="rounded-t-md text-center text-xl font-bold p-2 bg-secondary text-white">Cash Flow</h2>
+                <h2 class="rounded-t-md text-center text-md font-bold p-2 bg-secondary text-white">Cash Flow</h2>
                 <div class="flex flex-col md:flex-row bg-quaternary">
-                    <div class="w-full text-center p-2"><span class="font-bold">Start Balance</span></div>
-                    <div class="w-full text-center p-2"><span class="font-bold text-success mr-1">+</span><span>{{ wallet.startBalance|number_format(2, '.', ' ') }}</span></div>
+                    <div class="w-full text-center p-2"><span class="font-bold text-xs">Start Balance</span></div>
+                    <div class="w-full text-center p-2"><span class="font-bold text-success text-xs mr-1">+</span><span class="text-xs">{{ wallet.startBalance|number_format(2, '.', ' ') }}</span></div>
                 </div>
                 <div class="flex flex-col md:flex-row bg-white">
-                    <div class="w-full text-center p-2"><span class="font-bold">Incomes</span></div>
-                    <div class="w-full text-center p-2"><span class="font-bold text-success mr-1">+</span><span>{{ totalIncomes|number_format(2, '.', ' ') }}</span></div>
+                    <div class="w-full text-center p-2"><span class="font-bold text-xs">Incomes</span></div>
+                    <div class="w-full text-center p-2"><span class="font-bold text-success text-xs mr-1">+</span><span class="text-xs">{{ totalIncomes|number_format(2, '.', ' ') }}</span></div>
                 </div>
                 <div class="flex flex-col md:flex-row bg-quaternary">
-                    <div class="w-full text-center p-2"><span class="font-bold">Bills</span></div>
-                    <div class="w-full text-center p-2"><span class="font-bold text-danger mr-1">-</span><span>{{ totalBills|number_format(2, '.', ' ') }}</span></div>
+                    <div class="w-full text-center p-2"><span class="font-bold text-xs">Bills</span></div>
+                    <div class="w-full text-center p-2"><span class="font-bold text-danger text-xs mr-1">-</span><span class="text-xs">{{ totalBills|number_format(2, '.', ' ') }}</span></div>
                 </div>
                 <div class="flex flex-col md:flex-row bg-white">
-                    <div class="w-full text-center p-2"><span class="font-bold">Expenses</span></div>
-                    <div class="w-full text-center p-2"><span class="font-bold text-danger mr-1">-</span><span>{{ totalExpenses|number_format(2, '.', ' ') }}</span></div>
+                    <div class="w-full text-center p-2"><span class="font-bold text-xs">Expenses</span></div>
+                    <div class="w-full text-center p-2"><span class="font-bold text-danger text-xs mr-1">-</span><span class="text-xs">{{ totalExpenses|number_format(2, '.', ' ') }}</span></div>
                 </div>
                 <div class="flex flex-col md:flex-row bg-quaternary">
-                    <div class="rounded-bl-md w-full text-center p-2"><span class="font-bold">Debts</span></div>
-                    <div class="rounded-br-md w-full text-center p-2"><span class="font-bold text-danger mr-1">-</span><span>{{ totalDebts|number_format(2, '.', ' ') }}</span></div>
+                    <div class="rounded-bl-md w-full text-center p-2"><span class="font-bold text-xs">Debts</span></div>
+                    <div class="rounded-br-md w-full text-center p-2"><span class="font-bold text-danger text-xs mr-1">-</span><span class="text-xs">{{ totalDebts|number_format(2, '.', ' ') }}</span></div>
                 </div>
                 <div class="flex flex-col md:flex-row rounded-b-md">
-                    <div class="w-full text-center p-2 bg-secondary"><span class="font-bold text-white">Total incomes</span></div>
+                    <div class="w-full text-center p-2 bg-secondary"><span class="font-bold text-white text-xs">Total incomes</span></div>
                     <div class="w-full text-center p-2 bg-secondary">
                         <div class="bg-white rounded">
-                            <span class="font-bold text-xl text-dark">{{ wallet.currency.value|currency_symbol }}</span>
-                            <span class="text-dark">{{ totalIncomesAndStartingBalance|number_format(2, '.', ' ') }}</span>
+                            <span class="font-bold text-xs text-dark">{{ wallet.currency.value|currency_symbol }}</span>
+                            <span class="text-dark text-xs">{{ totalIncomesAndStartingBalance|number_format(2, '.', ' ') }}</span>
                         </div>
                     </div>
                 </div>
                 <div class="flex flex-col md:flex-row rounded-b-md">
-                    <div class="w-full text-center p-2 {{ wallet.spendingLimit is not null and totalSpending|number_format(2, '.', ' ') > wallet.spendingLimit|number_format(2, '.', ' ') ? 'bg-danger' : 'bg-primary' }}"><span class="font-bold text-white">Total spending</span></div>
+                    <div class="w-full text-center p-2 {{ wallet.spendingLimit is not null and totalSpending|number_format(2, '.', ' ') > wallet.spendingLimit|number_format(2, '.', ' ') ? 'bg-danger' : 'bg-primary' }}"><span class="font-bold text-white text-xs">Total spending</span></div>
                     <div class="w-full text-center p-2 {{ wallet.spendingLimit is not null and totalSpending|number_format(2, '.', ' ') > wallet.spendingLimit|number_format(2, '.', ' ') ? 'bg-danger' : 'bg-primary' }}">
                         <div class="bg-white rounded">
-                            <span class="font-bold text-xl text-dark">{{ wallet.currency.value|currency_symbol }}</span>
-                            <span class="text-dark">{{ totalSpending|number_format(2, '.', ' ') }}</span>
+                            <span class="font-bold text-xs text-dark">{{ wallet.currency.value|currency_symbol }}</span>
+                            <span class="text-dark text-xs">{{ totalSpending|number_format(2, '.', ' ') }}</span>
                         </div>
                     </div>
                 </div>
                 <div class="flex flex-col md:flex-row">
                     <div class="w-full text-center p-2 {{ leftMinusBudget < 0 ? 'bg-danger' : 'bg-success' }}">
-                        <span class="font-bold text-white">Left with budget</span>
+                        <span class="font-bold text-white text-xs">Left with budget</span>
                     </div>
                     <div class="w-full text-center p-2 {{ leftMinusBudget < 0 ? 'bg-danger' : 'bg-success' }}">
                         <div class="bg-white rounded">
-                            <span class="font-bold text-xl text-dark">{{ wallet.currency.value|currency_symbol }}</span>
-                            <span class="text-dark">{{ leftMinusBudget|number_format(2, '.', ' ') }}</span>
+                            <span class="font-bold text-dark text-xs">{{ wallet.currency.value|currency_symbol }}</span>
+                            <span class="text-dark text-xs">{{ leftMinusBudget|number_format(2, '.', ' ') }}</span>
                         </div>
                     </div>
                 </div>
                 <div class="flex flex-col md:flex-row rounded-b-md">
-                    <div class="rounded-bl-md w-full text-center p-2 {{ totalLeftToSpend < 0 ? 'bg-danger' : 'bg-success' }}"><span class="font-bold text-white">Left</span></div>
+                    <div class="rounded-bl-md w-full text-center p-2 {{ totalLeftToSpend < 0 ? 'bg-danger' : 'bg-success' }}"><span class="font-bold text-white text-xs">Left</span></div>
                     <div class="rounded-br-md w-full text-center p-2 {{ totalLeftToSpend < 0 ? 'bg-danger' : 'bg-success' }}">
-                        <div class="bg-white rounded">
-                            <span class="font-bold text-xl text-dark">{{ wallet.currency.value|currency_symbol }}</span>
-                            <span class="text-dark">{{ totalLeftToSpend|number_format(2, '.', ' ') }}</span>
+                        <div class="bg-white rounded-md">
+                            <span class="font-bold text-xs text-dark">{{ wallet.currency.value|currency_symbol }}</span>
+                            <span class="text-dark text-xs">{{ totalLeftToSpend|number_format(2, '.', ' ') }}</span>
                         </div>
                     </div>
                 </div>
@@ -189,26 +189,22 @@
         <div class="p-1 rounded-md mb-4">
             <div>
                 <div class="text-center bg-secondary rounded-t-md">
-                    <h2 class="text-xl font-bold p-2 text-white">Links</h2>
+                    <h2 class="text-md font-bold p-2 text-white">Links</h2>
                 </div>
 
                 <div class="w-full bg-secondary rounded-b-md p-2 bg-white">
                     {% if userLinks|length > 0 %}
                         <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
                             {% for link in userLinks %}
-                                <a target="_blank" href="{{ link.url }}" class="text-center font-bold bg-secondary hover:bg-secondary-hover text-white p-2 cursor-pointer rounded">
+                                <a target="_blank" href="{{ link.url }}" class="text-center font-bold bg-secondary hover:bg-secondary-hover text-white p-2 cursor-pointer rounded-md">
                                     {{ link.name }}
                                 </a>
-                            {% else %}
-                                <div class="flex bg-white rounded-b-md">
-                                    <div class="w-full text-center p-2 bg-white rounded-b-md"><span class="font-bold text-primary">No links</span></div>
-                                </div>
                             {% endfor %}
                         </div>
                     {% else %}
                         <div class="flex bg-white rounded-b-md">
                             <div class="w-full text-center bg-white rounded-b-md">
-                                <span class="font-bold text-primary">No links</span>
+                                <span class="font-bold text-xs text-primary">No links</span>
                             </div>
                         </div>
                     {% endif %}
@@ -217,25 +213,25 @@
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-2 gap-4">
-            <div class="p-1 rounded">
+            <div class="p-1 rounded-md">
                 <div class="text-center bg-secondary p-2 rounded-t-md">
-                    <h2 class="text-xl font-bold text-white">Total monthly spent</h2>
+                    <h2 class="text-md font-bold text-white">Total monthly spent</h2>
                 </div>
                 <div class="pb-4 bg-white rounded-b-md">
                     {{ render_chart(totalSpendingForCurrentAndPreviousNthMonthsChart) }}
                 </div>
             </div>
-            <div class="p-1 rounded">
+            <div class="p-1 rounded-md">
                 <div class="text-center bg-secondary p-2 rounded-t-md">
-                    <h2 class="text-xl font-bold text-white">Total yearly spent</h2>
+                    <h2 class="text-md font-bold text-white">Total yearly spent</h2>
                 </div>
                 <div class="pb-4 bg-white rounded-b-md">
                     {{ render_chart(totalSpendingYearsChart) }}
                 </div>
             </div>
-            <div class="p-1 rounded">
+            <div class="p-1 rounded-md">
                 <div class="text-center bg-secondary p-2 rounded-t-md">
-                    <h2 class="text-xl font-bold text-white">Left to spend</h2>
+                    <h2 class="text-md font-bold text-white">Left to spend</h2>
                 </div>
                 <div class="pb-4 bg-white rounded-b-md">
                     {% if leftToSpendChart.data.isDataPresent is same as true %}
