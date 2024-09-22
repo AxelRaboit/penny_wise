@@ -7,6 +7,7 @@ namespace App\Service;
 use App\Dto\TransactionInformationDto;
 use App\Entity\User;
 use App\Entity\Wallet;
+use App\Exception\WalletNotFoundWithinLimitException;
 use App\Repository\WalletRepository;
 use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
 use Symfony\UX\Chartjs\Model\Chart;
@@ -126,6 +127,9 @@ final readonly class WalletService
         return $chart;
     }
 
+    /**
+     * @throws WalletNotFoundWithinLimitException
+     */
     public function findPreviousWallet(User $user, int $year, int $month): ?Wallet
     {
         return $this->walletRepository->findPreviousWallet($user, $year, $month);

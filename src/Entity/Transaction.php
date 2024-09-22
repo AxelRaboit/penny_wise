@@ -48,6 +48,9 @@ class Transaction
     #[ORM\ManyToMany(targetEntity: TransactionTag::class, inversedBy: 'transactions')]
     private Collection $tag;
 
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
+    private ?string $budget = null;
+
     public function __construct()
     {
         $this->tag = new ArrayCollection();
@@ -151,6 +154,18 @@ class Transaction
     public function removeTag(TransactionTag $tag): static
     {
         $this->tag->removeElement($tag);
+
+        return $this;
+    }
+
+    public function getBudget(): ?string
+    {
+        return $this->budget;
+    }
+
+    public function setBudget(?string $budget): self
+    {
+        $this->budget = $budget;
 
         return $this;
     }

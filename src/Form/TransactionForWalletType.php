@@ -34,6 +34,10 @@ final class TransactionForWalletType extends AbstractType
             ->add('amount', NumberType::class, [
                 'attr' => ['placeholder' => 'Enter an amount'],
             ])
+            ->add('budget', NumberType::class, [
+                'label' => 'Budgeted Amount',
+                'required' => false,
+            ])
             ->add('transactionCategory', EntityType::class, [
                 'class' => TransactionCategory::class,
                 'query_builder' => fn (TransactionCategoryRepository $repo): QueryBuilder => $repo->getAllExceptSavings(),
@@ -49,8 +53,12 @@ final class TransactionForWalletType extends AbstractType
                 'class' => TransactionTag::class,
                 'multiple' => true,
                 'choice_label' => 'getName',
-                'placeholder' => 'Choose a tag',
                 'autocomplete' => true,
+                'required' => false,
+            ])
+            ->add('budget', NumberType::class, [
+                'label' => 'Budgeted Amount',
+                'required' => false,
             ])
             ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) use ($wallet): void {
                 if ($wallet instanceof Wallet) {

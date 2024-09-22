@@ -17,7 +17,8 @@ final readonly class TransactionInformationDto
         private float $totalExpenses,
         private float $totalDebts,
         private float $totalLeftToSpend,
-        private float $totalSpending
+        private float $totalSpending,
+        private float $leftMinusBudget
     ) {}
 
     /**
@@ -61,5 +62,10 @@ final readonly class TransactionInformationDto
     public function getTotalSpending(): float
     {
         return $this->totalSpending;
+    }
+
+    public function getLeftMinusBudget(): float
+    {
+        return $this->leftMinusBudget;
     }
 }

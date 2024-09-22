@@ -9,9 +9,7 @@ use App\Entity\Transaction;
 use App\Entity\Wallet;
 use App\Enum\TransactionTypeEnum;
 use App\Repository\TransactionRepository;
-use App\Util\TransactionCalculator;
 use Doctrine\ORM\EntityManagerInterface;
-use UnexpectedValueException;
 
 final readonly class TransactionManager
 {
@@ -27,34 +25,18 @@ final readonly class TransactionManager
 
     public function __construct(
         private TransactionRepository $transactionRepository,
-        private TransactionCalculator $transactionCalculator,
         private EntityManagerInterface $entityManager
     ) {}
-
-    /**
-     * Centralize category names in one method for reuse.
-     *
-     * @return array<string, string>
-     */
-    public function getTransactionCategoryNames(): array
-    {
-        return [
-            'expenses' => 'Expenses',
-            'bills' => 'Bills',
-            'debts' => 'Debts',
-            'incomes' => 'Incomes',
-        ];
-    }
 
     public function getAllTransactionInformationByUser(Wallet $wallet): TransactionInformationDto
     {
         $transactions = $this->transactionRepository->findTransactionsByWallet($wallet);
 
         $groupedTransactions = [
-            'Incomes' => ['type' => TransactionTypeEnum::INCOMES()->getString(), self::TRANSACTIONS => [], 'total' => 0],
-            'Bills' => ['type' => TransactionTypeEnum::BILLS()->getString(), self::TRANSACTIONS => [], 'total' => 0],
-            'Expenses' => ['type' => TransactionTypeEnum::EXPENSES()->getString(), self::TRANSACTIONS => [], 'total' => 0],
-            'Debts' => ['type' => TransactionTypeEnum::DEBTS()->getString(), self::TRANSACTIONS => [], 'total' => 0],
+            'Incomes' => ['type' => TransactionTypeEnum::INCOMES->getString(), self::TRANSACTIONS => [], 'total' => 0],
+            'Bills' => ['type' => TransactionTypeEnum::BILLS->getString(), self::TRANSACTIONS => [], 'total' => 0],
+            'Expenses' => ['type' => TransactionTypeEnum::EXPENSES->getString(), self::TRANSACTIONS => [], 'total' => 0],
+            'Debts' => ['type' => TransactionTypeEnum::DEBTS->getString(), self::TRANSACTIONS => [], 'total' => 0],
         ];
 
         foreach ($transactions as $transaction) {
@@ -62,13 +44,14 @@ final readonly class TransactionManager
                 $transactionCategory = $transaction->getTransactionCategory();
                 $category = ucfirst(mb_strtolower((string) $transactionCategory->getName()));
 
-                if (array_key_exists($category, $groupedTransactions)) {
-                    $groupedTransactions[$category][self::TRANSACTIONS][] = $transaction;
+                $budgetInfo = $this->calculateBudgetVsActual($transaction);
 
-                    $groupedTransactions[$category]['total'] += $transaction->getAmount();
-                } else {
-                    throw new UnexpectedValueException('Unknown category : '.$category);
-                }
+                $groupedTransactions[$category][self::TRANSACTIONS][] = [
+                    'transaction' => $transaction,
+                    'budgetInfo' => $budgetInfo,
+                ];
+
+                $groupedTransactions[$category]['total'] += $transaction->getAmount();
             }
         }
 
@@ -79,7 +62,10 @@ final readonly class TransactionManager
 
         $totalSpending = $totalExpenses + $totalBills + $totalDebts;
         $totalIncomesAndStartingBalance = $totalIncomes + $wallet->getStartBalance();
-        $totalRemaining = $this->calculateRemainingBalance($wallet, $groupedTransactions);
+        $totalLeftToSpend = $totalIncomesAndStartingBalance - $totalSpending;
+
+        $totalBudget = $this->calculateTotalBudget($groupedTransactions);
+        $leftMinusBudget = $totalLeftToSpend - $totalBudget;
 
         return new TransactionInformationDto(
             $groupedTransactions,
@@ -88,63 +74,31 @@ final readonly class TransactionManager
             $totalBills,
             $totalExpenses,
             $totalDebts,
-            $totalRemaining,
-            $totalSpending
+            $totalLeftToSpend,
+            $totalSpending,
+            $leftMinusBudget
         );
     }
 
     /**
-     * Calculate the remaining balance for a wallet based on transactions.
+     * Calculate the total budget for transactions.
      *
-     * @param array<string, array{type: string, transactions: Transaction[], total: float}> $transactions
+     * @param array<string, array{type: string, transactions: array<array{transaction: Transaction, budgetInfo: array<string, mixed>}>, total: float}> $transactions
      */
-    public function calculateRemainingBalance(Wallet $wallet, array $transactions): float
+    public function calculateTotalBudget(array $transactions): float
     {
-        $totalIncomes = $this->calculateTotalIncomes($transactions);
-        $totalSpending = $this->calculateTotalSpending($transactions);
-
-        return $wallet->getStartBalance() + $totalIncomes - $totalSpending;
-    }
-
-    /**
-     * Calculate the total incomes from structured transactions array.
-     *
-     * @param array<string, array{type: string, transactions: Transaction[], total: float}> $transactions
-     */
-    public function calculateTotalIncomes(array $transactions): float
-    {
-        $flatTransactions = $this->flattenTransactions($transactions);
-
-        return $this->transactionCalculator->calculateTotalIncomes($flatTransactions);
-    }
-
-    /**
-     * Calculate the total spending from structured transactions array.
-     *
-     * @param array<string, array{type: string, transactions: Transaction[], total: float}> $transactions
-     */
-    public function calculateTotalSpending(array $transactions): float
-    {
-        $flatTransactions = $this->flattenTransactions($transactions);
-
-        return $this->transactionCalculator->calculateTotalSpending($flatTransactions);
-    }
-
-    /**
-     * Flatten the structured transactions array to get only Transaction objects.
-     *
-     * @param array<string, array{type: string, transactions: Transaction[], total: float}> $transactions
-     *
-     * @return Transaction[]
-     */
-    private function flattenTransactions(array $transactions): array
-    {
-        $flatTransactions = [];
+        $totalBudget = 0.0;
         foreach ($transactions as $categoryData) {
-            $flatTransactions = array_merge($flatTransactions, $categoryData[self::TRANSACTIONS]);
+            foreach ($categoryData[self::TRANSACTIONS] as $transactionData) {
+                /** @var Transaction $transaction */
+                $transaction = $transactionData['transaction'];
+                if ($transaction->getBudget()) {
+                    $totalBudget += (float) $transaction->getBudget();
+                }
+            }
         }
 
-        return $flatTransactions;
+        return $totalBudget;
     }
 
     public function findAndDeleteTransactionsByWallet(Wallet $wallet): void
@@ -172,5 +126,36 @@ final readonly class TransactionManager
 
         $this->entityManager->persist($transaction);
         $this->entityManager->flush();
+    }
+
+    /**
+     * @return array{budget: float|null, remaining: float|null, overBudget: bool|null, percentageUsed: float|null}
+     */
+    public function calculateBudgetVsActual(Transaction $transaction): array
+    {
+        $budget = $transaction->getBudget();
+        $actual = (float) $transaction->getAmount();
+
+        if (null === $budget) {
+            return [
+                'budget' => null,
+                'remaining' => null,
+                'overBudget' => null,
+                'percentageUsed' => null,
+            ];
+        }
+
+        $budget = (float) $budget;
+
+        $remaining = $budget - $actual;
+        $overBudget = $actual > $budget;
+        $percentageUsed = ($actual / $budget) * 100;
+
+        return [
+            'budget' => $budget,
+            'remaining' => $remaining,
+            'overBudget' => $overBudget,
+            'percentageUsed' => $percentageUsed,
+        ];
     }
 }

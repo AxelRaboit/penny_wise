@@ -7,8 +7,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Entity\Wallet;
 use App\Enum\MonthEnum;
-use App\Exception\NoPreviousTransactionsException;
-use App\Exception\NoPreviousWalletException;
+use App\Enum\TransactionTypeEnum;
 use App\Form\WalletCreateForYearType;
 use App\Form\WalletType;
 use App\Form\WalletUpdateType;
@@ -34,10 +33,6 @@ final class WalletController extends AbstractController
     private const string NEW_WALLET_TEMPLATE = 'wallet/new.html.twig';
 
     private const string WALLET_LIST_TEMPLATE = 'wallet/wallet_list.html.twig';
-
-    private const int BILL_CATEGORY_ID = 1;
-
-    private const int EXPENSE_CATEGORY_ID = 2;
 
     public function __construct(
         private readonly TransactionService $transactionService,
@@ -111,9 +106,6 @@ final class WalletController extends AbstractController
         ]);
     }
 
-    /**
-     * @throws Exception
-     */
     #[Route('/wallet/{year}/{month}', name: 'monthly_wallet')]
     public function monthlyWallet(int $year, int $month): Response
     {
@@ -128,6 +120,7 @@ final class WalletController extends AbstractController
             throw $this->createNotFoundException('Wallet not found');
         }
 
+        $leftMinusBudget = $this->transactionService->calculateLeftMinusBudget($wallet);
         $transactions = $this->transactionService->getAllTransactionInformationByUser($wallet);
         $walletsAndTransactionsFromYear = $this->walletRepository->getAllWalletsAndTransactionsFromYear($year);
         $notesFromWallet = $this->noteRepository->getNotesFromWallet($wallet);
@@ -152,6 +145,7 @@ final class WalletController extends AbstractController
             'totalDebts' => $transactions->getTotalDebts(),
             'totalLeftToSpend' => $transactions->getTotalLeftToSpend(),
             'totalSpending' => $transactions->getTotalSpending(),
+            'leftMinusBudget' => $leftMinusBudget,
             'currentYear' => $year,
             'currentMonth' => $month,
         ];
@@ -159,9 +153,6 @@ final class WalletController extends AbstractController
         return $this->render(self::MONTHLY_WALLET_TEMPLATE, $options);
     }
 
-    /**
-     * @throws Exception
-     */
     #[Route('/wallet/{year}/{month}/copy-bills', name: 'copy_previous_month_bills')]
     public function copyPreviousMonthBills(int $year, int $month): Response
     {
@@ -169,10 +160,14 @@ final class WalletController extends AbstractController
         $user = $this->getUser();
         $currentWallet = $this->walletService->getWalletByUser($user, $year, $month);
 
+        if (!$currentWallet instanceof Wallet) {
+            throw $this->createNotFoundException('Wallet not found');
+        }
+
         try {
-            $this->transactionService->copyTransactionsFromPreviousMonth($currentWallet, self::BILL_CATEGORY_ID);
-            $this->addFlash('success', 'Expenses copied successfully from the previous month.');
-        } catch (NoPreviousWalletException|NoPreviousTransactionsException $exception) {
+            $this->transactionService->copyTransactionsFromPreviousMonth($currentWallet, TransactionTypeEnum::BILLS);
+            $this->addFlash('success', 'Bills copied successfully from the previous month.');
+        } catch (Exception $exception) {
             $this->addFlash('warning', $exception->getMessage());
         }
 
@@ -182,9 +177,6 @@ final class WalletController extends AbstractController
         ]);
     }
 
-    /**
-     * @throws Exception
-     */
     #[Route('/wallet/{year}/{month}/copy-expenses', name: 'copy_previous_month_expenses')]
     public function copyPreviousMonthExpenses(int $year, int $month): Response
     {
@@ -192,11 +184,15 @@ final class WalletController extends AbstractController
         $user = $this->getUser();
         $currentWallet = $this->walletService->getWalletByUser($user, $year, $month);
 
+        if (!$currentWallet instanceof Wallet) {
+            throw $this->createNotFoundException('Wallet not found');
+        }
+
         try {
-            $this->transactionService->copyTransactionsFromPreviousMonth($currentWallet, self::EXPENSE_CATEGORY_ID);
+            $this->transactionService->copyTransactionsFromPreviousMonth($currentWallet, TransactionTypeEnum::EXPENSES);
             $this->addFlash('success', 'Expenses copied successfully from the previous month.');
-        } catch (NoPreviousWalletException|NoPreviousTransactionsException $exception) {
-            $this->addFlash('warning', $exception->getMessage());
+        } catch (Exception $exception) {
+            $this->addFlash('error', sprintf('An error occurred: %s', $exception->getMessage()));
         }
 
         return $this->redirectToRoute('monthly_wallet', [

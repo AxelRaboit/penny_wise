@@ -7,6 +7,7 @@ namespace App\Repository;
 use App\Entity\TransactionCategory;
 use App\Enum\TransactionTypeEnum;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -24,6 +25,20 @@ class TransactionCategoryRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('t')
             ->andWhere('t.name NOT IN (:values)')
-            ->setParameter('values', [TransactionTypeEnum::SAVINGS()]);
+            ->setParameter('values', [TransactionTypeEnum::SAVINGS->getString()]);
+    }
+
+    public function findIdByCategoryName(string $categoryName): ?int
+    {
+        try {
+            return (int) $this->createQueryBuilder('tc')
+                ->select('tc.id')
+                ->where('tc.name = :name')
+                ->setParameter('name', $categoryName)
+                ->getQuery()
+                ->getSingleScalarResult();
+        } catch (NoResultException) {
+            return null;
+        }
     }
 }

@@ -27,13 +27,13 @@ final readonly class WalletCreateForYearListener
 
         $months = array_combine(
             array_map(fn (MonthEnum $month): string => $month->getName(), MonthEnum::all()),
-            MonthEnum::cases()
+            array_map(fn (MonthEnum $month): int => $month->value, MonthEnum::all())
         );
 
         $form->add('month', ChoiceType::class, [
             'choices' => $months,
-            'choice_value' => fn (?MonthEnum $month) => $month instanceof MonthEnum ? $month->value : '',
-            'choice_label' => fn (MonthEnum $month): string => $month->getName(),
+            'choice_value' => fn (?int $month): string => $month !== null ? (string) $month : '',
+            'choice_label' => fn (int $month): string => MonthEnum::from($month)->getName(),
             'placeholder' => 'Choose a month',
             'required' => true,
             'autocomplete' => true,
@@ -46,16 +46,18 @@ final readonly class WalletCreateForYearListener
         $wallet = $event->getData();
         $form = $event->getForm();
 
-        $monthEnum = $form->get('month')->getData();
+        $monthValue = $form->get('month')->getData();
         $year = $wallet->getYear();
 
-        if (!$monthEnum instanceof MonthEnum) {
+        if (!is_int($monthValue) || !MonthEnum::tryFrom($monthValue) instanceof MonthEnum) {
             $form->addError(new FormError('Invalid month selected.'));
 
             return;
         }
 
-        $existingWallet = $this->walletRepository->findOneBy(['year' => $year, 'month' => $monthEnum]);
+        $monthEnum = MonthEnum::from($monthValue);
+
+        $existingWallet = $this->walletRepository->findOneBy(['year' => $year, 'month' => $monthEnum->value]);
         if (null !== $existingWallet) {
             $form->get('month')->addError(new FormError('A wallet already exists for the selected month and year.'));
 
