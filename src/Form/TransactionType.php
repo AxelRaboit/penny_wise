@@ -24,9 +24,6 @@ class TransactionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('description', TextType::class, [
-                'attr' => ['placeholder' => 'Choose a description'],
-            ])
             ->add('amount', NumberType::class, [
                 'attr' => ['placeholder' => 'Choose an amount'],
             ])

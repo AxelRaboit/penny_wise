@@ -37,7 +37,7 @@ final readonly class InMemoryTransactionRepository
                 return $transaction;
             }
 
-            if (isset($criteria['description']) && $transaction->getDescription() === $criteria['description']) {
+            if (isset($criteria['nature']) && $transaction->getNature() === $criteria['nature']) {
                 return $transaction;
             }
         }

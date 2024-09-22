@@ -122,7 +122,6 @@ class AppFixtures extends Fixture
     private function createTransaction(ObjectManager $manager): void
     {
         $transaction = new Transaction();
-        $transaction->setDescription('Payment for services');
         $transaction->setAmount(49.99);
         $transaction->setDate(new DateTimeImmutable());
         $transaction->setNature('Service');

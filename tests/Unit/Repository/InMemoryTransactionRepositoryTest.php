@@ -14,8 +14,6 @@ use PHPUnit\Framework\TestCase;
 
 class InMemoryTransactionRepositoryTest extends TestCase
 {
-    private const string TRANSACTION_DESCRIPTION = 'Payment for services';
-
     private const float TRANSACTION_AMOUNT = 100.50;
 
     private const string TRANSACTION_DATE = '2024-09-15';
@@ -30,7 +28,7 @@ class InMemoryTransactionRepositoryTest extends TestCase
         $transactionRepository = new InMemoryTransactionRepository();
 
         $transaction = new Transaction();
-        $transaction->setDescription(self::TRANSACTION_DESCRIPTION)
+        $transaction
             ->setAmount(self::TRANSACTION_AMOUNT)
             ->setDate(new DateTime(self::TRANSACTION_DATE))
             ->setNature(self::TRANSACTION_NATURE)
@@ -39,7 +37,7 @@ class InMemoryTransactionRepositoryTest extends TestCase
 
         $transactionRepository->save($transaction);
 
-        $foundTransaction = $transactionRepository->findOneBy(['description' => self::TRANSACTION_DESCRIPTION]);
+        $foundTransaction = $transactionRepository->findOneBy(['nature' => self::TRANSACTION_NATURE]);
 
         $this->assertNotNull($foundTransaction);
         $this->assertSame(self::TRANSACTION_AMOUNT, $foundTransaction->getAmount());
@@ -57,7 +55,7 @@ class InMemoryTransactionRepositoryTest extends TestCase
         $transactionRepository = new InMemoryTransactionRepository();
 
         $transaction = new Transaction();
-        $transaction->setDescription(self::TRANSACTION_DESCRIPTION)
+        $transaction
             ->setAmount(self::TRANSACTION_AMOUNT)
             ->setDate(new DateTime(self::TRANSACTION_DATE))
             ->setNature(self::TRANSACTION_NATURE)
@@ -66,11 +64,11 @@ class InMemoryTransactionRepositoryTest extends TestCase
 
         $transactionRepository->save($transaction);
 
-        $this->assertNotNull($transactionRepository->findOneBy(['description' => self::TRANSACTION_DESCRIPTION]));
+        $this->assertNotNull($transactionRepository->findOneBy(['nature' => self::TRANSACTION_NATURE]));
 
         $transactionRepository->delete($transaction);
 
-        $this->assertNull($transactionRepository->findOneBy(['description' => self::TRANSACTION_DESCRIPTION]));
+        $this->assertNull($transactionRepository->findOneBy(['nature' => self::TRANSACTION_NATURE]));
     }
 
     public function testUpdateTransaction(): void
@@ -81,7 +79,7 @@ class InMemoryTransactionRepositoryTest extends TestCase
         $transactionRepository = new InMemoryTransactionRepository();
 
         $transaction = new Transaction();
-        $transaction->setDescription(self::TRANSACTION_DESCRIPTION)
+        $transaction
             ->setAmount(self::TRANSACTION_AMOUNT)
             ->setDate(new DateTime(self::TRANSACTION_DATE))
             ->setNature(self::TRANSACTION_NATURE)
@@ -90,13 +88,13 @@ class InMemoryTransactionRepositoryTest extends TestCase
 
         $transactionRepository->save($transaction);
 
-        $foundTransaction = $transactionRepository->findOneBy(['description' => self::TRANSACTION_DESCRIPTION]);
+        $foundTransaction = $transactionRepository->findOneBy(['nature' => self::TRANSACTION_NATURE]);
         $this->assertNotNull($foundTransaction);
 
         $transaction->setAmount(self::TRANSACTION_AMOUNT);
         $transactionRepository->save($transaction);
 
-        $foundTransaction = $transactionRepository->findOneBy(['description' => self::TRANSACTION_DESCRIPTION]);
+        $foundTransaction = $transactionRepository->findOneBy(['nature' => self::TRANSACTION_NATURE]);
 
         $this->assertNotNull($foundTransaction);
         $this->assertSame(self::TRANSACTION_AMOUNT, $foundTransaction->getAmount());

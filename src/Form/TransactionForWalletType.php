@@ -30,10 +30,6 @@ final class TransactionForWalletType extends AbstractType
         $wallet = $builder->getOption('wallet');
 
         $builder
-            ->add('description', TextType::class, [
-                'attr' => ['placeholder' => 'Enter a description'],
-                'required' => true,
-            ])
             ->add('amount', NumberType::class, [
                 'attr' => ['placeholder' => 'Enter an amount'],
             ])

@@ -53,7 +53,6 @@ final readonly class TransactionService
 
         foreach ($previousTransactions as $transaction) {
             $newTransaction = new Transaction();
-            $newTransaction->setDescription($transaction->getDescription());
             $newTransaction->setAmount($transaction->getAmount());
             $newTransaction->setDate(new DateTimeImmutable());
             $newTransaction->setWallet($currentWallet);
