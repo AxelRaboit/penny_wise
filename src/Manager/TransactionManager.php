@@ -10,6 +10,7 @@ use App\Entity\Wallet;
 use App\Enum\TransactionTypeEnum;
 use App\Repository\TransactionRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use function Symfony\Component\String\u;
 
 final readonly class TransactionManager
 {
@@ -42,7 +43,7 @@ final readonly class TransactionManager
         foreach ($transactions as $transaction) {
             if ($transaction instanceof Transaction) {
                 $transactionCategory = $transaction->getTransactionCategory();
-                $category = ucfirst(mb_strtolower((string) $transactionCategory->getName()));
+                $category = u($transactionCategory->getName())->lower()->title(true)->toString();
 
                 $budgetInfo = $this->calculateBudgetVsActual($transaction);
 

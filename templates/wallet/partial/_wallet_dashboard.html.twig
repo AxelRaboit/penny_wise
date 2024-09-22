@@ -60,13 +60,13 @@
                                 data-action-url="{{ path('copy_previous_month_bills', {year: currentYear, month: currentMonth}) }}"
                                 class="js-copy-bills-button text-center font-bold bg-warning hover:bg-warning-hover text-white text-xs p-2 cursor-pointer rounded">
                             <i class="fa-solid fa-copy mr-1"></i>
-                            Copy previous month's transaction bills
+                            Copy previous transaction bills
                         </button>
                         <button type="button"
                                 data-action-url="{{ path('copy_previous_month_expenses', {year: currentYear, month: currentMonth}) }}"
                                 class="js-copy-expenses-button text-center font-bold bg-warning hover:bg-warning-hover text-white text-xs p-2 cursor-pointer rounded">
                             <i class="fa-solid fa-copy mr-1"></i>
-                            Copy previous month's transaction expenses
+                            Copy previous transaction expenses
                         </button>
                         <button type="button"
                                 data-action-url="{{ path('delete_monthly_wallet', {year: currentYear, month: currentMonth}) }}"
@@ -233,12 +233,12 @@
                 <div class="text-center bg-secondary p-2 rounded-t-md">
                     <h2 class="text-md font-bold text-white">Left to spend</h2>
                 </div>
-                <div class="pb-4 bg-white rounded-b-md">
+                <div class="bg-white rounded-b-md">
                     {% if leftToSpendChart.data.isDataPresent is same as true %}
-                        {{ render_chart(leftToSpendChart) }}
+                        <div class="pb-4">{{ render_chart(leftToSpendChart) }}</div>
                     {% else %}
                         <div class="flex bg-white rounded-b-md">
-                            <div class="w-full text-center p-2 bg-white rounded-b-md"><span class="font-bold text-primary">No data</span></div>
+                            <div class="w-full text-center p-2 bg-white rounded-b-md"><span class="font-bold text-primary text-xs">No data</span></div>
                         </div>
                     {% endif %}
                 </div>
