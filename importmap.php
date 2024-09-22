@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * Returns the importmap for this application.
  *
@@ -18,7 +16,6 @@ return [
         'path' => './assets/app.js',
         'entrypoint' => true,
     ],
-    // Components
     'note' => [
         'path' => './assets/js/component/note.js',
         'entrypoint' => true,
@@ -27,7 +24,6 @@ return [
         'path' => './assets/js/component/topbar.js',
         'entrypoint' => true,
     ],
-    // Pages
     'monthly' => [
         'path' => './assets/js/page/monthly.js',
         'entrypoint' => true,
@@ -36,12 +32,10 @@ return [
         'path' => './assets/js/page/transaction_tag_list.js',
         'entrypoint' => true,
     ],
-    // Partials
     'transaction' => [
         'path' => './assets/js/partial/transaction_tab.js',
         'entrypoint' => true,
     ],
-    // Vendors
     '@hotwired/stimulus' => [
         'version' => '3.2.2',
     ],
@@ -63,5 +57,8 @@ return [
     'tom-select/dist/css/tom-select.default.css' => [
         'version' => '2.3.1',
         'type' => 'css',
+    ],
+    'alpinejs' => [
+        'version' => '3.14.1',
     ],
 ];
