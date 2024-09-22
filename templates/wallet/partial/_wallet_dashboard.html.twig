@@ -57,6 +57,12 @@
                             Create next month's wallet
                         </button>
                         <button type="button"
+                                data-action-url="{{ path('copy_previous_month_incomes', {year: currentYear, month: currentMonth}) }}"
+                                class="js-copy-incomes-button text-center font-bold bg-warning hover:bg-warning-hover text-white text-xs p-2 cursor-pointer rounded">
+                            <i class="fa-solid fa-copy mr-1"></i>
+                            Copy previous transaction incomes
+                        </button>
+                        <button type="button"
                                 data-action-url="{{ path('copy_previous_month_bills', {year: currentYear, month: currentMonth}) }}"
                                 class="js-copy-bills-button text-center font-bold bg-warning hover:bg-warning-hover text-white text-xs p-2 cursor-pointer rounded">
                             <i class="fa-solid fa-copy mr-1"></i>
@@ -67,6 +73,12 @@
                                 class="js-copy-expenses-button text-center font-bold bg-warning hover:bg-warning-hover text-white text-xs p-2 cursor-pointer rounded">
                             <i class="fa-solid fa-copy mr-1"></i>
                             Copy previous transaction expenses
+                        </button>
+                        <button type="button"
+                                data-action-url="{{ path('copy_previous_month_debts', {year: currentYear, month: currentMonth}) }}"
+                                class="js-copy-debts-button text-center font-bold bg-warning hover:bg-warning-hover text-white text-xs p-2 cursor-pointer rounded">
+                            <i class="fa-solid fa-copy mr-1"></i>
+                            Copy previous transaction debts
                         </button>
                         <button type="button"
                                 data-action-url="{{ path('delete_monthly_wallet', {year: currentYear, month: currentMonth}) }}"

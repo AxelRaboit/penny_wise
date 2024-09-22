@@ -65,3 +65,25 @@ attachModalEvents({
     cancelButtonId: 'cancelCopyLeftToSpend',
     cancelLabel: 'Cancel',
 });
+
+attachModalEvents({
+    modalId: 'copyIncomesModal',
+    modalTitle: 'Copy previous month\'s incomes',
+    modalMessage: 'Are you sure you want to copy the incomes from the previous month to the current month?',
+    triggerButtonSelector: '.js-copy-incomes-button',
+    confirmButtonId: 'confirmCopyIncomes',
+    confirmLabel: 'Copy',
+    cancelButtonId: 'cancelCopyIncomes',
+    cancelLabel: 'Cancel',
+});
+
+attachModalEvents({
+    modalId: 'copyDebtsModal',
+    modalTitle: 'Copy previous month\'s debts',
+    modalMessage: 'Are you sure you want to copy the debts from the previous month to the current month?',
+    triggerButtonSelector: '.js-copy-debts-button',
+    confirmButtonId: 'confirmCopyDebts',
+    confirmLabel: 'Copy',
+    cancelButtonId: 'cancelCopyDebts',
+    cancelLabel: 'Cancel',
+});

@@ -158,8 +158,11 @@ final class WalletController extends AbstractController
     {
         /** @var User $user */
         $user = $this->getUser();
-        $currentWallet = $this->walletService->getWalletByUser($user, $year, $month);
+        if (!$user instanceof User) {
+            throw $this->createNotFoundException('User not found');
+        }
 
+        $currentWallet = $this->walletService->getWalletByUser($user, $year, $month);
         if (!$currentWallet instanceof Wallet) {
             throw $this->createNotFoundException('Wallet not found');
         }
@@ -177,13 +180,70 @@ final class WalletController extends AbstractController
         ]);
     }
 
+    #[Route('/wallet/{year}/{month}/copy-incomes', name: 'copy_previous_month_incomes')]
+    public function copyPreviousMonthIncomes(int $year, int $month): Response
+    {
+        /** @var User $user */
+        $user = $this->getUser();
+        if (!$user instanceof User) {
+            throw $this->createNotFoundException('User not found');
+        }
+
+        $currentWallet = $this->walletService->getWalletByUser($user, $year, $month);
+        if (!$currentWallet instanceof Wallet) {
+            throw $this->createNotFoundException('Wallet not found');
+        }
+
+        try {
+            $this->transactionService->copyTransactionsFromPreviousMonth($currentWallet, TransactionTypeEnum::INCOMES);
+            $this->addFlash('success', 'Incomes copied successfully from the previous month.');
+        } catch (Exception $exception) {
+            $this->addFlash('warning', $exception->getMessage());
+        }
+
+        return $this->redirectToRoute('monthly_wallet', [
+            'year' => $year,
+            'month' => $month,
+        ]);
+    }
+
+    #[Route('/wallet/{year}/{month}/copy-debts', name: 'copy_previous_month_debts')]
+    public function copyPreviousMonthDebts(int $year, int $month): Response
+    {
+        /** @var User $user */
+        $user = $this->getUser();
+        if (!$user instanceof User) {
+            throw $this->createNotFoundException('User not found');
+        }
+
+        $currentWallet = $this->walletService->getWalletByUser($user, $year, $month);
+        if (!$currentWallet instanceof Wallet) {
+            throw $this->createNotFoundException('Wallet not found');
+        }
+
+        try {
+            $this->transactionService->copyTransactionsFromPreviousMonth($currentWallet, TransactionTypeEnum::DEBTS);
+            $this->addFlash('success', 'Debts copied successfully from the previous month.');
+        } catch (Exception $exception) {
+            $this->addFlash('warning', $exception->getMessage());
+        }
+
+        return $this->redirectToRoute('monthly_wallet', [
+            'year' => $year,
+            'month' => $month,
+        ]);
+    }
+
     #[Route('/wallet/{year}/{month}/copy-expenses', name: 'copy_previous_month_expenses')]
     public function copyPreviousMonthExpenses(int $year, int $month): Response
     {
         /** @var User $user */
         $user = $this->getUser();
-        $currentWallet = $this->walletService->getWalletByUser($user, $year, $month);
+        if (!$user instanceof User) {
+            throw $this->createNotFoundException('User not found');
+        }
 
+        $currentWallet = $this->walletService->getWalletByUser($user, $year, $month);
         if (!$currentWallet instanceof Wallet) {
             throw $this->createNotFoundException('Wallet not found');
         }
