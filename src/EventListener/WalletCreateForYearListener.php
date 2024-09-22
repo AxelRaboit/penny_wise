@@ -32,7 +32,7 @@ final readonly class WalletCreateForYearListener
 
         $form->add('month', ChoiceType::class, [
             'choices' => $months,
-            'choice_value' => fn (?int $month): string => $month !== null ? (string) $month : '',
+            'choice_value' => fn (?int $month): string => null !== $month ? (string) $month : '',
             'choice_label' => fn (int $month): string => MonthEnum::from($month)->getName(),
             'placeholder' => 'Choose a month',
             'required' => true,
