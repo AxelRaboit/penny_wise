@@ -131,7 +131,7 @@ class WalletRepository extends ServiceEntityRepository
                 'total' => $this->getTotalSpendingByMonth($year, $month),
             ];
 
-            $previousMonth = $this->walletHelper->getPreviousMonthAndYear($year, $month);
+            $previousMonth = $this->walletHelper->getImmediatePreviousMonthAndYear($year, $month);
             $year = $previousMonth['year'];
             $month = $previousMonth['month'];
         }
@@ -247,28 +247,31 @@ class WalletRepository extends ServiceEntityRepository
      */
     public function findPreviousWallet(User $user, int $year, int $month, int $maxMonthsBack = 12): ?Wallet
     {
-        --$month;
-        $monthsSearched = 0;
+        $previousMonthData = $this->walletHelper->findPreviousValidMonthAndYear($year, $month);
 
-        while ($year > 0 && $monthsSearched < $maxMonthsBack) {
-            if (0 === $month) {
-                $month = 12;
-                --$year;
-            }
+        return $this->searchWallet($user, $previousMonthData['year'], $previousMonthData['month'], $maxMonthsBack, $maxMonthsBack);
+    }
 
-            $wallet = $this->findWalletFromUser($user, $year, $month);
-            if ($wallet instanceof Wallet) {
-                return $wallet;
-            }
-
-            --$month;
-            ++$monthsSearched;
-        }
-
-        if ($monthsSearched >= $maxMonthsBack) {
+    /**
+     * @throws WalletNotFoundWithinLimitException
+     */
+    private function searchWallet(User $user, int $year, int $month, int $remainingMonths, int $maxMonthsBack): ?Wallet
+    {
+        if ($remainingMonths <= 0) {
             throw new WalletNotFoundWithinLimitException($maxMonthsBack);
         }
 
-        return null;
+        $wallet = $this->findWalletFromUser($user, $year, $month);
+
+        if ($wallet instanceof Wallet) {
+            return $wallet;
+        }
+
+        $previousMonthData = $this->walletHelper->findPreviousValidMonthAndYear($year, $month);
+        $year = $previousMonthData['year'];
+        $month = $previousMonthData['month'];
+        --$remainingMonths;
+
+        return $this->searchWallet($user, $year, $month, $remainingMonths, $maxMonthsBack);
     }
 }

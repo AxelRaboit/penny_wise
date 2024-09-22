@@ -40,7 +40,7 @@ final readonly class TransactionService
             throw new InvalidArgumentException();
         }
 
-        $previousMonthData = $this->walletHelper->getPreviousMonthAndYear($currentWallet->getYear(), $currentWallet->getMonth());
+        $previousMonthData = $this->walletHelper->getImmediatePreviousMonthAndYear($currentWallet->getYear(), $currentWallet->getMonth());
         $previousWallet = $this->walletService->getWalletByUser($currentWallet->getIndividual(), $previousMonthData['year'], $previousMonthData['month']);
         if (!$previousWallet instanceof Wallet) {
             throw new NoPreviousWalletException();

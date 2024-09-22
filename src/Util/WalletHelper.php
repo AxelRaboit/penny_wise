@@ -9,11 +9,11 @@ use App\Enum\MonthEnum;
 class WalletHelper
 {
     /**
-     * Returns the previous month and year given a specific month and year.
+     * Returns the immediate previous month and year based on the current month, without checking for any constraints.
      *
      * @return array<string, int>
      */
-    public static function getPreviousMonthAndYear(int $year, int $month): array
+    public static function getImmediatePreviousMonthAndYear(int $year, int $month): array
     {
         $currentMonthEnum = MonthEnum::from($month);
 
@@ -22,6 +22,24 @@ class WalletHelper
         }
 
         return ['year' => $year, 'month' => $currentMonthEnum->value - 1];
+    }
+
+    /**
+     * Finds the previous valid month and year numbers by decrementing the month and wrapping around the year if necessary.
+     *
+     * @param int $year  the current year
+     * @param int $month the current month
+     *
+     * @return array{year: int, month: int} an array with keys 'year' and 'month'
+     */
+    public function findPreviousValidMonthAndYear(int $year, int $month): array
+    {
+        if (0 === --$month) {
+            $month = MonthEnum::December->value;
+            --$year;
+        }
+
+        return ['year' => $year, 'month' => $month];
     }
 
     /**

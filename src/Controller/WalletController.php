@@ -262,7 +262,7 @@ final class WalletController extends AbstractController
         }
 
         try {
-            $previousMonth = $this->walletHelper->getPreviousMonthAndYear($year, $month);
+            $previousMonth = $this->walletHelper->getImmediatePreviousMonthAndYear($year, $month);
             $previousYear = $previousMonth['year'];
             $previousMonthEnum = MonthEnum::from($previousMonth['month']);
 
@@ -305,7 +305,7 @@ final class WalletController extends AbstractController
             throw $this->createNotFoundException('User not found');
         }
 
-        $previousMonth = $this->walletHelper->getPreviousMonthAndYear($year, $month);
+        $previousMonth = $this->walletHelper->getImmediatePreviousMonthAndYear($year, $month);
         $nextMonth = $this->walletHelper->getNextMonthAndYear($year, $month);
 
         try {
