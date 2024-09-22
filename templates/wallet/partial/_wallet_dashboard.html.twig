@@ -119,8 +119,11 @@
             <div id="monthlyOverview">
                 <h2 class="rounded-t-md text-center font-bold p-2 bg-secondary text-white">
                     <span class="font-bold text-md text-white">Spend limit</span>
-                    {% if wallet.spendingLimit is not null and totalSpending|number_format(2, '.', ' ') > wallet.spendingLimit|number_format(2, '.', ' ') %}
-                        <span class="bg-danger text-white text-xs rounded-md p-1 ml-2">Exceeded (<span class="font-bold text-secondary text-white text-xs">{{ wallet.currency.value|currency_symbol }}</span> {{ (totalSpending - wallet.spendingLimit)|number_format(2, '.', ' ') }})</span>
+                    {% if wallet.spendingLimit is not null and totalSpending > wallet.spendingLimit %}
+                        <span class="bg-danger text-white text-xs rounded-md p-1 ml-2">
+                            Exceeded (<span class="font-bold text-secondary text-white text-xs">{{ wallet.currency.value|currency_symbol }}</span>
+                            {{ (totalSpending - wallet.spendingLimit)|number_format(2, '.', ' ') }})
+                        </span>
                     {% endif %}
                 </h2>
                 <div class="flex flex-col md:flex-row bg-white">
