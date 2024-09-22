@@ -20,7 +20,12 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class AppFixtures extends Fixture
 {
     private User $user;
+
     private Wallet $wallet;
+
+    /**
+     * @var array<TransactionCategory>
+     */
     private array $transactionCategories = [];
 
     public function __construct(private readonly UserPasswordHasherInterface $userPasswordHasher) {}
@@ -75,6 +80,7 @@ class AppFixtures extends Fixture
 
         $userInformation = new UserInformation();
         $userInformation->setUser($user);
+
         $manager->persist($userInformation);
 
         $this->user = $user;
