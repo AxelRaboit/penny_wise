@@ -9,8 +9,9 @@ use App\Entity\Wallet;
 use App\Enum\MonthEnum;
 use App\Exception\NoPreviousTransactionsException;
 use App\Exception\NoPreviousWalletException;
-use App\Form\WalletForYearType;
+use App\Form\WalletCreateForYearType;
 use App\Form\WalletType;
+use App\Form\WalletUpdateType;
 use App\Manager\WalletManager;
 use App\Repository\LinkRepository;
 use App\Repository\NoteRepository;
@@ -65,7 +66,7 @@ final class WalletController extends AbstractController
         $wallet = new Wallet();
         $wallet->setYear($year);
 
-        $form = $this->createForm(WalletForYearType::class, $wallet);
+        $form = $this->createForm(WalletCreateForYearType::class, $wallet);
 
         $form->handleRequest($request);
 
@@ -83,6 +84,28 @@ final class WalletController extends AbstractController
         }
 
         return $this->render('wallet/new_wallet_for_year.html.twig', [
+            'form' => $form,
+            'wallet' => $wallet,
+        ]);
+    }
+
+    #[Route('/wallet/edit/{id}', name: 'wallet_edit', methods: ['GET', 'POST'])]
+    public function editWallet(Wallet $wallet, Request $request): Response
+    {
+        $form = $this->createForm(WalletUpdateType::class, $wallet);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->entityManager->flush();
+
+            return $this->redirectToRoute('monthly_wallet', [
+                'year' => $wallet->getYear(),
+                'month' => $wallet->getMonth(),
+            ]);
+        }
+
+        return $this->render('wallet/edit_wallet.html.twig', [
             'form' => $form,
             'wallet' => $wallet,
         ]);

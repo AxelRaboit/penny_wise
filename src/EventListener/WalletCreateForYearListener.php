@@ -17,7 +17,7 @@ use Symfony\Component\Form\FormEvents;
 
 #[AsEventListener(event: FormEvents::PRE_SET_DATA, method: 'onPreSetData')]
 #[AsEventListener(event: FormEvents::POST_SUBMIT, method: 'onPostSubmit')]
-final readonly class WalletForYearListener
+final readonly class WalletCreateForYearListener
 {
     public function __construct(private WalletRepository $walletRepository) {}
 

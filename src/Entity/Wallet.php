@@ -105,9 +105,9 @@ class Wallet
         return $this->month;
     }
 
-    public function setMonth(MonthEnum $month): static
+    public function setMonth(int|MonthEnum $month): static
     {
-        $this->month = $month->value;
+        $this->month = $month instanceof MonthEnum ? $month->value : $month;
 
         return $this;
     }

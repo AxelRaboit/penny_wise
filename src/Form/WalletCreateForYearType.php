@@ -6,7 +6,7 @@ namespace App\Form;
 
 use App\Entity\Wallet;
 use App\Enum\CurrencyEnum;
-use App\EventListener\WalletForYearListener;
+use App\EventListener\WalletCreateForYearListener;
 use Override;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -15,9 +15,9 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-final class WalletForYearType extends AbstractType
+final class WalletCreateForYearType extends AbstractType
 {
-    public function __construct(private readonly WalletForYearListener $walletForYearListener) {}
+    public function __construct(private readonly WalletCreateForYearListener $walletCreateForYearListener) {}
 
     #[Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -38,8 +38,8 @@ final class WalletForYearType extends AbstractType
                 'attr' => ['placeholder' => 'Choose a spending limit'],
                 'required' => false,
             ])
-            ->addEventListener(FormEvents::PRE_SET_DATA, $this->walletForYearListener->onPreSetData(...))
-            ->addEventListener(FormEvents::POST_SUBMIT, $this->walletForYearListener->onPostSubmit(...));
+            ->addEventListener(FormEvents::PRE_SET_DATA, $this->walletCreateForYearListener->onPreSetData(...))
+            ->addEventListener(FormEvents::POST_SUBMIT, $this->walletCreateForYearListener->onPostSubmit(...));
     }
 
     #[Override]
