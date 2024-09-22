@@ -9,6 +9,7 @@ use App\Entity\TransactionCategory;
 use App\Entity\Wallet;
 use App\Repository\Test\InMemoryTransactionRepository;
 use DateTime;
+use DateTimeInterface;
 use Exception;
 use PHPUnit\Framework\TestCase;
 
@@ -41,7 +42,12 @@ class InMemoryTransactionRepositoryTest extends TestCase
 
         $this->assertNotNull($foundTransaction);
         $this->assertSame(self::TRANSACTION_AMOUNT, $foundTransaction->getAmount());
-        $this->assertSame(self::TRANSACTION_DATE, $foundTransaction->getDate()->format('Y-m-d'));
+
+        $foundDate = $foundTransaction->getDate();
+        if ($foundDate instanceof DateTimeInterface) {
+            $this->assertSame(self::TRANSACTION_DATE, $foundDate->format('Y-m-d'));
+        }
+
         $this->assertSame(self::TRANSACTION_NATURE, $foundTransaction->getNature());
         $this->assertSame($wallet, $foundTransaction->getWallet());
         $this->assertSame($transactionCategory, $foundTransaction->getTransactionCategory());

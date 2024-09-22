@@ -45,11 +45,9 @@ final class TransactionForWalletListener
             'choices' => $days,
             'multiple' => false,
             'mapped' => false,
-            'required' => true,
+            'required' => false,
             'autocomplete' => true,
-            'attr' => [
-                'required' => 'required',
-            ],
+            'placeholder' => 'Choose a day',
         ]);
     }
 
@@ -63,6 +61,12 @@ final class TransactionForWalletListener
         }
 
         $day = $form->get('date')->getData();
+
+        if (null === $day) {
+            $transaction->setDate(null);
+
+            return;
+        }
 
         if (!is_numeric($day)) {
             $form->get('date')->addError(new FormError('The selected day is invalid.'));
