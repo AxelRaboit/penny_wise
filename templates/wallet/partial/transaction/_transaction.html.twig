@@ -8,7 +8,6 @@
             </button>
         </div>
 
-        <!-- Transactions Content -->
         <div x-show="open" class="transition-all duration-300" :class="{'rounded-b-md': !open}">
             <div class="flex bg-white">
                 <div class="w-full text-center bg-primary"><span class="font-bold text-white">Date</span></div>
@@ -61,8 +60,7 @@
         </div>
     </div>
 
-    <!-- Total Section -->
-    <div class="flex bg-white" :class="open ? 'rounded-b-md' : ''">
+    <div class="flex bg-white rounded-b-md">
         <div class="rounded-bl-md w-full text-center p-2 bg-primary">
             <span class="font-bold text-white">Total</span>
         </div>
