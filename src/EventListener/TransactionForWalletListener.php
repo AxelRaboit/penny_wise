@@ -11,6 +11,7 @@ use DateMalformedPeriodStringException;
 use DateMalformedStringException;
 use DatePeriod;
 use DateTime;
+use DateTimeInterface;
 use Exception;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -29,8 +30,9 @@ final class TransactionForWalletListener
     public function onPreSetData(FormEvent $event, Wallet $wallet): void
     {
         $form = $event->getForm();
-        $startDateFromWallet = $wallet->getStartDate();
+        $transaction = $event->getData();
 
+        $startDateFromWallet = $wallet->getStartDate();
         $endDateFromWallet = DateTime::createFromInterface($wallet->getEndDate())->modify('+1 day');
 
         $dateIntervalPeriod = new DatePeriod($startDateFromWallet, new DateInterval('P1D'), $endDateFromWallet);
@@ -41,6 +43,11 @@ final class TransactionForWalletListener
             $days[$day] = $day;
         }
 
+        $selectedDay = null;
+        if ($transaction instanceof Transaction && $transaction->getDate() instanceof DateTimeInterface) {
+            $selectedDay = $transaction->getDate()->format('d');
+        }
+
         $form->add('date', ChoiceType::class, [
             'choices' => $days,
             'multiple' => false,
@@ -48,6 +55,7 @@ final class TransactionForWalletListener
             'required' => false,
             'autocomplete' => true,
             'placeholder' => 'Choose a day',
+            'data' => $selectedDay,
         ]);
     }
 
