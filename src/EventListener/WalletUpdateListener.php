@@ -12,7 +12,6 @@ use Exception;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
-use ValueError;
 
 final readonly class WalletUpdateListener
 {
@@ -55,15 +54,7 @@ final readonly class WalletUpdateListener
             return;
         }
 
-        try {
-            $monthEnum = MonthEnum::from($monthValue);
-        } catch (ValueError) {
-            $form->addError(new FormError('Invalid month selected.'));
-
-            return;
-        }
-
-        $wallet->setMonth($monthEnum);
+        $wallet->setMonth($monthValue);
 
         $year = $wallet->getYear();
 
@@ -75,7 +66,7 @@ final readonly class WalletUpdateListener
         }
 
         try {
-            $startDate = new DateTimeImmutable(sprintf('%d-%02d-01', $year, $monthEnum->value));
+            $startDate = new DateTimeImmutable(sprintf('%d-%02d-01', $year, $monthValue));
             $endDate = $startDate->modify('last day of this month');
 
             $wallet->setStartDate($startDate);

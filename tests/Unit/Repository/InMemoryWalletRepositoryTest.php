@@ -6,7 +6,6 @@ namespace App\Tests\Unit\Repository;
 
 use App\Entity\User;
 use App\Entity\Wallet;
-use App\Enum\MonthEnum;
 use App\Repository\Test\InMemoryWalletRepository;
 use DateTime;
 use Exception;
@@ -45,7 +44,7 @@ class InMemoryWalletRepositoryTest extends TestCase
 
         $wallet = new Wallet();
         $wallet->setYear(self::YEAR_2024)
-            ->setMonth(MonthEnum::from(self::MONTH_SEPTEMBER))
+            ->setMonth(self::MONTH_SEPTEMBER)
             ->setStartDate(new DateTime(self::START_DATE))
             ->setEndDate(new DateTime(self::END_DATE))
             ->setIndividual($user);
@@ -68,7 +67,7 @@ class InMemoryWalletRepositoryTest extends TestCase
 
         $wallet = new Wallet();
         $wallet->setYear(self::YEAR_2024)
-            ->setMonth(MonthEnum::from(self::MONTH_SEPTEMBER))
+            ->setMonth(self::MONTH_SEPTEMBER)
             ->setStartDate(new DateTime(self::START_DATE))
             ->setEndDate(new DateTime(self::END_DATE))
             ->setIndividual($user);
@@ -91,7 +90,7 @@ class InMemoryWalletRepositoryTest extends TestCase
 
         $wallet = new Wallet();
         $wallet->setYear(self::YEAR_2024)
-            ->setMonth(MonthEnum::from(self::MONTH_SEPTEMBER))
+            ->setMonth(self::MONTH_SEPTEMBER)
             ->setStartDate(new DateTime(self::START_DATE))
             ->setEndDate(new DateTime(self::END_DATE))
             ->setIndividual($user);

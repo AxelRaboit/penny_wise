@@ -6,7 +6,6 @@ namespace App\Entity;
 
 use App\Entity\Trait\TimestampableTrait;
 use App\Enum\CurrencyEnum;
-use App\Enum\MonthEnum;
 use App\Repository\WalletRepository;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -105,9 +104,9 @@ class Wallet
         return $this->month;
     }
 
-    public function setMonth(int|MonthEnum $month): static
+    public function setMonth(int $month): static
     {
-        $this->month = $month instanceof MonthEnum ? $month->value : $month;
+        $this->month = $month;
 
         return $this;
     }

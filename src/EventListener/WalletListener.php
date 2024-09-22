@@ -71,6 +71,6 @@ class WalletListener
 
     private function setMonthForWallet(Wallet $wallet, DateTimeInterface $startDate): void
     {
-        $wallet->setMonth(MonthEnum::from((int) $startDate->format('m')));
+        $wallet->setMonth((int) $startDate->format('m'));
     }
 }
