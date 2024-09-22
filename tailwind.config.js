@@ -8,6 +8,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      screens: {
+        'xxl': '1740px',
+      },
       colors: {
         primary: {
           DEFAULT: '#020617', // slate-950
