@@ -9,9 +9,9 @@ use App\Entity\User;
 use App\Entity\Wallet;
 use App\Form\TransactionForWalletType;
 use App\Form\TransactionType;
+use App\Manager\TransactionManager;
 use App\Repository\TransactionRepository;
 use App\Repository\WalletRepository;
-use App\Service\TransactionService;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,7 +26,7 @@ class TransactionController extends AbstractController
         private readonly EntityManagerInterface $entityManager,
         private readonly WalletRepository $walletRepository,
         private readonly TransactionRepository $transactionRepository,
-        private readonly TransactionService $transactionService,
+        private readonly TransactionManager $transactionManager,
     ) {}
 
     #[Route('/transaction/new', name: 'transaction_new')]
@@ -38,7 +38,7 @@ class TransactionController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->transactionService->handleTransactionTags($transaction);
+            $this->transactionManager->handleTransactionTags($transaction);
             $this->entityManager->persist($transaction);
             $this->entityManager->flush();
 
@@ -73,7 +73,7 @@ class TransactionController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->transactionService->handleTransactionTags($transaction);
+            $this->transactionManager->handleTransactionTags($transaction);
             $this->entityManager->persist($transaction);
             $this->entityManager->flush();
 
@@ -158,7 +158,7 @@ class TransactionController extends AbstractController
             throw $this->createNotFoundException('Wallet not found for the specified year, month, and user.');
         }
 
-        $isDeleted = $this->transactionService->deleteTransactionsByCategory($wallet, $category);
+        $isDeleted = $this->transactionManager->deleteTransactionsByCategory($wallet, $category);
         if (!$isDeleted) {
             $this->addFlash('warning', sprintf('No transactions found for the category %s.', $category));
         } else {

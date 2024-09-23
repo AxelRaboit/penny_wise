@@ -21,7 +21,7 @@ use InvalidArgumentException;
 
 final readonly class TransactionService
 {
-    public function __construct(private TransactionManager $transactionManager, private EntityManagerInterface $entityManager, private WalletService $walletService, private TransactionRepository $transactionRepository, private WalletRepository $walletRepository, private TransactionCategoryRepository $transactionCategoryRepository) {}
+    public function __construct(private TransactionManager $transactionManager, private EntityManagerInterface $entityManager, private TransactionRepository $transactionRepository, private WalletRepository $walletRepository, private TransactionCategoryRepository $transactionCategoryRepository) {}
 
     /**
      * @return TransactionInformationDto Returns a data transfer object with transaction information by user for a given wallet
@@ -82,8 +82,7 @@ final readonly class TransactionService
      */
     public function copyLeftToSpendFromPreviousMonth(Wallet $currentWallet): void
     {
-        $previousWallet = $this->walletService->findPreviousWallet($currentWallet->getIndividual(), $currentWallet->getYear(), $currentWallet->getMonth());
-
+        $previousWallet = $this->walletRepository->findPreviousWallet($currentWallet->getIndividual(), $currentWallet->getYear(), $currentWallet->getMonth());
         if (!$previousWallet instanceof Wallet) {
             throw new NoPreviousWalletException();
         }
@@ -92,47 +91,5 @@ final readonly class TransactionService
         $totalLeftToSpend = $transactionInfoDto->getTotalLeftToSpend();
 
         $this->transactionManager->copyTransactionsFromPreviousMonth($currentWallet, $totalLeftToSpend);
-    }
-
-    /**
-     * Handle tags associated with a given transaction.
-     *
-     * @param Transaction $transaction the transaction whose tags are to be handled
-     */
-    public function handleTransactionTags(Transaction $transaction): void
-    {
-        $this->transactionManager->handleTransactionTags($transaction);
-    }
-
-    public function calculateTotalBudget(Wallet $wallet): float
-    {
-        $transactions = $this->transactionRepository->findTransactionsByWallet($wallet);
-        $totalBudget = 0.0;
-
-        foreach ($transactions as $transaction) {
-            if ($transaction->getBudget()) {
-                $totalBudget += $transaction->getBudget();
-            }
-        }
-
-        return $totalBudget;
-    }
-
-    /**
-     * @return float the amount left after subtracting the budget
-     */
-    public function calculateLeftMinusBudget(Wallet $wallet): float
-    {
-        $transactionsDto = $this->transactionManager->getAllTransactionInformationByUser($wallet);
-
-        return $transactionsDto->getLeftMinusBudget();
-    }
-
-    /**
-     * Delete all transactions of a specific category for a given wallet.
-     */
-    public function deleteTransactionsByCategory(Wallet $wallet, string $category): bool
-    {
-        return $this->transactionManager->deleteTransactionsByCategory($wallet, $category);
     }
 }

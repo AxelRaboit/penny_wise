@@ -11,6 +11,7 @@ use App\Enum\TransactionTypeEnum;
 use App\Form\WalletCreateForYearType;
 use App\Form\WalletType;
 use App\Form\WalletUpdateType;
+use App\Manager\TransactionManager;
 use App\Manager\WalletManager;
 use App\Repository\LinkRepository;
 use App\Repository\NoteRepository;
@@ -43,6 +44,7 @@ final class WalletController extends AbstractController
         private readonly LinkRepository $linkRepository,
         private readonly WalletManager $walletManager,
         private readonly WalletHelper $walletHelper,
+        private readonly TransactionManager $transactionManager,
     ) {}
 
     #[Route('/', name: 'wallet_list')]
@@ -120,7 +122,8 @@ final class WalletController extends AbstractController
             throw $this->createNotFoundException('Wallet not found');
         }
 
-        $leftMinusBudget = $this->transactionService->calculateLeftMinusBudget($wallet);
+        $transactionsDto = $this->transactionManager->getAllTransactionInformationByUser($wallet);
+        $leftMinusBudget = $transactionsDto->getLeftMinusBudget();
         $transactions = $this->transactionService->getAllTransactionInformationByUser($wallet);
         $walletsAndTransactionsFromYear = $this->walletRepository->getAllWalletsAndTransactionsFromYear($year);
         $notesFromWallet = $this->noteRepository->getNotesFromWallet($wallet);
