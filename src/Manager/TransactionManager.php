@@ -35,10 +35,10 @@ final readonly class TransactionManager
         $transactions = $this->transactionRepository->findTransactionsByWalletWithRelations($wallet);
 
         $groupedTransactions = [
-            'Incomes' => ['type' => TransactionTypeEnum::INCOMES->getString(), self::TRANSACTIONS => [], 'total' => 0],
-            'Bills' => ['type' => TransactionTypeEnum::BILLS->getString(), self::TRANSACTIONS => [], 'total' => 0],
-            'Expenses' => ['type' => TransactionTypeEnum::EXPENSES->getString(), self::TRANSACTIONS => [], 'total' => 0],
-            'Debts' => ['type' => TransactionTypeEnum::DEBTS->getString(), self::TRANSACTIONS => [], 'total' => 0],
+            'Incomes' => ['type' => TransactionTypeEnum::INCOMES->getString(), self::TRANSACTIONS => [], 'total' => 0, 'totalBudget' => 0],
+            'Bills' => ['type' => TransactionTypeEnum::BILLS->getString(), self::TRANSACTIONS => [], 'total' => 0, 'totalBudget' => 0],
+            'Expenses' => ['type' => TransactionTypeEnum::EXPENSES->getString(), self::TRANSACTIONS => [], 'total' => 0, 'totalBudget' => 0],
+            'Debts' => ['type' => TransactionTypeEnum::DEBTS->getString(), self::TRANSACTIONS => [], 'total' => 0, 'totalBudget' => 0],
         ];
 
         foreach ($transactions as $transaction) {
@@ -48,12 +48,19 @@ final readonly class TransactionManager
 
                 $budgetInfo = $this->calculateBudgetVsActual($transaction);
 
+                // Add transaction to the correct category
                 $groupedTransactions[$category][self::TRANSACTIONS][] = [
                     'transaction' => $transaction,
                     'budgetInfo' => $budgetInfo,
                 ];
 
+                // Accumulate category total
                 $groupedTransactions[$category]['total'] += $transaction->getAmount();
+
+                // Accumulate category budget total
+                if (null !== $transaction->getBudget()) {
+                    $groupedTransactions[$category]['totalBudget'] += (float) $transaction->getBudget();
+                }
             }
         }
 
@@ -62,13 +69,16 @@ final readonly class TransactionManager
         $totalExpenses = $groupedTransactions[self::EXPENSES_CATEGORY]['total'];
         $totalDebts = $groupedTransactions[self::DEBTS_CATEGORY]['total'];
 
+        // Get total spending and other calculations
         $totalSpending = $totalExpenses + $totalBills + $totalDebts;
         $totalIncomesAndStartingBalance = $totalIncomes + $wallet->getStartBalance();
         $totalLeftToSpend = $totalIncomesAndStartingBalance - $totalSpending;
 
+        // Calculate total budgets
         $budgets = $this->calculateTotalBudget($groupedTransactions);
         $totalBudget = $totalIncomesAndStartingBalance - $budgets;
 
+        // Include the total budgets for each category (Bills, Expenses, Debts)
         return new TransactionInformationDto(
             $groupedTransactions,
             $totalIncomesAndStartingBalance,
@@ -78,7 +88,10 @@ final readonly class TransactionManager
             $totalDebts,
             $totalLeftToSpend,
             $totalSpending,
-            $totalBudget
+            $totalBudget,
+            $groupedTransactions[self::BILLS_CATEGORY]['totalBudget'],
+            $groupedTransactions[self::EXPENSES_CATEGORY]['totalBudget'],
+            $groupedTransactions[self::DEBTS_CATEGORY]['totalBudget']
         );
     }
 

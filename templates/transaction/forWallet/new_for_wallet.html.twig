@@ -2,6 +2,8 @@
 
 {% block title %}New transaction - {{ parent() }}{% endblock %}
 
+{% set page_requires_transaction_fields = true %}
+
 {% block body %}
     <div>
         <div class="bg-white shadow-md rounded-md max-w-lg mx-auto">

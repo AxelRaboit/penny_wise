@@ -44,7 +44,6 @@ final class TransactionForWalletListener
         $form = $event->getForm();
         /** @var Transaction|null $transaction */
         $transaction = $event->getData();
-
         if (!$transaction instanceof Transaction) {
             return;
         }

@@ -83,7 +83,7 @@ class TransactionController extends AbstractController
             ]);
         }
 
-        return $this->render('transaction/new_for_wallet.html.twig', [
+        return $this->render('transaction/forWallet/new_for_wallet.html.twig', [
             'form' => $form,
             'wallet' => $wallet,
             'transaction' => $transaction,
@@ -138,7 +138,7 @@ class TransactionController extends AbstractController
             ]);
         }
 
-        return $this->render('transaction/edit_for_wallet.html.twig', [
+        return $this->render('transaction/forWallet/edit_for_wallet.html.twig', [
             'form' => $form,
             'transaction' => $transaction,
         ]);

@@ -18,6 +18,7 @@ return [
         'path' => './assets/app.js',
         'entrypoint' => true,
     ],
+    // Components
     'note' => [
         'path' => './assets/js/component/note.js',
         'entrypoint' => true,
@@ -26,6 +27,7 @@ return [
         'path' => './assets/js/component/topbar.js',
         'entrypoint' => true,
     ],
+    // Pages
     'monthly' => [
         'path' => './assets/js/page/monthly.js',
         'entrypoint' => true,
@@ -34,8 +36,13 @@ return [
         'path' => './assets/js/page/transaction_tag_list.js',
         'entrypoint' => true,
     ],
+    // Partials
     'transaction' => [
         'path' => './assets/js/partial/transaction_tab.js',
+        'entrypoint' => true,
+    ],
+    'transaction/fields' => [
+        'path' => './assets/js/partial/form/transaction/fields.js',
         'entrypoint' => true,
     ],
     '@hotwired/stimulus' => [

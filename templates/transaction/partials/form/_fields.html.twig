@@ -64,25 +64,3 @@
         </div>
     </div>
 </div>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const checkbox = document.getElementById('transaction_for_wallet_budgetDefinedTroughAmount');
-        const budgetField = document.getElementById('js-container-budget')
-
-        // Function to toggle visibility
-        function toggleBudgetField() {
-            if (checkbox.checked) {
-                budgetField.classList.add('hidden');
-            } else {
-                budgetField.classList.remove('hidden');
-            }
-        }
-
-        // Initial check on page load
-        toggleBudgetField();
-
-        // Listen for checkbox change events
-        checkbox.addEventListener('change', toggleBudgetField);
-    });
-</script>
