@@ -66,8 +66,8 @@ final readonly class TransactionManager
         $totalIncomesAndStartingBalance = $totalIncomes + $wallet->getStartBalance();
         $totalLeftToSpend = $totalIncomesAndStartingBalance - $totalSpending;
 
-        $totalBudget = $this->calculateTotalBudget($groupedTransactions);
-        $leftMinusBudget = $totalLeftToSpend - $totalBudget;
+        $budgets = $this->calculateTotalBudget($groupedTransactions);
+        $totalBudget = $totalIncomesAndStartingBalance - $budgets;
 
         return new TransactionInformationDto(
             $groupedTransactions,
@@ -78,7 +78,7 @@ final readonly class TransactionManager
             $totalDebts,
             $totalLeftToSpend,
             $totalSpending,
-            $leftMinusBudget
+            $totalBudget
         );
     }
 

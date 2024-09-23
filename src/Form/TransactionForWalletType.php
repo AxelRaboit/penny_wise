@@ -14,6 +14,7 @@ use Doctrine\ORM\QueryBuilder;
 use Override;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -29,6 +30,9 @@ final class TransactionForWalletType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $wallet = $builder->getOption('wallet');
+        /** @var Transaction|null $transaction */
+        $transaction = $builder->getOption('data');
+        $budgetDefinedTroughAmount = $transaction?->getBudgetDefinedTroughAmount() ?? true;
 
         $builder
             ->add('amount', NumberType::class, [
@@ -60,6 +64,12 @@ final class TransactionForWalletType extends AbstractType
                 'label' => 'Budgeted Amount',
                 'required' => false,
             ])
+            ->add('budgetDefinedTroughAmount', CheckboxType::class, [
+                'label' => 'Use amount as budget',
+                'required' => false,
+                'data' => $budgetDefinedTroughAmount,
+            ])
+
             ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) use ($wallet): void {
                 if ($wallet instanceof Wallet) {
                     $this->transactionForWalletListener->onPreSetData($event, $wallet);

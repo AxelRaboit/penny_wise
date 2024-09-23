@@ -51,6 +51,9 @@ class Transaction
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
     private ?string $budget = null;
 
+    #[ORM\Column(nullable: true, options: ['default' => true])]
+    private ?bool $budgetDefinedTroughAmount = true;
+
     public function __construct()
     {
         $this->tag = new ArrayCollection();
@@ -166,6 +169,18 @@ class Transaction
     public function setBudget(?string $budget): self
     {
         $this->budget = $budget;
+
+        return $this;
+    }
+
+    public function getBudgetDefinedTroughAmount(): ?bool
+    {
+        return $this->budgetDefinedTroughAmount;
+    }
+
+    public function setBudgetDefinedTroughAmount(?bool $budgetDefinedTroughAmount): self
+    {
+        $this->budgetDefinedTroughAmount = $budgetDefinedTroughAmount;
 
         return $this;
     }

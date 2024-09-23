@@ -186,18 +186,18 @@
                     </div>
                 </div>
                 <div class="flex flex-col md:flex-row">
-                    <div class="w-full text-center p-2 {{ leftMinusBudget < 0 ? 'bg-danger' : 'bg-success' }}">
-                        <span class="font-bold text-white text-xs">Left with budget</span>
+                    <div class="w-full text-center p-2 {{ totalBudget < 0 ? 'bg-danger' : 'bg-success' }}">
+                        <span class="font-bold text-white text-xs">Total budget</span>
                     </div>
-                    <div class="w-full text-center p-2 {{ leftMinusBudget < 0 ? 'bg-danger' : 'bg-success' }}">
+                    <div class="w-full text-center p-2 {{ totalBudget < 0 ? 'bg-danger' : 'bg-success' }}">
                         <div class="bg-white rounded">
                             <span class="font-bold text-dark text-xs">{{ wallet.currency.value|currency_symbol }}</span>
-                            <span class="text-dark text-xs">{{ leftMinusBudget|number_format(2, '.', ' ') }}</span>
+                            <span class="text-dark text-xs">{{ totalBudget|number_format(2, '.', ' ') }}</span>
                         </div>
                     </div>
                 </div>
                 <div class="flex flex-col md:flex-row rounded-b-md">
-                    <div class="rounded-bl-md w-full text-center p-2 {{ totalLeftToSpend < 0 ? 'bg-danger' : 'bg-success' }}"><span class="font-bold text-white text-xs">Left</span></div>
+                    <div class="rounded-bl-md w-full text-center p-2 {{ totalLeftToSpend < 0 ? 'bg-danger' : 'bg-success' }}"><span class="font-bold text-white text-xs">Total left to spend</span></div>
                     <div class="rounded-br-md w-full text-center p-2 {{ totalLeftToSpend < 0 ? 'bg-danger' : 'bg-success' }}">
                         <div class="bg-white rounded-md">
                             <span class="font-bold text-xs text-dark">{{ wallet.currency.value|currency_symbol }}</span>

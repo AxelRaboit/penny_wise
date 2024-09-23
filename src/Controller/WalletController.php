@@ -122,9 +122,7 @@ final class WalletController extends AbstractController
             throw $this->createNotFoundException('Wallet not found');
         }
 
-        $transactionsDto = $this->transactionManager->getAllTransactionInformationByUser($wallet);
-        $leftMinusBudget = $transactionsDto->getLeftMinusBudget();
-        $transactions = $this->transactionService->getAllTransactionInformationByUser($wallet);
+        $transactions = $this->transactionManager->getAllTransactionInformationByUser($wallet);
         $walletsAndTransactionsFromYear = $this->walletRepository->getAllWalletsAndTransactionsFromYear($year);
         $notesFromWallet = $this->noteRepository->getNotesFromWallet($wallet);
         $leftToSpendChart = $this->walletService->createLeftToSpendChart($transactions);
@@ -148,7 +146,7 @@ final class WalletController extends AbstractController
             'totalDebts' => $transactions->getTotalDebts(),
             'totalLeftToSpend' => $transactions->getTotalLeftToSpend(),
             'totalSpending' => $transactions->getTotalSpending(),
-            'leftMinusBudget' => $leftMinusBudget,
+            'totalBudget' => $transactions->getTotalBudget(),
             'currentYear' => $year,
             'currentMonth' => $month,
         ];
