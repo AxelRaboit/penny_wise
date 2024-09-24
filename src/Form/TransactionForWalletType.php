@@ -32,7 +32,10 @@ final class TransactionForWalletType extends AbstractType
         $wallet = $builder->getOption('wallet');
         /** @var Transaction|null $transaction */
         $transaction = $builder->getOption('data');
-        $budgetDefinedTroughAmount = $transaction?->getBudgetDefinedTroughAmount() ?? true;
+        $isNewTransaction = null === $transaction?->getId();
+
+        // Set the checkbox value to null by default for edits
+        $budgetDefinedTroughAmount = $isNewTransaction ? ($transaction?->getBudgetDefinedTroughAmount() ?? true) : null;
 
         $builder
             ->add('amount', NumberType::class, [
@@ -59,17 +62,17 @@ final class TransactionForWalletType extends AbstractType
                 'choice_label' => 'getName',
                 'autocomplete' => true,
                 'required' => false,
-            ])
-            ->add('budget', NumberType::class, [
-                'label' => 'Budgeted Amount',
-                'required' => false,
-            ])
-            ->add('budgetDefinedTroughAmount', CheckboxType::class, [
+            ]);
+
+        if ($isNewTransaction) {
+            $builder->add('budgetDefinedTroughAmount', CheckboxType::class, [
                 'label' => 'Use amount as budget',
                 'required' => false,
                 'data' => $budgetDefinedTroughAmount,
-            ])
+            ]);
+        }
 
+        $builder
             ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) use ($wallet): void {
                 if ($wallet instanceof Wallet) {
                     $this->transactionForWalletListener->onPreSetData($event, $wallet);

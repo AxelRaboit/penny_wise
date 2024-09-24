@@ -48,16 +48,13 @@ final readonly class TransactionManager
 
                 $budgetInfo = $this->calculateBudgetVsActual($transaction);
 
-                // Add transaction to the correct category
                 $groupedTransactions[$category][self::TRANSACTIONS][] = [
                     'transaction' => $transaction,
                     'budgetInfo' => $budgetInfo,
                 ];
 
-                // Accumulate category total
                 $groupedTransactions[$category]['total'] += $transaction->getAmount();
 
-                // Accumulate category budget total
                 if (null !== $transaction->getBudget()) {
                     $groupedTransactions[$category]['totalBudget'] += (float) $transaction->getBudget();
                 }
@@ -69,16 +66,13 @@ final readonly class TransactionManager
         $totalExpenses = $groupedTransactions[self::EXPENSES_CATEGORY]['total'];
         $totalDebts = $groupedTransactions[self::DEBTS_CATEGORY]['total'];
 
-        // Get total spending and other calculations
         $totalSpending = $totalExpenses + $totalBills + $totalDebts;
         $totalIncomesAndStartingBalance = $totalIncomes + $wallet->getStartBalance();
         $totalLeftToSpend = $totalIncomesAndStartingBalance - $totalSpending;
 
-        // Calculate total budgets
         $budgets = $this->calculateTotalBudget($groupedTransactions);
         $totalBudget = $totalIncomesAndStartingBalance - $budgets;
 
-        // Include the total budgets for each category (Bills, Expenses, Debts)
         return new TransactionInformationDto(
             $groupedTransactions,
             $totalIncomesAndStartingBalance,
