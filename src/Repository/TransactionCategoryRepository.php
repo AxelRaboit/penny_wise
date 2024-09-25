@@ -44,10 +44,6 @@ class TransactionCategoryRepository extends ServiceEntityRepository
 
     /**
      * Retrieves the TransactionCategory by its name.
-     *
-     * @param string $categoryName
-     *
-     * @return TransactionCategory|null
      */
     public function findCategoryByName(string $categoryName): ?TransactionCategory
     {

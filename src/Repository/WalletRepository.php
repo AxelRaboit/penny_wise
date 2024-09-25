@@ -7,6 +7,7 @@ namespace App\Repository;
 use App\Dto\MonthDto;
 use App\Dto\TotalSpendingFromNMonthsDto;
 use App\Dto\YearDto;
+use App\Entity\TransactionCategory;
 use App\Entity\User;
 use App\Entity\Wallet;
 use App\Enum\MonthEnum;
@@ -16,14 +17,13 @@ use App\Util\WalletHelper;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\Order;
 use Doctrine\Persistence\ManagerRegistry;
+use LogicException;
 
 /**
  * @extends ServiceEntityRepository<Wallet>
  */
 class WalletRepository extends ServiceEntityRepository
 {
-    private const string INCOME_CATEGORY_ID = '81';
-
     public function __construct(ManagerRegistry $registry, private readonly WalletHelper $walletHelper, private readonly TransactionCategoryRepository $transactionCategoryRepository)
     {
         parent::__construct($registry, Wallet::class);
@@ -152,8 +152,8 @@ class WalletRepository extends ServiceEntityRepository
     {
         $incomeCategory = $this->transactionCategoryRepository->findCategoryByName(TransactionCategoryEnum::Incomes->value);
 
-        if (!$incomeCategory) {
-            throw new \LogicException('Income category not found.');
+        if (!$incomeCategory instanceof TransactionCategory) {
+            throw new LogicException('Income category not found.');
         }
 
         $incomeCategoryId = $incomeCategory->getId();
@@ -186,8 +186,8 @@ class WalletRepository extends ServiceEntityRepository
         $incomeCategory = $this->transactionCategoryRepository
             ->findOneBy(['name' => 'incomes']);
 
-        if (!$incomeCategory) {
-            throw new \LogicException('Income category not found.');
+        if (null === $incomeCategory) {
+            throw new LogicException('Income category not found.');
         }
 
         $incomeCategoryId = $incomeCategory->getId();
