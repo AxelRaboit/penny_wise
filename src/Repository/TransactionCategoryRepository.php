@@ -41,4 +41,16 @@ class TransactionCategoryRepository extends ServiceEntityRepository
             return null;
         }
     }
+
+    /**
+     * Retrieves the TransactionCategory by its name.
+     *
+     * @param string $categoryName
+     *
+     * @return TransactionCategory|null
+     */
+    public function findCategoryByName(string $categoryName): ?TransactionCategory
+    {
+        return $this->findOneBy(['name' => $categoryName]);
+    }
 }
