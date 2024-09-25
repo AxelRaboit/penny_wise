@@ -90,6 +90,23 @@
                 </div>
             </div>
         </div>
+
+        <div class="p-1 rounded-md mb-1">
+            <div>
+                <div class="text-center bg-secondary rounded-t-md">
+                    <h2 class="text-md font-bold p-2 text-white">Left</h2>
+                </div>
+
+                <div class="w-full rounded-b-md p-2 bg-white">
+                    <div class="rounded-br-md w-full text-center p-2">
+                        <div class="bg-white flex items-center justify-center space-x-2">
+                            <span class="font-bold text-xl text-dark">{{ wallet.currency.value|currency_symbol }}</span>
+                            <span class="font-bold text-xl text-dark {{ totalLeftToSpend < 0 ? 'text-danger' : 'text-success' }}">{{ totalLeftToSpend|number_format(2, '.', ' ') }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div>
