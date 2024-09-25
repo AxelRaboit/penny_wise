@@ -7,7 +7,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Entity\Wallet;
 use App\Enum\MonthEnum;
-use App\Enum\TransactionTypeEnum;
+use App\Enum\TransactionCategoryEnum;
 use App\Form\WalletCreateForYearType;
 use App\Form\WalletType;
 use App\Form\WalletUpdateType;
@@ -169,7 +169,7 @@ final class WalletController extends AbstractController
         }
 
         try {
-            $this->transactionService->copyTransactionsFromPreviousMonth($currentWallet, TransactionTypeEnum::BILLS);
+            $this->transactionService->copyTransactionsFromPreviousMonth($currentWallet, TransactionCategoryEnum::Bills);
             $this->addFlash('success', 'Bills copied successfully from the previous month.');
         } catch (Exception $exception) {
             $this->addFlash('warning', $exception->getMessage());
@@ -196,7 +196,7 @@ final class WalletController extends AbstractController
         }
 
         try {
-            $this->transactionService->copyTransactionsFromPreviousMonth($currentWallet, TransactionTypeEnum::INCOMES);
+            $this->transactionService->copyTransactionsFromPreviousMonth($currentWallet, TransactionCategoryEnum::Incomes);
             $this->addFlash('success', 'Incomes copied successfully from the previous month.');
         } catch (Exception $exception) {
             $this->addFlash('warning', $exception->getMessage());
@@ -223,7 +223,7 @@ final class WalletController extends AbstractController
         }
 
         try {
-            $this->transactionService->copyTransactionsFromPreviousMonth($currentWallet, TransactionTypeEnum::DEBTS);
+            $this->transactionService->copyTransactionsFromPreviousMonth($currentWallet, TransactionCategoryEnum::Debts);
             $this->addFlash('success', 'Debts copied successfully from the previous month.');
         } catch (Exception $exception) {
             $this->addFlash('warning', $exception->getMessage());
@@ -250,7 +250,7 @@ final class WalletController extends AbstractController
         }
 
         try {
-            $this->transactionService->copyTransactionsFromPreviousMonth($currentWallet, TransactionTypeEnum::EXPENSES);
+            $this->transactionService->copyTransactionsFromPreviousMonth($currentWallet, TransactionCategoryEnum::Expenses);
             $this->addFlash('success', 'Expenses copied successfully from the previous month.');
         } catch (Exception $exception) {
             $this->addFlash('error', sprintf('An error occurred: %s', $exception->getMessage()));

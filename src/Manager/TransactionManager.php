@@ -7,7 +7,7 @@ namespace App\Manager;
 use App\Dto\TransactionInformationDto;
 use App\Entity\Transaction;
 use App\Entity\Wallet;
-use App\Enum\TransactionTypeEnum;
+use App\Enum\TransactionCategoryEnum;
 use App\Repository\TransactionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -35,10 +35,10 @@ final readonly class TransactionManager
         $transactions = $this->transactionRepository->findTransactionsByWalletWithRelations($wallet);
 
         $groupedTransactions = [
-            'Incomes' => ['type' => TransactionTypeEnum::INCOMES->getString(), self::TRANSACTIONS => [], 'total' => 0, 'totalBudget' => 0],
-            'Bills' => ['type' => TransactionTypeEnum::BILLS->getString(), self::TRANSACTIONS => [], 'total' => 0, 'totalBudget' => 0],
-            'Expenses' => ['type' => TransactionTypeEnum::EXPENSES->getString(), self::TRANSACTIONS => [], 'total' => 0, 'totalBudget' => 0],
-            'Debts' => ['type' => TransactionTypeEnum::DEBTS->getString(), self::TRANSACTIONS => [], 'total' => 0, 'totalBudget' => 0],
+            'Incomes' => ['type' => TransactionCategoryEnum::Incomes->value, self::TRANSACTIONS => [], 'total' => 0, 'totalBudget' => 0],
+            'Bills' => ['type' => TransactionCategoryEnum::Bills->value, self::TRANSACTIONS => [], 'total' => 0, 'totalBudget' => 0],
+            'Expenses' => ['type' => TransactionCategoryEnum::Expenses->value, self::TRANSACTIONS => [], 'total' => 0, 'totalBudget' => 0],
+            'Debts' => ['type' => TransactionCategoryEnum::Debts->value, self::TRANSACTIONS => [], 'total' => 0, 'totalBudget' => 0],
         ];
 
         foreach ($transactions as $transaction) {

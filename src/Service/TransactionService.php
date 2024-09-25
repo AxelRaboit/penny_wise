@@ -7,7 +7,7 @@ namespace App\Service;
 use App\Dto\TransactionInformationDto;
 use App\Entity\Transaction;
 use App\Entity\Wallet;
-use App\Enum\TransactionTypeEnum;
+use App\Enum\TransactionCategoryEnum;
 use App\Exception\NoPreviousTransactionsException;
 use App\Exception\NoPreviousWalletException;
 use App\Exception\WalletNotFoundWithinLimitException;
@@ -34,7 +34,7 @@ final readonly class TransactionService
     /**
      * @throws WalletNotFoundWithinLimitException
      */
-    public function copyTransactionsFromPreviousMonth(Wallet $currentWallet, TransactionTypeEnum $transactionCategoryEnum): void
+    public function copyTransactionsFromPreviousMonth(Wallet $currentWallet, TransactionCategoryEnum $transactionCategoryEnum): void
     {
         $previousWallet = $this->walletRepository->findPreviousWallet($currentWallet->getIndividual(), $currentWallet->getYear(), $currentWallet->getMonth());
 
@@ -42,9 +42,9 @@ final readonly class TransactionService
             throw new NoPreviousWalletException();
         }
 
-        $transactionCategoryId = $this->transactionCategoryRepository->findIdByCategoryName($transactionCategoryEnum->getString());
+        $transactionCategoryId = $this->transactionCategoryRepository->findIdByCategoryName($transactionCategoryEnum->value);
         if (null === $transactionCategoryId) {
-            throw new InvalidArgumentException(sprintf('No category found for %s', $transactionCategoryEnum->getString()));
+            throw new InvalidArgumentException(sprintf('No category found for %s', $transactionCategoryEnum->value));
         }
 
         $previousTransactions = $this->transactionRepository->findTransactionsByWalletAndCategory($previousWallet, $transactionCategoryId);

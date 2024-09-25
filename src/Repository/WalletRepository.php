@@ -10,6 +10,7 @@ use App\Dto\YearDto;
 use App\Entity\User;
 use App\Entity\Wallet;
 use App\Enum\MonthEnum;
+use App\Enum\TransactionCategoryEnum;
 use App\Exception\WalletNotFoundWithinLimitException;
 use App\Util\WalletHelper;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -21,9 +22,9 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class WalletRepository extends ServiceEntityRepository
 {
-    private const string INCOME_CATEGORY_ID = '4';
+    private const string INCOME_CATEGORY_ID = '81';
 
-    public function __construct(ManagerRegistry $registry, private readonly WalletHelper $walletHelper)
+    public function __construct(ManagerRegistry $registry, private readonly WalletHelper $walletHelper, private readonly TransactionCategoryRepository $transactionCategoryRepository)
     {
         parent::__construct($registry, Wallet::class);
     }
@@ -149,6 +150,14 @@ class WalletRepository extends ServiceEntityRepository
      */
     private function getTotalSpendingByMonth(int $year, int $month): float
     {
+        $incomeCategory = $this->transactionCategoryRepository->findCategoryByName(TransactionCategoryEnum::Incomes->value);
+
+        if (!$incomeCategory) {
+            throw new \LogicException('Income category not found.');
+        }
+
+        $incomeCategoryId = $incomeCategory->getId();
+
         $qb = $this->createQueryBuilder('b')
             ->leftJoin('b.transactions', 't')
             ->leftJoin('t.transactionCategory', 'tc')
@@ -158,7 +167,7 @@ class WalletRepository extends ServiceEntityRepository
             ->andWhere('tc.id != :incomeCategoryId')
             ->setParameter('year', $year)
             ->setParameter('month', $month)
-            ->setParameter('incomeCategoryId', self::INCOME_CATEGORY_ID)
+            ->setParameter('incomeCategoryId', $incomeCategoryId)
             ->getQuery();
 
         return (float) $qb->getSingleScalarResult();
@@ -174,6 +183,15 @@ class WalletRepository extends ServiceEntityRepository
      */
     public function getTotalSpendingPerYear(int $startYear, int $endYear): array
     {
+        $incomeCategory = $this->transactionCategoryRepository
+            ->findOneBy(['name' => 'incomes']);
+
+        if (!$incomeCategory) {
+            throw new \LogicException('Income category not found.');
+        }
+
+        $incomeCategoryId = $incomeCategory->getId();
+
         $qb = $this->createQueryBuilder('b')
             ->leftJoin('b.transactions', 't')
             ->leftJoin('t.transactionCategory', 'tc')
@@ -182,7 +200,7 @@ class WalletRepository extends ServiceEntityRepository
             ->andWhere('tc.id != :incomeCategoryId')
             ->setParameter('startYear', $startYear)
             ->setParameter('endYear', $endYear)
-            ->setParameter('incomeCategoryId', self::INCOME_CATEGORY_ID)
+            ->setParameter('incomeCategoryId', $incomeCategoryId)
             ->groupBy('b.year')
             ->orderBy('b.year', 'ASC')
             ->getQuery();
