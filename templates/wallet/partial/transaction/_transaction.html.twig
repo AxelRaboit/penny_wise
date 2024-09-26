@@ -56,14 +56,16 @@
                         <div class="w-full flex items-center justify-center">
                             <span class="p-2 text-xs">{{ transaction.transaction.date ? transaction.transaction.date|date('d M Y') : '-' }}</span>
                         </div>
-                        <div class="w-full flex items-center justify-center m-2 flex-wrap">
-                            {% if transaction.transaction.tag|length > 0 %}
-                                {% for tag in transaction.transaction.tag %}
-                                    <span class="bg-secondary text-white p-1 rounded-md text-xs mb-1" style="background-color: {{ tag.color }};">#{{ tag.name }}</span>
-                                {% endfor %}
-                            {% else %}
-                                <span>-</span>
-                            {% endif %}
+                        <div class="w-full text-center m-1 flex items-center justify-center">
+                            <div class="flex flex-wrap space-y-2">
+                                {% if transaction.transaction.tag|length > 0 %}
+                                    {% for tag in transaction.transaction.tag %}
+                                        <span class="inline-block bg-secondary text-white px-2 py-1 rounded-md text-xs" style="background-color: {{ tag.color }};">#{{ tag.name }}</span>
+                                    {% endfor %}
+                                {% else %}
+                                    <span>-</span>
+                                {% endif %}
+                            </div>
                         </div>
                         <div class="w-full flex items-center justify-center">
                             <span class="{{ transaction.transaction.nature ? 'font-bold' : '' }} text-center text-xs">{{ transaction.transaction.nature ?? '-' }}</span>
@@ -71,11 +73,11 @@
                         <div class="w-full flex items-center justify-center m-2">
                             <span class="w-full flex flex-col items-center justify-center">
                                 {% if transaction.budgetInfo.budget %}
-                                    <span class="bg-primary text-xs text-white p-1 w-full text-center rounded-t-md font-semibold">
-                                        Budget: {{ transaction.budgetInfo.budget }}
+                                    <span class="text-xs text-dark font-semibold">
+                                        {{ transaction.budgetInfo.budget }}
                                     </span>
 
-                                    <div class="p-2 w-full text-center rounded-b-md border
+                                    {# <div class="p-2 w-full text-center rounded-b-md border
                                         {{ transaction.budgetInfo.overBudget ? 'bg-red-100 border-red-500' : 'bg-green-100 border-green-500' }}">
                                         {% if transaction.budgetInfo.overBudget %}
                                             <span class="text-xs text-gray-700 font-semibold">Over Budget:</span>
@@ -93,7 +95,7 @@
                                                 </span>
                                             </div>
                                         {% endif %}
-                                    </div>
+                                    </div> #}
                                 {% else %}
                                     <span>-</span>
                                 {% endif %}
@@ -103,18 +105,31 @@
                             <span class="w-full flex items-center justify-center text-xs">{{ transaction.transaction.amount }}</span>
                         </div>
                         <div class="w-full flex items-center justify-center">
-                            <span class="w-full flex items-center justify-center text-xs">{{ transaction.budgetInfo.remaining|number_format(2, '.', ' ') }}</span>
+                            {% if transaction.budgetInfo.overBudget %}
+                                <span class="w-full flex items-center justify-center text-xs text-danger bg-white rounded-md p-0.5 border border-red-500 font-bold">
+                                    {{ transaction.budgetInfo.remaining|number_format(2, '.', ' ') }}
+                                </span>
+                            {% else %}
+                                <div class="text-center">
+                                    <div class="w-full flex flex-col items-center justify-center bg-white rounded-md p-0.5 border border-green-500">
+                                        <span class="font-bold text-xs text-success">{{ transaction.budgetInfo.remaining|number_format(2, '.', ' ') }}</span>
+                                        <span class="text-xs text-success">({{ transaction.budgetInfo.percentageUsed|number_format(2, '.', ' ') }}% used)</span>
+                                    </div>
+                                </div>
+                            {% endif %}
                         </div>
-                        <div class="w-full flex items-center justify-center space-x-2 mr-2">
-                            <a href="{{ path('transaction_edit_for_wallet', {year: transaction.transaction.wallet.year, month: transaction.transaction.wallet.month, id: transaction.transaction.id}) }}">
-                                <button type="button" class="text-center font-bold bg-secondary hover:bg-secondary-hover text-white py-1 px-2 cursor-pointer rounded-md">
+                        <div class="w-full flex flex-col items-center justify-center m-2 space-y-2">
+                            <a href="{{ path('transaction_edit_for_wallet', {year: transaction.transaction.wallet.year, month: transaction.transaction.wallet.month, id: transaction.transaction.id}) }}" class="w-full">
+                                <button type="button" class="w-full text-center font-bold bg-secondary hover:bg-secondary-hover text-white py-1.5 px-1 cursor-pointer rounded-md">
                                     <i class="fa-solid fa-pen-to-square text-xs"></i>
                                 </button>
                             </a>
-                            <button type="button" data-action-url="{{ path('transaction_delete', {year: transaction.transaction.wallet.year, month: transaction.transaction.wallet.month, id: transaction.transaction.id}) }}" class="js-delete-button text-center font-bold bg-danger hover:bg-danger-hover text-white py-1 px-2 cursor-pointer rounded-md">
+
+                            <button type="button" data-action-url="{{ path('transaction_delete', {year: transaction.transaction.wallet.year, month: transaction.transaction.wallet.month, id: transaction.transaction.id}) }}" class="w-full js-delete-button text-center font-bold bg-danger hover:bg-danger-hover text-white py-1.5 px-1 cursor-pointer rounded-md">
                                 <i class="fa-solid fa-trash-can text-xs"></i>
                             </button>
                         </div>
+
                     </div>
                 {% endfor %}
             {% else %}
