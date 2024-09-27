@@ -62,6 +62,10 @@ final class TransactionForWalletType extends AbstractType
                 'choice_label' => 'getName',
                 'autocomplete' => true,
                 'required' => false,
+            ])
+            ->add('highlight', CheckboxType::class, [
+                'label' => 'Highlight it',
+                'required' => false,
             ]);
 
         if ($isNewTransaction) {

@@ -54,6 +54,9 @@ class Transaction
     #[ORM\Column(nullable: true, options: ['default' => true])]
     private ?bool $budgetDefinedTroughAmount = true;
 
+    #[ORM\Column(type: 'boolean', nullable: false, options: ['default' => false])]
+    private bool $highlight = false;
+
     public function __construct()
     {
         $this->tag = new ArrayCollection();
@@ -181,6 +184,18 @@ class Transaction
     public function setBudgetDefinedTroughAmount(?bool $budgetDefinedTroughAmount): self
     {
         $this->budgetDefinedTroughAmount = $budgetDefinedTroughAmount;
+
+        return $this;
+    }
+
+    public function isHighlight(): bool
+    {
+        return $this->highlight;
+    }
+
+    public function setHighlight(bool $highlight): static
+    {
+        $this->highlight = $highlight;
 
         return $this;
     }

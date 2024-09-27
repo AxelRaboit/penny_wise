@@ -7,6 +7,7 @@ namespace App\Repository;
 use App\Entity\Transaction;
 use App\Entity\Wallet;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\Order;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -71,11 +72,14 @@ class TransactionRepository extends ServiceEntityRepository
             ->addSelect('tg')
             ->where('t.wallet = :wallet')
             ->setParameter('wallet', $wallet)
+            ->orderBy('t.highlight', Order::Descending->value)
+            ->addOrderBy('t.id', Order::Ascending->value)
             ->getQuery()
             ->getResult();
 
         return $result;
     }
+
 
     /**
      * Return all transactions of a specific category for a given wallet.
