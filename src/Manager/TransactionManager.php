@@ -11,19 +11,9 @@ use App\Enum\TransactionCategoryEnum;
 use App\Repository\TransactionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
-use function Symfony\Component\String\u;
-
 final readonly class TransactionManager
 {
     private const string TRANSACTIONS = 'transactions';
-
-    private const string INCOMES_CATEGORY = 'Incomes';
-
-    private const string EXPENSES_CATEGORY = 'Expenses';
-
-    private const string BILLS_CATEGORY = 'Bills';
-
-    private const string DEBTS_CATEGORY = 'Debts';
 
     public function __construct(
         private TransactionRepository $transactionRepository,
@@ -35,16 +25,16 @@ final readonly class TransactionManager
         $transactions = $this->transactionRepository->findTransactionsByWalletWithRelations($wallet);
 
         $groupedTransactions = [
-            'Incomes' => ['type' => TransactionCategoryEnum::Incomes->value, self::TRANSACTIONS => [], 'total' => 0, 'totalBudget' => 0],
-            'Bills' => ['type' => TransactionCategoryEnum::Bills->value, self::TRANSACTIONS => [], 'total' => 0, 'totalBudget' => 0],
-            'Expenses' => ['type' => TransactionCategoryEnum::Expenses->value, self::TRANSACTIONS => [], 'total' => 0, 'totalBudget' => 0],
-            'Debts' => ['type' => TransactionCategoryEnum::Debts->value, self::TRANSACTIONS => [], 'total' => 0, 'totalBudget' => 0],
+            TransactionCategoryEnum::Incomes->value => ['type' => TransactionCategoryEnum::Incomes->value, self::TRANSACTIONS => [], 'total' => 0, 'totalBudget' => 0],
+            TransactionCategoryEnum::Bills->value => ['type' => TransactionCategoryEnum::Bills->value, self::TRANSACTIONS => [], 'total' => 0, 'totalBudget' => 0],
+            TransactionCategoryEnum::Expenses->value => ['type' => TransactionCategoryEnum::Expenses->value, self::TRANSACTIONS => [], 'total' => 0, 'totalBudget' => 0],
+            TransactionCategoryEnum::Debts->value => ['type' => TransactionCategoryEnum::Debts->value, self::TRANSACTIONS => [], 'total' => 0, 'totalBudget' => 0],
         ];
 
         foreach ($transactions as $transaction) {
             if ($transaction instanceof Transaction) {
                 $transactionCategory = $transaction->getTransactionCategory();
-                $category = u($transactionCategory->getName())->lower()->title(true)->toString();
+                $category = $transactionCategory->getName();
 
                 $budgetInfo = $this->calculateBudgetVsActual($transaction);
 
@@ -61,10 +51,10 @@ final readonly class TransactionManager
             }
         }
 
-        $totalIncomes = $groupedTransactions[self::INCOMES_CATEGORY]['total'];
-        $totalBills = $groupedTransactions[self::BILLS_CATEGORY]['total'];
-        $totalExpenses = $groupedTransactions[self::EXPENSES_CATEGORY]['total'];
-        $totalDebts = $groupedTransactions[self::DEBTS_CATEGORY]['total'];
+        $totalIncomes = $groupedTransactions[TransactionCategoryEnum::Incomes->value]['total'];
+        $totalBills = $groupedTransactions[TransactionCategoryEnum::Bills->value]['total'];
+        $totalExpenses = $groupedTransactions[TransactionCategoryEnum::Expenses->value]['total'];
+        $totalDebts = $groupedTransactions[TransactionCategoryEnum::Debts->value]['total'];
 
         $totalSpending = $totalExpenses + $totalBills + $totalDebts;
         $totalIncomesAndStartingBalance = $totalIncomes + $wallet->getStartBalance();
@@ -83,9 +73,9 @@ final readonly class TransactionManager
             $totalLeftToSpend,
             $totalSpending,
             $totalBudget,
-            $groupedTransactions[self::BILLS_CATEGORY]['totalBudget'],
-            $groupedTransactions[self::EXPENSES_CATEGORY]['totalBudget'],
-            $groupedTransactions[self::DEBTS_CATEGORY]['totalBudget']
+            $groupedTransactions[TransactionCategoryEnum::Bills->value]['totalBudget'],
+            $groupedTransactions[TransactionCategoryEnum::Expenses->value]['totalBudget'],
+            $groupedTransactions[TransactionCategoryEnum::Debts->value]['totalBudget']
         );
     }
 

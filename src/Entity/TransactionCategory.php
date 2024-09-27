@@ -77,4 +77,29 @@ class TransactionCategory
 
         return ucfirst($this->name);
     }
+
+    /*public function isIncomes(): bool
+    {
+        return $this->name === TransactionCategoryEnum::Incomes->value;
+    }
+
+    public function isSavings(): bool
+    {
+        return $this->name === TransactionCategoryEnum::Savings->value;
+    }
+
+    public function isExpenses(): bool
+    {
+        return $this->name === TransactionCategoryEnum::Expenses->value;
+    }
+
+    public function isBills(): bool
+    {
+        return $this->name === TransactionCategoryEnum::Bills->value;
+    }
+
+    public function isDebts(): bool
+    {
+        return $this->name === TransactionCategoryEnum::Debts->value;
+    }*/
 }

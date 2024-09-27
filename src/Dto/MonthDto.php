@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Dto;
 
-readonly class MonthDto
+final readonly class MonthDto
 {
     public function __construct(private int $monthNumber, private string $monthName) {}
 
