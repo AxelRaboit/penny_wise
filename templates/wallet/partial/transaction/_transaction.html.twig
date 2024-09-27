@@ -1,3 +1,4 @@
+{# TODO AXEL: refacto this by maybe create a Dto that allow us to do transactionCategory.isIncomes #}
 {% set incomesTransactionCategoryEnum = constant('App\\Enum\\TransactionCategoryEnum::Incomes') %}
 
 <div class="p-1 rounded" x-data="{ open: true }">
@@ -46,10 +47,12 @@
                 <div class="w-full text-center bg-primary"><span class="font-bold text-white text-xs">Date</span></div>
                 <div class="w-full text-center bg-primary"><span class="font-bold text-white text-xs">Tags</span></div>
                 <div class="w-full text-center bg-primary"><span class="font-bold text-white text-xs">Nature</span></div>
+                {# TODO AXEL: refacto this by maybe create a Dto that allow us to do transactionCategory.isIncomes #}
                 {% if not (transactionCategory.type|is_transaction_category(incomesTransactionCategoryEnum)) %}
                     <div class="w-full text-center bg-primary"><span class="font-bold text-white text-xs">Budget</span></div>
                 {% endif %}
                 <div class="w-full text-center bg-primary"><span class="font-bold text-white text-xs">Actual</span></div>
+                {# TODO AXEL: refacto this by maybe create a Dto that allow us to do transactionCategory.isIncomes #}
                 {% if not (transactionCategory.type|is_transaction_category(incomesTransactionCategoryEnum)) %}
                     <div class="w-full text-center bg-primary"><span class="font-bold text-white text-xs">Remaining</span></div>
                 {% endif %}
@@ -76,7 +79,8 @@
                         <div class="w-full flex items-center justify-center">
                             <span class="{{ transaction.transaction.nature ? 'font-bold' : '' }} text-center text-xs">{{ transaction.transaction.nature ?? '-' }}</span>
                         </div>
-                        {% if not (transactionCategory.type|is_transaction_category(constant('App\\Enum\\TransactionCategoryEnum::Incomes'))) %}
+                        {# TODO AXEL: refacto this by maybe create a Dto that allow us to do transactionCategory.isIncomes #}
+                        {% if not (transactionCategory.type|is_transaction_category(incomesTransactionCategoryEnum)) %}
                             <div class="w-full flex items-center justify-center m-2">
                                 <span class="w-full flex flex-col items-center justify-center">
                                     {% if transaction.budgetInfo.budget %}
@@ -92,6 +96,7 @@
                         <div class="w-full flex items-center justify-center">
                             <span class="w-full flex items-center justify-center text-xs">{{ transaction.transaction.amount }}</span>
                         </div>
+                        {# TODO AXEL: refacto this by maybe create a Dto that allow us to do transactionCategory.isIncomes #}
                         {% if not (transactionCategory.type|is_transaction_category(incomesTransactionCategoryEnum)) %}
                             <div class="w-full flex items-center justify-center">
                                 {% if transaction.budgetInfo.budget %}
