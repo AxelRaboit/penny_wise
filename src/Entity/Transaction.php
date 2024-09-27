@@ -54,7 +54,7 @@ class Transaction
     #[ORM\Column(nullable: true, options: ['default' => true])]
     private ?bool $budgetDefinedTroughAmount = true;
 
-    #[ORM\Column(type: 'boolean', nullable: false, options: ['default' => false])]
+    #[ORM\Column(type: Types::BOOLEAN, nullable: false, options: ['default' => false])]
     private bool $highlight = false;
 
     public function __construct()

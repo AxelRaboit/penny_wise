@@ -80,7 +80,6 @@ class TransactionRepository extends ServiceEntityRepository
         return $result;
     }
 
-
     /**
      * Return all transactions of a specific category for a given wallet.
      *
