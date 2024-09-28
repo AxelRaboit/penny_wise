@@ -9,6 +9,7 @@ use Override;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -29,6 +30,13 @@ class UserInformationType extends AbstractType
             ->add('lastname', TextType::class, [
                 'label' => 'Last Name',
                 'attr' => ['placeholder' => 'Enter your last name'],
+            ])
+            ->add('bio', TextareaType::class, [
+                'label' => 'Bio',
+                'attr' => [
+                    'placeholder' => 'Enter your bio',
+                    'rows' => 5,
+                ],
             ])
             ->add('avatarFile', FileType::class, [
                 'label' => 'Upload Avatar',
