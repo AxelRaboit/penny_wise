@@ -19,6 +19,7 @@ final readonly class TransactionInformationDto
         private float $totalLeftToSpend,
         private float $totalSpending,
         private float $totalBudget,
+        private float $totalSaving,
         private float $billsTotalBudget,
         private float $expensesTotalBudget,
         private float $debtsTotalBudget
@@ -70,6 +71,11 @@ final readonly class TransactionInformationDto
     public function getTotalBudget(): float
     {
         return $this->totalBudget;
+    }
+
+    public function getTotalSaving(): float
+    {
+        return $this->totalSaving;
     }
 
     public function getBillsTotalBudget(): float

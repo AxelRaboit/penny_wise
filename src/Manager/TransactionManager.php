@@ -4,101 +4,17 @@ declare(strict_types=1);
 
 namespace App\Manager;
 
-use App\Dto\TransactionInformationDto;
 use App\Entity\Transaction;
 use App\Entity\Wallet;
-use App\Enum\TransactionCategoryEnum;
 use App\Repository\TransactionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 final readonly class TransactionManager
 {
-    private const string TRANSACTIONS = 'transactions';
-
     public function __construct(
         private TransactionRepository $transactionRepository,
         private EntityManagerInterface $entityManager
     ) {}
-
-    public function getAllTransactionInformationByUser(Wallet $wallet): TransactionInformationDto
-    {
-        $transactions = $this->transactionRepository->findTransactionsByWalletWithRelations($wallet);
-
-        $groupedTransactions = [
-            TransactionCategoryEnum::Incomes->value => ['type' => TransactionCategoryEnum::Incomes->value, self::TRANSACTIONS => [], 'total' => 0, 'totalBudget' => 0],
-            TransactionCategoryEnum::Bills->value => ['type' => TransactionCategoryEnum::Bills->value, self::TRANSACTIONS => [], 'total' => 0, 'totalBudget' => 0],
-            TransactionCategoryEnum::Expenses->value => ['type' => TransactionCategoryEnum::Expenses->value, self::TRANSACTIONS => [], 'total' => 0, 'totalBudget' => 0],
-            TransactionCategoryEnum::Debts->value => ['type' => TransactionCategoryEnum::Debts->value, self::TRANSACTIONS => [], 'total' => 0, 'totalBudget' => 0],
-        ];
-
-        foreach ($transactions as $transaction) {
-            if ($transaction instanceof Transaction) {
-                $transactionCategory = $transaction->getTransactionCategory();
-                $category = $transactionCategory->getName();
-
-                $budgetInfo = $this->calculateBudgetVsActual($transaction);
-
-                $groupedTransactions[$category][self::TRANSACTIONS][] = [
-                    'transaction' => $transaction,
-                    'budgetInfo' => $budgetInfo,
-                ];
-
-                $groupedTransactions[$category]['total'] += $transaction->getAmount();
-
-                if (null !== $transaction->getBudget()) {
-                    $groupedTransactions[$category]['totalBudget'] += (float) $transaction->getBudget();
-                }
-            }
-        }
-
-        $totalIncomes = $groupedTransactions[TransactionCategoryEnum::Incomes->value]['total'];
-        $totalBills = $groupedTransactions[TransactionCategoryEnum::Bills->value]['total'];
-        $totalExpenses = $groupedTransactions[TransactionCategoryEnum::Expenses->value]['total'];
-        $totalDebts = $groupedTransactions[TransactionCategoryEnum::Debts->value]['total'];
-
-        $totalSpending = $totalExpenses + $totalBills + $totalDebts;
-        $totalIncomesAndStartingBalance = $totalIncomes + $wallet->getStartBalance();
-        $totalLeftToSpend = $totalIncomesAndStartingBalance - $totalSpending;
-
-        $budgets = $this->calculateTotalBudget($groupedTransactions);
-        $totalBudget = $totalIncomesAndStartingBalance - $budgets;
-
-        return new TransactionInformationDto(
-            $groupedTransactions,
-            $totalIncomesAndStartingBalance,
-            $totalIncomes,
-            $totalBills,
-            $totalExpenses,
-            $totalDebts,
-            $totalLeftToSpend,
-            $totalSpending,
-            $totalBudget,
-            $groupedTransactions[TransactionCategoryEnum::Bills->value]['totalBudget'],
-            $groupedTransactions[TransactionCategoryEnum::Expenses->value]['totalBudget'],
-            $groupedTransactions[TransactionCategoryEnum::Debts->value]['totalBudget']
-        );
-    }
-
-    /**
-     * Calculate the total budget for transactions.
-     *
-     * @param array<string, array{type: string, transactions: array<array{transaction: Transaction, budgetInfo: array<string, mixed>}>, total: float}> $transactions
-     */
-    public function calculateTotalBudget(array $transactions): float
-    {
-        $totalBudget = 0.0;
-        foreach ($transactions as $categoryData) {
-            foreach ($categoryData[self::TRANSACTIONS] as $transactionData) {
-                /** @var Transaction $transaction */
-                $transaction = $transactionData['transaction'];
-                if ($transaction->getBudget()) {
-                    $totalBudget += (float) $transaction->getBudget();
-                }
-            }
-        }
-
-        return $totalBudget;
-    }
 
     public function findAndDeleteTransactionsByWallet(Wallet $wallet): void
     {
@@ -125,37 +41,6 @@ final readonly class TransactionManager
 
         $this->entityManager->persist($transaction);
         $this->entityManager->flush();
-    }
-
-    /**
-     * @return array{budget: float|null, remaining: float|null, overBudget: bool|null, percentageUsed: float|null}
-     */
-    public function calculateBudgetVsActual(Transaction $transaction): array
-    {
-        $budget = $transaction->getBudget();
-        $actual = (float) $transaction->getAmount();
-
-        if (null === $budget) {
-            return [
-                'budget' => null,
-                'remaining' => null,
-                'overBudget' => null,
-                'percentageUsed' => null,
-            ];
-        }
-
-        $budget = (float) $budget;
-
-        $remaining = $budget - $actual;
-        $overBudget = $actual > $budget;
-        $percentageUsed = ($actual / $budget) * 100;
-
-        return [
-            'budget' => $budget,
-            'remaining' => $remaining,
-            'overBudget' => $overBudget,
-            'percentageUsed' => $percentageUsed,
-        ];
     }
 
     /**

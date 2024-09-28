@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Dto\TransactionInformationDto;
+use App\Dto\MonthDto;
+use App\Dto\YearDto;
 use App\Entity\User;
 use App\Entity\Wallet;
+use App\Enum\MonthEnum;
+use App\Exception\WalletNotFoundWithinLimitException;
 use App\Repository\WalletRepository;
-use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
-use Symfony\UX\Chartjs\Model\Chart;
+use App\Util\WalletHelper;
 
 final readonly class WalletService
 {
-    private const float DEFAULT_BALANCE = 0.0;
-
     public function __construct(
         private WalletRepository $walletRepository,
-        private ChartBuilderInterface $chartBuilder,
+        private WalletHelper $walletHelper,
     ) {}
 
     public function getWalletByUser(User $user, int $year, int $month): ?Wallet
@@ -29,100 +29,82 @@ final readonly class WalletService
         return $wallet;
     }
 
-    public function createLeftToSpendChart(TransactionInformationDto $transactions): Chart
+    /**
+     * Retrieves all wallets associated with a given user and organizes them
+     * by year and month.
+     *
+     * @param User $user the user for whom to find wallets
+     *
+     * @return YearDto[] an array of YearDto objects containing the organized wallet information
+     */
+    public function findAllWalletByUser(User $user): array
     {
-        $chart = $this->chartBuilder->createChart(Chart::TYPE_DOUGHNUT);
+        $results = $this->walletRepository->findUniqueYearsAndMonthsRawByUser($user);
 
-        $totalSpending = $transactions->getTotalLeftToSpend() > 0 ? $transactions->getTotalLeftToSpend() : $transactions->getTotalSpending();
-        $isDataPresent = $totalSpending > self::DEFAULT_BALANCE;
+        $yearsAndMonths = [];
 
-        $chart->setData([
-            'labels' => ['Total spent', 'Left to spend'],
-            'isDataPresent' => $isDataPresent,
-            'datasets' => [
-                [
-                    'backgroundColor' => [
-                        'rgb(201, 203, 207)',
-                        'rgb(30, 41, 59)',
-                    ],
-                    'borderColor' => [
-                        'rgb(201, 203, 207)',
-                        'rgb(30, 41, 59)',
-                    ],
-                    'data' => [
-                        $transactions->getTotalSpending(),
-                        $transactions->getTotalLeftToSpend(),
-                    ],
-                ],
-            ],
-        ]);
+        foreach ($results as $result) {
+            $year = $result['year'];
+            $month = $result['month'];
 
-        return $chart;
-    }
-
-    public function createTotalSpendingForCurrentAndPreviousNthMonthsChart(int $year, int $month, int $nMonths): Chart
-    {
-        $data = $this->walletRepository->getTotalSpendingForCurrentAndPreviousNthMonths($year, $month, $nMonths);
-
-        $labels = [];
-        $totals = [];
-
-        foreach ($data->getMonthlyTotals() as $totalData) {
-            $labels[] = $totalData['monthName'].' '.$totalData['year'];
-            $totals[] = $totalData['total'];
+            $monthEnum = MonthEnum::from($month);
+            $yearsAndMonths[$year][] = new MonthDto($month, $monthEnum->getName());
         }
 
-        $labels = array_reverse($labels);
-        $totals = array_reverse($totals);
-
-        $chart = $this->chartBuilder->createChart(Chart::TYPE_BAR);
-
-        $chart->setData([
-            'labels' => $labels,
-            'datasets' => [
-                [
-                    'label' => 'Total spent',
-                    'backgroundColor' => array_fill(0, $nMonths, 'rgb(30, 41, 59)'),
-                    'borderColor' => array_fill(0, $nMonths, 'rgb(30, 41, 59)'),
-                    'data' => $totals,
-                ],
-            ],
-        ]);
-
-        return $chart;
+        return array_map(static fn (int $year, array $months): YearDto => new YearDto($year, $months), array_keys($yearsAndMonths), $yearsAndMonths);
     }
 
-    public function createTotalSpendingForCurrentAndAdjacentYearsChart(): Chart
+    /**
+     * Finds the previous wallet for a given user based on the specified year and month.
+     * The method searches backward month-by-month until a wallet is found or the limit of months is reached.
+     *
+     * @param User $user          the user for whom the previous wallet is being searched
+     * @param int  $year          the year from which the search starts
+     * @param int  $month         the month from which the search starts
+     * @param int  $maxMonthsBack the maximum number of months to search backward
+     *
+     * @return Wallet|null the found wallet or null if no previous wallet is found within the limit or if the limit is exceeded
+     *
+     * @throws WalletNotFoundWithinLimitException
+     */
+    public function findPreviousWallet(User $user, int $year, int $month, int $maxMonthsBack = 12): ?Wallet
     {
-        $currentYear = (int) date('Y');
+        $previousMonthData = $this->walletHelper->findPreviousValidMonthAndYear($year, $month);
 
-        $previousYear = $currentYear - 1;
-        $nextYear = $currentYear + 1;
+        return $this->searchWallet($user, $previousMonthData['year'], $previousMonthData['month'], $maxMonthsBack, $maxMonthsBack);
+    }
 
-        $data = $this->walletRepository->getTotalSpendingPerYear($previousYear, $nextYear);
-
-        $labels = [];
-        $totals = [];
-
-        foreach ($data as $totalData) {
-            $labels[] = $totalData['year'];
-            $totals[] = $totalData['total'];
+    /**
+     * Recursively searches for a user's wallet starting from a given year and month, going backwards
+     * up to a specified limit if a wallet is not found.
+     *
+     * @param User $user            the user whose wallet is being searched
+     * @param int  $year            the starting year for the search
+     * @param int  $month           the starting month for the search
+     * @param int  $remainingMonths the number of months remaining to search backwards
+     * @param int  $maxMonthsBack   the maximum number of months to search backwards
+     *
+     * @return Wallet|null the found wallet or null if no wallet is found within the allowed limit
+     *
+     * @throws WalletNotFoundWithinLimitException if the wallet is not found within the specified limit
+     */
+    private function searchWallet(User $user, int $year, int $month, int $remainingMonths, int $maxMonthsBack): ?Wallet
+    {
+        if ($remainingMonths <= 0) {
+            throw new WalletNotFoundWithinLimitException($maxMonthsBack);
         }
 
-        $chart = $this->chartBuilder->createChart(Chart::TYPE_BAR);
+        $wallet = $this->walletRepository->findWalletFromUser($user, $year, $month);
 
-        $chart->setData([
-            'labels' => $labels,
-            'datasets' => [
-                [
-                    'label' => 'Total spent per year',
-                    'backgroundColor' => array_fill(0, count($labels), 'rgb(30, 41, 59)'),
-                    'borderColor' => array_fill(0, count($labels), 'rgb(30, 41, 59)'),
-                    'data' => $totals,
-                ],
-            ],
-        ]);
+        if ($wallet instanceof Wallet) {
+            return $wallet;
+        }
 
-        return $chart;
+        $previousMonthData = $this->walletHelper->findPreviousValidMonthAndYear($year, $month);
+        $year = $previousMonthData['year'];
+        $month = $previousMonthData['month'];
+        --$remainingMonths;
+
+        return $this->searchWallet($user, $year, $month, $remainingMonths, $maxMonthsBack);
     }
 }

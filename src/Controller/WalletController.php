@@ -11,12 +11,12 @@ use App\Enum\TransactionCategoryEnum;
 use App\Form\WalletCreateForYearType;
 use App\Form\WalletType;
 use App\Form\WalletUpdateType;
-use App\Manager\TransactionManager;
 use App\Manager\WalletManager;
 use App\Repository\LinkRepository;
 use App\Repository\NoteRepository;
 use App\Repository\WalletRepository;
 use App\Service\TransactionService;
+use App\Service\WalletChartService;
 use App\Service\WalletService;
 use App\Util\WalletHelper;
 use Doctrine\ORM\EntityManagerInterface;
@@ -44,7 +44,7 @@ final class WalletController extends AbstractController
         private readonly LinkRepository $linkRepository,
         private readonly WalletManager $walletManager,
         private readonly WalletHelper $walletHelper,
-        private readonly TransactionManager $transactionManager,
+        private readonly WalletChartService $walletChartService,
     ) {}
 
     #[Route('/', name: 'wallet_list')]
@@ -57,7 +57,7 @@ final class WalletController extends AbstractController
         }
 
         $options = [
-            'wallets' => $this->walletRepository->findAllWalletByUser($user),
+            'wallets' => $this->walletService->findAllWalletByUser($user),
         ];
 
         return $this->render(self::WALLET_LIST_TEMPLATE, $options);
@@ -128,19 +128,21 @@ final class WalletController extends AbstractController
             throw $this->createNotFoundException('Wallet not found for the given year and month');
         }
 
-        $transactions = $this->transactionManager->getAllTransactionInformationByUser($wallet);
+        $transactions = $this->transactionService->getAllTransactionInformationByUser($wallet);
         $walletsAndTransactionsFromYear = $this->walletRepository->getAllWalletsAndTransactionsFromYear($year);
         $notesFromWallet = $this->noteRepository->getNotesFromWallet($wallet);
-        $leftToSpendChart = $this->walletService->createLeftToSpendChart($transactions);
-        $totalSpendingForCurrentAndPreviousNthMonthsChart = $this->walletService->createTotalSpendingForCurrentAndPreviousNthMonthsChart($year, $month, 4);
+        $leftToSpendChart = $this->walletChartService->createLeftToSpendChart($transactions);
+        $totalSpendingForCurrentAndPreviousNthMonthsChart = $this->walletChartService->createTotalSpendingForCurrentAndPreviousNthMonthsChart($year, $month, 4);
         $userLinks = $this->linkRepository->findByIndividual($user);
-        $totalSpendingYearsChart = $this->walletService->createTotalSpendingForCurrentAndAdjacentYearsChart();
+        $totalSpendingYearsChart = $this->walletChartService->createTotalSpendingForCurrentAndAdjacentYearsChart();
+        $savingsChart = $this->walletChartService->createTotalSavingForCurrentAndPreviousMonthsChart($user, $year, $month, 4);
 
         $options = [
             'userLinks' => $userLinks,
             'leftToSpendChart' => $leftToSpendChart,
             'totalSpendingForCurrentAndPreviousNthMonthsChart' => $totalSpendingForCurrentAndPreviousNthMonthsChart,
             'totalSpendingYearsChart' => $totalSpendingYearsChart,
+            'savingsChart' => $savingsChart,
             'wallet' => $wallet,
             'notesFromWallet' => $notesFromWallet,
             'walletsAndTransactionsFromYear' => $walletsAndTransactionsFromYear,
@@ -152,6 +154,7 @@ final class WalletController extends AbstractController
             'totalDebts' => $transactions->getTotalDebts(),
             'totalLeftToSpend' => $transactions->getTotalLeftToSpend(),
             'totalSpending' => $transactions->getTotalSpending(),
+            'totalSaving' => $transactions->getTotalSaving(),
             'totalBudget' => $transactions->getTotalBudget(),
             'currentYear' => $year,
             'currentMonth' => $month,

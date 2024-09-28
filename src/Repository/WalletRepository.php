@@ -5,15 +5,12 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Dto\MonthDto;
-use App\Dto\TotalSpendingFromNMonthsDto;
 use App\Dto\YearDto;
 use App\Entity\TransactionCategory;
 use App\Entity\User;
 use App\Entity\Wallet;
 use App\Enum\MonthEnum;
 use App\Enum\TransactionCategoryEnum;
-use App\Exception\WalletNotFoundWithinLimitException;
-use App\Util\WalletHelper;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\Order;
 use Doctrine\Persistence\ManagerRegistry;
@@ -24,7 +21,7 @@ use LogicException;
  */
 class WalletRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry, private readonly WalletHelper $walletHelper, private readonly TransactionCategoryRepository $transactionCategoryRepository)
+    public function __construct(ManagerRegistry $registry, private readonly TransactionCategoryRepository $transactionCategoryRepository)
     {
         parent::__construct($registry, Wallet::class);
     }
@@ -32,7 +29,7 @@ class WalletRepository extends ServiceEntityRepository
     /**
      * @return array<array{year: int, month: int}>
      */
-    private function findUniqueYearsAndMonthsRawByUser(User $user): array
+    public function findUniqueYearsAndMonthsRawByUser(User $user): array
     {
         $qb = $this->createQueryBuilder('b')
             ->select('b.year, b.month')
@@ -56,36 +53,6 @@ class WalletRepository extends ServiceEntityRepository
         }
 
         return $formattedResults;
-    }
-
-    /**
-     * @param array<array{year: int, month: int}> $results
-     *
-     * @return array<YearDto>
-     */
-    private function transformToYearAndMonthDtos(array $results): array
-    {
-        $yearsAndMonths = [];
-
-        foreach ($results as $result) {
-            $year = $result['year'];
-            $month = $result['month'];
-
-            $monthEnum = MonthEnum::from($month);
-            $yearsAndMonths[$year][] = new MonthDto($month, $monthEnum->getName());
-        }
-
-        return array_map(static fn (int $year, array $months): YearDto => new YearDto($year, $months), array_keys($yearsAndMonths), $yearsAndMonths);
-    }
-
-    /**
-     * @return array<YearDto>
-     */
-    public function findAllWalletByUser(User $user): array
-    {
-        $results = $this->findUniqueYearsAndMonthsRawByUser($user);
-
-        return $this->transformToYearAndMonthDtos($results);
     }
 
     /**
@@ -118,31 +85,6 @@ class WalletRepository extends ServiceEntityRepository
     }
 
     /**
-     * Retrieves the total spending for the current and previous n months.
-     */
-    public function getTotalSpendingForCurrentAndPreviousNthMonths(int $year, int $month, int $nMonths): TotalSpendingFromNMonthsDto
-    {
-        $totals = [];
-
-        for ($i = 0; $i < $nMonths; ++$i) {
-            $monthEnum = MonthEnum::from($month);
-
-            $totals[] = [
-                'year' => $year,
-                'monthNumber' => $month,
-                'monthName' => $monthEnum->getName(),
-                'total' => $this->getTotalSpendingByMonth($year, $month),
-            ];
-
-            $previousMonth = $this->walletHelper->getImmediatePreviousMonthAndYear($year, $month);
-            $year = $previousMonth['year'];
-            $month = $previousMonth['month'];
-        }
-
-        return new TotalSpendingFromNMonthsDto($totals);
-    }
-
-    /**
      * Retrieves the total spending for a given year and month, excluding a specific income category.
      *
      * @param int $year  the year for which the total spending is calculated
@@ -150,7 +92,7 @@ class WalletRepository extends ServiceEntityRepository
      *
      * @return float the total spending amount for the specified year and month
      */
-    private function getTotalSpendingByMonth(int $year, int $month): float
+    public function getTotalSpendingByMonth(int $year, int $month): float
     {
         $incomeCategory = $this->transactionCategoryRepository->findCategoryByName(TransactionCategoryEnum::Incomes->value);
 
@@ -176,14 +118,14 @@ class WalletRepository extends ServiceEntityRepository
     }
 
     /**
-     * Retrieves the total spending per year, excluding the income category.
+     * Fetches the total spending for each year within a specified range, excluding the income category.
      *
      * @param int $startYear the starting year of the range
      * @param int $endYear   the ending year of the range
      *
-     * @return array<array{year: int, total: float}> the total spending for each year
+     * @return array<array{year: int, total: float}> an array containing the total spending for each year within the specified range
      */
-    public function getTotalSpendingPerYear(int $startYear, int $endYear): array
+    public function fetchTotalSpendingPerYear(int $startYear, int $endYear): array
     {
         $incomeCategory = $this->transactionCategoryRepository
             ->findOneBy(['name' => 'incomes']);
@@ -207,13 +149,10 @@ class WalletRepository extends ServiceEntityRepository
             ->orderBy('b.year', 'ASC')
             ->getQuery();
 
-        /** @var array<array{year: int, total: string}> $results */
+        /** @var array<array{year: int, total: float}> $results */
         $results = $qb->getArrayResult();
 
-        return array_map(static fn (array $result): array => [
-            'year' => $result['year'],
-            'total' => (float) $result['total'],
-        ], $results);
+        return $results;
     }
 
     /**
@@ -250,48 +189,5 @@ class WalletRepository extends ServiceEntityRepository
             ->setParameter('user', $user);
 
         return (int) $qb->getQuery()->getSingleScalarResult() > 0;
-    }
-
-    /**
-     * Finds the previous wallet for a given user based on the specified year and month.
-     * The method searches backward month-by-month until a wallet is found or the limit of months is reached.
-     *
-     * @param User $user          the user for whom the previous wallet is being searched
-     * @param int  $year          the year from which the search starts
-     * @param int  $month         the month from which the search starts
-     * @param int  $maxMonthsBack the maximum number of months to search backward
-     *
-     * @return Wallet|null the found wallet or null if no previous wallet is found within the limit or if the limit is exceeded
-     *
-     * @throws WalletNotFoundWithinLimitException
-     */
-    public function findPreviousWallet(User $user, int $year, int $month, int $maxMonthsBack = 12): ?Wallet
-    {
-        $previousMonthData = $this->walletHelper->findPreviousValidMonthAndYear($year, $month);
-
-        return $this->searchWallet($user, $previousMonthData['year'], $previousMonthData['month'], $maxMonthsBack, $maxMonthsBack);
-    }
-
-    /**
-     * @throws WalletNotFoundWithinLimitException
-     */
-    private function searchWallet(User $user, int $year, int $month, int $remainingMonths, int $maxMonthsBack): ?Wallet
-    {
-        if ($remainingMonths <= 0) {
-            throw new WalletNotFoundWithinLimitException($maxMonthsBack);
-        }
-
-        $wallet = $this->findWalletFromUser($user, $year, $month);
-
-        if ($wallet instanceof Wallet) {
-            return $wallet;
-        }
-
-        $previousMonthData = $this->walletHelper->findPreviousValidMonthAndYear($year, $month);
-        $year = $previousMonthData['year'];
-        $month = $previousMonthData['month'];
-        --$remainingMonths;
-
-        return $this->searchWallet($user, $year, $month, $remainingMonths, $maxMonthsBack);
     }
 }
