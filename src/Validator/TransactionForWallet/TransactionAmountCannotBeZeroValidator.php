@@ -12,6 +12,7 @@ use Symfony\Component\Validator\ConstraintValidator;
 class TransactionAmountCannotBeZeroValidator extends ConstraintValidator
 {
     private const float FORBIDDEN_AMOUNT = 0.0;
+
     #[Override]
     public function validate(mixed $value, Constraint $constraint): void
     {
@@ -19,7 +20,7 @@ class TransactionAmountCannotBeZeroValidator extends ConstraintValidator
             return;
         }
 
-        if ($value->getAmount() === self::FORBIDDEN_AMOUNT) {
+        if (self::FORBIDDEN_AMOUNT === $value->getAmount()) {
             $this->context->buildViolation($constraint->message)
                 ->atPath('amount')
                 ->addViolation();

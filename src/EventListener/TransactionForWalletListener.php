@@ -8,6 +8,7 @@ use App\Entity\Transaction;
 use App\Entity\Wallet;
 use DateInterval;
 use DateMalformedPeriodStringException;
+use DateMalformedStringException;
 use DatePeriod;
 use DateTime;
 use DateTimeInterface;
@@ -26,7 +27,7 @@ use function Symfony\Component\String\u;
 final class TransactionForWalletListener
 {
     /**
-     * @throws \DateMalformedStringException
+     * @throws DateMalformedStringException
      * @throws DateMalformedPeriodStringException
      */
     public function onPreSetData(FormEvent $event, Wallet $wallet): void
@@ -145,12 +146,11 @@ final class TransactionForWalletListener
         ));
     }
 
-
     /**
-     * @param Wallet $wallet
      * @return array<int, string>
+     *
      * @throws DateMalformedPeriodStringException
-     * @throws \DateMalformedStringException
+     * @throws DateMalformedStringException
      */
     private function getAvailableDays(Wallet $wallet): array
     {
