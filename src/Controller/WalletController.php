@@ -130,9 +130,9 @@ final class WalletController extends AbstractController
         $walletsAndTransactionsFromYear = $this->walletRepository->getAllWalletsAndTransactionsFromYear($year);
         $notesFromWallet = $this->noteRepository->getNotesFromWallet($wallet);
         $leftToSpendChart = $this->walletChartService->createLeftToSpendChart($transactions);
-        $totalSpendingForCurrentAndPreviousNthMonthsChart = $this->walletChartService->createTotalSpendingForCurrentAndPreviousNthMonthsChart($year, $month, 4);
+        $totalSpendingForCurrentAndPreviousNthMonthsChart = $this->walletChartService->createTotalSpendingForCurrentAndPreviousNthMonthsChart($year, $month, 12);
         $totalSpendingYearsChart = $this->walletChartService->createTotalSpendingForCurrentAndAdjacentYearsChart();
-        $savingsChart = $this->walletChartService->createTotalSavingForCurrentAndPreviousMonthsChart($user, $year, $month, 4);
+        $savingsChart = $this->walletChartService->createTotalSavingForCurrentAndPreviousMonthsChart($user, $year, $month, 12);
 
         $options = [
             'leftToSpendChart' => $leftToSpendChart,
