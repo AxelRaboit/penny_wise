@@ -194,7 +194,6 @@ final readonly class TransactionService
             }
 
             $this->entityManager->persist($newTransaction);
-
         }
 
         $this->entityManager->flush();

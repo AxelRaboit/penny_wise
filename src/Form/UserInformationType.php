@@ -40,12 +40,12 @@ class UserInformationType extends AbstractType
                     ]),
                 ],
             ]);
-            if ($hasAvatar) {
-                $builder->add('remove_avatar', CheckboxType::class, [
-                    'label' => 'Remove current avatar',
-                    'mapped' => false,
-                ]);
-            }
+        if ($hasAvatar) {
+            $builder->add('remove_avatar', CheckboxType::class, [
+                'label' => 'Remove current avatar',
+                'mapped' => false,
+            ]);
+        }
     }
 
     #[Override]
