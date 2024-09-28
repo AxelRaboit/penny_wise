@@ -9,7 +9,7 @@ use Override;
 use Symfony\Component\Validator\Constraint;
 
 #[Attribute]
-class MaxTransactionTags extends Constraint
+class TransactionTagMaxTransactionTags extends Constraint
 {
     public string $message = 'You can create a maximum of {{ limit }} tags.';
 
@@ -24,6 +24,6 @@ class MaxTransactionTags extends Constraint
     #[Override]
     public function validatedBy(): string
     {
-        return MaxTagsLimitValidator::class;
+        return TransactionTagMaxTagsLimitValidator::class;
     }
 }

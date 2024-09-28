@@ -11,14 +11,14 @@ use Override;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
-class MaxTagsLimitValidator extends ConstraintValidator
+class TransactionTagMaxTagsLimitValidator extends ConstraintValidator
 {
     public function __construct(private readonly TransactionTagRepository $transactionTagRepository) {}
 
     #[Override]
     public function validate(mixed $value, Constraint $constraint): void
     {
-        if (!$constraint instanceof MaxTransactionTags || !$value instanceof TransactionTag || null !== $value->getId()) {
+        if (!$constraint instanceof TransactionTagMaxTransactionTags || !$value instanceof TransactionTag || null !== $value->getId()) {
             return;
         }
 
