@@ -39,11 +39,11 @@ final readonly class WalletChartService
                 [
                     'backgroundColor' => [
                         'rgb(201, 203, 207)',
-                        'rgb(30, 41, 59)',
+                        'RGB(24, 24, 27)',
                     ],
                     'borderColor' => [
                         'rgb(201, 203, 207)',
-                        'rgb(30, 41, 59)',
+                        'RGB(24, 24, 27)',
                     ],
                     'data' => [
                         $transactions->getTotalSpending(),
@@ -87,8 +87,8 @@ final readonly class WalletChartService
             'datasets' => [
                 [
                     'label' => 'Total spent',
-                    'backgroundColor' => array_fill(0, $nMonths, 'rgb(30, 41, 59)'),
-                    'borderColor' => array_fill(0, $nMonths, 'rgb(30, 41, 59)'),
+                    'backgroundColor' => array_fill(0, $nMonths, 'RGB(24, 24, 27)'),
+                    'borderColor' => array_fill(0, $nMonths, 'RGB(24, 24, 27)'),
                     'data' => $totals,
                 ],
             ],
@@ -127,8 +127,8 @@ final readonly class WalletChartService
             'datasets' => [
                 [
                     'label' => 'Total spent per year',
-                    'backgroundColor' => array_fill(0, count($labels), 'rgb(30, 41, 59)'),
-                    'borderColor' => array_fill(0, count($labels), 'rgb(30, 41, 59)'),
+                    'backgroundColor' => array_fill(0, count($labels), 'RGB(24, 24, 27)'),
+                    'borderColor' => array_fill(0, count($labels), 'RGB(24, 24, 27)'),
                     'data' => $totals,
                 ],
             ],
@@ -169,8 +169,8 @@ final readonly class WalletChartService
             'datasets' => [
                 [
                     'label' => 'Total Savings',
-                    'backgroundColor' => array_fill(0, count($labels), 'rgb(30, 41, 59)'),
-                    'borderColor' => array_fill(0, count($labels), 'rgb(30, 41, 59)'),
+                    'backgroundColor' => array_fill(0, count($labels), 'RGB(24, 24, 27)'),
+                    'borderColor' => array_fill(0, count($labels), 'RGB(24, 24, 27)'),
                     'data' => $savings,
                 ],
             ],

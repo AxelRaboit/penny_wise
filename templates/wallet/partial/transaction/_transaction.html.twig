@@ -43,7 +43,7 @@
         </div>
 
         <div x-show="open" class="transition-all duration-300" :class="{'rounded-b-md': !open}">
-            <div class="flex bg-white">
+            <div class="flex bg-accent">
                 <div class="w-full text-center bg-primary"><span class="font-bold text-white text-xs">Date</span></div>
                 <div class="w-full text-center bg-primary"><span class="font-bold text-white text-xs">Tags</span></div>
                 <div class="w-full text-center bg-primary"><span class="font-bold text-white text-xs">Nature</span></div>
@@ -61,7 +61,7 @@
 
             {% for transactions in transactionCategory %}
                 {% for transaction in transactions %}
-                    <div class="flex {{ cycle(['bg-white', 'bg-quaternary'], loop.index) }}">
+                    <div class="flex {{ cycle(['bg-accent', 'bg-tertiary'], loop.index) }}">
                         <div class="w-full flex items-center justify-center">
                             <span class="p-2 text-xs">{{ transaction.transaction.date ? transaction.transaction.date|date('d M Y') : '-' }}</span>
                         </div>
@@ -101,12 +101,12 @@
                             <div class="w-full flex items-center justify-center">
                                 {% if transaction.budgetInfo.budget %}
                                     {% if transaction.budgetInfo.overBudget %}
-                                        <span class="w-full flex items-center justify-center text-xs text-danger bg-white rounded-md p-0.5 border border-red-500 font-bold">
+                                        <span class="w-full flex items-center justify-center text-xs text-danger bg-accent rounded-md p-0.5 border border-red-500 font-bold">
                                             {{ transaction.budgetInfo.remaining|number_format(2, '.', ' ') }}
                                         </span>
                                     {% else %}
                                         <div class="text-center">
-                                            <div class="w-full flex flex-col items-center justify-center bg-white rounded-md p-0.5 border border-green-500">
+                                            <div class="w-full flex flex-col items-center justify-center bg-accent rounded-md p-0.5 border border-green-500">
                                                 <span class="font-bold text-xs text-success">{{ transaction.budgetInfo.remaining|number_format(2, '.', ' ') }}</span>
                                                 <span class="text-xs text-success">({{ transaction.budgetInfo.percentageUsed|number_format(2, '.', ' ') }}% used)</span>
                                             </div>
@@ -132,11 +132,11 @@
                     </div>
                 {% endfor %}
             {% else %}
-                <div class="flex bg-white rounded-b-md">
+                <div class="flex bg-accent rounded-b-md">
                     <div class="w-full text-center border border-solid border-gray-300 p-2">
                         <span class="font-bold">No {{ transactionCategory.type }}</span>
                     </div>
-                </div>
+                </div
             {% endfor %}
         </div>
     </div>

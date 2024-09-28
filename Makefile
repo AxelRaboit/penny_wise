@@ -11,46 +11,52 @@ PHP_CS_FIXER = $(PHP) ./tools/php-cs-fixer/vendor/bin/php-cs-fixer
 TWIG_CS_FIXER = $(PHP) vendor/bin/twig-cs-fixer
 RECTOR = $(PHP) vendor/bin/rector
 
-ASSET_MAP = $(BIN) asset-map:compile
+ASSET_MAP_COMPILE = $(BIN) asset-map:compile
 
-TAILWIND_INIT = $(BIN) tailwind:init
+TAILWIND_INITIALIZE = $(BIN) tailwind:init
 TAILWIND_BUILD = $(BIN) tailwind:build
-TAILWIND_WATCH = $(TAILWIND_BUILD) --watch
+TAILWIND_DEVELOPMENT = $(TAILWIND_BUILD)
+TAILWIND_WATCH_DEVELOPMENT = $(TAILWIND_BUILD) --watch
 
-TWIG_COMPONENT = $(BIN) debug:twig-component
+TWIG_COMPONENT_DEBUG = $(BIN) debug:twig-component
 
 all: help
 
-init:
+init-tailwind:
+	$(PHP) $(TAILWIND_INITIALIZE)
+
+compile-assets:
+	$(PHP) $(ASSET_MAP_COMPILE)
+
+build-tailwind:
 	$(PHP) $(TAILWIND_BUILD)
 
-compile:
-	$(PHP) $(ASSET_MAP)
+dev-tailwind:
+	$(PHP) $(TAILWIND_DEVELOPMENT)
 
-dev:
+watch-tailwind:
+	$(PHP) $(TAILWIND_WATCH_DEVELOPMENT)
+
+watch-all-assets:
+	$(PHP) $(ASSET_MAP_COMPILE)
+	$(PHP) $(TAILWIND_WATCH_DEVELOPMENT)
+
+assets-build:
+	$(PHP) $(ASSET_MAP_COMPILE)
 	$(PHP) $(TAILWIND_BUILD)
 
-watch:
-	$(PHP) $(TAILWIND_WATCH)
-
-watch-all:
-	$(PHP) $(ASSET_MAP)
-	$(PHP) $(TAILWIND_WATCH)
-
-assets:
-	$(PHP) $(ASSET_MAP)
-	$(PHP) $(TAILWIND_BUILD)
-
-prod:
+prod-build:
 	$(PNPM) install --frozen-lockfile
-	$(PHP) $(ASSET_MAP)
+	$(PHP) $(ASSET_MAP_COMPILE)
 	$(PHP) $(TAILWIND_BUILD)
 
 install:
+	$(COMPOSER) install
 	$(PNPM) install
+	make init-tailwind
 
 debug-twig-component:
-	$(PHP) $(TWIG_COMPONENT)
+	$(PHP) $(TWIG_COMPONENT_DEBUG)
 
 cc:
 	$(SYMFONY) cache:clear
@@ -130,35 +136,35 @@ rector-fix:
 .PHONY: help
 help:
 	@echo "Available targets:"
-	@echo "  make init               - Initialize the Tailwind build"
-	@echo "  make compile            - Compile AssetMapper assets"
-	@echo "  make dev                - Execute the Tailwind build"
-	@echo "  make watch              - Execute the Tailwind build in watch mode"
-	@echo "  make watch-all          - Compile assets and execute the Tailwind build in watch mode"
-	@echo "  make assets             - Compile AssetMapper assets and Tailwind build"
-	@echo "  make prod               - Install dependencies and execute the build for production"
-	@echo "  make install            - Install project dependencies using pnpm"
+	@echo "  make init-tailwind        - Initialize the Tailwind build"
+	@echo "  make compile-assets       - Compile AssetMapper assets"
+	@echo "  make build-tailwind       - Execute the Tailwind build for production"
+	@echo "  make watch-tailwind       - Execute the Tailwind build in watch mode"
+	@echo "  make watch-all-assets     - Compile assets and execute the Tailwind build in watch mode"
+	@echo "  make assets-build         - Compile AssetMapper assets and Tailwind build"
+	@echo "  make prod-build           - Install dependencies and execute the build for production"
+	@echo "  make install              - Install project dependencies using pnpm"
 	@echo "  make debug-twig-component - Debug the Twig component"
-	@echo "  make cc                 - Clear the cache"
-	@echo "  make cc-prod            - Clear the production cache"
-	@echo "  make run                - Start the development server"
-	@echo "  make stop               - Stop the development server"
-	@echo "  make routes             - Display routes with controllers"
-	@echo "  make migration          - Generate a new migration"
-	@echo "  make migrate            - Execute migrations"
-	@echo "  make migrate-all        - Execute all migrations without interaction"
-	@echo "  make migrate-f          - Execute migrations without interaction"
-	@echo "  make migrate-prev       - Execute previous migration"
-	@echo "  make controller         - Generate a new controller"
-	@echo "  make entity             - Generate a new entity"
-	@echo "  make form               - Generate a new form"
-	@echo "  make test               - Execute unit tests with testdox output"
-	@echo "  make fix                - Fix code quality issues and run tests"
-	@echo "  make prepare            - Run fix and unit tests"
-	@echo "  make stan               - Execute PHPStan analysis"
-	@echo "  make lint-php           - Lint PHP code using PHP CS Fixer (dry-run)"
-	@echo "  make fix-php            - Fix PHP code using PHP CS Fixer"
-	@echo "  make lint-twig          - Lint Twig templates"
-	@echo "  make fix-twig           - Fix Twig templates"
-	@echo "  make rector             - Execute Rector (dry-run)"
-	@echo "  make rector-fix         - Execute Rector and fix code"
+	@echo "  make cc                   - Clear the cache"
+	@echo "  make cc-prod              - Clear the production cache"
+	@echo "  make run                  - Start the development server"
+	@echo "  make stop                 - Stop the development server"
+	@echo "  make routes               - Display routes with controllers"
+	@echo "  make migration            - Generate a new migration"
+	@echo "  make migrate              - Execute migrations"
+	@echo "  make migrate-all          - Execute all migrations without interaction"
+	@echo "  make migrate-f            - Execute migrations without interaction"
+	@echo "  make migrate-prev         - Execute previous migration"
+	@echo "  make controller           - Generate a new controller"
+	@echo "  make entity               - Generate a new entity"
+	@echo "  make form                 - Generate a new form"
+	@echo "  make test                 - Execute unit tests with testdox output"
+	@echo "  make fix                  - Fix code quality issues and run tests"
+	@echo "  make prepare              - Run fix and unit tests"
+	@echo "  make stan                 - Execute PHPStan analysis"
+	@echo "  make lint-php             - Lint PHP code using PHP CS Fixer (dry-run)"
+	@echo "  make fix-php              - Fix PHP code using PHP CS Fixer"
+	@echo "  make lint-twig            - Lint Twig templates"
+	@echo "  make fix-twig             - Fix Twig templates"
+	@echo "  make rector               - Execute Rector (dry-run)"
+	@echo "  make rector-fix           - Execute Rector and fix code"

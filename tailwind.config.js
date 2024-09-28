@@ -13,47 +13,48 @@ module.exports = {
       },
       colors: {
         primary: {
-          DEFAULT: '#020617', // slate-950
-          hover: '#0f172a',   // slate-900
-          ring: '#020617'     // slate-950
+          DEFAULT: '#18181B',
+          hover: '#28282D',
+          ring: '#34343A'
         },
         secondary: {
-          DEFAULT: '#1e293b', // slate-800
-          hover: '#334155',   // slate-700
-          ring: '#1e293b'     // slate-800
+          DEFAULT: '#8064E7',
+          hover: '#9577FF',
+          ring: '#6753B6'
         },
-        tertiary: { // yellow-600
-          DEFAULT: '#d97706', // yellow-600
-          hover: '#f59e0b', // yellow-500
-          ring: '#f59e0b' // yellow-500
+        tertiary: {
+          DEFAULT: '#F3F4F6',
+          hover: '#E5E7EB',
+          ring: '#D1D5DB'
         },
-        quaternary: { // cool-gray-200
-          DEFAULT: '#e5e7eb', // cool-gray-200
-          hover: '#d1d5db',   // cool-gray-300
-          ring: '#e5e7eb'     // cool-gray-200
+        quaternary: {
+          DEFAULT: '#1F1F23',
+          hover: '#2C2C34',
+          ring: '#3B3B44'
         },
         accent: {
-          DEFAULT: '#ececf1', // Light accent color
-          hover: '#e2e2e7',   // Slightly darker light for hover
-          ring: '#ececf1'     // Light color for ring
+          DEFAULT: '#ECEFF4',
+          hover: '#DDE1E9',
+          ring: '#C6CCD4'
         },
         success: {
-          DEFAULT: '#059669',   // green-600
-          hover: '#10b981', // green-500
-          ring: '#10b981'     // green-500
+          DEFAULT: '#10B981', // Vert pour les succès
+          hover: '#22C78A',   // Vert légèrement plus lumineux pour les interactions
+          ring: '#0D9466'     // Vert sombre pour les effets de focus
         },
         danger: {
-          DEFAULT: '#dc2626', // red-600
-          hover: '#ef4444',   // red-500
-          ring: '#dc2626'     // red-600
+          DEFAULT: '#DC2626', // Rouge vif pour les erreurs
+          hover: '#EF4444',   // Rouge encore plus éclatant pour les interactions
+          ring: '#B91C1C'     // Rouge sombre pour les effets de focus
         },
         warning: {
-          DEFAULT: '#d97706',   // yellow-600
-          hover: '#f59e0b', // yellow-500
-          ring: '#f59e0b'     // yellow-500
+          DEFAULT: '#D97706', // Jaune foncé pour les avertissements
+          hover: '#F59E0B',   // Jaune plus brillant pour les interactions
+          ring: '#B45309'     // Jaune atténué pour les effets de focus
         }
       }
     }
   },
   plugins: [],
 }
+

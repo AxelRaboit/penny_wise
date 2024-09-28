@@ -11,7 +11,7 @@
                         <div class="text-center bg-secondary rounded-t-md">
                             <h2 class="text-md font-bold p-2 text-white">{{ year.getYear() }}</h2>
                         </div>
-                        <div class="w-full bg-secondary rounded-b-md p-2 bg-white">
+                        <div class="w-full bg-secondary rounded-b-md p-2 bg-accent">
                             <div class="grid grid-cols-3 gap-2">
                                 {% for month in year.getMonths() %}
                                     <a href="{{ path('monthly_wallet', {year: year.getYear(), month: month.getMonthNumber()}) }}"
@@ -25,7 +25,7 @@
                 {% endfor %}
             </div>
         {% else %}
-            <div class="text-center bg-white p-6 rounded-md shadow-md w-full max-w-md">
+            <div class="text-center bg-accent p-6 rounded-md shadow-md w-full max-w-md">
                 <img src="{{ asset('media/logo.png') }}" alt="logo" class="w-full rounded-md mb-4">
                 <h2 class="text-xl font-bold mb-4">Welcome!</h2>
                 <p class="mb-4">It looks like you don't have any wallets yet. Why not create your first one?</p>

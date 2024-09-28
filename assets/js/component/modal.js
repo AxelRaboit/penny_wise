@@ -9,7 +9,7 @@ const createModal = ({modalId, modalTitle, modalMessage, confirmButtonId, cancel
     modal.classList.add('fixed', 'inset-0', 'hidden', 'bg-gray-600', 'bg-opacity-50', 'flex', 'justify-center', 'items-center');
 
     modal.innerHTML = `
-        <div class="bg-white rounded-md shadow-lg p-4 w-1/3">
+        <div class="bg-accent rounded-md shadow-lg p-4 w-1/3">
             <h3 class="text-lg font-bold mb-4">${modalTitle}</h3>
             <p class="mb-4">${modalMessage}</p>
             <div class="flex justify-end">

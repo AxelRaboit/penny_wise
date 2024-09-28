@@ -4,7 +4,7 @@
 
 {% block body %}
     <div>
-        <div class="bg-white shadow-md rounded-md max-w-lg mx-auto">
+        <div class="bg-accent shadow-md rounded-md max-w-lg mx-auto">
             <div class="bg-secondary text-center py-2 rounded-t-md">
                 <h1 class="text-md font-bold text-white">Add a New Transaction</h1>
             </div>
@@ -21,7 +21,7 @@
 
                     <div class="flex flex-col mb-2">
                         {{ form_label(form.date, null, {label_attr: {class: 'text-gray-700 font-semibold'}}) }}
-                        {{ form_widget(form.date, {attr: {class: 'rounded-md shadow-sm p-2 bg-white'}}) }}
+                        {{ form_widget(form.date, {attr: {class: 'rounded-md shadow-sm p-2 bg-accent'}}) }}
                         {{ form_errors(form.date) }}
                     </div>
 
