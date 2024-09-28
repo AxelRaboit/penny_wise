@@ -17,7 +17,7 @@
                                 <img src="{{ asset('media/logo.png') }}" alt="Default Avatar" class="w-8 h-8 rounded-full">
                             {% endif %}
                         </button>
-                        <div id="js-user-dropdown-menu" class="hidden absolute right-0 mt-2 w-64 bg-accent rounded-md z-50">
+                        <div id="js-user-dropdown-menu" class="hidden absolute right-4 mt-2 w-64 bg-quinary rounded-md z-50">
                             <div class="flex items-center p-4">
                                 <div class="w-10 h-10">
                                     {% if app.user.userInformation and app.user.userInformation.avatarName %}
@@ -29,11 +29,11 @@
 
                                 <div class="ml-3">
                                     {% if app.user.userInformation.firstname and app.user.userInformation.lastname %}
-                                        <span class="block text-sm font-bold text-gray-700">
+                                        <span class="block text-sm font-bold text-white">
                                             {{ app.user.userInformation.firstname }} {{ app.user.userInformation.lastname }}
                                         </span>
                                     {% endif %}
-                                    <span class="block text-sm text-gray-500">
+                                    <span class="block text-sm text-white">
                                         {{ app.user.email }}
                                     </span>
                                 </div>
@@ -41,7 +41,7 @@
 
                             <div class="flex flex-col items-center justify-center mb-2 p-4">
                                 {% if 'ROLE_ADMIN' in app.user.roles %}
-                                    <a href="#" class="w-full text-center text-xs font-bold bg-secondary hover:bg-secondary-hover text-white py-2 px-4 rounded-md mb-1">
+                                    <a href="#" class="w-full text-center text-xs font-bold bg-secondary hover:bg-secondary-hover text-white py-2 px-4 rounded-md mb-2">
                                         <i class="fa-solid fa-user-shield mr-1"></i>
                                         Admin panel
                                     </a>
@@ -53,31 +53,31 @@
                             </div>
 
                             <div class="border-t border-gray-200">
-                                <a href="{{ path('dashboard') }}" class="block px-4 py-2 text-sm text-dark hover:bg-secondary-hover hover:text-white">
+                                <a href="{{ path('dashboard') }}" class="block px-4 py-2 text-sm text-white hover:bg-primary-hover hover:text-white">
                                     <i class="fa-solid fa-gauge mr-1"></i> Dashboard
                                 </a>
-                                <a href="{{ path('wallet_list') }}" class="block px-4 py-2 text-sm text-dark hover:bg-secondary-hover hover:text-white">
+                                <a href="{{ path('wallet_list') }}" class="block px-4 py-2 text-sm text-white hover:bg-primary-hover hover:text-white">
                                     <i class="fa-solid fa-money-bill mr-1"></i>My wallets
                                 </a>
-                                <a href="{{ path('wallet_new') }}" class="block px-4 py-2 text-sm text-dark hover:bg-secondary-hover hover:text-white">
+                                <a href="{{ path('wallet_new') }}" class="block px-4 py-2 text-sm text-white hover:bg-primary-hover hover:text-white">
                                     <i class="fa-solid fa-plus mr-1"></i> New Wallet
                                 </a>
-                                <a href="{{ path('transaction_tag_list') }}" class="block px-4 py-2 text-sm text-dark hover:bg-secondary-hover hover:text-white">
+                                <a href="{{ path('transaction_tag_list') }}" class="block px-4 py-2 text-sm text-white hover:bg-primary-hover hover:text-white">
                                     <i class="fa-solid fa-list mr-1"></i> Transaction Tags List
                                 </a>
-                                <a href="{{ path('app_logout') }}" class="block px-4 py-2 text-sm text-dark hover:bg-secondary-hover hover:text-white">
+                                <a href="{{ path('app_logout') }}" class="block px-4 py-2 text-sm text-white hover:bg-primary-hover hover:text-white">
                                     <i class="fa-solid fa-right-from-bracket mr-1"></i> Logout
                                 </a>
                             </div>
                             <div class="border-t border-gray-200 mt-2">
-                                <a href="#" class="block px-4 py-2 text-sm text-dark hover:bg-secondary-hover hover:text-white group">
+                                <a href="#" class="block px-4 py-2 text-sm text-white hover:bg-primary-hover hover:text-white group">
                                     <i class="fa-solid fa-language mr-1"></i>
-                                    Language: <span class="font-bold group-hover:text-white">English</span>
+                                    Language: <span class="font-bold text-white group-hover:text-white">English</span>
                                 </a>
-                                <a href="#" class="block px-4 py-2 text-sm text-dark hover:bg-secondary-hover hover:text-white">
+                                <a href="#" class="block px-4 py-2 text-sm text-white hover:bg-primary-hover hover:text-white">
                                     <i class="fa-solid fa-screwdriver-wrench mr-1"></i> Settings
                                 </a>
-                                <a href="#" class="block px-4 py-2 text-sm text-dark hover:bg-secondary-hover hover:text-white">
+                                <a href="#" class="block px-4 py-2 text-sm text-white hover:bg-primary-hover hover:text-white">
                                     <i class="fa-solid fa-question mr-1"></i> Help
                                 </a>
                             </div>

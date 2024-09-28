@@ -28,10 +28,16 @@ module.exports = {
           ring: '#D1D5DB'
         },
         quaternary: {
-          DEFAULT: '#1F1F23',
-          hover: '#2C2C34',
-          ring: '#3B3B44'
+          DEFAULT: '#0E0E10',
+          hover: '#1C1C22',
+          ring: '#2A2A33'
         },
+        quinary: {
+          DEFAULT: '#1F1F23',
+          hover: '#3A3A42',
+          ring: '#4B4B56'
+        },
+
         accent: {
           DEFAULT: '#ECEFF4',
           hover: '#DDE1E9',

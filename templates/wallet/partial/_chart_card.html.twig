@@ -16,14 +16,14 @@
             {% endfor %}
         </div>
     {% endif %}
-    <div id="{{ chartId }}" class="pb-4 bg-accent rounded-b-md">
+    <div id="{{ chartId }}" class="pb-4 bg-white rounded-b-md">
         {% if chart is defined and chart is not null %}
             {{ render_chart(chart) }}
         {% elseif chartHtml is defined %}
             <div class="pb-4">{{ chartHtml }}</div>
         {% else %}
-            <div class="flex bg-accent rounded-b-md">
-                <div class="w-full text-center p-2 bg-accent rounded-b-md">
+            <div class="flex bg-white rounded-b-md">
+                <div class="w-full text-center p-2 bg-white rounded-b-md">
                     <span class="font-bold text-dark text-xs">No data</span>
                 </div>
             </div>

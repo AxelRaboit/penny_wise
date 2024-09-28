@@ -29,7 +29,7 @@
                         </div>
                     </div>
                     <div class="flex flex-col md:flex-row bg-accent rounded-b-md">
-                        <div class="rounded-bl-md w-full text-center bg-primary p-2"><span class="font-bold text-white text-xs">Start Balance</span></div>
+                        <div class="rounded-bl-md w-full text-center bg-quinary p-2"><span class="font-bold text-white text-xs">Start Balance</span></div>
                         <div class="rounded-br-md w-full text-center p-2">
                             <span class="text-xs">
                                 <span class="font-bold text-xs">{{ wallet.currency.value|currency_symbol }}</span>
@@ -82,8 +82,8 @@
                         </div>
                     </div>
                     <div class="flex flex-col md:flex-row rounded-b-md">
-                        <div class="w-full text-center p-2 bg-primary"><span class="font-bold text-white text-xs">Total incomes</span></div>
-                        <div class="w-full text-center p-2 bg-primary">
+                        <div class="w-full text-center p-2 bg-quinary"><span class="font-bold text-white text-xs">Total incomes</span></div>
+                        <div class="w-full text-center p-2 bg-quinary">
                             <div class="bg-accent rounded">
                                 <span class="font-bold text-xs text-dark">{{ wallet.currency.value|currency_symbol }}</span>
                                 <span class="text-dark text-xs">{{ totalIncomesAndStartingBalance|number_format(2, '.', ' ') }}</span>
@@ -91,10 +91,10 @@
                         </div>
                     </div>
                     <div class="flex flex-col md:flex-row rounded-b-md">
-                        <div class="w-full text-center p-2 {{ wallet.spendingLimit is not null and totalSpending|number_format(2, '.', ' ') > wallet.spendingLimit|number_format(2, '.', ' ') ? 'bg-danger' : 'bg-primary' }}">
+                        <div class="w-full text-center p-2 {{ wallet.spendingLimit is not null and totalSpending|number_format(2, '.', ' ') > wallet.spendingLimit|number_format(2, '.', ' ') ? 'bg-danger' : 'bg-quinary' }}">
                             <span class="font-bold text-white text-xs">Total spending</span>
                         </div>
-                        <div class="w-full text-center p-2 {{ wallet.spendingLimit is not null and totalSpending|number_format(2, '.', ' ') > wallet.spendingLimit|number_format(2, '.', ' ') ? 'bg-danger' : 'bg-primary' }}">
+                        <div class="w-full text-center p-2 {{ wallet.spendingLimit is not null and totalSpending|number_format(2, '.', ' ') > wallet.spendingLimit|number_format(2, '.', ' ') ? 'bg-danger' : 'bg-quinary' }}">
                             <div class="bg-accent rounded">
                                 <span class="font-bold text-xs text-dark">{{ wallet.currency.value|currency_symbol }}</span>
                                 <span class="text-dark text-xs">{{ totalSpending|number_format(2, '.', ' ') }}</span>
@@ -102,10 +102,10 @@
                         </div>
                     </div>
                     <div class="flex flex-col md:flex-row">
-                        <div class="w-full text-center p-2 {{ totalBudget < 0 ? 'bg-danger' : 'bg-primary' }}">
+                        <div class="w-full text-center p-2 {{ totalBudget < 0 ? 'bg-danger' : 'bg-quinary' }}">
                             <span class="font-bold text-white text-xs">Total budget</span>
                         </div>
-                        <div class="w-full text-center p-2 {{ totalBudget < 0 ? 'bg-danger' : 'bg-primary' }}">
+                        <div class="w-full text-center p-2 {{ totalBudget < 0 ? 'bg-danger' : 'bg-quinary' }}">
                             <div class="bg-accent rounded">
                                 <span class="font-bold text-dark text-xs">{{ wallet.currency.value|currency_symbol }}</span>
                                 <span class="text-dark text-xs">{{ totalBudget|number_format(2, '.', ' ') }}</span>
@@ -113,10 +113,10 @@
                         </div>
                     </div>
                     <div class="flex flex-col md:flex-row rounded-b-md">
-                        <div class="rounded-bl-md w-full text-center p-2 {{ totalLeftToSpend < 0 ? 'bg-danger' : 'bg-primary' }}">
+                        <div class="rounded-bl-md w-full text-center p-2 {{ totalLeftToSpend < 0 ? 'bg-danger' : 'bg-quinary' }}">
                             <span class="font-bold text-white text-xs">Total left to spend</span>
                         </div>
-                        <div class="rounded-br-md w-full text-center p-2 {{ totalLeftToSpend < 0 ? 'bg-danger' : 'bg-primary' }}">
+                        <div class="rounded-br-md w-full text-center p-2 {{ totalLeftToSpend < 0 ? 'bg-danger' : 'bg-quinary' }}">
                             <div class="bg-accent rounded-md">
                                 <span class="font-bold text-xs text-dark">{{ wallet.currency.value|currency_symbol }}</span>
                                 <span class="text-dark text-xs">{{ totalLeftToSpend|number_format(2, '.', ' ') }}</span>
@@ -137,7 +137,7 @@
                         <div class="grid grid-cols-2 sm:grid-cols-3 gap-1">
                             {% for month in walletsAndTransactionsFromYear.getMonths() %}
                                 <a href="{{ path('monthly_wallet', {year: wallet.getYear(), month: month.getMonthNumber()}) }}" class="text-sm text-center font-bold py-2 px-4 rounded-md
-                                    {{ month.getMonthNumber() == currentMonth ? 'bg-primary text-white hover:bg-primary-hover' : 'bg-secondary text-white hover:bg-secondary-hover' }}">
+                                    {{ month.getMonthNumber() == currentMonth ? 'bg-quinary text-white hover:bg-quinary-hover' : 'bg-secondary text-white hover:bg-secondary-hover' }}">
                                     {{ month.getMonthName() }}
                                 </a>
                             {% endfor %}
@@ -162,7 +162,7 @@
                 </div>
 
                 <div class="w-full bg-accent rounded-b-md p-2 bg-accent">
-                    <div class="grid grid-cols-2 sm:grid-cols-2 gap-1">
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-1">
                         <a href="{{ path('transaction_new_for_wallet', {year: currentYear, month: currentMonth}) }}" class="text-center font-bold bg-secondary hover:bg-secondary-hover text-white text-xs p-2 cursor-pointer rounded">
                             <i class="fa-solid fa-plus mr-1"></i>
                             Transaction
@@ -232,14 +232,14 @@
             <div class="p-1 rounded-md">
                 <div>
                     <div class="text-center bg-secondary rounded-t-md">
-                        <h2 class="text-md font-bold p-2 text-white">Start balance</h2>
+                        <h2 class="text-md font-bold p-1 text-white">Start balance</h2>
                     </div>
 
-                    <div class="w-full rounded-b-md p-2 bg-accent">
-                        <div class="rounded-br-md w-full text-center p-2">
+                    <div class="w-full rounded-b-md p-1 bg-accent">
+                        <div class="rounded-br-md w-full text-center">
                             <div class="bg-accent flex items-center justify-center space-x-2">
-                                <span class="font-bold text-xl text-dark">{{ wallet.currency.value|currency_symbol }}</span>
-                                <span class="font-bold text-xl text-dark" {{ wallet.startBalance }}">{{ wallet.startBalance|number_format(2, '.', ' ') }}</span>
+                                <span class="font-bold text-lg text-dark">{{ wallet.currency.value|currency_symbol }}</span>
+                                <span class="font-bold text-lg text-dark" {{ wallet.startBalance }}">{{ wallet.startBalance|number_format(2, '.', ' ') }}</span>
                             </div>
                         </div>
                     </div>
@@ -249,14 +249,14 @@
             <div class="p-1 rounded-md">
                 <div>
                     <div class="text-center bg-secondary rounded-t-md">
-                        <h2 class="text-md font-bold p-2 text-white">Saving</h2>
+                        <h2 class="text-md font-bold p-1 text-white">Saving</h2>
                     </div>
 
-                    <div class="w-full rounded-b-md p-2 bg-accent">
-                        <div class="rounded-br-md w-full text-center p-2">
+                    <div class="w-full rounded-b-md p-1 bg-accent">
+                        <div class="rounded-br-md w-full text-center">
                             <div class="bg-accent flex items-center justify-center space-x-2">
-                                <span class="font-bold text-xl text-dark">{{ wallet.currency.value|currency_symbol }}</span>
-                                <span class="font-bold text-xl text-dark {{ totalSaving < 0 ? 'text-danger' : 'text-dark' }}">{{ totalSaving|number_format(2, '.', ' ') }}</span>
+                                <span class="font-bold text-lg text-dark">{{ wallet.currency.value|currency_symbol }}</span>
+                                <span class="font-bold text-lg text-dark {{ totalSaving < 0 ? 'text-danger' : 'text-dark' }}">{{ totalSaving|number_format(2, '.', ' ') }}</span>
                             </div>
                         </div>
                     </div>
@@ -266,14 +266,14 @@
             <div class="p-1 rounded-md">
                 <div>
                     <div class="text-center bg-secondary rounded-t-md">
-                        <h2 class="text-md font-bold p-2 text-white">Budget</h2>
+                        <h2 class="text-md font-bold p-1 text-white">Budget</h2>
                     </div>
 
-                    <div class="w-full rounded-b-md p-2 bg-accent">
-                        <div class="rounded-br-md w-full text-center p-2">
+                    <div class="w-full rounded-b-md p-1 bg-accent">
+                        <div class="rounded-br-md w-full text-center">
                             <div class="bg-accent flex items-center justify-center space-x-2">
-                                <span class="font-bold text-xl text-dark">{{ wallet.currency.value|currency_symbol }}</span>
-                                <span class="font-bold text-xl text-dark {{ totalBudget < 0 ? 'text-danger' : 'text-dark' }}">{{ totalBudget|number_format(2, '.', ' ') }}</span>
+                                <span class="font-bold text-lg text-dark">{{ wallet.currency.value|currency_symbol }}</span>
+                                <span class="font-bold text-lg text-dark {{ totalBudget < 0 ? 'text-danger' : 'text-dark' }}">{{ totalBudget|number_format(2, '.', ' ') }}</span>
                             </div>
                         </div>
                     </div>
@@ -283,49 +283,48 @@
             <div class="p-1 rounded-md">
                 <div>
                     <div class="text-center bg-secondary rounded-t-md">
-                        <h2 class="text-md font-bold p-2 text-white">Left</h2>
+                        <h2 class="text-md font-bold p-1 text-white">Left</h2>
                     </div>
 
-                    <div class="w-full rounded-b-md p-2 bg-accent">
-                        <div class="rounded-br-md w-full text-center p-2">
+                    <div class="w-full rounded-b-md p-1 bg-accent">
+                        <div class="rounded-br-md w-full text-center">
                             <div class="bg-accent flex items-center justify-center space-x-2">
-                                <span class="font-bold text-xl text-dark">{{ wallet.currency.value|currency_symbol }}</span>
-                                <span class="font-bold text-xl text-dark {{ totalLeftToSpend < 0 ? 'text-danger' : 'text-dark' }}">{{ totalLeftToSpend|number_format(2, '.', ' ') }}</span>
+                                <span class="font-bold text-lg text-dark">{{ wallet.currency.value|currency_symbol }}</span>
+                                <span class="font-bold text-lg text-dark {{ totalLeftToSpend < 0 ? 'text-danger' : 'text-dark' }}">{{ totalLeftToSpend|number_format(2, '.', ' ') }}</span>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div class="p-1 rounded-md mb-1">
-            <div id="spend-limit">
-                <h2 class="rounded-t-md text-center font-bold p-2 bg-secondary text-white">
-                    <span class="font-bold text-md text-white">Spend limit</span>
-                    {% if wallet.spendingLimit is not null and totalSpending > wallet.spendingLimit %}
-                        <span class="bg-danger text-white text-xs rounded-md p-1 ml-2">
+            <div class="p-1 rounded-md mb-1">
+                <div id="spend-limit">
+                    <h2 class="rounded-t-md text-center font-bold p-1 bg-secondary text-white">
+                        <span class="font-bold text-md text-white">Spend limit</span>
+                        {% if wallet.spendingLimit is not null and totalSpending > wallet.spendingLimit %}
+                            <span class="bg-danger text-white text-xs rounded-md p-1 ml-2">
                             Exceeded (<span class="font-bold text-secondary text-white text-xs">{{ wallet.currency.value|currency_symbol }}</span>
                             {{ (totalSpending - wallet.spendingLimit)|number_format(2, '.', ' ') }})
                         </span>
-                    {% elseif wallet.spendingLimit is not null and totalSpending < wallet.spendingLimit %}
-                        <span class="bg-success text-white text-xs rounded-md p-1 ml-2">
+                        {% elseif wallet.spendingLimit is not null and totalSpending < wallet.spendingLimit %}
+                            <span class="bg-success text-white text-xs rounded-md p-1 ml-2">
                             Left (<span class="font-bold text-secondary text-white text-xs">{{ wallet.currency.value|currency_symbol }}</span>
                             {{ (wallet.spendingLimit - totalSpending)|number_format(2, '.', ' ') }})
                         </span>
-                    {% else %}
-                        <span class="bg-success text-white text-xs rounded-md p-1 ml-2">
+                        {% else %}
+                            <span class="bg-success text-white text-xs rounded-md p-1 ml-2">
                             Unlimited
                         </span>
-                    {% endif %}
-                </h2>
-                <div class="flex flex-col md:flex-row bg-accent rounded-b-md">
-                    <div class="w-full text-center border border-solid border-gray-300 p-2 rounded-b-md">
-                        {% if wallet.spendingLimit is not null %}
-                            <span class="font-bold text-xs text-secondary">
+                        {% endif %}
+                    </h2>
+                    <div class="flex flex-col md:flex-row bg-accent rounded-b-md">
+                        <div class="w-full text-center border border-solid border-gray-300 p-1 rounded-b-md">
+                            {% if wallet.spendingLimit is not null %}
+                                <span class="font-bold text-xs text-secondary">
                                 {{ wallet.currency.value|currency_symbol }}
                             </span>
-                        {% endif %}
-                        <span class="font-bold text-xs">{{ wallet.spendingLimit is not null ? wallet.spendingLimit|number_format(2, '.', ' ') : '<i class="fa-solid fa-infinity"></i>'|raw }}</span>
+                            {% endif %}
+                            <span class="font-bold text-lg">{{ wallet.spendingLimit is not null ? wallet.spendingLimit|number_format(2, '.', ' ') : '<i class="fa-solid fa-infinity"></i>'|raw }}</span>
+                        </div>
                     </div>
                 </div>
             </div>
