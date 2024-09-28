@@ -19,6 +19,14 @@
                 </div>
 
                 <div>
+                    {{ form_label(registrationForm.username, null, {label_attr: {class: 'block text-gray-600'}}) }}
+                    {{ form_widget(registrationForm.username, {attr: {class: 'w-full p-3 border border-gray-300 rounded-md'}}) }}
+                    <div class="text-danger text-sm">
+                        {{ form_errors(registrationForm.username) }}
+                    </div>
+                </div>
+
+                <div>
                     {{ form_label(registrationForm.plainPassword, null, {label_attr: {class: 'block text-gray-600'}}) }}
                     {{ form_widget(registrationForm.plainPassword, {attr: {class: 'w-full p-3 border border-gray-300 rounded-md'}}) }}
                     <div class="text-danger text-sm">

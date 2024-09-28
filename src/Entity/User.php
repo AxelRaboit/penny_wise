@@ -14,11 +14,13 @@ use Override;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+#[UniqueEntity(fields: ['username'], message: 'This username is already taken. Please choose another one.')]
 #[ORM\HasLifecycleCallbacks]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -62,6 +64,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\OneToMany(targetEntity: TransactionTag::class, mappedBy: 'user')]
     private Collection $transactionTags;
+
+    #[ORM\Column(length: 255, unique: true)]
+    #[Assert\NotBlank(message: 'The username cannot be blank.')]
+    private ?string $username = null;
 
     #[ORM\PrePersist]
     public function onPrePersist(): void
@@ -252,6 +258,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         if ($this->transactionTags->removeElement($transactionTag) && $transactionTag->getUser() === $this) {
             $transactionTag->setUser(null);
         }
+
+        return $this;
+    }
+
+    public function getUsername(): ?string
+    {
+        return $this->username;
+    }
+
+    public function setUsername(string $username): static
+    {
+        $this->username = $username;
 
         return $this;
     }

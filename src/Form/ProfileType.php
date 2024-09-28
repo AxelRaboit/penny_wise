@@ -8,6 +8,7 @@ use App\Entity\User;
 use Override;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -22,6 +23,10 @@ class ProfileType extends AbstractType
             ->add('email', EmailType::class, [
                 'label' => 'Email Address',
                 'attr' => ['placeholder' => 'Enter your email address'],
+            ])
+            ->add('username', TextType::class, [
+                'label' => 'Username',
+                'attr' => ['placeholder' => 'Enter your username'],
             ])
             ->add('userInformation', UserInformationType::class, [
                 'label' => false,
