@@ -33,15 +33,30 @@ dev:
 watch:
 	$(PHP) $(TAILWIND_WATCH)
 
+watch-all:
+	$(PHP) $(ASSET_MAP)
+	$(PHP) $(TAILWIND_WATCH)
+
+assets:
+	$(PHP) $(ASSET_MAP)
+	$(PHP) $(TAILWIND_BUILD)
+
 prod:
 	$(PNPM) install --frozen-lockfile
+	$(PHP) $(ASSET_MAP)
 	$(PHP) $(TAILWIND_BUILD)
+
+install:
+	$(PNPM) install
 
 debug-twig-component:
 	$(PHP) $(TWIG_COMPONENT)
 
 cc:
 	$(SYMFONY) cache:clear
+
+cc-prod:
+	$(SYMFONY) cache:clear --env=prod
 
 run:
 	$(SYMFONY_BIN) server:start
@@ -57,6 +72,9 @@ migration:
 
 migrate:
 	$(SYMFONY) doctrine:migrations:migrate
+
+migrate-all:
+	$(SYMFONY) doctrine:migrations:migrate --no-interaction
 
 migrate-f:
 	$(SYMFONY) doctrine:migrations:migrate --no-interaction
@@ -112,23 +130,35 @@ rector-fix:
 .PHONY: help
 help:
 	@echo "Available targets:"
-	@echo "  make dev                - Execute the tailwind build"
-	@echo "  make watch              - Execute the tailwind build in watch mode"
-	@echo "  make prod               - Execute the tailwind build for production"
-	@echo "  make debug-twig-component - Debug the twig component"
-	@echo "  make start               - Start the development server"
+	@echo "  make init               - Initialize the Tailwind build"
+	@echo "  make compile            - Compile AssetMapper assets"
+	@echo "  make dev                - Execute the Tailwind build"
+	@echo "  make watch              - Execute the Tailwind build in watch mode"
+	@echo "  make watch-all          - Compile assets and execute the Tailwind build in watch mode"
+	@echo "  make assets             - Compile AssetMapper assets and Tailwind build"
+	@echo "  make prod               - Install dependencies and execute the build for production"
+	@echo "  make install            - Install project dependencies using pnpm"
+	@echo "  make debug-twig-component - Debug the Twig component"
+	@echo "  make cc                 - Clear the cache"
+	@echo "  make cc-prod            - Clear the production cache"
+	@echo "  make run                - Start the development server"
 	@echo "  make stop               - Stop the development server"
-	@echo "  make routes             - Display routes"
+	@echo "  make routes             - Display routes with controllers"
 	@echo "  make migration          - Generate a new migration"
 	@echo "  make migrate            - Execute migrations"
+	@echo "  make migrate-all        - Execute all migrations without interaction"
 	@echo "  make migrate-f          - Execute migrations without interaction"
-	@echo "  make migrate-prev       - Execute previous migrations"
+	@echo "  make migrate-prev       - Execute previous migration"
 	@echo "  make controller         - Generate a new controller"
 	@echo "  make entity             - Generate a new entity"
 	@echo "  make form               - Generate a new form"
-	@echo "  make test               - Execute unit tests"
+	@echo "  make test               - Execute unit tests with testdox output"
+	@echo "  make fix                - Fix code quality issues and run tests"
+	@echo "  make prepare            - Run fix and unit tests"
 	@echo "  make stan               - Execute PHPStan analysis"
-	@echo "  make lint-php           - Lint PHP code"
-	@echo "  make fix-php            - Fix PHP code"
-	@echo "  make rector             - Execute Rector"
+	@echo "  make lint-php           - Lint PHP code using PHP CS Fixer (dry-run)"
+	@echo "  make fix-php            - Fix PHP code using PHP CS Fixer"
+	@echo "  make lint-twig          - Lint Twig templates"
+	@echo "  make fix-twig           - Fix Twig templates"
+	@echo "  make rector             - Execute Rector (dry-run)"
 	@echo "  make rector-fix         - Execute Rector and fix code"
