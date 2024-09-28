@@ -26,6 +26,7 @@ class ProfileType extends AbstractType
             ->add('userInformation', UserInformationType::class, [
                 'label' => false,
                 'has_avatar' => $hasAvatar,
+                'required' => false,
             ]);
     }
 

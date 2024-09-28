@@ -32,7 +32,6 @@ class UserInformationType extends AbstractType
             ])
             ->add('avatarFile', FileType::class, [
                 'label' => 'Upload Avatar',
-                'required' => false,
                 'constraints' => [
                     new File([
                         'maxSize' => '5M',
@@ -45,7 +44,6 @@ class UserInformationType extends AbstractType
             $builder->add('remove_avatar', CheckboxType::class, [
                 'label' => 'Remove current avatar',
                 'mapped' => false,
-                'required' => false,
             ]);
         }
     }
