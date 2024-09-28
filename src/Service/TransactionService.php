@@ -124,9 +124,7 @@ final readonly class TransactionService
     public function calculateBudgetVsActual(Transaction $transaction): array
     {
         $budget = $transaction->getBudget();
-        $actual = (float) $transaction->getAmount();
-
-        if (null === $budget) {
+        if ($budget == self::DEFAULT_BALANCE) {
             return [
                 'budget' => null,
                 'remaining' => null,
@@ -135,6 +133,7 @@ final readonly class TransactionService
             ];
         }
 
+        $actual = (float) $transaction->getAmount();
         $budget = (float) $budget;
 
         $remaining = $budget - $actual;
@@ -148,6 +147,7 @@ final readonly class TransactionService
             'percentageUsed' => $percentageUsed,
         ];
     }
+
 
     /**
      * @throws WalletNotFoundWithinLimitException
