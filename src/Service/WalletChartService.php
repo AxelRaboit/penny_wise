@@ -9,20 +9,20 @@ use App\Entity\User;
 use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
 use Symfony\UX\Chartjs\Model\Chart;
 
-final class WalletChartService
+final readonly class WalletChartService
 {
     private const float DEFAULT_BALANCE = 0.0;
 
     public function __construct(
-        private readonly ChartBuilderInterface       $chartBuilder,
-        private readonly MonthlyFinancialDataService $monthlyFinancialDataService,
+        private ChartBuilderInterface $chartBuilder,
+        private MonthlyFinancialDataService $monthlyFinancialDataService,
     ) {}
 
     /**
      * Creates a chart visualizing the total spending and the amount left to spend.
      *
      * @param TransactionInformationDto $transactions Data transfer object containing transaction information
-     * @param string $chartType Chart type to be generated (e.g., 'doughnut', 'bar', etc.)
+     * @param string                    $chartType    Chart type to be generated (e.g., 'doughnut', 'bar', etc.)
      *
      * @return Chart A Chart object configured to display the spending distribution
      */
@@ -60,9 +60,9 @@ final class WalletChartService
     /**
      * Creates a chart representing the total spending for the current and previous N months.
      *
-     * @param int $year The year for which the chart is being generated
-     * @param int $month The month for which the chart is being generated
-     * @param int $nMonths The number of previous months to include in the chart
+     * @param int    $year      The year for which the chart is being generated
+     * @param int    $month     The month for which the chart is being generated
+     * @param int    $nMonths   The number of previous months to include in the chart
      * @param string $chartType The type of chart to create (e.g., 'bar', 'line')
      *
      * @return Chart A Chart object configured to display the total spending distribution over the specified months
@@ -142,10 +142,10 @@ final class WalletChartService
     /**
      * Creates a chart representing the total savings for the current month and the specified number of previous months for a given user.
      *
-     * @param User $user The user for whom the savings data should be fetched
-     * @param int $year The year for the current month
-     * @param int $month The index of the current month (1-12)
-     * @param int $nMonths The number of previous months to include in the chart (defaults to 4)
+     * @param User   $user      The user for whom the savings data should be fetched
+     * @param int    $year      The year for the current month
+     * @param int    $month     The index of the current month (1-12)
+     * @param int    $nMonths   The number of previous months to include in the chart (defaults to 4)
      * @param string $chartType The type of chart to create (e.g., 'bar', 'line')
      *
      * @return Chart The generated chart containing total savings data
@@ -181,4 +181,3 @@ final class WalletChartService
         return $chart;
     }
 }
-

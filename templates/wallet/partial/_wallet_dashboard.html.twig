@@ -324,39 +324,39 @@
 </div>
 
 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-1">
-    {% include 'wallet/partial/_chart_card.html.twig' with {
+    {{ include('wallet/partial/_chart_card.html.twig', {
         title: 'Total monthly spent',
         buttons: [
-            { chartType: 'monthly', chartId: 'chart-monthly-spent', chartFormat: 'bar', label: 'Bar' },
-            { chartType: 'monthly', chartId: 'chart-monthly-spent', chartFormat: 'line', label: 'Line' },
+            {chartType: 'monthly', chartId: 'chart-monthly-spent', chartFormat: 'bar', label: 'Bar'},
+            {chartType: 'monthly', chartId: 'chart-monthly-spent', chartFormat: 'line', label: 'Line'},
         ],
         chartId: 'chart-monthly-spent',
         chart: totalSpendingForCurrentAndPreviousNthMonthsChart
-    } %}
+    }) }}
 
-    {% include 'wallet/partial/_chart_card.html.twig' with {
+    {{ include('wallet/partial/_chart_card.html.twig', {
         title: 'Total yearly spent',
         buttons: [
-            { chartType: 'yearly', chartId: 'chart-yearly-spent', chartFormat: 'bar', label: 'Bar' },
-            { chartType: 'yearly', chartId: 'chart-yearly-spent', chartFormat: 'line', label: 'Line' },
+            {chartType: 'yearly', chartId: 'chart-yearly-spent', chartFormat: 'bar', label: 'Bar'},
+            {chartType: 'yearly', chartId: 'chart-yearly-spent', chartFormat: 'line', label: 'Line'},
         ],
         chartId: 'chart-yearly-spent',
         chart: totalSpendingYearsChart
-    } %}
+    }) }}
 
-    {% include 'wallet/partial/_chart_card.html.twig' with {
+    {{ include('wallet/partial/_chart_card.html.twig', {
         title: 'Left to spend',
         chartId: 'chart-left-to-spend',
         chart: leftToSpendChart.data.isDataPresent ? leftToSpendChart : null
-    } %}
+    }) }}
 
-    {% include 'wallet/partial/_chart_card.html.twig' with {
+    {{ include('wallet/partial/_chart_card.html.twig', {
         title: 'Total savings',
         buttons: [
-            { chartType: 'savings', chartId: 'chart-total-savings', chartFormat: 'bar', label: 'Bar' },
-            { chartType: 'savings', chartId: 'chart-total-savings', chartFormat: 'line', label: 'Line' },
+            {chartType: 'savings', chartId: 'chart-total-savings', chartFormat: 'bar', label: 'Bar'},
+            {chartType: 'savings', chartId: 'chart-total-savings', chartFormat: 'line', label: 'Line'},
         ],
         chartId: 'chart-total-savings',
         chart: savingsChart
-    } %}
+    }) }}
 </div>

@@ -20,6 +20,7 @@ use App\Service\WalletService;
 use App\Util\WalletHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
+use InvalidArgumentException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -462,7 +463,7 @@ final class WalletController extends AbstractController
                 'monthly' => $this->walletChartService->createTotalSpendingForCurrentAndPreviousNthMonthsChart($year, $month, 12, $chartFormat),
                 'yearly' => $this->walletChartService->createTotalSpendingForCurrentAndAdjacentYearsChart($chartFormat),
                 'savings' => $this->walletChartService->createTotalSavingForCurrentAndPreviousMonthsChart($user, $year, $month, 12, $chartFormat),
-                default => throw new \InvalidArgumentException('Invalid chart type'),
+                default => throw new InvalidArgumentException('Invalid chart type'),
             };
 
             $chartHtml = $this->renderView('wallet/api/chart.html.twig', [
@@ -470,9 +471,8 @@ final class WalletController extends AbstractController
             ]);
 
             return new JsonResponse(['chartHtml' => $chartHtml]);
-        } catch (\Exception $exception) {
-            return new JsonResponse(['error' => sprintf('Failed to generate chart: %s', $exception->getMessage())], 500);
+        } catch (Exception $exception) {
+            return new JsonResponse(['error' => sprintf('Failed to generate chart: %s', $exception->getMessage())], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
-
 }
