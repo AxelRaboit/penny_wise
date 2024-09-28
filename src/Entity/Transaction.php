@@ -6,7 +6,6 @@ namespace App\Entity;
 
 use App\Entity\Trait\TimestampableTrait;
 use App\Repository\TransactionRepository;
-use App\Validator\TransactionForWallet\TransactionAmountCannotBeZero;
 use DateTimeImmutable;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -15,7 +14,6 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TransactionRepository::class)]
-#[TransactionAmountCannotBeZero]
 #[ORM\HasLifecycleCallbacks]
 class Transaction
 {
