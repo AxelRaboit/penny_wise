@@ -57,8 +57,11 @@
                 </div>
 
                 <div>
-                    <a href="{{ path('profile_edit') }}" class="bg-primary hover:bg-primary-hover text-white font-bold py-2 px-4 rounded-md">
-                        Edit Profile
+                    <a href="#" class="bg-primary hover:bg-primary-hover text-white font-bold py-2 px-4 rounded-md opacity-50 cursor-not-allowed" aria-disabled="true" title="Feature not available">
+                        Edit password
+                    </a>
+                    <a href="{{ path('profile_edit') }}" class="bg-primary hover:bg-primary-hover text-white font-bold py-2 px-4 rounded-md ml-2">
+                        Edit profile
                     </a>
                     <a href="{{ path('app_logout') }}" class="bg-danger hover:bg-danger-hover text-white font-bold py-2 px-4 rounded-md ml-2">
                         Logout
