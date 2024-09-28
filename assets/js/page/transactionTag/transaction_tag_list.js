@@ -1,4 +1,4 @@
-import { attachModalEvents } from '../component/modal.js';
+import { attachModalEvents } from '../../component/modal.js';
 
 attachModalEvents({
     modalId: 'deleteTransactionTagModal',

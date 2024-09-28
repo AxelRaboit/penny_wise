@@ -8,6 +8,7 @@ use App\Entity\TransactionTag;
 use App\EventListener\TransactionTagListener;
 use Override;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ColorType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -30,6 +31,11 @@ class TransactionTagType extends AbstractType
                 ],
                 'label' => 'Tag Name',
                 'label_attr' => ['class' => 'text-gray-700 font-semibold'],
+            ])
+            ->add('useDefaultColor', CheckboxType::class, [
+                'label' => 'Use default color',
+                'required' => false,
+                'mapped' => false,
             ])
             ->add('color', ColorType::class, [
                 'constraints' => [

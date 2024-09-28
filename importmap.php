@@ -33,7 +33,11 @@ return [
         'entrypoint' => true,
     ],
     'transaction_tag_list' => [
-        'path' => './assets/js/page/transaction_tag_list.js',
+        'path' => './assets/js/page/transactionTag/transaction_tag_list.js',
+        'entrypoint' => true,
+    ],
+    'transaction_tag_crud' => [
+        'path' => './assets/js/page/transactionTag/transaction_tag_crud.js',
         'entrypoint' => true,
     ],
     // Partials

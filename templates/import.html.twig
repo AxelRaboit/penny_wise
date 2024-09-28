@@ -9,6 +9,10 @@
     {% set importmapEntries = importmapEntries|merge(['transaction_tag_list']) %}
 {% endif %}
 
+{% if page_requires_transaction_tag_crud is defined and page_requires_transaction_tag_crud is same as(true) %}
+    {% set importmapEntries = importmapEntries|merge(['transaction_tag_crud']) %}
+{% endif %}
+
 {# Partials #}
 {% if page_requires_transaction is defined and page_requires_transaction is same as(true) %}
     {% set importmapEntries = importmapEntries|merge(['transaction']) %}
