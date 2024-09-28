@@ -120,7 +120,7 @@ final readonly class WalletChartService
             $totals[] = $totalData['total'];
         }
 
-        $chart = $this->chartBuilder->createChart(Chart::TYPE_BAR);
+        $chart = $this->chartBuilder->createChart(Chart::TYPE_LINE);
 
         $chart->setData([
             'labels' => $labels,
