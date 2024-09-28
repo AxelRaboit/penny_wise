@@ -29,7 +29,7 @@ return [
     ],
     // Pages
     'monthly' => [
-        'path' => './assets/js/page/monthly.js',
+        'path' => './assets/js/page/monthly/index.js',
         'entrypoint' => true,
     ],
     'transaction_tag_list' => [

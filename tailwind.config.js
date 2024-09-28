@@ -38,19 +38,19 @@ module.exports = {
           ring: '#C6CCD4'
         },
         success: {
-          DEFAULT: '#10B981', // Vert pour les succès
-          hover: '#22C78A',   // Vert légèrement plus lumineux pour les interactions
-          ring: '#0D9466'     // Vert sombre pour les effets de focus
+          DEFAULT: '#10B981',
+          hover: '#22C78A',
+          ring: '#0D9466'
         },
         danger: {
-          DEFAULT: '#DC2626', // Rouge vif pour les erreurs
-          hover: '#EF4444',   // Rouge encore plus éclatant pour les interactions
-          ring: '#B91C1C'     // Rouge sombre pour les effets de focus
+          DEFAULT: '#DC2626',
+          hover: '#EF4444',
+          ring: '#B91C1C'
         },
         warning: {
-          DEFAULT: '#D97706', // Jaune foncé pour les avertissements
-          hover: '#F59E0B',   // Jaune plus brillant pour les interactions
-          ring: '#B45309'     // Jaune atténué pour les effets de focus
+          DEFAULT: '#D97706',
+          hover: '#F59E0B',
+          ring: '#B45309'
         }
       }
     }

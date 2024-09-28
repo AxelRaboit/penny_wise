@@ -21,10 +21,12 @@ use App\Util\WalletHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\UX\Chartjs\Model\Chart;
 
 final class WalletController extends AbstractController
 {
@@ -440,4 +442,37 @@ final class WalletController extends AbstractController
 
         return $this->redirectToRoute('monthly_wallet', ['year' => $year, 'month' => $month]);
     }
+
+    #[Route('/api/get-chart-data', name: 'get_chart_data', methods: ['GET'])]
+    public function getChartData(Request $request): JsonResponse
+    {
+        /** @var User $user */
+        $user = $this->getUser();
+        if (!$user instanceof User) {
+            throw $this->createNotFoundException('User not found');
+        }
+
+        $chartType = $request->query->get('type');
+        $year = (int) $request->query->get('year', date('Y'));
+        $month = (int) $request->query->get('month', date('n'));
+        $chartFormat = (string) $request->query->get('format', Chart::TYPE_BAR);
+
+        try {
+            $chart = match ($chartType) {
+                'monthly' => $this->walletChartService->createTotalSpendingForCurrentAndPreviousNthMonthsChart($year, $month, 12, $chartFormat),
+                'yearly' => $this->walletChartService->createTotalSpendingForCurrentAndAdjacentYearsChart($chartFormat),
+                'savings' => $this->walletChartService->createTotalSavingForCurrentAndPreviousMonthsChart($user, $year, $month, 12, $chartFormat),
+                default => throw new \InvalidArgumentException('Invalid chart type'),
+            };
+
+            $chartHtml = $this->renderView('wallet/api/chart.html.twig', [
+                'chart' => $chart,
+            ]);
+
+            return new JsonResponse(['chartHtml' => $chartHtml]);
+        } catch (\Exception $exception) {
+            return new JsonResponse(['error' => sprintf('Failed to generate chart: %s', $exception->getMessage())], 500);
+        }
+    }
+
 }

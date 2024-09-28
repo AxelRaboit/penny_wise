@@ -9,25 +9,26 @@ use App\Entity\User;
 use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
 use Symfony\UX\Chartjs\Model\Chart;
 
-final readonly class WalletChartService
+final class WalletChartService
 {
     private const float DEFAULT_BALANCE = 0.0;
 
     public function __construct(
-        private ChartBuilderInterface $chartBuilder,
-        private MonthlyFinancialDataService $monthlyFinancialDataService,
+        private readonly ChartBuilderInterface       $chartBuilder,
+        private readonly MonthlyFinancialDataService $monthlyFinancialDataService,
     ) {}
 
     /**
-     * Creates a doughnut chart visualizing the total spending and the amount left to spend.
+     * Creates a chart visualizing the total spending and the amount left to spend.
      *
-     * @param TransactionInformationDto $transactions data transfer object containing transaction information
+     * @param TransactionInformationDto $transactions Data transfer object containing transaction information
+     * @param string $chartType Chart type to be generated (e.g., 'doughnut', 'bar', etc.)
      *
-     * @return Chart a Chart object configured to display the spending distribution
+     * @return Chart A Chart object configured to display the spending distribution
      */
-    public function createLeftToSpendChart(TransactionInformationDto $transactions): Chart
+    public function createLeftToSpendChart(TransactionInformationDto $transactions, string $chartType = Chart::TYPE_DOUGHNUT): Chart
     {
-        $chart = $this->chartBuilder->createChart(Chart::TYPE_DOUGHNUT);
+        $chart = $this->chartBuilder->createChart($chartType);
 
         $totalSpending = $transactions->getTotalLeftToSpend() > 0 ? $transactions->getTotalLeftToSpend() : $transactions->getTotalSpending();
         $isDataPresent = $totalSpending > self::DEFAULT_BALANCE;
@@ -57,15 +58,16 @@ final readonly class WalletChartService
     }
 
     /**
-     * Creates a bar chart representing the total spending for the current and previous N months.
+     * Creates a chart representing the total spending for the current and previous N months.
      *
-     * @param int $year    the year for which the chart is being generated
-     * @param int $month   the month for which the chart is being generated
-     * @param int $nMonths the number of previous months to include in the chart
+     * @param int $year The year for which the chart is being generated
+     * @param int $month The month for which the chart is being generated
+     * @param int $nMonths The number of previous months to include in the chart
+     * @param string $chartType The type of chart to create (e.g., 'bar', 'line')
      *
-     * @return Chart a Chart object configured to display the total spending distribution over the specified months
+     * @return Chart A Chart object configured to display the total spending distribution over the specified months
      */
-    public function createTotalSpendingForCurrentAndPreviousNthMonthsChart(int $year, int $month, int $nMonths = 3): Chart
+    public function createTotalSpendingForCurrentAndPreviousNthMonthsChart(int $year, int $month, int $nMonths = 3, string $chartType = Chart::TYPE_BAR): Chart
     {
         $data = $this->monthlyFinancialDataService->getTotalSpendingForCurrentAndPreviousNthMonths($year, $month, $nMonths);
 
@@ -80,15 +82,15 @@ final readonly class WalletChartService
         $labels = array_reverse($labels);
         $totals = array_reverse($totals);
 
-        $chart = $this->chartBuilder->createChart(Chart::TYPE_BAR);
+        $chart = $this->chartBuilder->createChart($chartType);
 
         $chart->setData([
             'labels' => $labels,
             'datasets' => [
                 [
                     'label' => 'Total spent',
-                    'backgroundColor' => array_fill(0, $nMonths, 'RGB(24, 24, 27)'),
-                    'borderColor' => array_fill(0, $nMonths, 'RGB(24, 24, 27)'),
+                    'backgroundColor' => array_fill(0, count($labels), 'RGB(24, 24, 27)'),
+                    'borderColor' => array_fill(0, count($labels), 'RGB(24, 24, 27)'),
                     'data' => $totals,
                 ],
             ],
@@ -98,15 +100,15 @@ final readonly class WalletChartService
     }
 
     /**
-     * Creates a bar chart representing the total spending for the current,
-     * previous, and next years.
+     * Creates a line chart representing the total spending for the current, previous, and next years.
      *
-     * @return Chart the generated bar chart containing total spending data
+     * @param string $chartType The type of chart to create (e.g., 'line')
+     *
+     * @return Chart The generated line chart containing total spending data
      */
-    public function createTotalSpendingForCurrentAndAdjacentYearsChart(): Chart
+    public function createTotalSpendingForCurrentAndAdjacentYearsChart(string $chartType = Chart::TYPE_BAR): Chart
     {
         $currentYear = (int) date('Y');
-
         $previousYear = $currentYear - 1;
         $nextYear = $currentYear + 1;
 
@@ -120,7 +122,7 @@ final readonly class WalletChartService
             $totals[] = $totalData['total'];
         }
 
-        $chart = $this->chartBuilder->createChart(Chart::TYPE_LINE);
+        $chart = $this->chartBuilder->createChart($chartType);
 
         $chart->setData([
             'labels' => $labels,
@@ -138,17 +140,17 @@ final readonly class WalletChartService
     }
 
     /**
-     * Creates a bar chart representing the total savings for the current month
-     * and the specified number of previous months for a given user.
+     * Creates a chart representing the total savings for the current month and the specified number of previous months for a given user.
      *
-     * @param User $user    the user for whom the savings data should be fetched
-     * @param int  $year    the year for the current month
-     * @param int  $month   the index of the current month (1-12)
-     * @param int  $nMonths the number of previous months to include in the chart (defaults to 4)
+     * @param User $user The user for whom the savings data should be fetched
+     * @param int $year The year for the current month
+     * @param int $month The index of the current month (1-12)
+     * @param int $nMonths The number of previous months to include in the chart (defaults to 4)
+     * @param string $chartType The type of chart to create (e.g., 'bar', 'line')
      *
-     * @return Chart the generated bar chart containing total savings data
+     * @return Chart The generated chart containing total savings data
      */
-    public function createTotalSavingForCurrentAndPreviousMonthsChart(User $user, int $year, int $month, int $nMonths = 3): Chart
+    public function createTotalSavingForCurrentAndPreviousMonthsChart(User $user, int $year, int $month, int $nMonths = 3, string $chartType = Chart::TYPE_BAR): Chart
     {
         $data = $this->monthlyFinancialDataService->getTotalSavingForCurrentAndPreviousNthMonths($user, $year, $month, $nMonths);
 
@@ -163,7 +165,7 @@ final readonly class WalletChartService
         $labels = array_reverse($labels);
         $savings = array_reverse($savings);
 
-        $chart = $this->chartBuilder->createChart(Chart::TYPE_BAR);
+        $chart = $this->chartBuilder->createChart($chartType);
         $chart->setData([
             'labels' => $labels,
             'datasets' => [
@@ -179,3 +181,4 @@ final readonly class WalletChartService
         return $chart;
     }
 }
+
