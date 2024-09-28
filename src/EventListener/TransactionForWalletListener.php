@@ -7,6 +7,7 @@ namespace App\EventListener;
 use App\Entity\Transaction;
 use App\Entity\Wallet;
 use DateInterval;
+use DateMalformedPeriodStringException;
 use DatePeriod;
 use DateTime;
 use DateTimeInterface;
@@ -24,6 +25,10 @@ use function Symfony\Component\String\u;
 #[AsEventListener(event: FormEvents::POST_SUBMIT, method: 'onPostSubmit')]
 final class TransactionForWalletListener
 {
+    /**
+     * @throws \DateMalformedStringException
+     * @throws DateMalformedPeriodStringException
+     */
     public function onPreSetData(FormEvent $event, Wallet $wallet): void
     {
         $form = $event->getForm();
@@ -45,31 +50,22 @@ final class TransactionForWalletListener
             return;
         }
 
-        // Gère la logique de budget pour la création ou l'édition
         $this->handleBudgetField($form, $transaction);
-
-        // Gère la logique des dates
         $this->handleDateField($form, $transaction, $wallet);
     }
 
-    /**
-     * Logique pour gérer le budget, particulièrement si la catégorie est "Incomes".
-     */
     private function handleBudgetField(FormInterface $form, Transaction $transaction): void
     {
-        // Récupérer la catégorie de la transaction et la normaliser (en minuscules)
         $category = $transaction->getTransactionCategory();
         $categoryName = u($category->getName())->lower();
 
-        // Si la catégorie est 'incomes', on réinitialise le budget et la case à cocher à null
         if ($categoryName->equalsTo('incomes')) {
-            $transaction->setBudget(null); // Unset le budget
-            $transaction->setBudgetDefinedTroughAmount(null); // Unset la checkbox
+            $transaction->setBudget(null);
+            $transaction->setBudgetDefinedTroughAmount(null);
 
-            return; // Stoppe ici si la catégorie est 'incomes'
+            return;
         }
 
-        // Si la catégorie n'est pas 'incomes', applique la logique normale pour le budget
         if ($form->has('budgetDefinedTroughAmount')) {
             $defineBudgetTroughAmount = $form->get('budgetDefinedTroughAmount')->getData();
             $budget = $form->get('budget')->getData();
@@ -84,9 +80,6 @@ final class TransactionForWalletListener
         }
     }
 
-    /**
-     * Handle the date field logic, ensuring the selected day is valid.
-     */
     private function handleDateField(FormInterface $form, Transaction $transaction, Wallet $wallet): void
     {
         $day = $form->get('date')->getData();
@@ -152,8 +145,12 @@ final class TransactionForWalletListener
         ));
     }
 
+
     /**
-     * @return array<int, string> returns an array of day integers mapped to formatted day strings
+     * @param Wallet $wallet
+     * @return array<int, string>
+     * @throws DateMalformedPeriodStringException
+     * @throws \DateMalformedStringException
      */
     private function getAvailableDays(Wallet $wallet): array
     {
