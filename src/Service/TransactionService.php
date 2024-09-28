@@ -125,7 +125,7 @@ final readonly class TransactionService
     {
         /** @var float|null $budget */
         $budget = $transaction->getBudget();
-        if (self::DEFAULT_BALANCE === $budget) {
+        if (null === $budget || self::DEFAULT_BALANCE === (float) $budget) {
             return [
                 'budget' => null,
                 'remaining' => null,
