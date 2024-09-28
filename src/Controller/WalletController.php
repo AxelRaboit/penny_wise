@@ -50,8 +50,14 @@ final class WalletController extends AbstractController
     #[Route('/', name: 'wallet_list')]
     public function index(): Response
     {
+        /** @var User $user */
+        $user = $this->getUser();
+        if (!$user instanceof User) {
+            throw $this->createNotFoundException('User not found');
+        }
+
         $options = [
-            'wallets' => $this->walletRepository->findAllWallets(),
+            'wallets' => $this->walletRepository->findAllWalletByUser($user),
         ];
 
         return $this->render(self::WALLET_LIST_TEMPLATE, $options);

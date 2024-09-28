@@ -32,13 +32,15 @@ class WalletRepository extends ServiceEntityRepository
     /**
      * @return array<array{year: int, month: int}>
      */
-    private function findUniqueYearsAndMonthsRaw(): array
+    private function findUniqueYearsAndMonthsRawByUser(User $user): array
     {
         $qb = $this->createQueryBuilder('b')
             ->select('b.year, b.month')
+            ->where('b.individual = :user')
             ->groupBy('b.year, b.month')
             ->orderBy('b.year', Order::Descending->value)
-            ->addOrderBy('b.month', Order::Ascending->value);
+            ->addOrderBy('b.month', Order::Ascending->value)
+            ->setParameter('user', $user);
 
         $results = $qb->getQuery()->getArrayResult();
 
@@ -79,9 +81,9 @@ class WalletRepository extends ServiceEntityRepository
     /**
      * @return array<YearDto>
      */
-    public function findAllWallets(): array
+    public function findAllWalletByUser(User $user): array
     {
-        $results = $this->findUniqueYearsAndMonthsRaw();
+        $results = $this->findUniqueYearsAndMonthsRawByUser($user);
 
         return $this->transformToYearAndMonthDtos($results);
     }
