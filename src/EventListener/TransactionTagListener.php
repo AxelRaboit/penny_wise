@@ -20,7 +20,7 @@ final class TransactionTagListener
         $transactionTag = $event->getData();
         $form = $event->getForm();
 
-        if (!$transactionTag instanceof TransactionTag || !$form->isValid()) {
+        if (!$transactionTag instanceof TransactionTag) {
             return;
         }
 

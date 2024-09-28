@@ -1,7 +1,7 @@
 {# TODO AXEL: refacto this by maybe create a Dto that allow us to do transactionCategory.isIncomes #}
 {% set incomesTransactionCategoryEnum = constant('App\\Enum\\TransactionCategoryEnum::Incomes') %}
 
-<div class="p-1 rounded" x-data="{ open: true }">
+<div class="p-1 rounded-md" x-data="{ open: true }">
     <div id="monthlyBill">
         <div class="flex justify-between items-center bg-secondary text-white rounded-t-md p-2">
             <div class="flex items-center">

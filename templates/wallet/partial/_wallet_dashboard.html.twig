@@ -40,7 +40,7 @@
                 </div>
             </div>
 
-            <div class="p-1 rounded">
+            <div class="p-1 rounded-md">
                 <div id="cash-flow">
                     <h2 class="rounded-t-md text-center text-md font-bold p-2 bg-secondary text-white">Cash Flow</h2>
                     <div class="flex flex-col md:flex-row bg-tertiary">
@@ -84,7 +84,7 @@
                     <div class="flex flex-col md:flex-row rounded-b-md">
                         <div class="w-full text-center p-2 bg-quinary"><span class="font-bold text-white text-xs">Total incomes</span></div>
                         <div class="w-full text-center p-2 bg-quinary">
-                            <div class="bg-accent rounded">
+                            <div class="bg-accent rounded-md">
                                 <span class="font-bold text-xs text-dark">{{ wallet.currency.value|currency_symbol }}</span>
                                 <span class="text-dark text-xs">{{ totalIncomesAndStartingBalance|number_format(2, '.', ' ') }}</span>
                             </div>
@@ -95,7 +95,7 @@
                             <span class="font-bold text-white text-xs">Total spending</span>
                         </div>
                         <div class="w-full text-center p-2 {{ wallet.spendingLimit is not null and totalSpending|number_format(2, '.', ' ') > wallet.spendingLimit|number_format(2, '.', ' ') ? 'bg-danger' : 'bg-quinary' }}">
-                            <div class="bg-accent rounded">
+                            <div class="bg-accent rounded-md">
                                 <span class="font-bold text-xs text-dark">{{ wallet.currency.value|currency_symbol }}</span>
                                 <span class="text-dark text-xs">{{ totalSpending|number_format(2, '.', ' ') }}</span>
                             </div>
@@ -106,7 +106,7 @@
                             <span class="font-bold text-white text-xs">Total budget</span>
                         </div>
                         <div class="w-full text-center p-2 {{ totalBudget < 0 ? 'bg-danger' : 'bg-quinary' }}">
-                            <div class="bg-accent rounded">
+                            <div class="bg-accent rounded-md">
                                 <span class="font-bold text-dark text-xs">{{ wallet.currency.value|currency_symbol }}</span>
                                 <span class="text-dark text-xs">{{ totalBudget|number_format(2, '.', ' ') }}</span>
                             </div>
@@ -163,63 +163,63 @@
 
                 <div class="w-full bg-accent rounded-b-md p-2 bg-accent">
                     <div class="grid grid-cols-2 sm:grid-cols-3 gap-1">
-                        <a href="{{ path('transaction_new_for_wallet', {year: currentYear, month: currentMonth}) }}" class="text-center font-bold bg-secondary hover:bg-secondary-hover text-white text-xs p-2 cursor-pointer rounded">
+                        <a href="{{ path('transaction_new_for_wallet', {year: currentYear, month: currentMonth}) }}" class="text-center font-bold bg-secondary hover:bg-secondary-hover text-white text-xs p-2 cursor-pointer rounded-md">
                             <i class="fa-solid fa-plus mr-1"></i>
                             Transaction
                         </a>
-                        <a href="{{ path('wallet_new_for_year', {year: currentYear}) }}" class="text-center font-bold bg-secondary hover:bg-secondary-hover text-white text-xs p-2 cursor-pointer rounded">
+                        <a href="{{ path('wallet_new_for_year', {year: currentYear}) }}" class="text-center font-bold bg-secondary hover:bg-secondary-hover text-white text-xs p-2 cursor-pointer rounded-md">
                             <i class="fa-solid fa-plus mr-1"></i>
                             Wallet
                         </a>
-                        <a href="{{ path('wallet_edit', {id: wallet.id}) }}" class="text-center font-bold bg-secondary hover:bg-secondary-hover text-white text-xs p-2 cursor-pointer rounded">
+                        <a href="{{ path('wallet_edit', {id: wallet.id}) }}" class="text-center font-bold bg-secondary hover:bg-secondary-hover text-white text-xs p-2 cursor-pointer rounded-md">
                             <i class="fa-solid fa-pen-to-square mr-1"></i>
                             Wallet
                         </a>
                         <button type="button"
                                 data-action-url="{{ path('copy_left_to_spend', {year: currentYear, month: currentMonth}) }}"
-                                class="js-copy-left-to-spend-button text-center font-bold bg-secondary hover:bg-secondary-hover text-white text-xs p-2 cursor-pointer rounded">
+                                class="js-copy-left-to-spend-button text-center font-bold bg-secondary hover:bg-secondary-hover text-white text-xs p-2 cursor-pointer rounded-md">
                             <i class="fa-solid fa-forward mr-1"></i>
                             Initialize starting balance
                         </button>
                         <button type="button"
                                 data-action-url="{{ path('create_previous_month_wallet', {year: currentYear, month: currentMonth}) }}"
-                                class="js-create-previous-wallet-button text-center font-bold bg-secondary hover:bg-secondary-hover text-white text-xs p-2 cursor-pointer rounded">
+                                class="js-create-previous-wallet-button text-center font-bold bg-secondary hover:bg-secondary-hover text-white text-xs p-2 cursor-pointer rounded-md">
                             <i class="fa-solid fa-plus mr-1"></i>
                             Create previous month's wallet
                         </button>
                         <button type="button"
                                 data-action-url="{{ path('create_next_month_wallet', {year: currentYear, month: currentMonth}) }}"
-                                class="js-create-next-wallet-button text-center font-bold bg-secondary hover:bg-secondary-hover text-white text-xs p-2 cursor-pointer rounded">
+                                class="js-create-next-wallet-button text-center font-bold bg-secondary hover:bg-secondary-hover text-white text-xs p-2 cursor-pointer rounded-md">
                             <i class="fa-solid fa-plus mr-1"></i>
                             Create next month's wallet
                         </button>
                         <button type="button"
                                 data-action-url="{{ path('copy_previous_month_incomes', {year: currentYear, month: currentMonth}) }}"
-                                class="js-copy-incomes-button text-center font-bold bg-secondary hover:bg-secondary-hover text-white text-xs p-2 cursor-pointer rounded">
+                                class="js-copy-incomes-button text-center font-bold bg-secondary hover:bg-secondary-hover text-white text-xs p-2 cursor-pointer rounded-md">
                             <i class="fa-solid fa-copy mr-1"></i>
                             Copy previous transaction incomes
                         </button>
                         <button type="button"
                                 data-action-url="{{ path('copy_previous_month_bills', {year: currentYear, month: currentMonth}) }}"
-                                class="js-copy-bills-button text-center font-bold bg-secondary hover:bg-secondary-hover text-white text-xs p-2 cursor-pointer rounded">
+                                class="js-copy-bills-button text-center font-bold bg-secondary hover:bg-secondary-hover text-white text-xs p-2 cursor-pointer rounded-md">
                             <i class="fa-solid fa-copy mr-1"></i>
                             Copy previous transaction bills
                         </button>
                         <button type="button"
                                 data-action-url="{{ path('copy_previous_month_expenses', {year: currentYear, month: currentMonth}) }}"
-                                class="js-copy-expenses-button text-center font-bold bg-secondary hover:bg-secondary-hover text-white text-xs p-2 cursor-pointer rounded">
+                                class="js-copy-expenses-button text-center font-bold bg-secondary hover:bg-secondary-hover text-white text-xs p-2 cursor-pointer rounded-md">
                             <i class="fa-solid fa-copy mr-1"></i>
                             Copy previous transaction expenses
                         </button>
                         <button type="button"
                                 data-action-url="{{ path('copy_previous_month_debts', {year: currentYear, month: currentMonth}) }}"
-                                class="js-copy-debts-button text-center font-bold bg-secondary hover:bg-secondary-hover text-white text-xs p-2 cursor-pointer rounded">
+                                class="js-copy-debts-button text-center font-bold bg-secondary hover:bg-secondary-hover text-white text-xs p-2 cursor-pointer rounded-md">
                             <i class="fa-solid fa-copy mr-1"></i>
                             Copy previous transaction debts
                         </button>
                         <button type="button"
                                 data-action-url="{{ path('delete_monthly_wallet', {year: currentYear, month: currentMonth}) }}"
-                                class="js-delete-wallet-button text-center font-bold border border-danger hover:bg-danger-hover hover:text-white text-danger text-xs p-2 cursor-pointer rounded">
+                                class="js-delete-wallet-button text-center font-bold border border-danger hover:bg-danger-hover hover:text-white text-danger text-xs p-2 cursor-pointer rounded-md">
                             <i class="fa-solid fa-trash-can mr-1"></i>
                             Delete month's wallet and transactions
                         </button>

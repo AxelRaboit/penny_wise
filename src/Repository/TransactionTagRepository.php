@@ -36,4 +36,15 @@ class TransactionTagRepository extends ServiceEntityRepository
 
         return $result;
     }
+
+    public function findByUserCount(User $user): int
+    {
+        $query = $this->createQueryBuilder('t')
+            ->select('COUNT(t.id)')
+            ->where('t.user = :user')
+            ->setParameter('user', $user)
+            ->getQuery();
+
+        return (int) $query->getSingleScalarResult();
+    }
 }
