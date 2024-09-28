@@ -13,11 +13,11 @@ use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
-class ProfileController extends AbstractController
+class SettingsProfileController extends AbstractController
 {
-    #[Route('/profile', name: 'profile_show')]
+    #[Route('/settings/profile', name: 'settings_profile')]
     public function showProfile(): Response
     {
         $user = $this->getUser();
@@ -26,12 +26,12 @@ class ProfileController extends AbstractController
             throw $this->createNotFoundException('User not found.');
         }
 
-        return $this->render('profile/show.html.twig', [
+        return $this->render('settings/profile/show.html.twig', [
             'user' => $user,
         ]);
     }
 
-    #[Route('/profile/edit', name: 'profile_edit', methods: ['GET', 'POST'])]
+    #[Route('/settings/profile/edit', name: 'settings_profile_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, EntityManagerInterface $entityManager): Response
     {
         /** @var User $user */
@@ -79,10 +79,10 @@ class ProfileController extends AbstractController
 
             $this->addFlash('success', 'Profile updated successfully.');
 
-            return $this->redirectToRoute('profile_show');
+            return $this->redirectToRoute('settings_profile');
         }
 
-        return $this->render('profile/edit.html.twig', [
+        return $this->render('settings/profile/edit.html.twig', [
             'form' => $form->createView(),
         ]);
     }

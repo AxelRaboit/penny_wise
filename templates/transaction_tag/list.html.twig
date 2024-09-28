@@ -10,45 +10,33 @@
             <h1 class="text-md font-bold text-white">Transaction Tags</h1>
         </div>
 
-        <div class="p-6">
-            <table class="min-w-full bg-accent">
-                <thead>
-                <tr>
-                    <th class="px-4 py-2 text-left">Name</th>
-                    <th class="px-4 py-2 text-center">Actions</th>
-                </tr>
-                </thead>
-                <tbody>
+        <div class="p-4">
+            <div>
                 {% for tag in transactionTags %}
-                    <tr>
-                        <td class="px-4 py-2">
-                            <span class="px-2 py-1 rounded-md font-semibold text-white"
-                                  style="background-color: {{ tag.color }};"
-                                  class="text-opacity-75"
-                            >
+                    <div class="p-4 rounded-md {{ loop.index is odd ? 'bg-accent' : 'bg-tertiary' }}">
+                        <div class="flex justify-between items-center">
+                            <div class="font-semibold text-white rounded-md py-1 px-2" style="background-color: {{ tag.color }};">
                                 #{{ tag.name }}
-                            </span>
-                        </td>
-                        <td class="px-4 py-2 text-center space-x-2">
-                            <a href="{{ path('transaction_tag_edit', {id: tag.id}) }}" class="bg-primary hover:bg-primary-hover text-white font-bold py-2 px-3 rounded-md">
-                                <i class="fa-solid fa-pen-to-square"></i> Edit
-                            </a>
-
-                            <button type="button"
-                                    data-action-url="{{ path('transaction_tag_delete', {id: tag.id}) }}"
-                                    class="js-delete-transaction-tag-button text-center font-bold bg-danger hover:bg-danger-hover text-white p-2 cursor-pointer rounded">
-                                <i class="fa-solid fa-trash"></i>
-                                Delete
-                            </button>
-                        </td>
-                    </tr>
+                            </div>
+                            <div class="space-x-2">
+                                <a href="{{ path('transaction_tag_edit', {id: tag.id}) }}" class="bg-primary hover:bg-primary-hover text-white font-bold py-2 px-3 rounded-md">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </a>
+                                <button type="button"
+                                        data-action-url="{{ path('transaction_tag_delete', {id: tag.id}) }}"
+                                        class="js-delete-transaction-tag-button font-bold bg-danger hover:bg-danger-hover text-white py-2 px-3 rounded-md">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 {% else %}
-                    <tr>
-                        <td colspan="2" class="text-center py-2">No transaction tags found.</td>
-                    </tr>
+                    <div class="p-4 rounded-md bg-accent text-center">
+                        <span>No transaction tags found.</span>
+                    </div>
                 {% endfor %}
-                </tbody>
-            </table>
+            </div>
+
 
             <div class="flex justify-between mt-4">
                 <a href="{{ app.request.headers.get('referer') ?: path('wallet_list') }}" class="bg-primary hover:bg-primary-hover text-white font-bold py-2 px-4 rounded-md">
