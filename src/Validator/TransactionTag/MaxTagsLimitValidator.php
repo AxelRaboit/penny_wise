@@ -1,25 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Validator\TransactionTag;
 
 use App\Entity\TransactionTag;
 use App\Entity\User;
 use App\Repository\TransactionTagRepository;
+use Override;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
 class MaxTagsLimitValidator extends ConstraintValidator
 {
-    private TransactionTagRepository $transactionTagRepository;
+    public function __construct(private readonly TransactionTagRepository $transactionTagRepository) {}
 
-    public function __construct(TransactionTagRepository $transactionTagRepository)
-    {
-        $this->transactionTagRepository = $transactionTagRepository;
-    }
-
+    #[Override]
     public function validate(mixed $value, Constraint $constraint): void
     {
-        if (!$constraint instanceof MaxTransactionTags || !$value instanceof TransactionTag || $value->getId() !== null) {
+        if (!$constraint instanceof MaxTransactionTags || !$value instanceof TransactionTag || null !== $value->getId()) {
             return;
         }
 
