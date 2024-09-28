@@ -11,7 +11,7 @@
                         <div class="text-center bg-secondary rounded-t-md">
                             <h2 class="text-md font-bold p-2 text-white">{{ year.getYear() }}</h2>
                         </div>
-                        <div class="w-full bg-secondary rounded-b-md p-2 bg-accent">
+                        <div class="w-full rounded-b-md p-2 bg-accent">
                             <div class="grid grid-cols-3 gap-2">
                                 {% for month in year.getMonths() %}
                                     <a href="{{ path('monthly_wallet', {year: year.getYear(), month: month.getMonthNumber()}) }}"
