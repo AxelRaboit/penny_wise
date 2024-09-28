@@ -51,12 +51,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Wallet::class, mappedBy: 'individual')]
     private Collection $wallets;
 
-    /**
-     * @var Collection<int, Link>
-     */
-    #[ORM\OneToMany(targetEntity: Link::class, mappedBy: 'individual')]
-    private Collection $links;
-
     #[ORM\OneToOne(targetEntity: UserInformation::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
     private ?UserInformation $userInformation = null;
 
@@ -85,7 +79,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __construct()
     {
         $this->wallets = new ArrayCollection();
-        $this->links = new ArrayCollection();
         $this->transactionTags = new ArrayCollection();
     }
 
@@ -181,34 +174,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         if (!$this->wallets->contains($wallet)) {
             $this->wallets->add($wallet);
             $wallet->setIndividual($this);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Link>
-     */
-    public function getLinks(): Collection
-    {
-        return $this->links;
-    }
-
-    public function addLink(Link $link): static
-    {
-        if (!$this->links->contains($link)) {
-            $this->links->add($link);
-            $link->setIndividual($this);
-        }
-
-        return $this;
-    }
-
-    public function removeLink(Link $link): static
-    {
-        // set the owning side to null (unless already changed)
-        if ($this->links->removeElement($link) && $link->getIndividual() === $this) {
-            $link->setIndividual(null);
         }
 
         return $this;

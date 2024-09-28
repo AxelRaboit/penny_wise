@@ -280,32 +280,6 @@
     </div>
 
     <div>
-        <div class="p-1 rounded-md mb-1">
-            <div>
-                <div class="text-center bg-secondary rounded-t-md">
-                    <h2 class="text-md font-bold p-2 text-white">Links</h2>
-                </div>
-
-                <div class="w-full bg-secondary rounded-b-md p-2 bg-white">
-                    {% if userLinks|length > 0 %}
-                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                            {% for link in userLinks %}
-                                <a target="_blank" href="{{ link.url }}" class="text-center font-bold bg-secondary hover:bg-secondary-hover text-white p-2 cursor-pointer rounded-md">
-                                    {{ link.name }}
-                                </a>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        <div class="flex bg-white rounded-b-md">
-                            <div class="w-full text-center bg-white rounded-b-md">
-                                <span class="font-bold text-xs text-primary">No links</span>
-                            </div>
-                        </div>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-
         <div class="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-2 gap-2">
             <div class="p-1 rounded-md">
                 <div class="text-center bg-secondary p-2 rounded-t-md">

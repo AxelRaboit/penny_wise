@@ -12,7 +12,6 @@ use App\Form\WalletCreateForYearType;
 use App\Form\WalletType;
 use App\Form\WalletUpdateType;
 use App\Manager\WalletManager;
-use App\Repository\LinkRepository;
 use App\Repository\NoteRepository;
 use App\Repository\WalletRepository;
 use App\Service\TransactionService;
@@ -41,7 +40,6 @@ final class WalletController extends AbstractController
         private readonly EntityManagerInterface $entityManager,
         private readonly WalletRepository $walletRepository,
         private readonly NoteRepository $noteRepository,
-        private readonly LinkRepository $linkRepository,
         private readonly WalletManager $walletManager,
         private readonly WalletHelper $walletHelper,
         private readonly WalletChartService $walletChartService,
@@ -133,12 +131,10 @@ final class WalletController extends AbstractController
         $notesFromWallet = $this->noteRepository->getNotesFromWallet($wallet);
         $leftToSpendChart = $this->walletChartService->createLeftToSpendChart($transactions);
         $totalSpendingForCurrentAndPreviousNthMonthsChart = $this->walletChartService->createTotalSpendingForCurrentAndPreviousNthMonthsChart($year, $month, 4);
-        $userLinks = $this->linkRepository->findByIndividual($user);
         $totalSpendingYearsChart = $this->walletChartService->createTotalSpendingForCurrentAndAdjacentYearsChart();
         $savingsChart = $this->walletChartService->createTotalSavingForCurrentAndPreviousMonthsChart($user, $year, $month, 4);
 
         $options = [
-            'userLinks' => $userLinks,
             'leftToSpendChart' => $leftToSpendChart,
             'totalSpendingForCurrentAndPreviousNthMonthsChart' => $totalSpendingForCurrentAndPreviousNthMonthsChart,
             'totalSpendingYearsChart' => $totalSpendingYearsChart,
