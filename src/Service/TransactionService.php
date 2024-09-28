@@ -14,6 +14,7 @@ use App\Exception\WalletNotFoundWithinLimitException;
 use App\Manager\TransactionManager;
 use App\Repository\TransactionCategoryRepository;
 use App\Repository\TransactionRepository;
+use DateMalformedStringException;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use InvalidArgumentException;
@@ -150,6 +151,7 @@ final readonly class TransactionService
 
     /**
      * @throws WalletNotFoundWithinLimitException
+     * @throws DateMalformedStringException
      */
     public function copyTransactionsFromPreviousMonth(Wallet $currentWallet, TransactionCategoryEnum $transactionCategoryEnum): void
     {
@@ -171,10 +173,18 @@ final readonly class TransactionService
         }
 
         foreach ($previousTransactions as $transaction) {
+            $newTransactionDate = $transaction->getDate();
             $newTransaction = new Transaction();
             $newTransaction->setAmount($transaction->getAmount());
             $newTransaction->setBudget($transaction->getBudget());
-            $newTransaction->setDate(new DateTimeImmutable());
+            $newTransaction->setDate(
+                $newTransactionDate ? new DateTimeImmutable(sprintf(
+                    '%d-%02d-%02d',
+                    $currentWallet->getYear(),
+                    $currentWallet->getMonth(),
+                    (int) $newTransactionDate->format('d')
+                )) : null
+            );
             $newTransaction->setWallet($currentWallet);
             $newTransaction->setTransactionCategory($transaction->getTransactionCategory());
             $newTransaction->setNature($transaction->getNature());
@@ -184,6 +194,7 @@ final readonly class TransactionService
             }
 
             $this->entityManager->persist($newTransaction);
+
         }
 
         $this->entityManager->flush();

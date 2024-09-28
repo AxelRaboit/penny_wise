@@ -17,7 +17,7 @@
         </div>
     {% endif %}
     <div id="{{ chartId }}" class="pb-4 bg-accent rounded-b-md">
-        {% if chart is defined %}
+        {% if chart is defined and chart is not null %}
             {{ render_chart(chart) }}
         {% elseif chartHtml is defined %}
             <div class="pb-4">{{ chartHtml }}</div>
@@ -29,4 +29,5 @@
             </div>
         {% endif %}
     </div>
+
 </div>
