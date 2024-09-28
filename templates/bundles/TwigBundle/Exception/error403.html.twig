@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Access Forbidden {{ parent() }}{% endblock %}
+
+{% block body %}
+    <div class="flex justify-center items-center h-screen">
+        <div class="text-center bg-white p-6 rounded-md shadow-md w-full max-w-md">
+            <h1 class="text-6xl font-bold text-red-600 mb-4">403</h1>
+            <p class="text-2xl mb-4">Access Forbidden</p>
+            <p class="text-lg mb-4">Sorry, you do not have permission to access this page.</p>
+
+            <a href="{{ path('wallet_list') }}" class="text-center font-bold bg-primary hover:bg-primary-hover text-white py-2 px-4 rounded">
+                Return to homepage
+            </a>
+        </div>
+    </div>
+{% endblock %}

@@ -125,7 +125,7 @@ final class WalletController extends AbstractController
 
         $wallet = $this->walletService->getWalletByUser($user, $year, $month);
         if (!$wallet instanceof Wallet) {
-            throw $this->createNotFoundException('Wallet not found');
+            throw $this->createNotFoundException('Wallet not found for the given year and month');
         }
 
         $transactions = $this->transactionManager->getAllTransactionInformationByUser($wallet);
