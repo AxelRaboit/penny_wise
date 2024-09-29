@@ -16,6 +16,7 @@ use Symfony\UX\Autocomplete\AutocompleteBundle;
 use Symfony\UX\Chartjs\ChartjsBundle;
 use Symfony\UX\LiveComponent\LiveComponentBundle;
 use Symfony\UX\StimulusBundle\StimulusBundle;
+use Symfony\UX\TogglePassword\TogglePasswordBundle;
 use Symfony\UX\Turbo\TurboBundle;
 use Symfony\UX\TwigComponent\TwigComponentBundle;
 use Symfonycasts\TailwindBundle\SymfonycastsTailwindBundle;
@@ -44,4 +45,5 @@ return [
     VichUploaderBundle::class => ['all' => true],
     AutocompleteBundle::class => ['all' => true],
     DoctrineFixturesBundle::class => ['dev' => true, 'test' => true],
+    TogglePasswordBundle::class => ['all' => true],
 ];
