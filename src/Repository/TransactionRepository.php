@@ -101,6 +101,14 @@ class TransactionRepository extends ServiceEntityRepository
         return $result;
     }
 
+    /**
+     * Retrieve a specific transaction for a given user by transaction ID.
+     *
+     * @param User $user the user associated with the transaction
+     * @param int  $id   the ID of the transaction to find
+     *
+     * @return Transaction|null returns the found Transaction object or null if no transaction matches
+     */
     public function findSpecificTransactionByUser(User $user, int $id): ?Transaction
     {
         $qb = $this->createQueryBuilder('t')
@@ -110,6 +118,8 @@ class TransactionRepository extends ServiceEntityRepository
             ->setParameter('id', $id)
             ->getQuery();
 
-        return $qb->getOneOrNullResult();
+        $result = $qb->getOneOrNullResult();
+
+        return $result instanceof Transaction ? $result : null;
     }
 }

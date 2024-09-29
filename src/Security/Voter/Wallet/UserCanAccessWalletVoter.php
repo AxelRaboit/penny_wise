@@ -1,24 +1,32 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Security\Voter\Wallet;
 
 use App\Entity\User;
 use App\Entity\Wallet;
 use App\Repository\WalletRepository;
+use Override;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
+/**
+ * @extends Voter<string, Wallet>
+ */
 class UserCanAccessWalletVoter extends Voter
 {
     public const string ACCESS_WALLET = 'ACCESS_WALLET';
 
     public function __construct(private readonly WalletRepository $walletRepository) {}
 
+    #[Override]
     protected function supports(string $attribute, mixed $subject): bool
     {
-        return $attribute === self::ACCESS_WALLET && $subject instanceof Wallet;
+        return self::ACCESS_WALLET === $attribute && $subject instanceof Wallet;
     }
 
+    #[Override]
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
         /** @var User $user */
@@ -37,10 +45,7 @@ class UserCanAccessWalletVoter extends Voter
         $walletId = $wallet->getId();
 
         $wallet = $this->walletRepository->findSpecificWalletByUser($user, $walletId);
-        if (null === $wallet) {
-            return false;
-        }
 
-        return true;
+        return $wallet instanceof Wallet;
     }
 }

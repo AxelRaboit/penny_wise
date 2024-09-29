@@ -7,10 +7,12 @@ namespace App\Form;
 use App\Entity\Transaction;
 use App\Entity\TransactionCategory;
 use App\Entity\TransactionTag;
+use App\Entity\User;
 use App\Entity\Wallet;
 use App\Repository\TransactionCategoryRepository;
 use App\Repository\WalletRepository;
 use Doctrine\ORM\QueryBuilder;
+use InvalidArgumentException;
 use Override;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -27,7 +29,11 @@ class TransactionType extends AbstractType
     #[Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        /** @var User|null $user */
         $user = $builder->getOption('user');
+        if (!$user instanceof User) {
+            throw new InvalidArgumentException('User not found.');
+        }
 
         $builder
             ->add('amount', NumberType::class, [

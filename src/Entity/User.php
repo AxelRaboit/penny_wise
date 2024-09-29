@@ -301,11 +301,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function removeTransaction(Transaction $transaction): static
     {
-        if ($this->transactions->removeElement($transaction)) {
-            // set the owning side to null (unless already changed)
-            if ($transaction->getIndividual() === $this) {
-                $transaction->setIndividual(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->transactions->removeElement($transaction) && $transaction->getIndividual() === $this) {
+            $transaction->setIndividual(null);
         }
 
         return $this;

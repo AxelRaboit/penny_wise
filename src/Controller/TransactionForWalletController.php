@@ -8,7 +8,6 @@ use App\Entity\Transaction;
 use App\Entity\User;
 use App\Entity\Wallet;
 use App\Form\TransactionForWalletType;
-use App\Form\TransactionType;
 use App\Manager\TransactionManager;
 use App\Repository\TransactionRepository;
 use App\Repository\WalletRepository;
@@ -86,9 +85,6 @@ class TransactionForWalletController extends AbstractController
         }
 
         $wallet = $transaction->getWallet();
-        if (!$wallet instanceof Wallet) {
-            throw $this->createNotFoundException('Wallet not found.');
-        }
 
         if (!$this->isGranted(UserCanAccessTransactionVoter::ACCESS_TRANSACTION, $transaction)) {
             throw $this->createAccessDeniedException('You are not allowed to delete this transaction.');
@@ -117,10 +113,11 @@ class TransactionForWalletController extends AbstractController
     public function editTransactionForWallet(int $id, Request $request): Response
     {
         $transaction = $this->transactionRepository->find($id);
-        $wallet = $transaction->getWallet();
         if (!$transaction instanceof Transaction) {
             throw $this->createNotFoundException('Transaction not found.');
         }
+
+        $wallet = $transaction->getWallet();
 
         if (!$this->isGranted(UserCanAccessTransactionVoter::ACCESS_TRANSACTION, $transaction)) {
             throw $this->createAccessDeniedException('You are not allowed to edit this transaction.');

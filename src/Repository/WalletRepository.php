@@ -181,15 +181,32 @@ class WalletRepository extends ServiceEntityRepository
         return $result instanceof Wallet ? $result : null;
     }
 
-    public function findAllWalletByUser($user)
+    /**
+     * Finds and retrieves all wallets associated with a given user.
+     *
+     * @param User $user the user whose wallets are to be fetched
+     *
+     * @return Wallet[] the list of wallets associated with the specified user
+     */
+    public function findAllWalletByUser(User $user): array
     {
-        return $this->createQueryBuilder('w')
+        $qb = $this->createQueryBuilder('w')
             ->where('w.individual = :user')
-            ->setParameter('user', $user)
-            ->getQuery()
-            ->getResult();
+            ->setParameter('user', $user);
+
+        /** @var Wallet[] $wallets */
+        $wallets = $qb->getQuery()->getResult();
+
+        return $wallets;
     }
 
+    /**
+     * Checks if the given user has an associated wallet.
+     *
+     * @param User $user the user to be checked for an associated wallet
+     *
+     * @return bool true if the user has a wallet, false otherwise
+     */
     public function userHasWallet(User $user): bool
     {
         $qb = $this->createQueryBuilder('w')
@@ -201,6 +218,14 @@ class WalletRepository extends ServiceEntityRepository
         return (bool) $qb->getQuery()->getOneOrNullResult();
     }
 
+    /**
+     * Finds a specific wallet by a given user and wallet ID.
+     *
+     * @param User $user the user associated with the wallet
+     * @param int  $id   the identifier of the wallet to be found
+     *
+     * @return Wallet|null the wallet if found, null otherwise
+     */
     public function findSpecificWalletByUser(User $user, int $id): ?Wallet
     {
         $qb = $this->createQueryBuilder('w')
@@ -209,6 +234,8 @@ class WalletRepository extends ServiceEntityRepository
             ->setParameter('user', $user)
             ->setParameter('id', $id);
 
-        return $qb->getQuery()->getOneOrNullResult();
+        $wallet = $qb->getQuery()->getOneOrNullResult();
+
+        return $wallet instanceof Wallet ? $wallet : null;
     }
 }

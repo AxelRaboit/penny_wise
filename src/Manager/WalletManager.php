@@ -7,7 +7,6 @@ namespace App\Manager;
 use App\Entity\User;
 use App\Entity\Wallet;
 use App\Enum\MonthEnum;
-use App\Exception\NoPreviousWalletException;
 use App\Service\WalletService;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
