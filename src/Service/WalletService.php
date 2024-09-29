@@ -37,7 +37,7 @@ final readonly class WalletService
         $yearsAndMonths = [];
 
         foreach ($results as $result) {
-            $year = $result['year'];
+            $year = (int) $result['year'];  // Forcer l'année à être un entier
             $month = $result['month'];
             $walletId = $result['id'];
 
@@ -45,6 +45,7 @@ final readonly class WalletService
             if (!isset($yearsAndMonths[$year])) {
                 $yearsAndMonths[$year] = [];
             }
+
             $yearsAndMonths[$year][] = new MonthDto($month, $monthEnum->getName(), $walletId);
         }
 

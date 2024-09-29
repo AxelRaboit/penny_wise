@@ -86,6 +86,13 @@ class WalletRepository extends ServiceEntityRepository
         return new YearDto($year, $result);
     }
 
+    /**
+     * Finds all wallets with their transactions associated to a specific user.
+     *
+     * @param User $user the user for whom the wallets and transactions are retrieved
+     *
+     * @return array<int, array{year: int, month: int, id: int}> an array of wallets including their year, month, and ID, ordered by year descending and month ascending
+     */
     public function findAllWalletsWithTransactionsByUser(User $user): array
     {
         $qb = $this->createQueryBuilder('w')
@@ -95,28 +102,11 @@ class WalletRepository extends ServiceEntityRepository
             ->addOrderBy('w.month', Order::Ascending->value)
             ->setParameter('user', $user);
 
-        return $qb->getQuery()->getArrayResult();
+        /** @var array<int, array{year: int, month: int, id: int}> $results */
+        $results = $qb->getQuery()->getArrayResult();
+
+        return $results;
     }
-
-    public function findWalletWithRelations(int $year, int $month, User $user): ?Wallet
-    {
-        $qb = $this->createQueryBuilder('w')
-            ->leftJoin('w.transactions', 't')
-            ->addSelect('t')
-            ->leftJoin('t.transactionCategory', 'tc')
-            ->addSelect('tc')
-            ->leftJoin('t.tag', 'tags')
-            ->addSelect('tags')
-            ->where('w.year = :year')
-            ->andWhere('w.month = :month')
-            ->andWhere('w.individual = :user')
-            ->setParameter('year', $year)
-            ->setParameter('month', $month)
-            ->setParameter('user', $user);
-
-        return $qb->getQuery()->getOneOrNullResult();
-    }
-
 
     /**
      * Retrieves the total spending for a given year and month, excluding a specific income category.

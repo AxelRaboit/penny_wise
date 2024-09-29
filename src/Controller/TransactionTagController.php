@@ -15,9 +15,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
-class TransactionTagController extends AbstractController
+final class TransactionTagController extends AbstractController
 {
     public function __construct(private readonly EntityManagerInterface $entityManager, private readonly TransactionTagManager $transactionTagManager) {}
 
@@ -57,7 +56,7 @@ class TransactionTagController extends AbstractController
         $user = $this->getUser();
 
         if (!$user instanceof User) {
-            throw new AccessDeniedException('You must be logged in to view tags.');
+            throw $this->createAccessDeniedException('You must be logged in to view tags.');
         }
 
         $transactionTags = $transactionTagRepository->findByUser($user);

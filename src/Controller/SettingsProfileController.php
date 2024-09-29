@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-class SettingsProfileController extends AbstractController
+final class SettingsProfileController extends AbstractController
 {
     #[Route('/settings/profile', name: 'settings_profile')]
     public function showProfile(): Response
