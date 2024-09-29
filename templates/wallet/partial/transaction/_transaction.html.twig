@@ -85,7 +85,7 @@
                                 <span class="w-full flex flex-col items-center justify-center">
                                     {% if transaction.budgetInfo.budget %}
                                         <span class="text-xs text-dark font-semibold">
-                                            {{ transaction.budgetInfo.budget }}
+                                            {{ transaction.budgetInfo.budget|number_format(2, '.', ' ') }}
                                         </span>
                                     {% else %}
                                         <span>-</span>
