@@ -156,7 +156,6 @@ final readonly class TransactionService
     public function copyTransactionsFromPreviousMonth(Wallet $currentWallet, TransactionCategoryEnum $transactionCategoryEnum): void
     {
         $previousWallet = $this->walletService->findPreviousWallet($currentWallet->getIndividual(), $currentWallet->getYear(), $currentWallet->getMonth());
-
         if (!$previousWallet instanceof Wallet) {
             throw new NoPreviousWalletException();
         }
@@ -167,7 +166,6 @@ final readonly class TransactionService
         }
 
         $previousTransactions = $this->transactionRepository->findTransactionsByWalletAndCategory($previousWallet, $transactionCategoryId);
-
         if ([] === $previousTransactions) {
             throw new NoPreviousTransactionsException();
         }

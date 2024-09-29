@@ -133,15 +133,15 @@ final class WalletController extends AbstractController
         $walletsAndTransactionsFromYear = $this->walletRepository->getAllWalletsAndTransactionsFromYear($year);
         $notesFromWallet = $this->noteRepository->getNotesFromWallet($wallet);
         $leftToSpendChart = $this->walletChartService->createLeftToSpendChart($transactions);
-        $totalSpendingForCurrentAndPreviousNthMonthsChart = $this->walletChartService->createTotalSpendingForCurrentAndPreviousNthMonthsChart($year, $month, 12);
+        /*$totalSpendingForCurrentAndPreviousNthMonthsChart = $this->walletChartService->createTotalSpendingForCurrentAndPreviousNthMonthsChart($year, $month, 12);
         $totalSpendingYearsChart = $this->walletChartService->createTotalSpendingForCurrentAndAdjacentYearsChart();
-        $savingsChart = $this->walletChartService->createTotalSavingForCurrentAndPreviousMonthsChart($user, $year, $month, 12);
+        $savingsChart = $this->walletChartService->createTotalSavingForCurrentAndPreviousMonthsChart($user, $year, $month, 12);*/
 
         $options = [
             'leftToSpendChart' => $leftToSpendChart,
-            'totalSpendingForCurrentAndPreviousNthMonthsChart' => $totalSpendingForCurrentAndPreviousNthMonthsChart,
-            'totalSpendingYearsChart' => $totalSpendingYearsChart,
-            'savingsChart' => $savingsChart,
+            /*'totalSpendingForCurrentAndPreviousNthMonthsChart' => $totalSpendingForCurrentAndPreviousNthMonthsChart,*/
+            /*'totalSpendingYearsChart' => $totalSpendingYearsChart,*/
+            /*'savingsChart' => $savingsChart,*/
             'wallet' => $wallet,
             'notesFromWallet' => $notesFromWallet,
             'walletsAndTransactionsFromYear' => $walletsAndTransactionsFromYear,
@@ -458,10 +458,9 @@ final class WalletController extends AbstractController
         return $this->redirectToRoute('monthly_wallet', ['year' => $year, 'month' => $month]);
     }
 
-    #[Route('/api/get-chart-data', name: 'get_chart_data', methods: ['GET'])]
+    /*#[Route('/api/get-chart-data', name: 'get_chart_data', methods: ['GET'])]
     public function getChartData(Request $request): JsonResponse
     {
-        /** @var User $user */
         $user = $this->getUser();
         if (!$user instanceof User) {
             throw $this->createNotFoundException('User not found');
@@ -488,5 +487,5 @@ final class WalletController extends AbstractController
         } catch (Exception $exception) {
             return new JsonResponse(['error' => sprintf('Failed to generate chart: %s', $exception->getMessage())], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
-    }
+    }*/
 }
