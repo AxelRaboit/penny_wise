@@ -24,7 +24,7 @@ final readonly class WalletService
     {
         /** @var Wallet|null $wallet */
         $wallet = $this->walletRepository
-            ->findWalletFromUser($user, $year, $month);
+            ->findWalletByUser($user, $year, $month);
 
         return $wallet;
     }
@@ -94,7 +94,7 @@ final readonly class WalletService
             throw new WalletNotFoundWithinLimitException($maxMonthsBack);
         }
 
-        $wallet = $this->walletRepository->findWalletFromUser($user, $year, $month);
+        $wallet = $this->walletRepository->findWalletByUser($user, $year, $month);
 
         if ($wallet instanceof Wallet) {
             return $wallet;

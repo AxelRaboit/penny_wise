@@ -57,6 +57,10 @@ class Transaction
     #[ORM\Column(type: Types::BOOLEAN, nullable: false, options: ['default' => false])]
     private bool $highlight = false;
 
+    #[ORM\ManyToOne(inversedBy: 'transactions')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $individual = null;
+
     public function __construct()
     {
         $this->tag = new ArrayCollection();
@@ -196,6 +200,18 @@ class Transaction
     public function setHighlight(bool $highlight): static
     {
         $this->highlight = $highlight;
+
+        return $this;
+    }
+
+    public function getIndividual(): ?User
+    {
+        return $this->individual;
+    }
+
+    public function setIndividual(?User $individual): static
+    {
+        $this->individual = $individual;
 
         return $this;
     }

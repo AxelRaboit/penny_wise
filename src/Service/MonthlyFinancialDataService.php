@@ -38,7 +38,7 @@ final readonly class MonthlyFinancialDataService
         for ($i = 0; $i < $nMonths; ++$i) {
             $monthEnum = MonthEnum::from($month);
 
-            $wallet = $this->walletRepository->findWalletFromUser($user, $year, $month);
+            $wallet = $this->walletRepository->findWalletByUser($user, $year, $month);
             if ($wallet instanceof Wallet) {
                 $transactions = $this->transactionService->getAllTransactionInformationByUser($wallet);
                 $totalSaving = $transactions->getTotalSaving();

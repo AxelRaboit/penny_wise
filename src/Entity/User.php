@@ -69,6 +69,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\NotBlank(message: 'The username cannot be blank.')]
     private ?string $username = null;
 
+    /**
+     * @var Collection<int, Transaction>
+     */
+    #[ORM\OneToMany(targetEntity: Transaction::class, mappedBy: 'individual')]
+    private Collection $transactions;
+
     #[ORM\PrePersist]
     public function onPrePersist(): void
     {
@@ -86,6 +92,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->wallets = new ArrayCollection();
         $this->transactionTags = new ArrayCollection();
+        $this->transactions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -270,6 +277,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setUsername(string $username): static
     {
         $this->username = $username;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Transaction>
+     */
+    public function getTransactions(): Collection
+    {
+        return $this->transactions;
+    }
+
+    public function addTransaction(Transaction $transaction): static
+    {
+        if (!$this->transactions->contains($transaction)) {
+            $this->transactions->add($transaction);
+            $transaction->setIndividual($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTransaction(Transaction $transaction): static
+    {
+        if ($this->transactions->removeElement($transaction)) {
+            // set the owning side to null (unless already changed)
+            if ($transaction->getIndividual() === $this) {
+                $transaction->setIndividual(null);
+            }
+        }
 
         return $this;
     }

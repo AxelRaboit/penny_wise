@@ -175,6 +175,7 @@ final readonly class TransactionService
         foreach ($previousTransactions as $transaction) {
             $newTransactionDate = $transaction->getDate();
             $newTransaction = new Transaction();
+            $newTransaction->setIndividual($transaction->getIndividual());
             $newTransaction->setAmount($transaction->getAmount());
             $newTransaction->setBudget($transaction->getBudget());
             $newTransaction->setDate(

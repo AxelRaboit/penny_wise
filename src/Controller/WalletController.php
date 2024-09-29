@@ -405,12 +405,12 @@ final class WalletController extends AbstractController
             return $this->redirectToRoute('monthly_wallet', ['year' => $year, 'month' => $month]);
         }
 
-        $previousWallet = $this->walletRepository->findWalletFromUser($user, $previousMonth['year'], $previousMonth['month']);
+        $previousWallet = $this->walletRepository->findWalletByUser($user, $previousMonth['year'], $previousMonth['month']);
         if ($previousWallet instanceof Wallet) {
             return $this->redirectToRoute('monthly_wallet', ['year' => $previousMonth['year'], 'month' => $previousMonth['month']]);
         }
 
-        $nextWallet = $this->walletRepository->findWalletFromUser($user, $nextMonth['year'], $nextMonth['month']);
+        $nextWallet = $this->walletRepository->findWalletByUser($user, $nextMonth['year'], $nextMonth['month']);
         if ($nextWallet instanceof Wallet) {
             return $this->redirectToRoute('monthly_wallet', ['year' => $nextMonth['year'], 'month' => $nextMonth['month']]);
         }

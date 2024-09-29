@@ -31,12 +31,12 @@ class WalletRepository extends ServiceEntityRepository
      */
     public function findUniqueYearsAndMonthsRawByUser(User $user): array
     {
-        $qb = $this->createQueryBuilder('b')
-            ->select('b.year, b.month')
-            ->where('b.individual = :user')
-            ->groupBy('b.year, b.month')
-            ->orderBy('b.year', Order::Descending->value)
-            ->addOrderBy('b.month', Order::Ascending->value)
+        $qb = $this->createQueryBuilder('w')
+            ->select('w.year, w.month')
+            ->where('w.individual = :user')
+            ->groupBy('w.year, w.month')
+            ->orderBy('w.year', Order::Descending->value)
+            ->addOrderBy('w.month', Order::Ascending->value)
             ->setParameter('user', $user);
 
         $results = $qb->getQuery()->getArrayResult();
@@ -64,11 +64,11 @@ class WalletRepository extends ServiceEntityRepository
      */
     public function getAllWalletsAndTransactionsFromYear(int $year): YearDto
     {
-        $qb = $this->createQueryBuilder('b')
-            ->select('b.month')
-            ->where('b.year = :year')
+        $qb = $this->createQueryBuilder('w')
+            ->select('w.month')
+            ->where('w.year = :year')
             ->setParameter('year', $year)
-            ->orderBy('b.month', Order::Ascending->value)
+            ->orderBy('w.month', Order::Ascending->value)
             ->getQuery();
 
         /** @var array<int, array{month: int}> $months */
@@ -102,12 +102,12 @@ class WalletRepository extends ServiceEntityRepository
 
         $incomeCategoryId = $incomeCategory->getId();
 
-        $qb = $this->createQueryBuilder('b')
-            ->leftJoin('b.transactions', 't')
+        $qb = $this->createQueryBuilder('w')
+            ->leftJoin('w.transactions', 't')
             ->leftJoin('t.transactionCategory', 'tc')
             ->select('COALESCE(SUM(t.amount), 0) as totalSpending')
-            ->where('b.year = :year')
-            ->andWhere('b.month = :month')
+            ->where('w.year = :year')
+            ->andWhere('w.month = :month')
             ->andWhere('tc.id != :incomeCategoryId')
             ->setParameter('year', $year)
             ->setParameter('month', $month)
@@ -136,17 +136,17 @@ class WalletRepository extends ServiceEntityRepository
 
         $incomeCategoryId = $incomeCategory->getId();
 
-        $qb = $this->createQueryBuilder('b')
-            ->leftJoin('b.transactions', 't')
+        $qb = $this->createQueryBuilder('w')
+            ->leftJoin('w.transactions', 't')
             ->leftJoin('t.transactionCategory', 'tc')
-            ->select('b.year, COALESCE(SUM(t.amount), 0) as total')
-            ->where('b.year BETWEEN :startYear AND :endYear')
+            ->select('w.year, COALESCE(SUM(t.amount), 0) as total')
+            ->where('w.year BETWEEN :startYear AND :endYear')
             ->andWhere('tc.id != :incomeCategoryId')
             ->setParameter('startYear', $startYear)
             ->setParameter('endYear', $endYear)
             ->setParameter('incomeCategoryId', $incomeCategoryId)
-            ->groupBy('b.year')
-            ->orderBy('b.year', 'ASC')
+            ->groupBy('w.year')
+            ->orderBy('w.year', 'ASC')
             ->getQuery();
 
         /** @var array<array{year: int, total: float}> $results */
@@ -164,14 +164,14 @@ class WalletRepository extends ServiceEntityRepository
      *
      * @return Wallet|null the found Wallet entity, or null if no wallet is found
      */
-    public function findWalletFromUser(User $user, int $year, int $month): ?Wallet
+    public function findWalletByUser(User $user, int $year, int $month): ?Wallet
     {
         $month = MonthEnum::from($month);
 
-        $result = $this->createQueryBuilder('b')
-            ->where('b.individual = :user')
-            ->andWhere('b.year = :year')
-            ->andWhere('b.month = :month')
+        $result = $this->createQueryBuilder('w')
+            ->where('w.individual = :user')
+            ->andWhere('w.year = :year')
+            ->andWhere('w.month = :month')
             ->setParameter('user', $user)
             ->setParameter('year', $year)
             ->setParameter('month', $month)
@@ -181,13 +181,34 @@ class WalletRepository extends ServiceEntityRepository
         return $result instanceof Wallet ? $result : null;
     }
 
+    public function findAllWalletByUser($user)
+    {
+        return $this->createQueryBuilder('w')
+            ->where('w.individual = :user')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getResult();
+    }
+
     public function userHasWallet(User $user): bool
     {
         $qb = $this->createQueryBuilder('w')
-            ->select('COUNT(w.id)')
+            ->select('1')
             ->where('w.individual = :user')
-            ->setParameter('user', $user);
+            ->setParameter('user', $user)
+            ->setMaxResults(1);
 
-        return (int) $qb->getQuery()->getSingleScalarResult() > 0;
+        return (bool) $qb->getQuery()->getOneOrNullResult();
+    }
+
+    public function findSpecificWalletByUser(User $user, int $id): ?Wallet
+    {
+        $qb = $this->createQueryBuilder('w')
+            ->where('w.individual = :user')
+            ->andWhere('w.id = :id')
+            ->setParameter('user', $user)
+            ->setParameter('id', $id);
+
+        return $qb->getQuery()->getOneOrNullResult();
     }
 }

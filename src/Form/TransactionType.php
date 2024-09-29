@@ -9,6 +9,7 @@ use App\Entity\TransactionCategory;
 use App\Entity\TransactionTag;
 use App\Entity\Wallet;
 use App\Repository\TransactionCategoryRepository;
+use App\Repository\WalletRepository;
 use Doctrine\ORM\QueryBuilder;
 use Override;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -21,9 +22,13 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TransactionType extends AbstractType
 {
+    public function __construct(private readonly WalletRepository $walletRepository) {}
+
     #[Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $user = $builder->getOption('user');
+
         $builder
             ->add('amount', NumberType::class, [
                 'attr' => ['placeholder' => 'Choose an amount'],
@@ -46,6 +51,7 @@ class TransactionType extends AbstractType
                 'class' => Wallet::class,
                 'placeholder' => 'Choose a wallet',
                 'choice_label' => 'getMonthWithYearLabel',
+                'choices' => $this->walletRepository->findAllWalletByUser($user),
                 'autocomplete' => true,
             ])
             ->add('tag', EntityType::class, [
@@ -63,6 +69,7 @@ class TransactionType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Transaction::class,
+            'user' => null,
         ]);
     }
 }

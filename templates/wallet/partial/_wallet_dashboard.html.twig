@@ -163,7 +163,7 @@
 
                 <div class="w-full bg-accent rounded-b-md p-2 bg-accent">
                     <div class="grid grid-cols-2 sm:grid-cols-3 gap-1">
-                        <a href="{{ path('transaction_new_for_wallet', {year: currentYear, month: currentMonth}) }}" class="text-center font-bold bg-secondary hover:bg-secondary-hover text-white text-xs p-2 cursor-pointer rounded-md">
+                        <a href="{{ path('new_transaction_for_wallet', {id: wallet.id}) }}" class="text-center font-bold bg-secondary hover:bg-secondary-hover text-white text-xs p-2 cursor-pointer rounded-md">
                             <i class="fa-solid fa-plus mr-1"></i>
                             Transaction
                         </a>

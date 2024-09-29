@@ -20,7 +20,6 @@ class DashboardController extends AbstractController
         /** @var User $user */
         $user = $this->getUser();
 
-        // TODO ME: Security: If the user doesn't have a wallet, and tries to create a transaction from the url, he should be redirected to the app_homepage
         $hasWallet = $this->walletRepository->userHasWallet($user);
 
         return $this->render('dashboard/index.html.twig', [

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Transaction;
+use App\Entity\User;
 use App\Entity\Wallet;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\Order;
@@ -98,5 +99,17 @@ class TransactionRepository extends ServiceEntityRepository
             ->getResult();
 
         return $result;
+    }
+
+    public function findSpecificTransactionByUser(User $user, int $id): ?Transaction
+    {
+        $qb = $this->createQueryBuilder('t')
+            ->where('t.individual = :user')
+            ->andWhere('t.id = :id')
+            ->setParameter('user', $user)
+            ->setParameter('id', $id)
+            ->getQuery();
+
+        return $qb->getOneOrNullResult();
     }
 }

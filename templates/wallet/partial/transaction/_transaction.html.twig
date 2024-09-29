@@ -10,7 +10,7 @@
 
             <div class="flex space-x-2">
                 <button type="button"
-                        data-action-url="{{ path('delete_transactions_from_category', {year: wallet.year, month: wallet.month, category: transactionCategory.type}) }}"
+                        data-action-url="{{ path('delete_all_transactions_from_specific_category', {id: wallet.id, category: transactionCategory.type}) }}"
                         class="js-delete-transactions-from-category-button bg-danger px-2 py-1 rounded-md">
                     <i class="fa-solid fa-trash text-white text-xs"></i>
                     <span class="text-white text-xs">Delete</span>
@@ -118,13 +118,13 @@
                             </div>
                         {% endif %}
                         <div class="w-full flex flex-col items-center justify-center m-1 space-y-1">
-                            <a href="{{ path('transaction_edit_for_wallet', {year: transaction.transaction.wallet.year, month: transaction.transaction.wallet.month, id: transaction.transaction.id}) }}">
+                            <a href="{{ path('edit_transaction_from_wallet', {id: transaction.transaction.id}) }}">
                                 <button type="button" class="text-center font-bold bg-secondary hover:bg-secondary-hover text-white py-1.5 px-1 cursor-pointer rounded-md w-9">
                                     <i class="fa-solid fa-pen-to-square text-xs"></i>
                                 </button>
                             </a>
 
-                            <button type="button" data-action-url="{{ path('transaction_delete', {year: transaction.transaction.wallet.year, month: transaction.transaction.wallet.month, id: transaction.transaction.id}) }}" class="w-9 js-delete-button text-center font-bold bg-danger hover:bg-danger-hover text-white py-1.5 px-1 cursor-pointer rounded-md">
+                            <button type="button" data-action-url="{{ path('delete_transaction', {id: transaction.transaction.id}) }}" class="w-9 js-delete-button text-center font-bold bg-danger hover:bg-danger-hover text-white py-1.5 px-1 cursor-pointer rounded-md">
                                 <i class="fa-solid fa-trash-can text-xs"></i>
                             </button>
                         </div>
