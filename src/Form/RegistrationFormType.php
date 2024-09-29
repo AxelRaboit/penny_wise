@@ -39,6 +39,9 @@ class RegistrationFormType extends AbstractType
                 ],
             ])
             ->add('plainPassword', PasswordType::class, [
+                'toggle' => true,
+                'hidden_label' => 'Masquer',
+                'visible_label' => 'Afficher',
                 'mapped' => false,
                 'label' => 'Password',
                 'attr' => ['autocomplete' => 'new-password', 'placeholder' => 'Password'],
