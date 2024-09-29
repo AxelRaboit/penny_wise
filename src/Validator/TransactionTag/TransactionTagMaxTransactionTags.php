@@ -13,7 +13,7 @@ class TransactionTagMaxTransactionTags extends Constraint
 {
     public string $message = 'You can create a maximum of {{ limit }} tags.';
 
-    public int $limit = 5;
+    public int $limit = 7;
 
     #[Override]
     public function getTargets(): string
