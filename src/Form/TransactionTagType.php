@@ -35,7 +35,6 @@ class TransactionTagType extends AbstractType
             ->add('useDefaultColor', CheckboxType::class, [
                 'label' => 'Use default color',
                 'required' => false,
-                'mapped' => false,
             ])
             ->add('color', ColorType::class, [
                 'constraints' => [

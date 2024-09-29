@@ -8,6 +8,7 @@ use App\Repository\TransactionTagRepository;
 use App\Validator\TransactionTag\TransactionTagMaxTransactionTags;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TransactionTagRepository::class)]
@@ -34,6 +35,9 @@ class TransactionTag
 
     #[ORM\Column(length: 7)]
     private ?string $color = '#ffffff';
+
+    #[ORM\Column(type: Types::BOOLEAN, nullable: false, options: ['default' => true])]
+    private ?bool $useDefaultColor = true;
 
     public function __construct()
     {
@@ -104,6 +108,18 @@ class TransactionTag
     public function setColor(?string $color): static
     {
         $this->color = $color;
+
+        return $this;
+    }
+
+    public function isUseDefaultColor(): ?bool
+    {
+        return $this->useDefaultColor;
+    }
+
+    public function setUseDefaultColor(bool $useDefaultColor): static
+    {
+        $this->useDefaultColor = $useDefaultColor;
 
         return $this;
     }

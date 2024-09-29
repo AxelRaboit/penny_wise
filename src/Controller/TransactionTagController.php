@@ -30,7 +30,7 @@ class TransactionTagController extends AbstractController
         $user = $this->getUser();
 
         if (!$user instanceof User) {
-            throw new AccessDeniedException('You must be logged in to create a tag.');
+            throw $this->createAccessDeniedException('You must be logged in to create a tag.');
         }
 
         $transactionTag->setUser($user);
