@@ -54,9 +54,6 @@ class Wallet
     #[ORM\OneToMany(targetEntity: Transaction::class, mappedBy: 'wallet')]
     private Collection $transactions;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private string|float|null $remainingBalance = 0.0;
-
     /**
      * @var Collection<int, Note>
      */
@@ -200,18 +197,6 @@ class Wallet
     public function getMonthWithYearLabel(): string
     {
         return $this->startDate->format('F Y');
-    }
-
-    public function getRemainingBalance(): string|float|null
-    {
-        return $this->remainingBalance;
-    }
-
-    public function setRemainingBalance(string|float $remainingBalance): static
-    {
-        $this->remainingBalance = $remainingBalance;
-
-        return $this;
     }
 
     /**
