@@ -10,6 +10,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -38,23 +39,28 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('plainPassword', PasswordType::class, [
-                'toggle' => true,
-                'hidden_label' => 'Masquer',
-                'visible_label' => 'Afficher',
-                'mapped' => false,
-                'label' => 'Password',
-                'attr' => ['autocomplete' => 'new-password', 'placeholder' => 'Password'],
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Please enter a password',
-                    ]),
-                    new Length([
-                        'min' => 6,
-                        'minMessage' => 'Your password should be at least {{ limit }} characters',
-                        'max' => 4096,
-                    ]),
+            ->add('plainPassword', RepeatedType::class, [
+                'type' => PasswordType::class,
+                'first_options' => [
+                    'label' => 'Password',
+                    'attr' => ['autocomplete' => 'new-password', 'placeholder' => 'Password'],
+                    'constraints' => [
+                        new NotBlank([
+                            'message' => 'Please enter a password',
+                        ]),
+                        new Length([
+                            'min' => 6,
+                            'minMessage' => 'Your password should be at least {{ limit }} characters',
+                            'max' => 4096,
+                        ]),
+                    ],
                 ],
+                'second_options' => [
+                    'label' => 'Confirm Password',
+                    'attr' => ['placeholder' => 'Confirm Password'],
+                ],
+                'invalid_message' => 'The password fields must match.',
+                'mapped' => false,
             ])
         ;
     }

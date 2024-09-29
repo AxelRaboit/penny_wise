@@ -27,10 +27,18 @@
                 </div>
 
                 <div>
-                    {{ form_label(registrationForm.plainPassword, null, {label_attr: {class: 'block text-gray-600'}}) }}
-                    {{ form_widget(registrationForm.plainPassword, {attr: {class: 'w-full p-3 border border-gray-300 rounded-md'}}) }}
+                    {{ form_label(registrationForm.plainPassword.first, null, {label_attr: {class: 'block text-gray-600'}}) }}
+                    {{ form_widget(registrationForm.plainPassword.first, {attr: {class: 'w-full p-3 border border-gray-300 rounded-md'}}) }}
                     <div class="text-danger text-sm">
-                        {{ form_errors(registrationForm.plainPassword) }}
+                        {{ form_errors(registrationForm.plainPassword.first) }}
+                    </div>
+                </div>
+
+                <div>
+                    {{ form_label(registrationForm.plainPassword.second, null, {label_attr: {class: 'block text-gray-600'}}) }}
+                    {{ form_widget(registrationForm.plainPassword.second, {attr: {class: 'w-full p-3 border border-gray-300 rounded-md'}}) }}
+                    <div class="text-danger text-sm">
+                        {{ form_errors(registrationForm.plainPassword.second) }}
                     </div>
                 </div>
 
