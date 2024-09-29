@@ -381,8 +381,8 @@ final class WalletController extends AbstractController
         return $this->redirectToRoute('monthly_wallet', ['year' => $previousYear, 'month' => $previousMonthEnum->value]);
     }
 
-    #[Route('/wallet/delete/{year}/{month}', name: 'delete_monthly_wallet')]
-    public function deleteMonthlyWalletAndItsTransactions(int $year, int $month): RedirectResponse
+    #[Route('/wallet/delete/{year}/{month}/{redirectTo?}', name: 'delete_monthly_wallet')]
+    public function deleteMonthlyWalletAndItsTransactions(int $year, int $month, ?string $redirectTo = null): RedirectResponse
     {
         /** @var User $user */
         $user = $this->getUser();
@@ -400,6 +400,10 @@ final class WalletController extends AbstractController
             $this->addFlash('error', sprintf('An error occurred while deleting the wallet: %s', $exception->getMessage()));
 
             return $this->redirectToRoute('monthly_wallet', ['year' => $year, 'month' => $month]);
+        }
+
+        if ('wallet_list' === $redirectTo) {
+            return $this->redirectToRoute('wallet_list');
         }
 
         $previousWallet = $this->walletRepository->findWalletByUser($user, $previousMonth['year'], $previousMonth['month']);
