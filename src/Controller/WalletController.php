@@ -20,11 +20,14 @@ use App\Service\WalletService;
 use App\Util\WalletHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
+use InvalidArgumentException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\UX\Chartjs\Model\Chart;
 
 final class WalletController extends AbstractController
 {
@@ -130,15 +133,14 @@ final class WalletController extends AbstractController
         $walletsAndTransactionsFromYear = $this->walletRepository->getAllWalletsAndTransactionsFromYear($year);
         $notesFromWallet = $this->noteRepository->getNotesFromWallet($wallet);
         $leftToSpendChart = $this->walletChartService->createLeftToSpendChart($transactions);
-        /*$totalSpendingForCurrentAndPreviousNthMonthsChart = $this->walletChartService->createTotalSpendingForCurrentAndPreviousNthMonthsChart($year, $month, 12);
+
+        $totalSpendingForCurrentAndPreviousNthMonthsChart = $this->walletChartService->createTotalSpendingForCurrentAndPreviousNthMonthsChart($year, $month, 12);
         $totalSpendingYearsChart = $this->walletChartService->createTotalSpendingForCurrentAndAdjacentYearsChart();
-        $savingsChart = $this->walletChartService->createTotalSavingForCurrentAndPreviousMonthsChart($user, $year, $month, 12);*/
 
         $options = [
             'leftToSpendChart' => $leftToSpendChart,
-            /* 'totalSpendingForCurrentAndPreviousNthMonthsChart' => $totalSpendingForCurrentAndPreviousNthMonthsChart, */
-            /* 'totalSpendingYearsChart' => $totalSpendingYearsChart, */
-            /* 'savingsChart' => $savingsChart, */
+            'totalSpendingForCurrentAndPreviousNthMonthsChart' => $totalSpendingForCurrentAndPreviousNthMonthsChart,
+            'totalSpendingYearsChart' => $totalSpendingYearsChart,
             'wallet' => $wallet,
             'notesFromWallet' => $notesFromWallet,
             'walletsAndTransactionsFromYear' => $walletsAndTransactionsFromYear,
@@ -428,7 +430,12 @@ final class WalletController extends AbstractController
             throw $this->createNotFoundException('User not found');
         }
 
-        $this->walletManager->resetStartBalanceForMonth($user, $year, $month);
+        try {
+            $this->walletManager->resetStartBalanceForMonth($user, $year, $month);
+            $this->addFlash('success', 'Starting balance reset successfully.');
+        } catch (Exception $exception) {
+            $this->addFlash('warning', sprintf('An error occurred while resetting the starting balance: %s', $exception->getMessage()));
+        }
 
         return $this->redirectToRoute('monthly_wallet', ['year' => $year, 'month' => $month]);
     }
@@ -459,7 +466,7 @@ final class WalletController extends AbstractController
         return $this->redirectToRoute('monthly_wallet', ['year' => $year, 'month' => $month]);
     }
 
-    /*#[Route('/api/get-chart-data', name: 'get_chart_data', methods: ['GET'])]
+    #[Route('/api/get-chart-data', name: 'get_chart_data', methods: ['GET'])]
     public function getChartData(Request $request): JsonResponse
     {
         $user = $this->getUser();
@@ -476,7 +483,6 @@ final class WalletController extends AbstractController
             $chart = match ($chartType) {
                 'monthly' => $this->walletChartService->createTotalSpendingForCurrentAndPreviousNthMonthsChart($year, $month, 12, $chartFormat),
                 'yearly' => $this->walletChartService->createTotalSpendingForCurrentAndAdjacentYearsChart($chartFormat),
-                'savings' => $this->walletChartService->createTotalSavingForCurrentAndPreviousMonthsChart($user, $year, $month, 12, $chartFormat),
                 default => throw new InvalidArgumentException('Invalid chart type'),
             };
 
@@ -488,5 +494,5 @@ final class WalletController extends AbstractController
         } catch (Exception $exception) {
             return new JsonResponse(['error' => sprintf('Failed to generate chart: %s', $exception->getMessage())], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
-    }*/
+    }
 }

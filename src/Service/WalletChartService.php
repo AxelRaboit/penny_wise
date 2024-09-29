@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Dto\TransactionInformationDto;
-use App\Entity\User;
+use App\Entity\TransactionCategory;
+use App\Enum\TransactionCategoryEnum;
+use App\Repository\TransactionCategoryRepository;
+use LogicException;
 use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
 use Symfony\UX\Chartjs\Model\Chart;
 
@@ -16,6 +19,7 @@ final readonly class WalletChartService
     public function __construct(
         private ChartBuilderInterface $chartBuilder,
         private MonthlyFinancialDataService $monthlyFinancialDataService,
+        private TransactionCategoryRepository $transactionCategoryRepository,
     ) {}
 
     /**
@@ -105,6 +109,8 @@ final readonly class WalletChartService
      * @param string $chartType The type of chart to create (e.g., 'line')
      *
      * @return Chart The generated line chart containing total spending data
+     *
+     * @throws LogicException if the income category is not found
      */
     public function createTotalSpendingForCurrentAndAdjacentYearsChart(string $chartType = Chart::TYPE_BAR): Chart
     {
@@ -112,14 +118,28 @@ final readonly class WalletChartService
         $previousYear = $currentYear - 1;
         $nextYear = $currentYear + 1;
 
-        $data = $this->monthlyFinancialDataService->getTotalSpendingPerYear($previousYear, $nextYear);
+        /** @var TransactionCategory|null $incomeCategory */
+        $incomeCategory = $this->transactionCategoryRepository->findOneBy(['name' => TransactionCategoryEnum::Incomes->value]);
+        if (null === $incomeCategory) {
+            throw new LogicException('Income category not found.');
+        }
 
+        $incomeCategoryId = $incomeCategory->getId();
+        if (!is_int($incomeCategoryId)) {
+            throw new LogicException('Income category ID must be an integer.');
+        }
+
+        /** @var array<array{year: int, total: float}> $data */
+        $data = $this->monthlyFinancialDataService->getTotalSpendingPerYear($previousYear, $nextYear, $incomeCategoryId);
+
+        /** @var string[] $labels */
         $labels = [];
+        /** @var float[] $totals */
         $totals = [];
 
         foreach ($data as $totalData) {
-            $labels[] = $totalData['year'];
-            $totals[] = $totalData['total'];
+            $labels[] = (string) $totalData['year'];
+            $totals[] = (float) $totalData['total'];
         }
 
         $chart = $this->chartBuilder->createChart($chartType);
@@ -132,48 +152,6 @@ final readonly class WalletChartService
                     'backgroundColor' => array_fill(0, count($labels), 'RGB(24, 24, 27)'),
                     'borderColor' => array_fill(0, count($labels), 'RGB(24, 24, 27)'),
                     'data' => $totals,
-                ],
-            ],
-        ]);
-
-        return $chart;
-    }
-
-    /**
-     * Creates a chart representing the total savings for the current month and the specified number of previous months for a given user.
-     *
-     * @param User   $user      The user for whom the savings data should be fetched
-     * @param int    $year      The year for the current month
-     * @param int    $month     The index of the current month (1-12)
-     * @param int    $nMonths   The number of previous months to include in the chart (defaults to 4)
-     * @param string $chartType The type of chart to create (e.g., 'bar', 'line')
-     *
-     * @return Chart The generated chart containing total savings data
-     */
-    public function createTotalSavingForCurrentAndPreviousMonthsChart(User $user, int $year, int $month, int $nMonths = 3, string $chartType = Chart::TYPE_BAR): Chart
-    {
-        $data = $this->monthlyFinancialDataService->getTotalSavingForCurrentAndPreviousNthMonths($user, $year, $month, $nMonths);
-
-        $labels = [];
-        $savings = [];
-
-        foreach ($data->getMonthlyTotals() as $totalData) {
-            $labels[] = sprintf('%s %d', $totalData['monthName'], $totalData['year']);
-            $savings[] = $totalData['totalSaving'];
-        }
-
-        $labels = array_reverse($labels);
-        $savings = array_reverse($savings);
-
-        $chart = $this->chartBuilder->createChart($chartType);
-        $chart->setData([
-            'labels' => $labels,
-            'datasets' => [
-                [
-                    'label' => 'Total Savings',
-                    'backgroundColor' => array_fill(0, count($labels), 'RGB(24, 24, 27)'),
-                    'borderColor' => array_fill(0, count($labels), 'RGB(24, 24, 27)'),
-                    'data' => $savings,
                 ],
             ],
         ]);

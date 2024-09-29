@@ -26,6 +26,7 @@ class WalletHelper
 
     /**
      * Finds the previous valid month and year numbers by decrementing the month and wrapping around the year if necessary.
+     *walletHelper.
      *
      * @param int $year  the current year
      * @param int $month the current month
@@ -56,5 +57,29 @@ class WalletHelper
         }
 
         return ['year' => $year, 'month' => $currentMonthEnum->value + 1];
+    }
+
+    /**
+     * Returns an array of previous N months and their corresponding years, including the current month.
+     *
+     * @param int $year    The starting year
+     * @param int $month   The starting month (1-12)
+     * @param int $nMonths The number of previous months to retrieve, including the starting month
+     *
+     * @return array<int, array{year: int, month: int}>
+     */
+    public static function getPreviousMonthsAndYears(int $year, int $month, int $nMonths): array
+    {
+        $months = [];
+
+        for ($i = 0; $i < $nMonths; ++$i) {
+            $months[] = ['year' => $year, 'month' => $month];
+
+            $previousMonthData = self::getImmediatePreviousMonthAndYear($year, $month);
+            $year = $previousMonthData['year'];
+            $month = $previousMonthData['month'];
+        }
+
+        return $months;
     }
 }

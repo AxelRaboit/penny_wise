@@ -338,7 +338,7 @@
     </div>
 </div>
 
-{# <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
+ <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
     {{ include('wallet/partial/_chart_card.html.twig', {
         title: 'Total monthly spent',
         buttons: [
@@ -349,23 +349,13 @@
         chart: totalSpendingForCurrentAndPreviousNthMonthsChart
     }) }}
 
-    {{ include('wallet/partial/_chart_card.html.twig', {
-        title: 'Total yearly spent',
-        buttons: [
-            {chartType: 'yearly', chartId: 'chart-yearly-spent', chartFormat: 'bar', label: 'Bar'},
-            {chartType: 'yearly', chartId: 'chart-yearly-spent', chartFormat: 'line', label: 'Line'},
-        ],
-        chartId: 'chart-yearly-spent',
-        chart: totalSpendingYearsChart
-    }) }}
-
-    {{ include('wallet/partial/_chart_card.html.twig', {
-        title: 'Total savings',
-        buttons: [
-            {chartType: 'savings', chartId: 'chart-total-savings', chartFormat: 'bar', label: 'Bar'},
-            {chartType: 'savings', chartId: 'chart-total-savings', chartFormat: 'line', label: 'Line'},
-        ],
-        chartId: 'chart-total-savings',
-        chart: savingsChart
-    }) }}
-</div> #}
+     {{ include('wallet/partial/_chart_card.html.twig', {
+         title: 'Total yearly spent',
+         buttons: [
+             {chartType: 'yearly', chartId: 'chart-yearly-spent', chartFormat: 'bar', label: 'Bar'},
+             {chartType: 'yearly', chartId: 'chart-yearly-spent', chartFormat: 'line', label: 'Line'},
+         ],
+         chartId: 'chart-yearly-spent',
+         chart: totalSpendingYearsChart
+     }) }}
+</div>

@@ -149,17 +149,8 @@ class WalletRepository extends ServiceEntityRepository
      *
      * @return array<array{year: int, total: float}> an array containing the total spending for each year within the specified range
      */
-    public function fetchTotalSpendingPerYear(int $startYear, int $endYear): array
+    public function fetchTotalSpendingPerYear(int $startYear, int $endYear, int $incomeCategoryId): array
     {
-        $incomeCategory = $this->transactionCategoryRepository
-            ->findOneBy(['name' => 'incomes']);
-
-        if (null === $incomeCategory) {
-            throw new LogicException('Income category not found.');
-        }
-
-        $incomeCategoryId = $incomeCategory->getId();
-
         $qb = $this->createQueryBuilder('w')
             ->leftJoin('w.transactions', 't')
             ->leftJoin('t.transactionCategory', 'tc')
@@ -261,5 +252,52 @@ class WalletRepository extends ServiceEntityRepository
         $wallet = $qb->getQuery()->getOneOrNullResult();
 
         return $wallet instanceof Wallet ? $wallet : null;
+    }
+
+    /**
+     * Retrieves the total spending for multiple months, grouped by year and month, excluding incomes.
+     *
+     * @param array<int, array{year: int, month: int}> $monthsData an array of associative arrays,
+     *                                                             where each associative array contains keys 'year' and 'month'
+     *
+     * @return array<int, array{year: int, month: int, total: float}> an array of results, each containing the year,
+     *                                                                month, and the total spending for that period
+     */
+    public function getTotalSpendingForMonths(array $monthsData): array
+    {
+        $incomeCategory = $this->transactionCategoryRepository->findOneBy(['name' => TransactionCategoryEnum::Incomes->value]);
+        if (null === $incomeCategory) {
+            throw new LogicException('Income category not found.');
+        }
+
+        $incomeCategoryId = $incomeCategory->getId();
+
+        $qb = $this->createQueryBuilder('w')
+            ->leftJoin('w.transactions', 't')
+            ->leftJoin('t.transactionCategory', 'tc')
+            ->select('w.year, w.month, COALESCE(SUM(t.amount), 0) as total')
+            ->where('tc.id != :incomeCategoryId')
+            ->groupBy('w.year, w.month')
+            ->setParameter('incomeCategoryId', $incomeCategoryId);
+
+        $orX = $qb->expr()->orX();
+
+        foreach ($monthsData as $index => $monthData) {
+            $orX->add(
+                $qb->expr()->andX(
+                    $qb->expr()->eq('w.year', ':year'.$index),
+                    $qb->expr()->eq('w.month', ':month'.$index)
+                )
+            );
+            $qb->setParameter('year'.$index, $monthData['year']);
+            $qb->setParameter('month'.$index, $monthData['month']);
+        }
+
+        $qb->andWhere($orX);
+
+        /** @var array<int, array{year: int, month: int, total: float}> $result */
+        $result = $qb->getQuery()->getArrayResult();
+
+        return $result;
     }
 }
