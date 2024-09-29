@@ -11,13 +11,12 @@
             <div class="flex space-x-2">
                 <button type="button"
                         data-action-url="{{ path('delete_all_transactions_from_specific_category', {id: wallet.id, category: transactionCategory.type}) }}"
-                        class="js-delete-transactions-from-category-button bg-danger px-2 py-1 rounded-md">
+                        class="js-delete-transactions-from-category-button bg-danger px-3 py-1 rounded-md">
                     <i class="fa-solid fa-trash text-white text-xs"></i>
-                    <span class="text-white text-xs">Delete</span>
                 </button>
-                <button @click="open = !open" class="bg-quinary hover:bg-quinary-hover text-white px-2 py-1 rounded-md">
-                    <span x-show="!open" class="text-white text-xs">Expand</span>
-                    <span x-show="open" class="text-white text-xs">Collapse</span>
+                <button @click="open = !open" class="bg-quinary hover:bg-quinary-hover text-white px-3 py-1 rounded-md">
+                    <span x-show="!open" class="text-white text-xs"><i class="fa-solid fa-chevron-up"></i></span>
+                    <span x-show="open" class="text-white text-xs"><i class="fa-solid fa-chevron-down"></i></span>
                 </button>
             </div>
         </div>
