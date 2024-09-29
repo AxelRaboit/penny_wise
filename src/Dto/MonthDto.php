@@ -6,7 +6,7 @@ namespace App\Dto;
 
 final readonly class MonthDto
 {
-    public function __construct(private int $monthNumber, private string $monthName) {}
+    public function __construct(private int $monthNumber, private string $monthName, private int $walletId){}
 
     public function getMonthNumber(): int
     {
@@ -16,5 +16,10 @@ final readonly class MonthDto
     public function getMonthName(): string
     {
         return $this->monthName;
+    }
+
+    public function getWalletId(): int
+    {
+        return $this->walletId;
     }
 }

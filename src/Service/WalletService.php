@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use App\Dto\CalendarDto;
 use App\Dto\MonthDto;
 use App\Dto\YearDto;
 use App\Entity\User;
@@ -29,29 +30,30 @@ final readonly class WalletService
         return $wallet;
     }
 
-    /**
-     * Retrieves all wallets associated with a given user and organizes them
-     * by year and month.
-     *
-     * @param User $user the user for whom to find wallets
-     *
-     * @return YearDto[] an array of YearDto objects containing the organized wallet information
-     */
-    public function findAllWalletByUser(User $user): array
+    public function findAllWalletByUser(User $user): CalendarDto
     {
-        $results = $this->walletRepository->findUniqueYearsAndMonthsRawByUser($user);
+        $results = $this->walletRepository->findAllWalletsWithTransactionsByUser($user);
 
         $yearsAndMonths = [];
 
         foreach ($results as $result) {
             $year = $result['year'];
             $month = $result['month'];
+            $walletId = $result['id'];
 
             $monthEnum = MonthEnum::from($month);
-            $yearsAndMonths[$year][] = new MonthDto($month, $monthEnum->getName());
+            if (!isset($yearsAndMonths[$year])) {
+                $yearsAndMonths[$year] = [];
+            }
+            $yearsAndMonths[$year][] = new MonthDto($month, $monthEnum->getName(), $walletId);
         }
 
-        return array_map(static fn (int $year, array $months): YearDto => new YearDto($year, $months), array_keys($yearsAndMonths), $yearsAndMonths);
+        $years = [];
+        foreach ($yearsAndMonths as $year => $months) {
+            $years[] = new YearDto($year, $months);
+        }
+
+        return new CalendarDto($years);
     }
 
     /**

@@ -27,14 +27,14 @@ class WalletRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return array<array{year: int, month: int}>
+     * @return array<array{year: int, month: int, id: int}>
      */
     public function findUniqueYearsAndMonthsRawByUser(User $user): array
     {
         $qb = $this->createQueryBuilder('w')
-            ->select('w.year, w.month')
+            ->select('w.year, w.month, w.id')
             ->where('w.individual = :user')
-            ->groupBy('w.year, w.month')
+            ->groupBy('w.year, w.month, w.id')
             ->orderBy('w.year', Order::Descending->value)
             ->addOrderBy('w.month', Order::Ascending->value)
             ->setParameter('user', $user);
@@ -44,10 +44,11 @@ class WalletRepository extends ServiceEntityRepository
         $formattedResults = [];
 
         foreach ($results as $result) {
-            if (is_array($result) && isset($result['year'], $result['month'])) {
+            if (is_array($result) && isset($result['year'], $result['month'], $result['id'])) {
                 $formattedResults[] = [
                     'year' => (int) $result['year'],
                     'month' => (int) $result['month'],
+                    'id' => (int) $result['id'],
                 ];
             }
         }
@@ -65,24 +66,57 @@ class WalletRepository extends ServiceEntityRepository
     public function getAllWalletsAndTransactionsFromYear(int $year): YearDto
     {
         $qb = $this->createQueryBuilder('w')
-            ->select('w.month')
+            ->select('w.month, w.id')
             ->where('w.year = :year')
             ->setParameter('year', $year)
             ->orderBy('w.month', Order::Ascending->value)
             ->getQuery();
 
-        /** @var array<int, array{month: int}> $months */
+        /** @var array<int, array{month: int, id: int}> $months */
         $months = $qb->getArrayResult();
 
         $result = [];
         foreach ($months as $month) {
             $monthNumber = (int) $month['month'];
             $monthEnum = MonthEnum::from($monthNumber);
-            $result[] = new MonthDto($monthEnum->value, $monthEnum->getName());
+            $walletId = (int) $month['id'];
+            $result[] = new MonthDto($monthEnum->value, $monthEnum->getName(), $walletId);
         }
 
         return new YearDto($year, $result);
     }
+
+    public function findAllWalletsWithTransactionsByUser(User $user): array
+    {
+        $qb = $this->createQueryBuilder('w')
+            ->select('w.year, w.month, w.id')
+            ->where('w.individual = :user')
+            ->orderBy('w.year', Order::Descending->value)
+            ->addOrderBy('w.month', Order::Ascending->value)
+            ->setParameter('user', $user);
+
+        return $qb->getQuery()->getArrayResult();
+    }
+
+    public function findWalletWithRelations(int $year, int $month, User $user): ?Wallet
+    {
+        $qb = $this->createQueryBuilder('w')
+            ->leftJoin('w.transactions', 't')
+            ->addSelect('t')
+            ->leftJoin('t.transactionCategory', 'tc')
+            ->addSelect('tc')
+            ->leftJoin('t.tag', 'tags')
+            ->addSelect('tags')
+            ->where('w.year = :year')
+            ->andWhere('w.month = :month')
+            ->andWhere('w.individual = :user')
+            ->setParameter('year', $year)
+            ->setParameter('month', $month)
+            ->setParameter('user', $user);
+
+        return $qb->getQuery()->getOneOrNullResult();
+    }
+
 
     /**
      * Retrieves the total spending for a given year and month, excluding a specific income category.

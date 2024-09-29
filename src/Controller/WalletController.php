@@ -58,7 +58,7 @@ final class WalletController extends AbstractController
         }
 
         $options = [
-            'wallets' => $this->walletService->findAllWalletByUser($user),
+            'calendar' => $this->walletService->findAllWalletByUser($user),
         ];
 
         return $this->render(self::WALLET_LIST_TEMPLATE, $options);
