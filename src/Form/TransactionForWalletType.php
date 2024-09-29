@@ -35,7 +35,7 @@ final class TransactionForWalletType extends AbstractType
         $isNewTransaction = null === $transaction?->getId();
 
         // Set the checkbox value to null by default for edits
-        $budgetDefinedTroughAmount = $isNewTransaction ? ($transaction?->getBudgetDefinedTroughAmount() ?? true) : null;
+        $budgetDefinedThroughAmount = $isNewTransaction ? ($transaction?->getBudgetDefinedThroughAmount() ?? true) : null;
 
         $builder
             ->add('amount', NumberType::class, [
@@ -69,10 +69,10 @@ final class TransactionForWalletType extends AbstractType
             ]);
 
         if ($isNewTransaction) {
-            $builder->add('budgetDefinedTroughAmount', CheckboxType::class, [
+            $builder->add('budgetDefinedThroughAmount', CheckboxType::class, [
                 'label' => 'Use amount as budget',
                 'required' => false,
-                'data' => $budgetDefinedTroughAmount,
+                'data' => $budgetDefinedThroughAmount,
             ]);
         }
 

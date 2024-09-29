@@ -24,12 +24,12 @@
             <div class="text-danger text-sm">{{ form_errors(form.budget) }}</div>
         </div>
 
-        {% if form.budgetDefinedTroughAmount is defined %}
+        {% if form.budgetDefinedThroughAmount is defined %}
             <div class="flex items-center space-x-2">
-                {{ form_widget(form.budgetDefinedTroughAmount, {attr: {class: 'rounded-md shadow-sm'}}) }}
-                {{ form_label(form.budgetDefinedTroughAmount, 'Use amount as budget', {label_attr: {class: 'text-gray-700 font-semibold'}}) }}
+                {{ form_widget(form.budgetDefinedThroughAmount, {attr: {class: 'rounded-md shadow-sm'}}) }}
+                {{ form_label(form.budgetDefinedThroughAmount, 'Use amount as budget', {label_attr: {class: 'text-gray-700 font-semibold'}}) }}
             </div>
-            <div class="text-danger text-sm">{{ form_errors(form.budgetDefinedTroughAmount) }}</div>
+            <div class="text-danger text-sm">{{ form_errors(form.budgetDefinedThroughAmount) }}</div>
         {% endif %}
     </div>
 

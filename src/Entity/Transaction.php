@@ -52,7 +52,7 @@ class Transaction
     private ?string $budget = null;
 
     #[ORM\Column(nullable: true, options: ['default' => true])]
-    private ?bool $budgetDefinedTroughAmount = true;
+    private ?bool $budgetDefinedThroughAmount = true;
 
     #[ORM\Column(type: Types::BOOLEAN, nullable: false, options: ['default' => false])]
     private bool $highlight = false;
@@ -180,14 +180,14 @@ class Transaction
         return $this;
     }
 
-    public function getBudgetDefinedTroughAmount(): ?bool
+    public function getBudgetDefinedThroughAmount(): ?bool
     {
-        return $this->budgetDefinedTroughAmount;
+        return $this->budgetDefinedThroughAmount;
     }
 
-    public function setBudgetDefinedTroughAmount(?bool $budgetDefinedTroughAmount): self
+    public function setBudgetDefinedThroughAmount(?bool $budgetDefinedThroughAmount): self
     {
-        $this->budgetDefinedTroughAmount = $budgetDefinedTroughAmount;
+        $this->budgetDefinedThroughAmount = $budgetDefinedThroughAmount;
 
         return $this;
     }

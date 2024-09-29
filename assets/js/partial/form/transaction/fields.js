@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const checkbox = document.getElementById('transaction_for_wallet_budgetDefinedTroughAmount');
+    const checkbox = document.getElementById('transaction_for_wallet_budgetDefinedThroughAmount');
     const budgetField = document.getElementById('js-container-budget');
     const categoryField = document.getElementById('transaction_for_wallet_transactionCategory');
 

@@ -62,16 +62,16 @@ final class TransactionForWalletListener
 
         if ($categoryName->equalsTo('incomes')) {
             $transaction->setBudget(null);
-            $transaction->setBudgetDefinedTroughAmount(null);
+            $transaction->setBudgetDefinedThroughAmount(null);
 
             return;
         }
 
-        if ($form->has('budgetDefinedTroughAmount')) {
-            $defineBudgetTroughAmount = $form->get('budgetDefinedTroughAmount')->getData();
+        if ($form->has('budgetDefinedThroughAmount')) {
+            $defineBudgetThroughAmount = $form->get('budgetDefinedThroughAmount')->getData();
             $budget = $form->get('budget')->getData();
 
-            if ($defineBudgetTroughAmount) {
+            if ($defineBudgetThroughAmount) {
                 $transaction->setBudget((string) $transaction->getAmount());
             } elseif (is_numeric($budget)) {
                 $transaction->setBudget((string) $budget);
