@@ -12,6 +12,7 @@ use App\Service\WalletService;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
+use Symfony\Component\Translation\Exception\NotFoundResourceException;
 
 final readonly class WalletManager
 {
@@ -46,12 +47,24 @@ final readonly class WalletManager
     {
         $wallet = $this->walletService->getWalletByUser($user, $year, $month);
         if (!$wallet instanceof Wallet) {
-            throw new NoPreviousWalletException();
+            throw new NotFoundResourceException('Wallet not found for the given year and month');
         }
 
         $this->transactionManager->findAndDeleteTransactionsByWallet($wallet);
 
         $this->entityManager->remove($wallet);
+        $this->entityManager->flush();
+    }
+
+    public function resetStartBalanceForMonth(User $user, int $year, int $month): void
+    {
+        $wallet = $this->walletService->getWalletByUser($user, $year, $month);
+        if (!$wallet instanceof Wallet) {
+            throw new NotFoundResourceException('Wallet not found for the given year and month');
+        }
+
+        $wallet->setStartBalance(0);
+        $this->entityManager->persist($wallet);
         $this->entityManager->flush();
     }
 }

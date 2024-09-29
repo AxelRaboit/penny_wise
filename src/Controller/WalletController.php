@@ -418,6 +418,20 @@ final class WalletController extends AbstractController
         return $this->redirectToRoute('wallet_list');
     }
 
+    #[Route('/wallet/reset-start-balance/{year}/{month}', name: 'reset_start_balance')]
+    public function resetStartBalance(int $year, int $month): RedirectResponse
+    {
+        /** @var User $user */
+        $user = $this->getUser();
+        if (!$user instanceof User) {
+            throw $this->createNotFoundException('User not found');
+        }
+
+        $this->walletManager->resetStartBalanceForMonth($user, $year, $month);
+
+        return $this->redirectToRoute('monthly_wallet', ['year' => $year, 'month' => $month]);
+    }
+
     #[Route('/wallet/copy-left-to-spend/{year}/{month}', name: 'copy_left_to_spend')]
     public function copyLeftToSpend(int $year, int $month): RedirectResponse
     {

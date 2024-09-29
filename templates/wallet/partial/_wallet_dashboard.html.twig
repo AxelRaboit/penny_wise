@@ -182,6 +182,12 @@
                             Initialize starting balance
                         </button>
                         <button type="button"
+                                data-action-url="{{ path('reset_start_balance', {year: currentYear, month: currentMonth}) }}"
+                                class="js-reset-start-balance-button text-center font-bold bg-secondary hover:bg-secondary-hover text-white text-xs p-2 cursor-pointer rounded-md">
+                            <i class="fa-solid fa-backward mr-1"></i>
+                            Reset starting balance
+                        </button>
+                        <button type="button"
                                 data-action-url="{{ path('create_previous_month_wallet', {year: currentYear, month: currentMonth}) }}"
                                 class="js-create-previous-wallet-button text-center font-bold bg-secondary hover:bg-secondary-hover text-white text-xs p-2 cursor-pointer rounded-md">
                             <i class="fa-solid fa-plus mr-1"></i>

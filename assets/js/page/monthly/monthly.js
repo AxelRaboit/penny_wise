@@ -68,6 +68,17 @@ export function initializeMonthlyModals() {
     });
 
     attachModalEvents({
+        modalId: 'resetStartBalanceModal',
+        modalTitle: 'Reset starting balance',
+        modalMessage: 'Are you sure you want to reset the starting balance of the current month?',
+        triggerButtonSelector: '.js-reset-start-balance-button',
+        confirmButtonId: 'confirmResetStartBalance',
+        confirmLabel: 'Reset',
+        cancelButtonId: 'cancelResetStartBalance',
+        cancelLabel: 'Cancel',
+    });
+
+    attachModalEvents({
         modalId: 'copyIncomesModal',
         modalTitle: 'Copy previous month\'s incomes',
         modalMessage: 'Are you sure you want to copy the incomes from the previous month to the current month?',
