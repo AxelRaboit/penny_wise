@@ -308,18 +308,18 @@
                         <span class="font-bold text-md text-white">Spend limit</span>
                         {% if wallet.spendingLimit is not null and totalSpending > wallet.spendingLimit %}
                             <span class="bg-danger text-white text-xs rounded-md p-1 ml-2">
-                            Exceeded (<span class="font-bold text-secondary text-white text-xs">{{ wallet.currency.value|currency_symbol }}</span>
-                            {{ (totalSpending - wallet.spendingLimit)|number_format(2, '.', ' ') }})
-                        </span>
+                                Exceeded (<span class="font-bold text-secondary text-white text-xs">{{ wallet.currency.value|currency_symbol }}</span>
+                                {{ (totalSpending - wallet.spendingLimit)|number_format(2, '.', ' ') }})
+                            </span>
                         {% elseif wallet.spendingLimit is not null and totalSpending < wallet.spendingLimit %}
                             <span class="bg-success text-white text-xs rounded-md p-1 ml-2">
-                            Left (<span class="font-bold text-secondary text-white text-xs">{{ wallet.currency.value|currency_symbol }}</span>
-                            {{ (wallet.spendingLimit - totalSpending)|number_format(2, '.', ' ') }})
-                        </span>
+                                Left (<span class="font-bold text-secondary text-white text-xs">{{ wallet.currency.value|currency_symbol }}</span>
+                                {{ (wallet.spendingLimit - totalSpending)|number_format(2, '.', ' ') }})
+                            </span>
                         {% else %}
                             <span class="bg-success text-white text-xs rounded-md p-1 ml-2">
-                            Unlimited
-                        </span>
+                                Unlimited
+                            </span>
                         {% endif %}
                     </h2>
                     <div class="flex flex-col md:flex-row bg-accent rounded-b-md">
@@ -330,6 +330,23 @@
                             </span>
                             {% endif %}
                             <span class="font-bold text-lg">{{ wallet.spendingLimit is not null ? wallet.spendingLimit|number_format(2, '.', ' ') : '<i class="fa-solid fa-infinity"></i>'|raw }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-1 rounded-md">
+                <div>
+                    <div class="text-center bg-secondary rounded-t-md">
+                        <h2 class="text-md font-bold p-1 text-white">Spending</h2>
+                    </div>
+
+                    <div class="w-full rounded-b-md p-1 bg-accent">
+                        <div class="rounded-br-md w-full text-center">
+                            <div class="bg-accent flex items-center justify-center space-x-2">
+                                <span class="font-bold text-lg text-dark">{{ wallet.currency.value|currency_symbol }}</span>
+                                <span class="font-bold text-lg text-dark">{{ totalSpending|number_format(2, '.', ' ') }}</span>
+                            </div>
                         </div>
                     </div>
                 </div>
