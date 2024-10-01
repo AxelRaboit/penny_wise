@@ -33,7 +33,7 @@ final readonly class TransactionManager
         $this->entityManager->flush();
     }
 
-    public function handleTransactionTags(Transaction $transaction): void
+    private function handleTransactionTags(Transaction $transaction): void
     {
         foreach ($transaction->getTag() as $tag) {
             $transaction->addTag($tag);
@@ -43,22 +43,16 @@ final readonly class TransactionManager
         $this->entityManager->flush();
     }
 
-    /**
-     * Delete all transactions of a specific category for a given wallet.
-     */
-    public function deleteTransactionsByCategory(Wallet $wallet, string $category): bool
+    public function saveTransaction(Transaction $transaction): void
     {
-        $transactions = $this->transactionRepository->findTransactionsByCategory($wallet, $category);
-        if ([] === $transactions) {
-            return false;
-        }
-
-        foreach ($transactions as $transaction) {
-            $this->entityManager->remove($transaction);
-        }
-
+        $this->handleTransactionTags($transaction);
+        $this->entityManager->persist($transaction);
         $this->entityManager->flush();
+    }
 
-        return true;
+    public function deleteTransaction(Transaction $transaction): void
+    {
+        $this->entityManager->remove($transaction);
+        $this->entityManager->flush();
     }
 }

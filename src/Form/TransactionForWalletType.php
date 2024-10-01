@@ -30,11 +30,12 @@ final class TransactionForWalletType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $wallet = $builder->getOption('wallet');
+        $transactionCategory = $builder->getOption('transactionCategory');
+
         /** @var Transaction|null $transaction */
         $transaction = $builder->getOption('data');
         $isNewTransaction = null === $transaction?->getId();
 
-        // Set the checkbox value to null by default for edits
         $budgetDefinedThroughAmount = $isNewTransaction ? ($transaction?->getBudgetDefinedThroughAmount() ?? true) : null;
 
         $builder
@@ -51,6 +52,8 @@ final class TransactionForWalletType extends AbstractType
                 'choice_label' => 'getLabel',
                 'placeholder' => 'Choose a type',
                 'autocomplete' => true,
+                'data' => $transactionCategory,
+                'disabled' => null !== $transactionCategory,
             ])
             ->add('nature', TextType::class, [
                 'required' => false,
@@ -95,6 +98,7 @@ final class TransactionForWalletType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Transaction::class,
             'wallet' => null,
+            'transactionCategory' => null,
         ]);
 
         $resolver->setAllowedTypes('wallet', ['null', Wallet::class]);

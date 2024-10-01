@@ -9,7 +9,6 @@ use App\Entity\User;
 use App\Form\TransactionType;
 use App\Manager\TransactionManager;
 use App\Repository\WalletRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,7 +17,6 @@ use Symfony\Component\Routing\Attribute\Route;
 final class TransactionController extends AbstractController
 {
     public function __construct(
-        private readonly EntityManagerInterface $entityManager,
         private readonly WalletRepository $walletRepository,
         private readonly TransactionManager $transactionManager,
     ) {}
@@ -47,9 +45,7 @@ final class TransactionController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->transactionManager->handleTransactionTags($transaction);
-            $this->entityManager->persist($transaction);
-            $this->entityManager->flush();
+            $this->transactionManager->saveTransaction($transaction);
 
             return $this->redirectToRoute('monthly_wallet', [
                 'year' => $transaction->getWallet()->getYear(),

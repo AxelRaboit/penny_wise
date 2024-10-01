@@ -9,6 +9,9 @@
             </div>
 
             <div class="flex space-x-2">
+                <a href="{{ path('new_transaction_for_wallet_with_category', {id: wallet.id, category: transactionCategory.type}) }}" class="bg-quinary hover:bg-quinary-hover text-white px-3 py-1 rounded-md flex items-center justify-center">
+                    <i class="fa-solid fa-plus text-white text-xs"></i>
+                </a>
                 <button type="button"
                         data-action-url="{{ path('delete_all_transactions_from_specific_category', {id: wallet.id, category: transactionCategory.type}) }}"
                         class="js-delete-transactions-from-category-button bg-danger px-3 py-1 rounded-md">

@@ -6,6 +6,7 @@ namespace App\EventListener;
 
 use App\Entity\Transaction;
 use App\Entity\Wallet;
+use App\Enum\TransactionCategoryEnum;
 use DateInterval;
 use DateMalformedPeriodStringException;
 use DateMalformedStringException;
@@ -57,10 +58,10 @@ final class TransactionForWalletListener
 
     private function handleBudgetField(FormInterface $form, Transaction $transaction): void
     {
-        $category = $transaction->getTransactionCategory();
-        $categoryName = u($category->getName())->lower();
+        $transactionCategory = $transaction->getTransactionCategory();
+        $transactionCategoryName = u($transactionCategory->getName())->lower();
 
-        if ($categoryName->equalsTo('incomes')) {
+        if ($transactionCategoryName->equalsTo(TransactionCategoryEnum::Incomes->value)) {
             $transaction->setBudget(null);
             $transaction->setBudgetDefinedThroughAmount(null);
 
