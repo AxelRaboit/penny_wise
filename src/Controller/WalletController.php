@@ -36,6 +36,11 @@ final class WalletController extends AbstractController
     private const string NEW_WALLET_TEMPLATE = 'wallet/new.html.twig';
 
     private const string WALLET_LIST_TEMPLATE = 'wallet/wallet_list.html.twig';
+    private const string NEW_WALLET_FOR_YEAR_TEMPLATE = 'wallet/new_wallet_for_year.html.twig';
+    private const string EDIT_WALLET_TEMPLATE = 'wallet/edit_wallet.html.twig';
+
+    private const string MONTHLY_WALLET_ROUTE = 'monthly_wallet';
+    private const string WALLET_LIST_ROUTE = 'wallet_list';
 
     public function __construct(
         private readonly TransactionService $transactionService,
@@ -81,13 +86,13 @@ final class WalletController extends AbstractController
             $this->entityManager->persist($wallet);
             $this->entityManager->flush();
 
-            return $this->redirectToRoute('monthly_wallet', [
+            return $this->redirectToRoute(self::MONTHLY_WALLET_ROUTE, [
                 'year' => $wallet->getYear(),
                 'month' => $wallet->getMonth(),
             ]);
         }
 
-        return $this->render('wallet/new_wallet_for_year.html.twig', [
+        return $this->render(self::NEW_WALLET_FOR_YEAR_TEMPLATE, [
             'form' => $form,
             'wallet' => $wallet,
         ]);
@@ -103,13 +108,13 @@ final class WalletController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->entityManager->flush();
 
-            return $this->redirectToRoute('monthly_wallet', [
+            return $this->redirectToRoute(self::MONTHLY_WALLET_ROUTE, [
                 'year' => $wallet->getYear(),
                 'month' => $wallet->getMonth(),
             ]);
         }
 
-        return $this->render('wallet/edit_wallet.html.twig', [
+        return $this->render(self::EDIT_WALLET_TEMPLATE, [
             'form' => $form,
             'wallet' => $wallet,
         ]);
@@ -182,7 +187,7 @@ final class WalletController extends AbstractController
             $this->addFlash('warning', $exception->getMessage());
         }
 
-        return $this->redirectToRoute('monthly_wallet', [
+        return $this->redirectToRoute(self::MONTHLY_WALLET_ROUTE, [
             'year' => $year,
             'month' => $month,
         ]);
@@ -209,7 +214,7 @@ final class WalletController extends AbstractController
             $this->addFlash('warning', $exception->getMessage());
         }
 
-        return $this->redirectToRoute('monthly_wallet', [
+        return $this->redirectToRoute(self::MONTHLY_WALLET_ROUTE, [
             'year' => $year,
             'month' => $month,
         ]);
@@ -236,7 +241,7 @@ final class WalletController extends AbstractController
             $this->addFlash('warning', $exception->getMessage());
         }
 
-        return $this->redirectToRoute('monthly_wallet', [
+        return $this->redirectToRoute(self::MONTHLY_WALLET_ROUTE, [
             'year' => $year,
             'month' => $month,
         ]);
@@ -263,7 +268,7 @@ final class WalletController extends AbstractController
             $this->addFlash('error', sprintf('An error occurred: %s', $exception->getMessage()));
         }
 
-        return $this->redirectToRoute('monthly_wallet', [
+        return $this->redirectToRoute(self::MONTHLY_WALLET_ROUTE, [
             'year' => $year,
             'month' => $month,
         ]);
@@ -284,7 +289,7 @@ final class WalletController extends AbstractController
             $this->entityManager->persist($wallet);
             $this->entityManager->flush();
 
-            return $this->redirectToRoute('monthly_wallet', [
+            return $this->redirectToRoute(self::MONTHLY_WALLET_ROUTE, [
                 'year' => $wallet->getYear(),
                 'month' => $wallet->getMonth(),
             ]);
@@ -316,7 +321,7 @@ final class WalletController extends AbstractController
                     sprintf('Wallet already exists for %s %d.', $nextMonthEnum->getName(), $nextYear)
                 );
 
-                return $this->redirectToRoute('monthly_wallet', [
+                return $this->redirectToRoute(self::MONTHLY_WALLET_ROUTE, [
                     'year' => $year,
                     'month' => $month,
                 ]);
@@ -333,10 +338,10 @@ final class WalletController extends AbstractController
         } catch (Exception $exception) {
             $this->addFlash('error', sprintf('An error occurred while creating the wallet: %s', $exception->getMessage()));
 
-            return $this->redirectToRoute('monthly_wallet', ['year' => $year, 'month' => $month]);
+            return $this->redirectToRoute(self::MONTHLY_WALLET_ROUTE, ['year' => $year, 'month' => $month]);
         }
 
-        return $this->redirectToRoute('monthly_wallet', ['year' => $nextYear, 'month' => $nextMonthEnum->value]);
+        return $this->redirectToRoute(self::MONTHLY_WALLET_ROUTE, ['year' => $nextYear, 'month' => $nextMonthEnum->value]);
     }
 
     #[Route('/wallet/create-previous/{year}/{month}', name: 'create_previous_month_wallet')]
@@ -360,7 +365,7 @@ final class WalletController extends AbstractController
                     sprintf('Wallet already exists for %s %d.', $previousMonthEnum->getName(), $previousYear)
                 );
 
-                return $this->redirectToRoute('monthly_wallet', [
+                return $this->redirectToRoute(self::MONTHLY_WALLET_ROUTE, [
                     'year' => $previousYear,
                     'month' => $previousMonthEnum->value,
                 ]);
@@ -377,10 +382,10 @@ final class WalletController extends AbstractController
         } catch (Exception $exception) {
             $this->addFlash('error', sprintf('An error occurred while creating the wallet: %s', $exception->getMessage()));
 
-            return $this->redirectToRoute('monthly_wallet', ['year' => $year, 'month' => $month]);
+            return $this->redirectToRoute(self::MONTHLY_WALLET_ROUTE, ['year' => $year, 'month' => $month]);
         }
 
-        return $this->redirectToRoute('monthly_wallet', ['year' => $previousYear, 'month' => $previousMonthEnum->value]);
+        return $this->redirectToRoute(self::MONTHLY_WALLET_ROUTE, ['year' => $previousYear, 'month' => $previousMonthEnum->value]);
     }
 
     #[Route('/wallet/delete/{year}/{month}/{redirectTo?}', name: 'delete_monthly_wallet')]
@@ -401,24 +406,24 @@ final class WalletController extends AbstractController
         } catch (Exception $exception) {
             $this->addFlash('error', sprintf('An error occurred while deleting the wallet: %s', $exception->getMessage()));
 
-            return $this->redirectToRoute('monthly_wallet', ['year' => $year, 'month' => $month]);
+            return $this->redirectToRoute(self::MONTHLY_WALLET_ROUTE, ['year' => $year, 'month' => $month]);
         }
 
         if ('wallet_list' === $redirectTo) {
-            return $this->redirectToRoute('wallet_list');
+            return $this->redirectToRoute(self::WALLET_LIST_ROUTE);
         }
 
         $previousWallet = $this->walletRepository->findWalletByUser($user, $previousMonth['year'], $previousMonth['month']);
         if ($previousWallet instanceof Wallet) {
-            return $this->redirectToRoute('monthly_wallet', ['year' => $previousMonth['year'], 'month' => $previousMonth['month']]);
+            return $this->redirectToRoute(self::MONTHLY_WALLET_ROUTE, ['year' => $previousMonth['year'], 'month' => $previousMonth['month']]);
         }
 
         $nextWallet = $this->walletRepository->findWalletByUser($user, $nextMonth['year'], $nextMonth['month']);
         if ($nextWallet instanceof Wallet) {
-            return $this->redirectToRoute('monthly_wallet', ['year' => $nextMonth['year'], 'month' => $nextMonth['month']]);
+            return $this->redirectToRoute(self::MONTHLY_WALLET_ROUTE, ['year' => $nextMonth['year'], 'month' => $nextMonth['month']]);
         }
 
-        return $this->redirectToRoute('wallet_list');
+        return $this->redirectToRoute(self::WALLET_LIST_ROUTE);
     }
 
     #[Route('/wallet/reset-start-balance/{year}/{month}', name: 'reset_start_balance')]
@@ -437,7 +442,7 @@ final class WalletController extends AbstractController
             $this->addFlash('warning', sprintf('An error occurred while resetting the starting balance: %s', $exception->getMessage()));
         }
 
-        return $this->redirectToRoute('monthly_wallet', ['year' => $year, 'month' => $month]);
+        return $this->redirectToRoute(self::MONTHLY_WALLET_ROUTE, ['year' => $year, 'month' => $month]);
     }
 
     #[Route('/wallet/copy-left-to-spend/{year}/{month}', name: 'copy_left_to_spend')]
@@ -460,10 +465,10 @@ final class WalletController extends AbstractController
         } catch (Exception $exception) {
             $this->addFlash('error', sprintf('An error occurred while copying left to spend from previous month: %s', $exception->getMessage()));
 
-            return $this->redirectToRoute('monthly_wallet', ['year' => $year, 'month' => $month]);
+            return $this->redirectToRoute(self::MONTHLY_WALLET_ROUTE, ['year' => $year, 'month' => $month]);
         }
 
-        return $this->redirectToRoute('monthly_wallet', ['year' => $year, 'month' => $month]);
+        return $this->redirectToRoute(self::MONTHLY_WALLET_ROUTE, ['year' => $year, 'month' => $month]);
     }
 
     #[Route('/api/get-chart-data', name: 'get_chart_data', methods: ['GET'])]
