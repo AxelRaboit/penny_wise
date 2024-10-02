@@ -45,15 +45,30 @@ final class TransactionForWalletType extends AbstractType
             ->add('budget', NumberType::class, [
                 'label' => 'Budgeted Amount',
                 'required' => false,
-            ])
-            ->add('transactionCategory', EntityType::class, [
-                'class' => TransactionCategory::class,
-                'query_builder' => fn (TransactionCategoryRepository $repo): QueryBuilder => $repo->getAllExceptSavings(),
-                'choice_label' => 'getLabel',
-                'placeholder' => 'Choose a type',
+            ]);
+
+        $transactionCategoryOptions = [
+            'class' => TransactionCategory::class,
+            'query_builder' => fn (TransactionCategoryRepository $repo): QueryBuilder => $repo->getAllExceptSavings(),
+            'choice_label' => 'getLabel',
+            'placeholder' => 'Choose a type',
+            'autocomplete' => true,
+        ];
+
+        if ($transactionCategory !== null) {
+            $transactionCategoryOptions['data'] = $transactionCategory;
+            $transactionCategoryOptions['disabled'] = true;
+        }
+
+        $builder->add('transactionCategory', EntityType::class, $transactionCategoryOptions);
+
+            $builder->add('tag', EntityType::class, [
+                'class' => TransactionTag::class,
+                'multiple' => true,
+                'choice_label' => 'getName',
+                'placeholder' => 'Choose a tag',
                 'autocomplete' => true,
-                'data' => $transactionCategory,
-                'disabled' => null !== $transactionCategory,
+                'required' => false,
             ])
             ->add('nature', TextType::class, [
                 'required' => false,
