@@ -18,9 +18,9 @@ module.exports = {
           ring: '#34343A'
         },
         secondary: {
-          DEFAULT: '#8064E7',
-          hover: '#9577FF',
-          ring: '#6753B6'
+          DEFAULT: '#2a2a38',
+          hover: '#353546',
+          ring: '#20202c'
         },
         tertiary: {
           DEFAULT: '#F3F4F6',

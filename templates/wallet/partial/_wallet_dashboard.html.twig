@@ -28,9 +28,9 @@
                             <span class="text-xs">{{ wallet.endDate|date('d M Y') }}</span>
                         </div>
                     </div>
-                    <div class="flex flex-col md:flex-row bg-accent rounded-b-md">
-                        <div class="rounded-bl-md w-full text-center bg-quinary p-2"><span class="font-bold text-white text-xs">Start Balance</span></div>
-                        <div class="rounded-br-md w-full text-center p-2">
+                    <div class="flex flex-col md:flex-row bg-accent md:rounded-b-md">
+                        <div class="md:rounded-bl-md w-full text-center bg-quinary p-2"><span class="font-bold text-white text-xs">Start Balance</span></div>
+                        <div class="md:rounded-br-md w-full text-center p-2">
                             <span class="text-xs">
                                 <span class="font-bold text-xs">{{ wallet.currency.value|currency_symbol }}</span>
                                 {{ wallet.startBalance|number_format(2, '.', ' ') }}

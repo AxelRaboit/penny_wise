@@ -17,7 +17,7 @@
                             <div class="grid grid-cols-3 gap-1 relative">
                                 {% for month in year.getMonths() %}
                                     <div class="relative" x-data="{ hover: false }" @mouseenter="hover = true" @mouseleave="hover = false">
-                                        <a href="{{ path('monthly_wallet', {id: month.getWalletId(), year: year.getYear(), month: month.getMonthNumber()}) }}"
+                                        <a href="{{ path('monthly_wallet', {year: year.getYear(), month: month.getMonthNumber()}) }}"
                                            class="block text-sm font-bold py-2 px-4 rounded-md bg-secondary text-white hover:bg-secondary-hover text-center mb-1">
                                             {{ month.getMonthName() }}
                                         </a>
