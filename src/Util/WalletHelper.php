@@ -26,7 +26,6 @@ class WalletHelper
 
     /**
      * Finds the previous valid month and year numbers by decrementing the month and wrapping around the year if necessary.
-     *walletHelper.
      *
      * @param int $year  the current year
      * @param int $month the current month
@@ -74,19 +73,16 @@ class WalletHelper
         $months = [];
 
         for ($i = 0; $i < $nMonths; ++$i) {
-            // Ne pas aller en dessous de janvier de l'année en cours
             if ($month < 1) {
                 break;
             }
 
             $months[] = ['year' => $year, 'month' => $month, 'accountId' => $accountId];
 
-            // Décrémenter le mois et ajuster si nécessaire
             $previousMonthData = self::getImmediatePreviousMonthAndYear($year, $month);
             $year = $previousMonthData['year'];
             $month = $previousMonthData['month'];
 
-            // Arrêter si on atteint une année précédente
             if ($year < date('Y')) {
                 break;
             }

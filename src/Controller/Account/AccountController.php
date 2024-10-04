@@ -16,8 +16,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 final class AccountController extends AbstractController
 {
-    private const string ACCOUNT_LIST_TEMPLATE = 'account/account_list.html.twig';
-
     public function __construct(private readonly EntityManagerInterface $entityManager, private readonly WalletService $walletService) {}
 
     #[Route('/', name: 'account_list')]
@@ -26,7 +24,7 @@ final class AccountController extends AbstractController
         $user = $this->getUserOrThrow();
         $accounts = $this->walletService->findAllAccountsWithWalletsByUser($user);
 
-        return $this->render(self::ACCOUNT_LIST_TEMPLATE, [
+        return $this->render('account/account_list.html.twig', [
             'accounts' => $accounts,
         ]);
     }

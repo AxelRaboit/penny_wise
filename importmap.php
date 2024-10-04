@@ -49,7 +49,7 @@ return [
         'path' => './assets/js/partial/transaction_tab.js',
         'entrypoint' => true,
     ],
-    'transaction/fields' => [
+    'transaction_fields' => [
         'path' => './assets/js/partial/form/transaction/fields.js',
         'entrypoint' => true,
     ],

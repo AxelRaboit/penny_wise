@@ -23,7 +23,7 @@
 {% endif %}
 
 {% if page_requires_transaction_fields is defined and page_requires_transaction_fields is same as(true) %}
-    {% set importmapEntries = importmapEntries|merge(['transaction/fields']) %}
+    {% set importmapEntries = importmapEntries|merge(['transaction_fields']) %}
 {% endif %}
 
 {# Components #}
