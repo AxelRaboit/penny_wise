@@ -47,18 +47,16 @@ final class WalletForAccountController extends AbstractController
     private const string ACCOUNT_LIST_ROUTE = 'account_list';
 
     public function __construct(
-        private readonly TransactionService     $transactionService,
-        private readonly WalletService          $walletService,
+        private readonly TransactionService $transactionService,
+        private readonly WalletService $walletService,
         private readonly EntityManagerInterface $entityManager,
-        private readonly WalletRepository       $walletRepository,
-        private readonly NoteRepository         $noteRepository,
-        private readonly WalletManager          $walletManager,
-        private readonly WalletHelper           $walletHelper,
-        private readonly WalletChartService     $walletChartService,
-        private readonly AccountRepository      $accountRepository,
-    )
-    {
-    }
+        private readonly WalletRepository $walletRepository,
+        private readonly NoteRepository $noteRepository,
+        private readonly WalletManager $walletManager,
+        private readonly WalletHelper $walletHelper,
+        private readonly WalletChartService $walletChartService,
+        private readonly AccountRepository $accountRepository,
+    ) {}
 
     #[Route('/account/{accountId}/wallet/new/{year}', name: 'wallet_new_for_year')]
     public function newWalletForYear(int $year, int $accountId, Request $request): Response
@@ -531,9 +529,9 @@ final class WalletForAccountController extends AbstractController
         }
 
         $chartType = $request->query->get('type');
-        $year = (int)$request->query->get('year', date('Y'));
-        $month = (int)$request->query->get('month', date('n'));
-        $chartFormat = (string)$request->query->get('format', Chart::TYPE_BAR);
+        $year = (int) $request->query->get('year', date('Y'));
+        $month = (int) $request->query->get('month', date('n'));
+        $chartFormat = (string) $request->query->get('format', Chart::TYPE_BAR);
 
         try {
             $chart = match ($chartType) {

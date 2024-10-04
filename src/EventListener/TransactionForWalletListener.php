@@ -20,6 +20,7 @@ use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
+
 use function Symfony\Component\String\u;
 
 #[AsEventListener(event: FormEvents::PRE_SET_DATA, method: 'onPreSetData')]
