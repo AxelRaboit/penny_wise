@@ -26,7 +26,7 @@ final class SettingsProfileController extends AbstractController
             throw $this->createNotFoundException('User not found.');
         }
 
-        return $this->render('settings/profile/show.html.twig', [
+        return $this->render('profile/settings/show.html.twig', [
             'user' => $user,
         ]);
     }
@@ -82,7 +82,7 @@ final class SettingsProfileController extends AbstractController
             return $this->redirectToRoute('settings_profile');
         }
 
-        return $this->render('settings/profile/edit.html.twig', [
+        return $this->render('profile/settings/edit.html.twig', [
             'form' => $form->createView(),
         ]);
     }

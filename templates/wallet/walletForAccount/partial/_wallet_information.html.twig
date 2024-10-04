@@ -150,7 +150,7 @@
                 </div>
             </div>
 
-            {{ include('walletForAccount/partial/_chart_card.html.twig', {
+            {{ include('wallet/walletForAccount/partial/_chart_card.html.twig', {
                 title: 'Left to spend',
                 chartId: 'chart-left-to-spend',
                 chart: leftToSpendChart.data.isDataPresent ? leftToSpendChart : null
@@ -360,7 +360,7 @@
 </div>
 
  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
-    {{ include('walletForAccount/partial/_chart_card.html.twig', {
+    {{ include('wallet/walletForAccount/partial/_chart_card.html.twig', {
         title: 'Total monthly spent',
         buttons: [
             {chartType: 'monthly', chartId: 'chart-monthly-spent', chartFormat: 'bar', label: 'Bar'},
@@ -370,7 +370,7 @@
         chart: totalSpendingForCurrentAndPreviousNthMonthsChart
     }) }}
 
-     {{ include('walletForAccount/partial/_chart_card.html.twig', {
+     {{ include('wallet/walletForAccount/partial/_chart_card.html.twig', {
          title: 'Total yearly spent',
          buttons: [
              {chartType: 'yearly', chartId: 'chart-yearly-spent', chartFormat: 'bar', label: 'Bar'},

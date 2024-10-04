@@ -8,7 +8,7 @@
 
 {% block body %}
     <div class="mb-1">
-        {{ include('walletForAccount/partial/_wallet_dashboard.html.twig', {
+        {{ include('wallet/walletForAccount/partial/_wallet_information.html.twig', {
             wallet: wallet,
             walletsAndTransactionsFromYear: walletsAndTransactionsFromYear,
             currentMonth: currentMonth,
@@ -18,7 +18,7 @@
     </div>
 
     <div class="mb-1">
-        {{ include('walletForAccount/partial/transaction/_transactions.html.twig') }}
+        {{ include('wallet/walletForAccount/partial/transaction/_transactions.html.twig') }}
     </div>
 
     {{ include('components/note.html.twig') }}

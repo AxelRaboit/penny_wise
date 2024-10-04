@@ -22,7 +22,7 @@ final class DashboardController extends AbstractController
 
         $hasWallet = $this->walletRepository->userHasWallet($user);
 
-        return $this->render('dashboard/index.html.twig', [
+        return $this->render('profile/dashboard/index.html.twig', [
             'hasWallet' => $hasWallet,
         ]);
     }
