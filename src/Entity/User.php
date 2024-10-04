@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Entity\Trait\TimestampableTrait;
-use App\Repository\UserRepository;
+use App\Repository\Profile\UserRepository;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -75,6 +75,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Transaction::class, mappedBy: 'individual')]
     private Collection $transactions;
 
+    /**
+     * @var Collection<int, Account>
+     */
+    #[ORM\OneToMany(targetEntity: Account::class, mappedBy: 'individual')]
+    private Collection $accounts;
+
     #[ORM\PrePersist]
     public function onPrePersist(): void
     {
@@ -93,6 +99,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->wallets = new ArrayCollection();
         $this->transactionTags = new ArrayCollection();
         $this->transactions = new ArrayCollection();
+        $this->accounts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -304,6 +311,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // set the owning side to null (unless already changed)
         if ($this->transactions->removeElement($transaction) && $transaction->getIndividual() === $this) {
             $transaction->setIndividual(null);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Account>
+     */
+    public function getAccounts(): Collection
+    {
+        return $this->accounts;
+    }
+
+    public function addAccount(Account $account): static
+    {
+        if (!$this->accounts->contains($account)) {
+            $this->accounts->add($account);
+            $account->setIndividual($this);
         }
 
         return $this;

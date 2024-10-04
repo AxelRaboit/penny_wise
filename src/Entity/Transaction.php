@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Entity\Trait\TimestampableTrait;
-use App\Repository\TransactionRepository;
+use App\Repository\Transaction\TransactionRepository;
 use DateTimeImmutable;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;

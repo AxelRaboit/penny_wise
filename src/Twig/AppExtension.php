@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Twig;
 
-use App\Enum\MonthEnum;
-use App\Enum\TransactionCategoryEnum;
+use App\Enum\Transaction\TransactionCategoryEnum;
+use App\Enum\Wallet\MonthEnum;
 use Override;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;

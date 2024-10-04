@@ -32,8 +32,8 @@ return [
         'path' => './assets/js/page/monthly/index.js',
         'entrypoint' => true,
     ],
-    'wallet_list' => [
-        'path' => './assets/js/page/walletList/index.js',
+    'account_list' => [
+        'path' => './assets/js/page/accountList/index.js',
         'entrypoint' => true,
     ],
     'transaction_tag_list' => [

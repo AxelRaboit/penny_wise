@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Util;
 
-use App\Enum\MonthEnum;
+use App\Enum\Wallet\MonthEnum;
 
 class WalletHelper
 {
@@ -62,22 +62,34 @@ class WalletHelper
     /**
      * Returns an array of previous N months and their corresponding years, including the current month.
      *
-     * @param int $year    The starting year
-     * @param int $month   The starting month (1-12)
-     * @param int $nMonths The number of previous months to retrieve, including the starting month
+     * @param int $year      The starting year
+     * @param int $month     The starting month (1-12)
+     * @param int $nMonths   The number of previous months to retrieve, including the starting month
+     * @param int $accountId The account ID for which the months are being retrieved
      *
-     * @return array<int, array{year: int, month: int}>
+     * @return array<int, array{year: int, month: int, accountId: int}>
      */
-    public static function getPreviousMonthsAndYears(int $year, int $month, int $nMonths): array
+    public static function getPreviousMonthsAndYears(int $year, int $month, int $nMonths, int $accountId): array
     {
         $months = [];
 
         for ($i = 0; $i < $nMonths; ++$i) {
-            $months[] = ['year' => $year, 'month' => $month];
+            // Ne pas aller en dessous de janvier de l'année en cours
+            if ($month < 1) {
+                break;
+            }
 
+            $months[] = ['year' => $year, 'month' => $month, 'accountId' => $accountId];
+
+            // Décrémenter le mois et ajuster si nécessaire
             $previousMonthData = self::getImmediatePreviousMonthAndYear($year, $month);
             $year = $previousMonthData['year'];
             $month = $previousMonthData['month'];
+
+            // Arrêter si on atteint une année précédente
+            if ($year < date('Y')) {
+                break;
+            }
         }
 
         return $months;

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\EventListener;
 
 use App\Entity\Wallet;
-use App\Enum\MonthEnum;
-use App\Repository\WalletRepository;
+use App\Enum\Wallet\MonthEnum;
+use App\Repository\Wallet\WalletRepository;
 use DateTimeImmutable;
 use Exception;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;

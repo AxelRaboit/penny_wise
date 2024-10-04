@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Dto\TransactionInformationDto;
-use App\Entity\TransactionCategory;
-use App\Enum\TransactionCategoryEnum;
-use App\Repository\TransactionCategoryRepository;
+use App\Dto\Transaction\TransactionInformationDto;
+use App\Enum\Transaction\TransactionCategoryEnum;
+use App\Repository\Transaction\TransactionCategoryRepository;
+use App\Repository\Wallet\WalletRepository;
 use LogicException;
 use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
 use Symfony\UX\Chartjs\Model\Chart;
@@ -20,6 +20,7 @@ final readonly class WalletChartService
         private ChartBuilderInterface $chartBuilder,
         private MonthlyFinancialDataService $monthlyFinancialDataService,
         private TransactionCategoryRepository $transactionCategoryRepository,
+        private WalletRepository $walletRepository
     ) {}
 
     /**
@@ -61,19 +62,9 @@ final readonly class WalletChartService
         return $chart;
     }
 
-    /**
-     * Creates a chart representing the total spending for the current and previous N months.
-     *
-     * @param int    $year      The year for which the chart is being generated
-     * @param int    $month     The month for which the chart is being generated
-     * @param int    $nMonths   The number of previous months to include in the chart
-     * @param string $chartType The type of chart to create (e.g., 'bar', 'line')
-     *
-     * @return Chart A Chart object configured to display the total spending distribution over the specified months
-     */
-    public function createTotalSpendingForCurrentAndPreviousNthMonthsChart(int $year, int $month, int $nMonths = 3, string $chartType = Chart::TYPE_BAR): Chart
+    public function createTotalSpendingForCurrentAndPreviousNthMonthsChart(int $accountId, int $year, int $month, int $nMonths = 3, string $chartType = Chart::TYPE_BAR): Chart
     {
-        $data = $this->monthlyFinancialDataService->getTotalSpendingForCurrentAndPreviousNthMonths($year, $month, $nMonths);
+        $data = $this->monthlyFinancialDataService->getTotalSpendingForCurrentAndPreviousNthMonths($accountId, $year, $month, $nMonths);
 
         $labels = [];
         $totals = [];
@@ -82,9 +73,6 @@ final readonly class WalletChartService
             $labels[] = sprintf('%s %d', $totalData['monthName'], $totalData['year']);
             $totals[] = $totalData['total'];
         }
-
-        $labels = array_reverse($labels);
-        $totals = array_reverse($totals);
 
         $chart = $this->chartBuilder->createChart($chartType);
 
@@ -103,47 +91,29 @@ final readonly class WalletChartService
         return $chart;
     }
 
-    /**
-     * Creates a line chart representing the total spending for the current, previous, and next years.
-     *
-     * @param string $chartType The type of chart to create (e.g., 'line')
-     *
-     * @return Chart The generated line chart containing total spending data
-     *
-     * @throws LogicException if the income category is not found
-     */
-    public function createTotalSpendingForCurrentAndAdjacentYearsChart(string $chartType = Chart::TYPE_BAR): Chart
+    public function createTotalSpendingForCurrentAndAdjacentYearsChart(int $accountId, string $chartType = Chart::TYPE_BAR): Chart
     {
         $currentYear = (int) date('Y');
-        $previousYear = $currentYear - 1;
-        $nextYear = $currentYear + 1;
-
-        /** @var TransactionCategory|null $incomeCategory */
         $incomeCategory = $this->transactionCategoryRepository->findOneBy(['name' => TransactionCategoryEnum::Incomes->value]);
         if (null === $incomeCategory) {
             throw new LogicException('Income category not found.');
         }
 
-        $incomeCategoryId = $incomeCategory->getId();
-        if (!is_int($incomeCategoryId)) {
-            throw new LogicException('Income category ID must be an integer.');
-        }
+        $incomeCategoryId = (int) $incomeCategory->getId();
+        $startYear = $currentYear - 1;
+        $endYear = $currentYear + 1;
 
-        /** @var array<array{year: int, total: float}> $data */
-        $data = $this->monthlyFinancialDataService->getTotalSpendingPerYear($previousYear, $nextYear, $incomeCategoryId);
+        $data = $this->walletRepository->fetchTotalSpendingPerYear($startYear, $endYear, $incomeCategoryId, $accountId);
 
-        /** @var string[] $labels */
         $labels = [];
-        /** @var float[] $totals */
         $totals = [];
 
-        foreach ($data as $totalData) {
-            $labels[] = (string) $totalData['year'];
-            $totals[] = (float) $totalData['total'];
+        foreach ($data as $yearData) {
+            $labels[] = (string) $yearData['year'];
+            $totals[] = $yearData['total'];
         }
 
         $chart = $this->chartBuilder->createChart($chartType);
-
         $chart->setData([
             'labels' => $labels,
             'datasets' => [

@@ -6,7 +6,7 @@ namespace App\Security\Voter\Wallet;
 
 use App\Entity\User;
 use App\Entity\Wallet;
-use App\Repository\WalletRepository;
+use App\Repository\Wallet\WalletRepository;
 use Override;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;

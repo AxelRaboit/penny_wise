@@ -9,7 +9,7 @@ use App\Entity\TransactionCategory;
 use App\Entity\User;
 use App\Entity\UserInformation;
 use App\Entity\Wallet;
-use App\Enum\CurrencyEnum;
+use App\Enum\Wallet\CurrencyEnum;
 use DateMalformedStringException;
 use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;

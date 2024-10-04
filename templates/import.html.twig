@@ -5,8 +5,8 @@
     {% set importmapEntries = importmapEntries|merge(['monthly']) %}
 {% endif %}
 
-{% if page_requires_wallet_list is defined and page_requires_wallet_list is same as(true) %}
-    {% set importmapEntries = importmapEntries|merge(['wallet_list']) %}
+{% if page_requires_account_list is defined and page_requires_account_list is same as(true) %}
+    {% set importmapEntries = importmapEntries|merge(['account_list']) %}
 {% endif %}
 
 {% if page_requires_transaction_tag_list is defined and page_requires_transaction_tag_list is same as(true) %}

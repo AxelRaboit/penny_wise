@@ -1,0 +1,33 @@
+<div class="p-1 rounded-md">
+    <div class="text-center bg-secondary p-2 rounded-t-md">
+        <h2 class="text-md font-bold text-white">{{ title }}</h2>
+    </div>
+    {% if buttons is defined %}
+        <div class="chart-controls p-2 bg-white">
+            {% for button in buttons %}
+                <button class="monthly-chart-button text-sm text-center font-bold py-0.5 px-2 rounded-md bg-secondary text-white hover:bg-secondary-hover"
+                        data-chart-type="{{ button.chartType }}"
+                        data-chart-id="{{ button.chartId }}"
+                        data-chart-format="{{ button.chartFormat }}"
+                        data-year="{{ currentYear }}"
+                        data-month="{{ currentMonth }}"
+                        data-account-id="{{ account.id }}">
+                    {{ button.label }}
+                </button>
+            {% endfor %}
+        </div>
+    {% endif %}
+    <div id="{{ chartId }}" class="pb-4 bg-white rounded-b-md">
+        {% if chart is defined and chart is not null %}
+            {{ render_chart(chart) }}
+        {% elseif chartHtml is defined %}
+            <div class="pb-4">{{ chartHtml }}</div>
+        {% else %}
+            <div class="flex bg-white rounded-b-md">
+                <div class="w-full text-center p-2 bg-white rounded-b-md">
+                    <span class="font-bold text-dark text-xs">No data</span>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>

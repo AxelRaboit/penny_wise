@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Entity\User;
-use App\Form\RegistrationFormType;
+use App\Form\Authentication\RegistrationFormType;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;

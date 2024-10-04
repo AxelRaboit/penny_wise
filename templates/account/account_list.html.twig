@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Account list {{ parent() }}{% endblock %}
+
+{% set page_requires_account_list = true %}
+
+{% block body %}
+    <div class="{{ accounts is not empty ? '' : 'flex justify-center items-center' }}">
+        {% if accounts is not empty %}
+            <div class="flex flex-wrap">
+                {% for account in accounts %}
+                    <div class="w-full p-1 rounded-md mb-4 border border-solid border-gray-200" x-data="{ open: false }">
+                        <div class="flex justify-between items-center bg-primary text-white p-2 rounded-t-md cursor-pointer">
+                            <button class="flex-1 text-left" @click="open = !open">
+                                <span class="text-lg font-bold text-white">{{ account.getName() }}</span>
+                            </button>
+                            <div class="flex items-center space-x-2">
+                                <a href="{# {{ path('account_edit', {id: account.getId()}) }} #}"
+                                   class="bg-quinary hover:bg-quinary-hover text-white rounded-md text-sm py-1 px-2">
+                                    <i class="fa-solid fa-pen"></i>
+                                </a>
+                                <button type="button"
+                                        data-action-url="{# {{ path('account_delete', {id: account.getId(), redirectTo: 'account_list'}) }} #}"
+                                        class="js-delete-account-button bg-red-500 text-white rounded-md text-sm py-1 px-2 hover:bg-red-700">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                                <span class="text-white">
+                                    <i :class="open ? 'fa-solid fa-chevron-up' : 'fa-solid fa-chevron-down'" @click="open = !open"></i>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-wrap" x-show="open" x-transition>
+                            {% for year in account.getYears() %}
+                                <div class="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 p-1 rounded-md">
+                                    <div class="text-center bg-secondary rounded-t-md">
+                                        <h2 class="text-md font-bold p-2 text-white">{{ year.getYear() }}</h2>
+                                    </div>
+                                    <div class="w-full rounded-b-md p-2 bg-accent">
+                                        <div class="grid grid-cols-1 md:grid-cols-3 gap-1 relative">
+                                            {% for month in year.getMonths() %}
+                                                <div class="relative" x-data="{ hover: false }" @mouseenter="hover = true" @mouseleave="hover = false">
+                                                    <a href="{{ path('monthly_wallet', {year: year.getYear(), month: month.getMonthNumber(), accountId: account.getId()}) }}"
+                                                       class="block text-sm font-bold py-2 px-4 rounded-md bg-secondary text-white hover:bg-secondary-hover text-center mb-1">
+                                                        {{ month.getMonthName() }}
+                                                    </a>
+                                                    <button type="button"
+                                                            data-action-url="{{ path('delete_monthly_wallet', {year: year.getYear(), month: month.getMonthNumber(), redirectTo: 'account_list'}) }}"
+                                                            class="js-delete-wallet-button absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center text-xs hover:bg-red-700 shadow-lg z-10"
+                                                            x-show="hover" x-transition.opacity>
+                                                        <i class="fa-solid fa-trash-can"></i>
+                                                    </button>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+
+                            <div class="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 p-1 rounded-md">
+                                <a href="{{ path('wallet_new_for_account', {accountId: account.getId()}) }}"
+                                   class="flex items-center justify-center h-full bg-secondary text-white hover:bg-secondary-hover text-center rounded-md p-4">
+                                    <i class="fa-solid fa-plus text-3xl"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="text-center bg-accent p-6 rounded-md shadow-md w-full max-w-md">
+                <img src="{{ asset('media/logo.png') }}" alt="logo" class="w-full rounded-md mb-4">
+                <h2 class="text-xl font-bold mb-4">Welcome!</h2>
+                <p class="mb-4">It looks like you don't have any accounts yet. Please create an account to start managing your wallets.</p>
+                <a href="{{ path('account_new') }}" class="text-center font-bold bg-primary hover:bg-primary-hover text-white py-2 px-4 rounded-md">
+                    Create your first account
+                </a>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

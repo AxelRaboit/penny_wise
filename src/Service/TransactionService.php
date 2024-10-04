@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Dto\TransactionInformationDto;
+use App\Dto\Transaction\TransactionInformationDto;
 use App\Entity\Transaction;
 use App\Entity\Wallet;
-use App\Enum\TransactionCategoryEnum;
+use App\Enum\Transaction\TransactionCategoryEnum;
 use App\Exception\NoPreviousTransactionsException;
 use App\Exception\NoPreviousWalletException;
 use App\Exception\WalletNotFoundWithinLimitException;
-use App\Manager\TransactionManager;
-use App\Repository\TransactionCategoryRepository;
-use App\Repository\TransactionRepository;
+use App\Manager\Transaction\TransactionManager;
+use App\Repository\Transaction\TransactionCategoryRepository;
+use App\Repository\Transaction\TransactionRepository;
 use DateMalformedStringException;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;

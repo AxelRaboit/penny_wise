@@ -6,7 +6,7 @@ namespace App\Validator\TransactionTag;
 
 use App\Entity\TransactionTag;
 use App\Entity\User;
-use App\Repository\TransactionTagRepository;
+use App\Repository\Transaction\TransactionTagRepository;
 use Override;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;

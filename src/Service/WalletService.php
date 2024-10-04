@@ -4,58 +4,24 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Dto\CalendarDto;
-use App\Dto\MonthDto;
-use App\Dto\YearDto;
+use App\Dto\Account\AccountDto;
+use App\Dto\Wallet\MonthDto;
+use App\Dto\Wallet\YearDto;
 use App\Entity\User;
 use App\Entity\Wallet;
-use App\Enum\MonthEnum;
+use App\Enum\Wallet\MonthEnum;
 use App\Exception\WalletNotFoundWithinLimitException;
-use App\Repository\WalletRepository;
+use App\Repository\Account\AccountRepository;
+use App\Repository\Wallet\WalletRepository;
 use App\Util\WalletHelper;
 
 final readonly class WalletService
 {
     public function __construct(
         private WalletRepository $walletRepository,
+        private AccountRepository $accountRepository,
         private WalletHelper $walletHelper,
     ) {}
-
-    public function getWalletByUser(User $user, int $year, int $month): ?Wallet
-    {
-        /** @var Wallet|null $wallet */
-        $wallet = $this->walletRepository
-            ->findWalletByUser($user, $year, $month);
-
-        return $wallet;
-    }
-
-    public function findAllWalletByUser(User $user): CalendarDto
-    {
-        $results = $this->walletRepository->findAllWalletsWithTransactionsByUser($user);
-
-        $yearsAndMonths = [];
-
-        foreach ($results as $result) {
-            $year = (int) $result['year'];  // Forcer l'année à être un entier
-            $month = $result['month'];
-            $walletId = $result['id'];
-
-            $monthEnum = MonthEnum::from($month);
-            if (!isset($yearsAndMonths[$year])) {
-                $yearsAndMonths[$year] = [];
-            }
-
-            $yearsAndMonths[$year][] = new MonthDto($month, $monthEnum->getName(), $walletId);
-        }
-
-        $years = [];
-        foreach ($yearsAndMonths as $year => $months) {
-            $years[] = new YearDto($year, $months);
-        }
-
-        return new CalendarDto($years);
-    }
 
     /**
      * Finds the previous wallet for a given user based on the specified year and month.
@@ -109,5 +75,115 @@ final readonly class WalletService
         --$remainingMonths;
 
         return $this->searchWallet($user, $year, $month, $remainingMonths, $maxMonthsBack);
+    }
+
+    /**
+     * Retrieves all accounts with associated wallets for a given user.
+     *
+     * @param User $user the user for whom the accounts and wallets are retrieved
+     *
+     * @return AccountDto[] an array of AccountDto objects
+     */
+    public function findAllAccountsWithWalletsByUser(User $user): array
+    {
+        $accounts = $this->accountRepository->findAllAccountsWithWalletsByUser($user);
+        $accountsAndWallets = [];
+
+        foreach ($accounts as $account) {
+            if (null === $account->getId()) {
+                continue;
+            }
+
+            $yearsAndMonths = [];
+            $walletsAccount = $account->getWallets();
+
+            foreach ($walletsAccount as $wallet) {
+                $walletId = $wallet->getId();
+                if (null === $walletId) {
+                    continue;
+                }
+
+                $year = $wallet->getYear();
+                $month = $wallet->getMonth();
+
+                $monthEnum = MonthEnum::from($month);
+                if (!isset($yearsAndMonths[$year])) {
+                    $yearsAndMonths[$year] = [];
+                }
+
+                $monthData = [
+                    'month' => $month,
+                    'month_name' => $monthEnum->getName(),
+                    'wallet_id' => $walletId,
+                ];
+
+                $yearsAndMonths[$year][] = MonthDto::createFrom($monthData);
+            }
+
+            foreach ($yearsAndMonths as $year => $months) {
+                usort($months, fn (MonthDto $a, MonthDto $b): int => $a->getMonthNumber() <=> $b->getMonthNumber());
+                $yearsAndMonths[$year] = $months;
+            }
+
+            $years = [];
+            foreach ($yearsAndMonths as $year => $months) {
+                $years[] = new YearDto($year, array_values($months));
+            }
+
+            $accountData = [
+                'id' => $account->getId(),
+                'name' => $account->getName(),
+                'years' => $years,
+            ];
+
+            $accountsAndWallets[] = AccountDto::createFrom($accountData);
+        }
+
+        return $accountsAndWallets;
+    }
+
+    public function getWalletByAccountYearAndMonth(int $accountId, int $year, int $month): ?Wallet
+    {
+        return $this->walletRepository->findWalletByAccountYearAndMonth($accountId, $year, $month);
+    }
+
+    /**
+     * Retrieves wallets by account and year and organizes them into YearDto objects.
+     *
+     * @param int $accountId The account ID
+     * @param int $year      The year
+     *
+     * @return array<YearDto> An array of YearDto objects containing the wallets for the given account and year
+     */
+    public function getWalletsByAccountAndYear(int $accountId, int $year): array
+    {
+        $results = $this->walletRepository->getAllWalletsAndTransactionsByAccountAndYear($accountId, $year);
+
+        $yearsAndMonths = [];
+
+        foreach ($results as $wallet) {
+            $walletId = $wallet->getId();
+
+            if (null === $walletId) {
+                continue;
+            }
+
+            $year = $wallet->getYear();
+            $month = $wallet->getMonth();
+
+            $monthEnum = MonthEnum::from($month);
+            if (!isset($yearsAndMonths[$year])) {
+                $yearsAndMonths[$year] = [];
+            }
+
+            $yearsAndMonths[$year][] = new MonthDto($month, $monthEnum->getName(), $walletId);
+        }
+
+        $years = [];
+        foreach ($yearsAndMonths as $year => $months) {
+            $years[] = new YearDto($year, array_values($months));
+        }
+
+        return $years;
     }
 }

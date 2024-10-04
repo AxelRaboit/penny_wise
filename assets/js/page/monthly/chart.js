@@ -6,8 +6,16 @@ export function initializeChartButtons() {
             const year = this.getAttribute('data-year');
             const month = this.getAttribute('data-month');
             const chartFormat = this.getAttribute('data-chart-format') || 'bar';
+            const accountId = this.getAttribute('data-account-id');
 
-            fetch(`/api/get-chart-data?type=${chartType}&year=${year}&month=${month}&format=${chartFormat}`)
+            if (!accountId) {
+                console.error('Account ID is missing for chart request');
+                return;
+            }
+
+            const url = `/api/get-chart-data/${accountId}?type=${chartType}&year=${year}&month=${month}&format=${chartFormat}`;
+
+            fetch(url)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Network response was not ok');

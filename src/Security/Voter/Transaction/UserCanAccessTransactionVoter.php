@@ -6,7 +6,7 @@ namespace App\Security\Voter\Transaction;
 
 use App\Entity\Transaction;
 use App\Entity\User;
-use App\Repository\TransactionRepository;
+use App\Repository\Transaction\TransactionRepository;
 use Override;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;

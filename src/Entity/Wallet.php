@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Entity\Trait\TimestampableTrait;
-use App\Enum\CurrencyEnum;
-use App\Repository\WalletRepository;
+use App\Enum\Wallet\CurrencyEnum;
+use App\Repository\Wallet\WalletRepository;
 use DateTimeImmutable;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -62,6 +62,10 @@ class Wallet
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
     private ?string $spendingLimit = null;
+
+    #[ORM\ManyToOne(inversedBy: 'wallets')]
+    #[ORM\JoinColumn(nullable: false)]
+    private Account $account;
 
     #[ORM\PrePersist]
     public function onPrePersist(): void
@@ -239,6 +243,18 @@ class Wallet
         }
 
         $this->spendingLimit = null !== $spendingLimit ? number_format((float) $spendingLimit, 2, '.', '') : null;
+
+        return $this;
+    }
+
+    public function getAccount(): Account
+    {
+        return $this->account;
+    }
+
+    public function setAccount(Account $account): static
+    {
+        $this->account = $account;
 
         return $this;
     }

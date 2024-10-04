@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ wallet.month|month_name }} {{ wallet.year }} {{ parent() }}{% endblock %}
+
+{% set page_requires_monthly = true %}
+{% set page_requires_transaction = true %}
+{% set page_requires_note = true %}
+
+{% block body %}
+    <div class="mb-1">
+        {{ include('walletForAccount/partial/_wallet_dashboard.html.twig', {
+            wallet: wallet,
+            walletsAndTransactionsFromYear: walletsAndTransactionsFromYear,
+            currentMonth: currentMonth,
+            currentYear: currentYear,
+            account: account
+        }) }}
+    </div>
+
+    <div class="mb-1">
+        {{ include('walletForAccount/partial/transaction/_transactions.html.twig') }}
+    </div>
+
+    {{ include('components/note.html.twig') }}
+{% endblock %}

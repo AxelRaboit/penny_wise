@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\EventListener;
 
 use App\Entity\Wallet;
-use App\Enum\MonthEnum;
+use App\Enum\Wallet\MonthEnum;
 use DateTimeImmutable;
 use DateTimeInterface;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
