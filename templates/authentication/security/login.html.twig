@@ -1,4 +1,4 @@
-{% extends '../../base_without_topbar.html.twig' %}
+{% extends 'base_without_topbar.html.twig' %}
 
 {% block title %}Login {{ parent() }}{% endblock %}
 
@@ -16,9 +16,11 @@
 
                 <div class="space-y-4">
                     <div>
+                        <label for="username" class="hidden"></label>
                         <input placeholder="Email" type="email" value="{{ last_username }}" name="_username" id="username" class="w-full p-3 border border-gray-300 rounded-md" autocomplete="email" required autofocus>
                     </div>
                     <div>
+                        <label for="password" class="hidden"></label>
                         <input placeholder="Password" type="password" name="_password" id="password" class="w-full p-3 border border-gray-300 rounded-md" autocomplete="current-password" required>
                     </div>
 
