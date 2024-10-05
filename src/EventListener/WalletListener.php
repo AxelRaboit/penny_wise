@@ -6,8 +6,10 @@ namespace App\EventListener;
 
 use App\Entity\Wallet;
 use App\Enum\Wallet\MonthEnum;
+use App\Service\Wallet\WalletCheckerService;
 use DateTimeImmutable;
 use DateTimeInterface;
+use LogicException;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormError;
@@ -16,8 +18,10 @@ use Symfony\Component\Form\FormEvents;
 
 #[AsEventListener(event: FormEvents::PRE_SET_DATA, method: 'onPreSetData')]
 #[AsEventListener(event: FormEvents::POST_SUBMIT, method: 'onPostSubmit')]
-class WalletListener
+final readonly class WalletListener
 {
+    public function __construct(private WalletCheckerService $walletCheckerService) {}
+
     public function onPreSetData(FormEvent $event): void
     {
         $form = $event->getForm();
@@ -47,9 +51,18 @@ class WalletListener
 
         $month = $form->get('month')->getData();
         $year = $form->get('year')->getData();
+        $account = $wallet->getAccount();
 
         if (!is_numeric($month) || !is_numeric($year)) {
             $form->addError(new FormError('Please select a valid month and year.'));
+
+            return;
+        }
+
+        try {
+            $this->walletCheckerService->ensureWalletDoesNotExist($account, (int) $year, (int) $month);
+        } catch (LogicException $logicException) {
+            $form->addError(new FormError($logicException->getMessage()));
 
             return;
         }

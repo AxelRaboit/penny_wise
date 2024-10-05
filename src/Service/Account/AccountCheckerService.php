@@ -8,11 +8,11 @@ use App\Entity\Account;
 use App\Repository\Account\AccountRepository;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-final readonly class AccountGetOrThrowService
+final readonly class AccountCheckerService
 {
     public function __construct(private AccountRepository $accountRepository) {}
 
-    public function get(int $id): Account
+    public function getAccountOrThrow(int $id): Account
     {
         $account = $this->accountRepository->find($id);
         if (!$account instanceof Account) {

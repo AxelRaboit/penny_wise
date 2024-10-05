@@ -9,6 +9,7 @@ use App\Entity\Wallet;
 use App\Repository\Test\InMemoryWalletRepository;
 use DateTime;
 use Exception;
+use LogicException;
 use PHPUnit\Framework\TestCase;
 
 class InMemoryWalletRepositoryTest extends TestCase
@@ -143,5 +144,30 @@ class InMemoryWalletRepositoryTest extends TestCase
         $this->assertNull($nonExistentWallet);
         $this->expectException(Exception::class);
         throw new Exception('Wallet does not exist');
+    }
+
+    public function testCreateDuplicateWalletFails(): void
+    {
+        $user = new User();
+        $user->setEmail(self::EMAIL);
+
+        $walletRepository = new InMemoryWalletRepository();
+
+        $wallet1 = new Wallet();
+        $wallet1->setYear(self::YEAR_2024)
+            ->setMonth(self::MONTH_SEPTEMBER)
+            ->setIndividual($user);
+
+        $walletRepository->save($wallet1);
+
+        $wallet2 = new Wallet();
+        $wallet2->setYear(self::YEAR_2024)
+            ->setMonth(self::MONTH_SEPTEMBER)
+            ->setIndividual($user);
+
+        $this->expectException(LogicException::class);
+        $this->expectExceptionMessage('A wallet for the same year and month is already exists.');
+
+        $walletRepository->save($wallet2);
     }
 }

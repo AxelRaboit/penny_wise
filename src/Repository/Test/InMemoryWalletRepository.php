@@ -8,6 +8,7 @@ use App\Entity\Wallet;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use LogicException;
 
 final readonly class InMemoryWalletRepository
 {
@@ -23,6 +24,20 @@ final readonly class InMemoryWalletRepository
 
     public function save(Wallet $wallet): void
     {
+        foreach ($this->wallets as $existingWallet) {
+            if ($existingWallet === $wallet) {
+                continue;
+            }
+
+            if (
+                $existingWallet->getYear() === $wallet->getYear()
+                && $existingWallet->getMonth() === $wallet->getMonth()
+                && $existingWallet->getIndividual() === $wallet->getIndividual()
+            ) {
+                throw new LogicException('A wallet for the same year and month is already exists.');
+            }
+        }
+
         if (!$this->wallets->contains($wallet)) {
             $this->wallets->add($wallet);
         }

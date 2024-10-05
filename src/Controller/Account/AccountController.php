@@ -9,8 +9,8 @@ use App\Exception\MaxAccountsReachedException;
 use App\Form\Account\AccountType;
 use App\Manager\Account\AccountManager;
 use App\Security\Voter\Account\AccountVoter;
-use App\Service\Account\AccountGetOrThrowService;
-use App\Service\User\UserGetOrThrowService;
+use App\Service\Account\AccountCheckerService;
+use App\Service\User\UserCheckerService;
 use App\Service\WalletService;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,14 +23,14 @@ final class AccountController extends AbstractController
     public function __construct(
         private readonly WalletService $walletService,
         private readonly AccountManager $accountManager,
-        private readonly AccountGetOrThrowService $getAccountOrThrowService,
-        private readonly UserGetOrThrowService $getUserOrThrowService,
+        private readonly AccountCheckerService $accountCheckerService,
+        private readonly UserCheckerService $userCheckerService,
     ) {}
 
     #[Route('/', name: 'account_list')]
     public function index(): Response
     {
-        $user = $this->getUserOrThrowService->get();
+        $user = $this->userCheckerService->getUserOrThrow();
         $accounts = $this->walletService->findAllAccountsWithWalletsByUser($user);
 
         return $this->render('account/account_list.html.twig', [
@@ -70,7 +70,7 @@ final class AccountController extends AbstractController
     #[Route('/account/{id}/edit', name: 'account_edit')]
     public function edit(int $id, Request $request): Response
     {
-        $account = $this->getAccountOrThrowService->get($id);
+        $account = $this->accountCheckerService->getAccountOrThrow($id);
         if (!$this->isGranted(AccountVoter::ACCESS_ACCOUNT, $account)) {
             throw $this->createAccessDeniedException('You do not have permission to edit this account');
         }
@@ -96,7 +96,7 @@ final class AccountController extends AbstractController
     #[Route('/account/{id}/delete', name: 'account_delete')]
     public function delete(int $id): Response
     {
-        $account = $this->getAccountOrThrowService->get($id);
+        $account = $this->accountCheckerService->getAccountOrThrow($id);
         if (!$this->isGranted(AccountVoter::ACCESS_ACCOUNT, $account)) {
             throw $this->createAccessDeniedException('You do not have permission to delete this account');
         }

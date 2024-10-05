@@ -79,6 +79,9 @@ migration:
 migrate:
 	$(SYMFONY) doctrine:migrations:migrate
 
+migration-clean:
+	$(SYMFONY) doctrine:migrations:diff
+
 migrate-all:
 	$(SYMFONY) doctrine:migrations:migrate --no-interaction
 

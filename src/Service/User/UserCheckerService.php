@@ -8,13 +8,13 @@ use App\Entity\User;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-final readonly class UserGetOrThrowService
+final readonly class UserCheckerService
 {
     public function __construct(
         private readonly Security $security
     ) {}
 
-    public function get(): User
+    public function getUserOrThrow(): User
     {
         $user = $this->security->getUser();
         if (!$user instanceof User) {
