@@ -8,6 +8,7 @@ use App\Entity\Account;
 use App\EventListener\AccountUpdateListener;
 use Override;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvents;
@@ -24,6 +25,10 @@ class AccountType extends AbstractType
             ->add('name', TextType::class, [
                 'attr' => ['placeholder' => 'Account name'],
                 'label' => 'Account Name',
+            ])
+            ->add('priority', IntegerType::class, [
+                'attr' => ['placeholder' => 'Priority'],
+                'label' => 'Priority',
             ])
             ->addEventListener(FormEvents::POST_SUBMIT, $this->accountUpdateListener->onPostSubmit(...));
     }

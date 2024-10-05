@@ -7,6 +7,7 @@ namespace App\Entity;
 use App\Repository\Account\AccountRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AccountRepository::class)]
@@ -29,6 +30,9 @@ class Account
     #[ORM\ManyToOne(inversedBy: 'accounts')]
     #[ORM\JoinColumn(nullable: false)]
     private User $individual;
+
+    #[ORM\Column(type: Types::INTEGER, nullable: true, options: ['default' => 0])]
+    private ?int $priority = 0;
 
     public function __construct()
     {
@@ -78,6 +82,18 @@ class Account
     public function setIndividual(User $individual): static
     {
         $this->individual = $individual;
+
+        return $this;
+    }
+
+    public function getPriority(): ?int
+    {
+        return $this->priority;
+    }
+
+    public function setPriority(?int $priority): static
+    {
+        $this->priority = $priority;
 
         return $this;
     }

@@ -7,6 +7,7 @@ namespace App\Repository\Account;
 use App\Entity\Account;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\Order;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -30,6 +31,7 @@ final class AccountRepository extends ServiceEntityRepository
             ->leftJoin('a.wallets', 'w')
             ->addSelect('w')
             ->where('a.individual = :user')
+            ->orderBy('a.priority', Order::Descending->value)
             ->setParameter('user', $user)
             ->getQuery();
 
