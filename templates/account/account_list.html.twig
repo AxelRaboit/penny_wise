@@ -9,18 +9,18 @@
         {% if accounts is not empty %}
             <div class="flex flex-wrap">
                 {% for account in accounts %}
-                    <div class="w-full p-1 rounded-md mb-4 border border-solid border-gray-200" x-data="{ open: false }">
+                    <div class="w-full p-1 rounded-md mb-4 border border-solid border-gray-200" x-data="{ open: true }">
                         <div class="flex justify-between items-center bg-primary text-white p-2 rounded-t-md cursor-pointer">
                             <button class="flex-1 text-left" @click="open = !open">
                                 <span class="text-lg font-bold text-white">{{ account.getName() }}</span>
                             </button>
                             <div class="flex items-center space-x-2">
-                                <a href="{# {{ path('account_edit', {id: account.getId()}) }} #}"
+                                <a href=" {{ path('account_edit', {id: account.getId()}) }}"
                                    class="bg-quinary hover:bg-quinary-hover text-white rounded-md text-sm py-1 px-2">
                                     <i class="fa-solid fa-pen"></i>
                                 </a>
                                 <button type="button"
-                                        data-action-url="{# {{ path('account_delete', {id: account.getId(), redirectTo: 'account_list'}) }} #}"
+                                        data-action-url=" {{ path('account_delete', {id: account.getId()}) }} "
                                         class="js-delete-account-button bg-red-500 text-white rounded-md text-sm py-1 px-2 hover:bg-red-700">
                                     <i class="fa-solid fa-trash-can"></i>
                                 </button>

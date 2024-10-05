@@ -38,4 +38,18 @@ final class AccountRepository extends ServiceEntityRepository
 
         return $accounts;
     }
+
+    public function findSpecificAccountByUser(User $user, int $accountId): ?Account
+    {
+        /** @var Account|null $account */
+        $account = $this->createQueryBuilder('a')
+            ->andWhere('a.id = :accountId')
+            ->andWhere('a.individual = :user')
+            ->setParameter('accountId', $accountId)
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getOneOrNullResult();
+
+        return $account;
+    }
 }

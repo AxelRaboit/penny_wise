@@ -5,14 +5,18 @@ declare(strict_types=1);
 namespace App\Form\Account;
 
 use App\Entity\Account;
+use App\EventListener\AccountUpdateListener;
 use Override;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AccountType extends AbstractType
 {
+    public function __construct(private readonly AccountUpdateListener $accountUpdateListener) {}
+
     #[Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -20,7 +24,8 @@ class AccountType extends AbstractType
             ->add('name', TextType::class, [
                 'attr' => ['placeholder' => 'Account name'],
                 'label' => 'Account Name',
-            ]);
+            ])
+            ->addEventListener(FormEvents::POST_SUBMIT, $this->accountUpdateListener->onPostSubmit(...));
     }
 
     #[Override]

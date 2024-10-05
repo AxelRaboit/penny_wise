@@ -12,8 +12,8 @@ use App\Manager\Transaction\TransactionForWalletManager;
 use App\Manager\Transaction\TransactionManager;
 use App\Repository\Transaction\TransactionRepository;
 use App\Repository\Wallet\WalletRepository;
-use App\Security\Voter\Transaction\UserCanAccessTransactionVoter;
-use App\Security\Voter\Wallet\UserCanAccessWalletVoter;
+use App\Security\Voter\Transaction\TransactionVoter;
+use App\Security\Voter\Wallet\WalletVoter;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -37,7 +37,7 @@ final class TransactionForWalletController extends AbstractController
     {
         $wallet = $this->findWalletOrFail($id);
 
-        if (!$this->isGranted(UserCanAccessWalletVoter::ACCESS_WALLET, $wallet)) {
+        if (!$this->isGranted(WalletVoter::ACCESS_WALLET, $wallet)) {
             throw $this->createAccessDeniedException('You are not allowed to create a transaction for this wallet.');
         }
 
@@ -78,7 +78,7 @@ final class TransactionForWalletController extends AbstractController
     {
         $wallet = $this->findWalletOrFail($id);
 
-        if (!$this->isGranted(UserCanAccessWalletVoter::ACCESS_WALLET, $wallet)) {
+        if (!$this->isGranted(WalletVoter::ACCESS_WALLET, $wallet)) {
             throw $this->createAccessDeniedException('You are not allowed to create a transaction for this wallet.');
         }
 
@@ -122,7 +122,7 @@ final class TransactionForWalletController extends AbstractController
 
         $wallet = $transaction->getWallet();
 
-        if (!$this->isGranted(UserCanAccessTransactionVoter::ACCESS_TRANSACTION, $transaction)) {
+        if (!$this->isGranted(TransactionVoter::ACCESS_TRANSACTION, $transaction)) {
             throw $this->createAccessDeniedException('You are not allowed to delete this transaction.');
         }
 
@@ -153,7 +153,7 @@ final class TransactionForWalletController extends AbstractController
 
         $wallet = $transaction->getWallet();
 
-        if (!$this->isGranted(UserCanAccessTransactionVoter::ACCESS_TRANSACTION, $transaction)) {
+        if (!$this->isGranted(TransactionVoter::ACCESS_TRANSACTION, $transaction)) {
             throw $this->createAccessDeniedException('You are not allowed to edit this transaction.');
         }
 
@@ -196,7 +196,7 @@ final class TransactionForWalletController extends AbstractController
     {
         $wallet = $this->findWalletOrFail($id);
 
-        if (!$this->isGranted(UserCanAccessWalletVoter::ACCESS_WALLET, $wallet)) {
+        if (!$this->isGranted(WalletVoter::ACCESS_WALLET, $wallet)) {
             throw $this->createAccessDeniedException('You are not allowed to delete transactions from this wallet.');
         }
 

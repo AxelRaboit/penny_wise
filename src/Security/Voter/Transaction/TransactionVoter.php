@@ -12,9 +12,9 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 /**
- * @extends Voter<string, Transaction>
+ * @extends Voter<string, Transaction|null>
  */
-class UserCanAccessTransactionVoter extends Voter
+class TransactionVoter extends Voter
 {
     public const string ACCESS_TRANSACTION = 'ACCESS_TRANSACTION';
 
@@ -34,9 +34,17 @@ class UserCanAccessTransactionVoter extends Voter
             return false;
         }
 
-        /** @var Transaction $transaction */
+        /** @var Transaction|null $transaction */
         $transaction = $subject;
 
+        return match ($attribute) {
+            self::ACCESS_TRANSACTION => $transaction instanceof Transaction && $this->canAccessTransaction($user, $transaction),
+            default => false,
+        };
+    }
+
+    private function canAccessTransaction(User $user, Transaction $transaction): bool
+    {
         /** @var int $transactionId */
         $transactionId = $transaction->getId();
 

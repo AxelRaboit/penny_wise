@@ -12,9 +12,9 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 /**
- * @extends Voter<string, Wallet>
+ * @extends Voter<string, Wallet|null>
  */
-class UserCanAccessWalletVoter extends Voter
+class WalletVoter extends Voter
 {
     public const string ACCESS_WALLET = 'ACCESS_WALLET';
 
@@ -29,23 +29,27 @@ class UserCanAccessWalletVoter extends Voter
     #[Override]
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
-        /** @var User $user */
         $user = $token->getUser();
         if (!$user instanceof User) {
             return false;
         }
 
-        /** @var Wallet $wallet */
+        /** @var Wallet|null $wallet */
         $wallet = $subject;
-        if (!$wallet instanceof Wallet) {
-            return false;
-        }
 
+        return match ($attribute) {
+            self::ACCESS_WALLET => $wallet instanceof Wallet && $this->canAccessWallet($user, $wallet),
+            default => false,
+        };
+    }
+
+    private function canAccessWallet(User $user, Wallet $wallet): bool
+    {
         /** @var int $walletId */
         $walletId = $wallet->getId();
 
-        $wallet = $this->walletRepository->findSpecificWalletByUser($user, $walletId);
+        $userWallet = $this->walletRepository->findSpecificWalletByUser($user, $walletId);
 
-        return $wallet instanceof Wallet;
+        return $userWallet instanceof Wallet;
     }
 }
