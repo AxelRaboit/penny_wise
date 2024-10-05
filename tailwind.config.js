@@ -37,7 +37,11 @@ module.exports = {
           hover: '#3A3A42',
           ring: '#4B4B56'
         },
-
+        senary: {
+          DEFAULT: '#1f1f2b',
+          hover: '#2b2b3a',
+          ring: '#181823'
+        },
         accent: {
           DEFAULT: '#ECEFF4',
           hover: '#DDE1E9',
