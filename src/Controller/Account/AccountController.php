@@ -9,6 +9,7 @@ use App\Exception\AccountAccessDeniedException;
 use App\Exception\MaxAccountsReachedException;
 use App\Form\Account\AccountType;
 use App\Form\Account\Wallet\WalletType;
+use App\Form\Wallet\WalletCreateWithPreselectedMonthType;
 use App\Manager\Account\AccountManager;
 use App\Manager\Account\Wallet\WalletCreationManager;
 use App\Manager\Wallet\WalletManager;
@@ -157,6 +158,30 @@ final class AccountController extends AbstractController
 
         return $this->render('account/wallet/new.html.twig', [
             'form' => $form,
+        ]);
+    }
+
+    #[Route('/account/{accountId}/wallet/new/year/{year}/month/{month}', name: 'account_wallet_new_for_year_month')]
+    public function newWalletForYearMonth(int $accountId, int $year, int $month, Request $request): Response
+    {
+        $wallet = $this->walletCreationManager->beginWalletYearCreationWithMonth($accountId, $year, $month);
+
+        $form = $this->createForm(WalletCreateWithPreselectedMonthType::class, $wallet);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->walletCreationManager->endWalletCreation($wallet);
+
+            return $this->redirectToRoute('account_wallet_dashboard', [
+                'accountId' => $wallet->getAccount()->getId(),
+                'year' => $wallet->getYear(),
+                'month' => $wallet->getMonth(),
+            ]);
+        }
+
+        return $this->render('wallet/walletForAccount/new_wallet_for_year.html.twig', [
+            'form' => $form,
+            'wallet' => $wallet,
         ]);
     }
 

@@ -14,6 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Translation\Exception\NotFoundResourceException;
 
 #[AsEventListener(event: FormEvents::PRE_SET_DATA, method: 'onPreSetData')]
 #[AsEventListener(event: FormEvents::POST_SUBMIT, method: 'onPostSubmit')]
@@ -24,20 +25,27 @@ final readonly class WalletCreateForYearListener
     public function onPreSetData(FormEvent $event): void
     {
         $form = $event->getForm();
+        $options = $form->getConfig()->getOptions();
 
-        $months = array_combine(
-            array_map(fn (MonthEnum $month): string => $month->getName(), MonthEnum::all()),
-            array_map(fn (MonthEnum $month): int => $month->value, MonthEnum::all())
-        );
+        // Utiliser isset() pour vérifier si l'option 'disable_month' est définie
+        $disableMonth = $options['disable_month'] ?? false;
 
-        $form->add('month', ChoiceType::class, [
-            'choices' => $months,
-            'choice_value' => fn (?int $month): string => null !== $month ? (string) $month : '',
-            'choice_label' => fn (int $month): string => MonthEnum::from($month)->getName(),
-            'placeholder' => 'Choose a month',
-            'required' => true,
-            'autocomplete' => true,
-        ]);
+        // Ajouter le champ "month" seulement si disable_month est false
+        if (!$disableMonth) {
+            $months = array_combine(
+                array_map(fn (MonthEnum $month): string => $month->getName(), MonthEnum::all()),
+                array_map(fn (MonthEnum $month): int => $month->value, MonthEnum::all())
+            );
+
+            $form->add('month', ChoiceType::class, [
+                'choices' => $months,
+                'choice_value' => fn (?int $month): string => null !== $month ? (string) $month : '',
+                'choice_label' => fn (int $month): string => MonthEnum::from($month)->getName(),
+                'placeholder' => 'Choose a month',
+                'required' => true,
+                'autocomplete' => true,
+            ]);
+        }
     }
 
     public function onPostSubmit(FormEvent $event): void
@@ -57,8 +65,14 @@ final readonly class WalletCreateForYearListener
 
         $monthEnum = MonthEnum::from($monthValue);
 
-        $existingWallet = $this->walletRepository->findOneBy(['year' => $year, 'month' => $monthEnum->value]);
-        if (null !== $existingWallet) {
+        $account = $wallet->getAccount();
+        $accountId = $account->getId();
+        if (null === $accountId) {
+            throw new NotFoundResourceException('Account not found.');
+        }
+
+        $existingWallet = $this->walletRepository->findWalletByAccountYearAndMonth($accountId, $year, $monthEnum->value);
+        if ($existingWallet instanceof Wallet) {
             $form->get('month')->addError(new FormError('A wallet already exists for the selected month and year.'));
 
             return;

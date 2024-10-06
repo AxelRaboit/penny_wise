@@ -7,7 +7,9 @@ namespace App\Manager\Account\Wallet;
 use App\Entity\Wallet;
 use App\Service\Checker\Account\AccountCheckerService;
 use App\Service\User\UserCheckerService;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
+use RuntimeException;
 
 final readonly class WalletCreationManager
 {
@@ -39,5 +41,23 @@ final readonly class WalletCreationManager
         $wallet->setIndividual($user);
         $this->entityManager->persist($wallet);
         $this->entityManager->flush();
+    }
+
+    public function beginWalletYearCreationWithMonth(int $accountId, int $year, int $month): Wallet
+    {
+        $wallet = $this->beginWalletYearCreation($accountId, $year);
+        $wallet->setMonth($month);
+
+        $startDate = DateTimeImmutable::createFromFormat('Y-m-d', sprintf('%04d-%02d-01', $year, $month));
+        if (false === $startDate) {
+            throw new RuntimeException(sprintf('Invalid date format for year: %d, month: %d', $year, $month));
+        }
+
+        $endDate = $startDate->modify('last day of this month');
+
+        $wallet->setStartDate($startDate);
+        $wallet->setEndDate($endDate);
+
+        return $wallet;
     }
 }

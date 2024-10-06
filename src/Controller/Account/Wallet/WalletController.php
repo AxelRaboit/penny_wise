@@ -8,7 +8,6 @@ use App\Entity\User;
 use App\Entity\Wallet;
 use App\Enum\Transaction\TransactionCategoryEnum;
 use App\Enum\Wallet\MonthEnum;
-use App\Form\Account\Wallet\WalletType;
 use App\Form\Wallet\WalletCreateForYearType;
 use App\Manager\Account\Wallet\WalletCreationManager;
 use App\Manager\Wallet\WalletManager;
