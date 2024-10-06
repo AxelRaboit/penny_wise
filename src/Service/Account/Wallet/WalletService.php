@@ -144,7 +144,6 @@ final readonly class WalletService
         return $accountsAndWallets;
     }
 
-
     public function getWalletByAccountYearAndMonth(int $accountId, int $year, int $month): ?Wallet
     {
         return $this->walletRepository->findWalletByAccountYearAndMonth($accountId, $year, $month);
