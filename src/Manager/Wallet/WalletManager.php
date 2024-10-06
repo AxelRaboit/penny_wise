@@ -8,9 +8,9 @@ use App\Entity\Account;
 use App\Entity\User;
 use App\Entity\Wallet;
 use App\Enum\Wallet\MonthEnum;
-use App\Manager\Transaction\TransactionManager;
+use App\Manager\Account\Wallet\Transaction\TransactionWalletDeleteManager;
 use App\Repository\Wallet\WalletRepository;
-use App\Service\Wallet\WalletCheckerService;
+use App\Service\Checker\Wallet\WalletCheckerService;
 use DateMalformedStringException;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
@@ -22,10 +22,10 @@ final readonly class WalletManager
     private const float DEFAULT_BALANCE = 0.0;
 
     public function __construct(
-        private EntityManagerInterface $entityManager,
-        private TransactionManager $transactionManager,
-        private WalletRepository $walletRepository,
-        private WalletCheckerService $walletCheckerService,
+        private EntityManagerInterface         $entityManager,
+        private TransactionWalletDeleteManager $transactionWalletDeleteManager,
+        private WalletRepository               $walletRepository,
+        private WalletCheckerService           $walletCheckerService,
     ) {}
 
     /**
@@ -45,7 +45,12 @@ final readonly class WalletManager
      */
     public function createWalletForMonth(User $user, int $year, MonthEnum $monthEnum, Wallet $currentWallet, Account $account): void
     {
-        $this->walletCheckerService->ensureWalletDoesNotExist($account, $year, $monthEnum->value);
+        $accountId = $account->getId();
+        if (null === $accountId) {
+            throw new LogicException('Account ID cannot be null');
+        }
+
+        $this->walletCheckerService->ensureWalletDoesNotExist($accountId, $year, $monthEnum->value);
 
         $newWallet = new Wallet();
 
@@ -83,14 +88,47 @@ final readonly class WalletManager
             throw new NotFoundResourceException('Wallet not found for the given year and month');
         }
 
-        $this->transactionManager->findAndDeleteTransactionsByWallet($wallet);
+        $this->transactionWalletDeleteManager->deleteTransactionsByWallet($wallet);
 
         $this->entityManager->remove($wallet);
         $this->entityManager->flush();
     }
 
     /**
-     * Resets the start balance for a given user's wallet for a specific month and year to a default value.
+     * Deletes all wallets for a given user for a specific year, along with their associated transactions.
+     *
+     * @param Account $account The account associated with the wallets
+     * @param int  $year  The year for which the wallets are being deleted
+     *
+     * @throws NotFoundResourceException if no wallets for the given year are found
+     */
+    public function deleteWalletsForYear(Account $account, int $year): void
+    {
+        $accountId = $account->getId();
+        if (null === $accountId) {
+            throw new LogicException('Account ID cannot be null');
+        }
+
+        $wallets = $this->walletRepository->findWalletsByAccountAndYear($accountId, $year);
+
+        if (empty($wallets)) {
+            throw new NotFoundResourceException('No wallets found for the given year and account.');
+        }
+
+        foreach ($wallets as $wallet) {
+            foreach ($wallet->getTransactions() as $transaction) {
+                $this->entityManager->remove($transaction);
+            }
+
+            $this->entityManager->remove($wallet);
+        }
+
+        $this->entityManager->flush();
+    }
+
+
+    /**
+     * Resets the balance for a given user's wallet
      *
      * @param User $user  the user whose wallet start balance will be reset
      * @param int  $year  the year for which the wallet start balance is being reset
@@ -98,7 +136,7 @@ final readonly class WalletManager
      *
      * @throws NotFoundResourceException if the wallet for the given year and month is not found
      */
-    public function resetStartBalanceForMonth(User $user, int $year, int $month): void
+    public function resetBalance(User $user, int $year, int $month): void
     {
         $wallet = $this->walletRepository
             ->findWalletByUser($user, $year, $month);

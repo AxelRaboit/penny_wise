@@ -8,8 +8,8 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class MaxAccountsReachedException extends AccessDeniedException
 {
-    public function __construct()
+    public function __construct(string $message = 'You have reached the maximum number of allowed accounts.')
     {
-        parent::__construct('You have reached the maximum number of allowed accounts.');
+        parent::__construct($message);
     }
 }

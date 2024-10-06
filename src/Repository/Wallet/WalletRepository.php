@@ -216,6 +216,28 @@ final class WalletRepository extends ServiceEntityRepository
     }
 
     /**
+     * Finds wallets by account ID and year.
+     *
+     * @param int $accountId The account ID
+     * @param int $year The year to search for wallets
+     *
+     * @return Wallet[] The wallets associated with the specified year and account
+     */
+    public function findWalletsByAccountAndYear(int $accountId, int $year): array
+    {
+        /** @var Wallet[] $wallets */
+        $wallets = $this->createQueryBuilder('w')
+            ->where('w.account = :accountId')
+            ->andWhere('w.year = :year')
+            ->setParameter('accountId', $accountId)
+            ->setParameter('year', $year)
+            ->getQuery()
+            ->getResult();
+
+        return $wallets;
+    }
+
+    /**
      * Finds the wallet for a specific user, given the year and month.
      *
      * @param User $user  the user for whom the monthly wallet is being searched
@@ -226,6 +248,8 @@ final class WalletRepository extends ServiceEntityRepository
      */
     public function findWalletByUser(User $user, int $year, int $month): ?Wallet
     {
+        // TODO AXEL: use account ID instead of individual (check if it's possible for each usage)
+
         $month = MonthEnum::from($month);
 
         $wallet = $this->createQueryBuilder('w')

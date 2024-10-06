@@ -47,8 +47,8 @@ export function initializeMonthlyModals() {
 
     attachModalEvents({
         modalId: 'deleteWalletModal',
-        modalTitle: 'Delete month\'s wallet and transactions',
-        modalMessage: 'Are you sure you want to delete the monthly wallet?',
+        modalTitle: 'Delete wallet and all of it\'s transactions',
+        modalMessage: 'Are you sure you want to delete the wallet?',
         triggerButtonSelector: '.js-delete-wallet-button',
         confirmButtonId: 'confirmDeleteWallet',
         confirmLabel: 'Delete',

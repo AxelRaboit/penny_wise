@@ -7,7 +7,7 @@
         <div class="bg-accent shadow-md rounded-md p-6 max-w-4xl mx-auto">
             <div class="flex items-center relative">
                 <div class="w-24 h-24 rounded-full overflow-hidden relative group">
-                    <a href="{{ path('settings_profile_edit') }}">
+                    <a href="{{ path('profile_settings_edit') }}">
                         {% if app.user.userInformation and app.user.userInformation.avatarName %}
                             <img src="{{ asset('uploads/avatars/' ~ app.user.userInformation.avatarName) }}" alt="Avatar" class="w-full h-full rounded-full">
                         {% else %}
@@ -15,7 +15,7 @@
                         {% endif %}
                     </a>
 
-                    <a href="{{ path('settings_profile_edit') }}" class="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-200">
+                    <a href="{{ path('profile_settings_edit') }}" class="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-200">
                         <i class="fa-solid fa-pencil text-white text-2xl"></i>
                     </a>
                 </div>
@@ -64,7 +64,7 @@
                     <a href="#" class="bg-primary hover:bg-primary-hover text-white font-bold py-2 px-4 rounded-md opacity-50 cursor-not-allowed" aria-disabled="true" title="Feature not available">
                         Edit password
                     </a>
-                    <a href="{{ path('settings_profile_edit') }}" class="bg-primary hover:bg-primary-hover text-white font-bold py-2 px-4 rounded-md ml-2">
+                    <a href="{{ path('profile_settings_edit') }}" class="bg-primary hover:bg-primary-hover text-white font-bold py-2 px-4 rounded-md ml-2">
                         Edit profile
                     </a>
                     <a href="{{ path('app_logout') }}" class="bg-danger hover:bg-danger-hover text-white font-bold py-2 px-4 rounded-md ml-2">

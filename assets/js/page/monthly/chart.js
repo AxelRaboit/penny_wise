@@ -1,5 +1,5 @@
 export function initializeChartButtons() {
-    document.querySelectorAll('.monthly-chart-button').forEach(button => {
+    document.querySelectorAll('.month-chart-data-button').forEach(button => {
         button.addEventListener('click', function() {
             const chartType = this.getAttribute('data-chart-type');
             const chartId = this.getAttribute('data-chart-id');
@@ -12,8 +12,20 @@ export function initializeChartButtons() {
                 console.error('Account ID is missing for chart request');
                 return;
             }
+            if (!chartId) {
+                console.error('Chart ID is missing for chart update');
+                return;
+            }
+            if (!chartType) {
+                console.error('Chart type is missing for chart request');
+                return;
+            }
+            if (!year || !month) {
+                console.error('Year or month is missing for chart request');
+                return;
+            }
 
-            const url = `/api/get-chart-data/${accountId}?type=${chartType}&year=${year}&month=${month}&format=${chartFormat}`;
+            const url = `/account/${accountId}/wallet/chart/data?type=${chartType}&year=${year}&month=${month}&format=${chartFormat}`;
 
             fetch(url)
                 .then(response => {

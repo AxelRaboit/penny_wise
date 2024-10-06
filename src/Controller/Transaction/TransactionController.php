@@ -6,9 +6,12 @@ namespace App\Controller\Transaction;
 
 use App\Entity\Transaction;
 use App\Entity\User;
+use App\Exception\UserHasNoWalletException;
 use App\Form\Transaction\TransactionType;
+use App\Manager\Transaction\TransactionCreationManager;
 use App\Manager\Transaction\TransactionManager;
-use App\Repository\Wallet\WalletRepository;
+use App\Service\User\UserCheckerService;
+use App\Service\Wallet\WalletService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,27 +20,20 @@ use Symfony\Component\Routing\Attribute\Route;
 final class TransactionController extends AbstractController
 {
     public function __construct(
-        private readonly WalletRepository $walletRepository,
-        private readonly TransactionManager $transactionManager,
+        private readonly UserCheckerService $userCheckerService,
+        private readonly WalletService $walletService,
+        private readonly TransactionCreationManager $transactionCreationManager,
     ) {}
 
     #[Route('/transaction/new', name: 'new_transaction')]
     public function new(Request $request): Response
     {
-        /** @var User $user */
-        $user = $this->getUser();
-        if (!$user instanceof User) {
-            throw $this->createNotFoundException('User not found.');
-        }
-
-        $hasWallet = $this->walletRepository->userHasWallet($user);
-        if (!$hasWallet) {
-            $this->addFlash('warning', 'You need to create a wallet first.');
-
+        $user = $this->userCheckerService->getUserOrThrow();
+        if (!$this->handleUserHasNoWallet($user)) {
             return $this->redirectToRoute('account_list');
         }
 
-        $transaction = new Transaction();
+        $transaction = $this->transactionCreationManager->beginTransactionCreation();
         $form = $this->createForm(TransactionType::class, $transaction, [
             'user' => $user,
         ]);
@@ -45,9 +41,9 @@ final class TransactionController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->transactionManager->saveTransaction($transaction);
+            $this->transactionCreationManager->saveTransaction($transaction);
 
-            return $this->redirectToRoute('monthly_wallet', [
+            return $this->redirectToRoute('account_wallet_dashboard', [
                 'year' => $transaction->getWallet()->getYear(),
                 'month' => $transaction->getWallet()->getMonth(),
             ]);
@@ -56,5 +52,22 @@ final class TransactionController extends AbstractController
         return $this->render('transaction/new.html.twig', [
             'form' => $form,
         ]);
+    }
+
+    /**
+     * Handle the case where the user has no wallet.
+     *
+     * @param User $user
+     * @return bool
+     */
+    private function handleUserHasNoWallet(User $user): bool
+    {
+        try {
+            $this->walletService->ensureUserHasWallet($user);
+            return true;
+        } catch (UserHasNoWalletException $exception) {
+            $this->addFlash('warning', $exception->getMessage());
+            return false;
+        }
     }
 }

@@ -20,6 +20,15 @@ final class TransactionTagController extends AbstractController
 {
     public function __construct(private readonly EntityManagerInterface $entityManager, private readonly TransactionTagManager $transactionTagManager) {}
 
+
+    // TODO AXEL: i am cleaning all the controllers, and i am at this point, so i need to clean this controller, use services etc...
+    // TODO AXEL: See if i need to change route path /account....
+    // TODO AXEL: This controller has been refactored, but not completely, so i need to keep going on it
+    // TODO AXEL: use services, checkers, voters, managers, etc.
+
+    // TODO AXEL: This controller has been refactored, but not completely, so i need to keep going on i
+    // TODO AXEL: I need to make another pass on all the controllers, to check route paths and name, and also template names.
+
     #[Route('/transaction-tag/new', name: 'transaction_tag_new')]
     public function new(Request $request): Response
     {
