@@ -31,4 +31,8 @@
     {% set importmapEntries = importmapEntries|merge(['note']) %}
 {% endif %}
 
+{% if page_requires_recap is defined and page_requires_recap is same as(true) %}
+    {% set importmapEntries = importmapEntries|merge(['recap']) %}
+{% endif %}
+
 {{ importmap(importmapEntries) }}
