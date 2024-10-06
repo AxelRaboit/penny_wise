@@ -82,7 +82,7 @@ final readonly class WalletService
      *
      * @param User $user the user for whom the accounts and wallets are retrieved
      *
-     * @return AccountDto[] an array of AccountDto objects
+     * @return array<AccountDto> an array of AccountDto objects
      */
     public function findAllAccountsWithWalletsByUser(User $user): array
     {
@@ -125,6 +125,8 @@ final readonly class WalletService
                 $yearsAndMonths[$year] = $months;
             }
 
+            krsort($yearsAndMonths);
+
             $years = [];
             foreach ($yearsAndMonths as $year => $months) {
                 $years[] = new YearDto($year, array_values($months));
@@ -141,6 +143,7 @@ final readonly class WalletService
 
         return $accountsAndWallets;
     }
+
 
     public function getWalletByAccountYearAndMonth(int $accountId, int $year, int $month): ?Wallet
     {
