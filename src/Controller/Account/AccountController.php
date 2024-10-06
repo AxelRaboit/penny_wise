@@ -8,8 +8,11 @@ use App\Entity\Account;
 use App\Exception\AccountAccessDeniedException;
 use App\Exception\MaxAccountsReachedException;
 use App\Form\Account\AccountType;
+use App\Form\Account\Wallet\WalletType;
 use App\Manager\Account\AccountManager;
+use App\Manager\Account\Wallet\WalletCreationManager;
 use App\Manager\Wallet\WalletManager;
+use App\Security\Voter\Account\AccountVoter;
 use App\Service\Account\Wallet\WalletService;
 use App\Service\Checker\Account\AccountCheckerService;
 use App\Service\User\UserCheckerService;
@@ -31,6 +34,7 @@ final class AccountController extends AbstractController
         private readonly UserCheckerService $userCheckerService,
         private readonly WalletManager $walletManager,
         private readonly AccountVoterService $accountVoterService,
+        private readonly WalletCreationManager $walletCreationManager,
     ) {}
 
     #[Route('/', name: 'account_list')]
@@ -108,7 +112,7 @@ final class AccountController extends AbstractController
         return $this->redirectToRoute('account_list');
     }
 
-    #[\Symfony\Component\Routing\Attribute\Route('/account/{accountId}/delete/{year}', name: 'account_year_delete')]
+    #[Route('/account/{accountId}/delete/{year}', name: 'account_year_delete')]
     public function deleteYearlyWallet(int $accountId, int $year): RedirectResponse
     {
         $account = $this->getAccountWithAccessCheck($accountId);
@@ -126,6 +130,34 @@ final class AccountController extends AbstractController
         }
 
         return $this->redirectToRoute('account_list');
+    }
+
+    #[Route('/account/{accountId}/wallet/new', name: 'account_new_wallet')]
+    public function newWallet(Request $request, int $accountId): Response
+    {
+        $account = $this->accountCheckerService->getAccountOrThrow($accountId);
+        if (!$this->isGranted(AccountVoter::ACCESS_ACCOUNT, $account)) {
+            return $this->redirectToRoute('account_list');
+        }
+
+        $wallet = $this->walletCreationManager->beginWalletCreation($accountId);
+
+        $form = $this->createForm(WalletType::class, $wallet);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->walletCreationManager->endWalletCreation($wallet);
+
+            return $this->redirectToRoute('account_wallet_dashboard', [
+                'accountId' => $wallet->getAccount()->getId(),
+                'year' => $wallet->getYear(),
+                'month' => $wallet->getMonth(),
+            ]);
+        }
+
+        return $this->render('account/wallet/new.html.twig', [
+            'form' => $form,
+        ]);
     }
 
     /**

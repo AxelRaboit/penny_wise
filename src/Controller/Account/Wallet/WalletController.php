@@ -185,34 +185,6 @@ final class WalletController extends AbstractController
         ]);
     }
 
-    #[Route('/account/{accountId}/wallet/new', name: 'account_wallet_new')]
-    public function newWallet(Request $request, int $accountId): Response
-    {
-        $account = $this->accountCheckerService->getAccountOrThrow($accountId);
-        if (!$this->isGranted(AccountVoter::ACCESS_ACCOUNT, $account)) {
-            return $this->redirectToRoute('account_list');
-        }
-
-        $wallet = $this->walletCreationManager->beginWalletCreation($accountId);
-
-        $form = $this->createForm(WalletType::class, $wallet);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->walletCreationManager->endWalletCreation($wallet);
-
-            return $this->redirectToRoute('account_wallet_dashboard', [
-                'accountId' => $wallet->getAccount()->getId(),
-                'year' => $wallet->getYear(),
-                'month' => $wallet->getMonth(),
-            ]);
-        }
-
-        return $this->render('account/wallet/new.html.twig', [
-            'form' => $form,
-        ]);
-    }
-
     #[Route('/account/{accountId}/wallet/create-previous/{year}/{month}', name: 'account_wallet_create_previous_month')]
     public function createPreviousMonthWallet(int $accountId, int $year, int $month): Response
     {
