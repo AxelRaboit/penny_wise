@@ -5,16 +5,13 @@ declare(strict_types=1);
 namespace App\Controller\Wallet\Transaction;
 
 use App\Entity\Transaction;
-use App\Entity\User;
 use App\Entity\Wallet;
 use App\Exception\TransactionAccessDeniedException;
 use App\Exception\WalletAccessDeniedException;
 use App\Form\Transaction\TransactionForWalletType;
-use App\Manager\Account\Wallet\Transaction\TransactionWalletDeleteManager;
-use App\Manager\Account\Wallet\Transaction\TransactionWalletManager;
 use App\Manager\Account\Wallet\Transaction\TransactionWalletCreationManager;
+use App\Manager\Account\Wallet\Transaction\TransactionWalletDeleteManager;
 use App\Manager\Transaction\TransactionManager;
-use App\Repository\Wallet\WalletRepository;
 use App\Security\Voter\Transaction\TransactionVoter;
 use App\Service\Checker\Wallet\Transaction\TransactionCheckerService;
 use App\Service\Checker\Wallet\WalletCheckerService;
@@ -31,25 +28,25 @@ use Symfony\Component\Routing\Attribute\Route;
 final class TransactionController extends AbstractController
 {
     public function __construct(
-        private readonly EntityManagerInterface           $entityManager,
-        private readonly TransactionCheckerService        $transactionCheckerService,
-        private readonly TransactionManager               $transactionManager,
-        private readonly TransactionWalletDeleteManager   $transactionWalletDeleteManager,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly TransactionCheckerService $transactionCheckerService,
+        private readonly TransactionManager $transactionManager,
+        private readonly TransactionWalletDeleteManager $transactionWalletDeleteManager,
         private readonly TransactionWalletCreationManager $transactionWalletCreationManager,
-        private readonly WalletVoterService               $walletVoterService,
-        private readonly WalletCheckerService             $walletCheckerService,
-        private readonly TransactionVoterService          $transactionVoterService,
+        private readonly WalletVoterService $walletVoterService,
+        private readonly WalletCheckerService $walletCheckerService,
+        private readonly TransactionVoterService $transactionVoterService,
     ) {}
 
     #[Route('/account/{accountId}/wallet/{walletId}/transaction/new', name: 'new_transaction_for_wallet')]
     public function newForWallet(int $accountId, int $walletId, Request $request): Response
     {
         $wallet = $this->getWalletWithAccessCheck($walletId);
-        if (!$wallet) {
+        if (!$wallet instanceof Wallet) {
             return $this->redirectToRoute('account_list');
         }
 
-        $user  = $wallet->getIndividual();
+        $user = $wallet->getIndividual();
 
         $transaction = $this->transactionWalletCreationManager->beginTransactionCreationWithWallet($wallet, $user);
 
@@ -81,11 +78,11 @@ final class TransactionController extends AbstractController
     public function newForWalletWithCategory(Request $request, int $walletId, string $category): Response
     {
         $wallet = $this->getWalletWithAccessCheck($walletId);
-        if (!$wallet) {
+        if (!$wallet instanceof Wallet) {
             return $this->redirectToRoute('account_list');
         }
 
-        $user  = $wallet->getIndividual();
+        $user = $wallet->getIndividual();
         $transaction = $this->transactionWalletCreationManager->beginTransactionWithWalletAndCategoryCreation($wallet, $user, $category);
 
         $form = $this->createForm(TransactionForWalletType::class, $transaction, [
@@ -148,7 +145,7 @@ final class TransactionController extends AbstractController
     public function editTransactionForWallet(int $transactionId, Request $request): Response
     {
         $transaction = $this->getTransactionWithAccessCheck($transactionId);
-        if (!$transaction) {
+        if (!$transaction instanceof Transaction) {
             return $this->redirectToRoute('account_list');
         }
 
@@ -182,7 +179,7 @@ final class TransactionController extends AbstractController
     public function deleteTransactionCategory(int $id, string $category): RedirectResponse
     {
         $wallet = $this->getWalletWithAccessCheck($id);
-        if (!$wallet) {
+        if (!$wallet instanceof Wallet) {
             return $this->redirectToRoute('account_list');
         }
 
@@ -202,36 +199,34 @@ final class TransactionController extends AbstractController
 
     /**
      * Get the wallet with access check.
-     *
-     * @param int $walletId
-     * @return Wallet|null
      */
     private function getWalletWithAccessCheck(int $walletId): ?Wallet
     {
         try {
             $wallet = $this->walletCheckerService->getWalletByIdOrThrow($walletId);
             $this->walletVoterService->canAccessWallet($wallet);
+
             return $wallet;
         } catch (WalletAccessDeniedException) {
             $this->addFlash('error', 'You are not allowed to delete transactions from this wallet.');
+
             return null;
         }
     }
 
     /**
      * Get the transaction with access check.
-     *
-     * @param int $transactionId
-     * @return Transaction|null
      */
     private function getTransactionWithAccessCheck(int $transactionId): ?Transaction
     {
         try {
             $transaction = $this->transactionCheckerService->getTransactionOrThrow($transactionId);
             $this->transactionVoterService->canAccessTransaction($transaction);
+
             return $transaction;
-        } catch (TransactionAccessDeniedException $exception) {
+        } catch (TransactionAccessDeniedException) {
             $this->addFlash('error', 'You are not allowed to edit this transaction.');
+
             return null;
         }
     }

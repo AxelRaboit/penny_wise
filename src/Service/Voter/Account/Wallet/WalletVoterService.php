@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Service\Voter\Account\Wallet;
 
 use App\Entity\Wallet;

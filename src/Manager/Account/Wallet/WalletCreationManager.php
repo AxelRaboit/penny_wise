@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Manager\Account\Wallet;
 
 use App\Entity\Wallet;
@@ -18,6 +20,7 @@ final readonly class WalletCreationManager
     public function beginWalletCreation(int $accountId): Wallet
     {
         $account = $this->accountCheckerService->getAccountOrThrow($accountId);
+
         return (new Wallet())
             ->setAccount($account);
     }

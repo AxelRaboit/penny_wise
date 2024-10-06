@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Service\Checker\Wallet;
 
-use App\Entity\Account;
 use App\Entity\Wallet;
 use App\Repository\Wallet\WalletRepository;
 use LogicException;
@@ -17,9 +16,8 @@ final readonly class WalletCheckerService
     /**
      * Retrieve a wallet by its account, year, and month or throw an exception if not found.
      *
-     * @param Account $account The account entity linked to the wallet
-     * @param int     $year    The year of the wallet
-     * @param int     $month   The month of the wallet
+     * @param int $year  The year of the wallet
+     * @param int $month The month of the wallet
      *
      * @return Wallet The retrieved wallet entity
      *
@@ -29,8 +27,8 @@ final readonly class WalletCheckerService
      * Retrieve a wallet by its account, year, and month or throw an exception if not found.
      *
      * @param int $accountId The account ID linked to the wallet
-     * @param int     $year    The year of the wallet
-     * @param int     $month   The month of the wallet
+     * @param int $year      The year of the wallet
+     * @param int $month     The month of the wallet
      *
      * @return Wallet The retrieved wallet entity
      *

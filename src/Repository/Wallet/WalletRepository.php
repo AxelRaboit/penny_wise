@@ -219,7 +219,7 @@ final class WalletRepository extends ServiceEntityRepository
      * Finds wallets by account ID and year.
      *
      * @param int $accountId The account ID
-     * @param int $year The year to search for wallets
+     * @param int $year      The year to search for wallets
      *
      * @return Wallet[] The wallets associated with the specified year and account
      */

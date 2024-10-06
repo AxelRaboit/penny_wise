@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Manager\Account\Wallet\Transaction;
 
 use App\Entity\Transaction;
@@ -8,7 +10,6 @@ use App\Entity\User;
 use App\Entity\Wallet;
 use App\Manager\Transaction\TransactionCreationManager;
 use App\Repository\Transaction\TransactionCategoryRepository;
-use App\Repository\Transaction\TransactionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use LogicException;
 
@@ -16,7 +17,6 @@ final readonly class TransactionWalletCreationManager
 {
     public function __construct(
         private TransactionCreationManager $transactionCreationManager,
-        private TransactionRepository $transactionRepository,
         private TransactionCategoryRepository $transactionCategoryRepository,
         private EntityManagerInterface $entityManager,
     ) {}

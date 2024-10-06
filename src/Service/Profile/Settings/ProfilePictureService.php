@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Service\Profile\Settings;
 
 use App\Entity\UserInformation;
@@ -10,13 +12,13 @@ use Symfony\Component\Filesystem\Filesystem;
 final readonly class ProfilePictureService
 {
     public function __construct(
-        #[Autowire('%avatars_directory%')] private readonly string $avatarsDirectory
+        #[Autowire('%avatars_directory%')]
+        private readonly string $avatarsDirectory
     ) {}
 
     /**
      * Remove the avatar of the user and return the result status.
      *
-     * @param UserInformation $userInformation
      * @return array{type: string, message: string}
      */
     public function removeAvatar(UserInformation $userInformation): array
@@ -24,7 +26,7 @@ final readonly class ProfilePictureService
         $filesystem = new Filesystem();
         $oldAvatarName = $userInformation->getAvatarName();
 
-        if ($oldAvatarName) {
+        if (null !== $oldAvatarName && '' !== $oldAvatarName && '0' !== $oldAvatarName) {
             $avatarPath = sprintf('%s/%s', $this->avatarsDirectory, $oldAvatarName);
 
             if ($filesystem->exists($avatarPath)) {

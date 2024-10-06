@@ -22,10 +22,10 @@ final readonly class WalletManager
     private const float DEFAULT_BALANCE = 0.0;
 
     public function __construct(
-        private EntityManagerInterface         $entityManager,
+        private EntityManagerInterface $entityManager,
         private TransactionWalletDeleteManager $transactionWalletDeleteManager,
-        private WalletRepository               $walletRepository,
-        private WalletCheckerService           $walletCheckerService,
+        private WalletRepository $walletRepository,
+        private WalletCheckerService $walletCheckerService,
     ) {}
 
     /**
@@ -98,7 +98,7 @@ final readonly class WalletManager
      * Deletes all wallets for a given user for a specific year, along with their associated transactions.
      *
      * @param Account $account The account associated with the wallets
-     * @param int  $year  The year for which the wallets are being deleted
+     * @param int     $year    The year for which the wallets are being deleted
      *
      * @throws NotFoundResourceException if no wallets for the given year are found
      */
@@ -111,7 +111,7 @@ final readonly class WalletManager
 
         $wallets = $this->walletRepository->findWalletsByAccountAndYear($accountId, $year);
 
-        if (empty($wallets)) {
+        if ([] === $wallets) {
             throw new NotFoundResourceException('No wallets found for the given year and account.');
         }
 
@@ -126,9 +126,8 @@ final readonly class WalletManager
         $this->entityManager->flush();
     }
 
-
     /**
-     * Resets the balance for a given user's wallet
+     * Resets the balance for a given user's wallet.
      *
      * @param User $user  the user whose wallet start balance will be reset
      * @param int  $year  the year for which the wallet start balance is being reset

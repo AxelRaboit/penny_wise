@@ -6,7 +6,6 @@ namespace App\Manager\Transaction;
 
 use App\Entity\Transaction;
 use App\Entity\Wallet;
-use App\Repository\Transaction\TransactionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 final readonly class TransactionManager

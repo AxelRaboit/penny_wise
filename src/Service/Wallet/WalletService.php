@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Service\Wallet;
 
 use App\Entity\User;
@@ -13,7 +15,6 @@ final readonly class WalletService
     /**
      * Ensure the user has at least one wallet.
      *
-     * @param User $user
      * @throws UserHasNoWalletException if the user has no wallet
      */
     public function ensureUserHasWallet(User $user): void

@@ -50,7 +50,7 @@ final class AccountController extends AbstractController
         if (!$this->checkAccountCreationPermissions()) {
             return $this->redirectToRoute('account_list');
         }
-        
+
         $account = new Account();
         $user = $this->userCheckerService->getUserOrThrow();
         $account->setIndividual($user);
@@ -73,7 +73,7 @@ final class AccountController extends AbstractController
     public function edit(int $accountId, Request $request): Response
     {
         $account = $this->getAccountWithAccessCheck($accountId);
-        if (!$account) {
+        if (!$account instanceof Account) {
             return $this->redirectToRoute('account_list');
         }
 
@@ -82,6 +82,7 @@ final class AccountController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->accountManager->updateAccount($account);
+
             return $this->redirectToRoute('account_list');
         }
 
@@ -98,7 +99,7 @@ final class AccountController extends AbstractController
     public function delete(int $accountId): Response
     {
         $account = $this->getAccountWithAccessCheck($accountId);
-        if (!$account) {
+        if (!$account instanceof Account) {
             return $this->redirectToRoute('account_list');
         }
 
@@ -111,7 +112,7 @@ final class AccountController extends AbstractController
     public function deleteYearlyWallet(int $accountId, int $year): RedirectResponse
     {
         $account = $this->getAccountWithAccessCheck($accountId);
-        if (!$account) {
+        if (!$account instanceof Account) {
             return $this->redirectToRoute('account_list');
         }
 
@@ -120,7 +121,7 @@ final class AccountController extends AbstractController
             $this->addFlash('success', sprintf('The year %d and all its wallets and transactions were deleted successfully.', $year));
         } catch (NotFoundResourceException $exception) {
             $this->addFlash('warning', $exception->getMessage());
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             $this->addFlash('error', sprintf('An error occurred while deleting the wallets: %s', $exception->getMessage()));
         }
 
@@ -129,34 +130,33 @@ final class AccountController extends AbstractController
 
     /**
      * Get the account with access check.
-     *
-     * @param int $accountId
-     * @return Account|null
      */
     private function getAccountWithAccessCheck(int $accountId): ?Account
     {
         try {
             $account = $this->accountCheckerService->getAccountOrThrow($accountId);
             $this->accountVoterService->canAccessAccount($account);
+
             return $account;
-        } catch (AccountAccessDeniedException $exception) {
-            $this->addFlash('error', $exception->getMessage());
+        } catch (AccountAccessDeniedException $accountAccessDeniedException) {
+            $this->addFlash('error', $accountAccessDeniedException->getMessage());
+
             return null;
         }
     }
 
     /**
      * Verify if the user has the permission to create an account.
-     *
-     * @return bool
      */
     private function checkAccountCreationPermissions(): bool
     {
         try {
             $this->accountVoterService->canCreateAccount();
+
             return true;
-        } catch (MaxAccountsReachedException $exception) {
-            $this->addFlash('error', $exception->getMessage());
+        } catch (MaxAccountsReachedException $maxAccountsReachedException) {
+            $this->addFlash('error', $maxAccountsReachedException->getMessage());
+
             return false;
         }
     }

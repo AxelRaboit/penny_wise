@@ -20,7 +20,6 @@ final class TransactionTagController extends AbstractController
 {
     public function __construct(private readonly EntityManagerInterface $entityManager, private readonly TransactionTagManager $transactionTagManager) {}
 
-
     // TODO AXEL: i am cleaning all the controllers, and i am at this point, so i need to clean this controller, use services etc...
     // TODO AXEL: See if i need to change route path /account....
     // TODO AXEL: This controller has been refactored, but not completely, so i need to keep going on it

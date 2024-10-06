@@ -35,15 +35,15 @@ use Symfony\UX\Chartjs\Model\Chart;
 final class WalletController extends AbstractController
 {
     public function __construct(
-        private readonly TransactionService    $transactionService,
-        private readonly WalletService         $walletService,
-        private readonly WalletRepository      $walletRepository,
-        private readonly NoteRepository        $noteRepository,
-        private readonly WalletManager         $walletManager,
-        private readonly WalletHelper          $walletHelper,
-        private readonly WalletChartService    $walletChartService,
-        private readonly UserCheckerService    $userCheckerService,
-        private readonly WalletCheckerService  $walletCheckerService,
+        private readonly TransactionService $transactionService,
+        private readonly WalletService $walletService,
+        private readonly WalletRepository $walletRepository,
+        private readonly NoteRepository $noteRepository,
+        private readonly WalletManager $walletManager,
+        private readonly WalletHelper $walletHelper,
+        private readonly WalletChartService $walletChartService,
+        private readonly UserCheckerService $userCheckerService,
+        private readonly WalletCheckerService $walletCheckerService,
         private readonly AccountCheckerService $accountCheckerService,
         private readonly WalletCreationManager $walletCreationManager,
     ) {}
@@ -61,8 +61,6 @@ final class WalletController extends AbstractController
         $transactions = $this->transactionService->getAllTransactionInformationByUser($wallet);
         $notesFromWallet = $this->noteRepository->getNotesFromWallet($wallet);
         $leftToSpendChart = $this->walletChartService->createLeftToSpendChart($transactions);
-
-
 
         return $this->render('account/wallet/dashboard.html.twig', [
             'leftToSpendChart' => $leftToSpendChart,
@@ -235,7 +233,7 @@ final class WalletController extends AbstractController
         }
 
         try {
-            $adjacentMonth = $direction === 'next' ?
+            $adjacentMonth = 'next' === $direction ?
                 $this->walletHelper->getNextMonthAndYear($year, $month) :
                 $this->walletHelper->getImmediatePreviousMonthAndYear($year, $month);
 
@@ -280,7 +278,7 @@ final class WalletController extends AbstractController
     }
 
     #[Route('/account/{accountId}/wallet/delete/{year}/{month}/{redirectTo?}', name: 'account_wallet_delete_month')]
-    public function deleteWalletAndRelations(int $accountId, int $year, int $month, ?string $redirectTo = null): RedirectResponse
+    public function deleteWalletAndRelations(int $accountId, int $year, int $month): RedirectResponse
     {
         $account = $this->accountCheckerService->getAccountOrThrow($accountId);
         if (!$this->isGranted(AccountVoter::ACCESS_ACCOUNT, $account)) {
@@ -309,18 +307,16 @@ final class WalletController extends AbstractController
 
         return $this->redirectToNextAvailableWallet($user, [
             'year' => $previousMonth['year'],
-            'month' => $previousMonth['month']
+            'month' => $previousMonth['month'],
         ], [
             'year' => $nextMonth['year'],
-            'month' => $nextMonth['month']
+            'month' => $nextMonth['month'],
         ]);
     }
 
     /**
-     * @param User $user
      * @param array{year: int, month: int} $previousMonth
      * @param array{year: int, month: int} $nextMonth
-     * @return RedirectResponse
      */
     private function redirectToNextAvailableWallet(User $user, array $previousMonth, array $nextMonth): RedirectResponse
     {

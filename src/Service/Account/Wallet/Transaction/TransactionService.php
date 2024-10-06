@@ -6,17 +6,14 @@ namespace App\Service\Account\Wallet\Transaction;
 
 use App\Dto\Transaction\TransactionInformationDto;
 use App\Entity\Transaction;
-use App\Entity\User;
 use App\Entity\Wallet;
 use App\Enum\Transaction\TransactionCategoryEnum;
 use App\Exception\NoPreviousTransactionsException;
 use App\Exception\NoPreviousWalletException;
-use App\Exception\UserHasNoWalletException;
 use App\Exception\WalletNotFoundWithinLimitException;
 use App\Manager\Transaction\TransactionManager;
 use App\Repository\Transaction\TransactionCategoryRepository;
 use App\Repository\Transaction\TransactionRepository;
-use App\Repository\Wallet\WalletRepository;
 use App\Service\Account\Wallet\WalletService;
 use DateMalformedStringException;
 use DateTimeImmutable;
@@ -35,7 +32,6 @@ final readonly class TransactionService
         private TransactionRepository $transactionRepository,
         private WalletService $walletService,
         private TransactionCategoryRepository $transactionCategoryRepository,
-        private WalletRepository $walletRepository,
     ) {}
 
     /**

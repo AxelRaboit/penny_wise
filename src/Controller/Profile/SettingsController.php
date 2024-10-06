@@ -9,6 +9,7 @@ use App\Manager\Profile\Settings\UserInformationUpdateManager;
 use App\Service\Profile\Settings\ProfilePictureService;
 use App\Service\User\UserCheckerService;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,8 +18,8 @@ use Symfony\Component\Routing\Attribute\Route;
 final class SettingsController extends AbstractController
 {
     public function __construct(
-        private readonly UserCheckerService           $userCheckerService,
-        private readonly ProfilePictureService        $profilePictureService,
+        private readonly UserCheckerService $userCheckerService,
+        private readonly ProfilePictureService $profilePictureService,
         private readonly UserInformationUpdateManager $userInformationUpdateManager,
     ) {}
 
@@ -62,7 +63,7 @@ final class SettingsController extends AbstractController
             return $this->render('profile/settings/edit.html.twig', [
                 'form' => $form->createView(),
             ]);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             $this->addFlash('danger', sprintf('An error occurred while updating the profile: %s', $exception->getMessage()));
 
             return $this->redirectToRoute('profile_settings_edit');

@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 namespace App\Controller\Transaction;
 
-use App\Entity\Transaction;
 use App\Entity\User;
 use App\Exception\UserHasNoWalletException;
 use App\Form\Transaction\TransactionType;
 use App\Manager\Transaction\TransactionCreationManager;
-use App\Manager\Transaction\TransactionManager;
 use App\Service\User\UserCheckerService;
 use App\Service\Wallet\WalletService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -56,17 +54,16 @@ final class TransactionController extends AbstractController
 
     /**
      * Handle the case where the user has no wallet.
-     *
-     * @param User $user
-     * @return bool
      */
     private function handleUserHasNoWallet(User $user): bool
     {
         try {
             $this->walletService->ensureUserHasWallet($user);
+
             return true;
-        } catch (UserHasNoWalletException $exception) {
-            $this->addFlash('warning', $exception->getMessage());
+        } catch (UserHasNoWalletException $userHasNoWalletException) {
+            $this->addFlash('warning', $userHasNoWalletException->getMessage());
+
             return false;
         }
     }
