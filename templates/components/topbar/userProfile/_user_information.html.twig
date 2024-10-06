@@ -1,0 +1,20 @@
+<div class="flex items-center p-4">
+    <div class="w-10 h-10">
+        {% if app.user.userInformation and app.user.userInformation.avatarName %}
+            <img src="{{ asset('uploads/avatars/' ~ app.user.userInformation.avatarName) }}" alt="Avatar" class="rounded-full w-8 h-8">
+        {% else %}
+            <img src="{{ asset('media/logo.png') }}" alt="Default Avatar" class="rounded-full w-8 h-8">
+        {% endif %}
+    </div>
+
+    <div class="ml-3">
+        {% if app.user.userInformation.firstname and app.user.userInformation.lastname %}
+            <span class="block text-sm font-bold text-white">
+                {{ app.user.userInformation.firstname }} {{ app.user.userInformation.lastname }}
+            </span>
+        {% endif %}
+        <span class="block text-sm text-white">
+            {{ app.user.email }}
+        </span>
+    </div>
+</div>
