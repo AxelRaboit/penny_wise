@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Manager\Account\Wallet\Transaction;
+namespace App\Manager\Refacto\Account\Wallet\Transaction;
 
 use App\Entity\Wallet;
 use App\Repository\Transaction\TransactionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
-final readonly class TransactionWalletDeleteManager
+final readonly class WalletTransactionDeleteManager
 {
     public function __construct(
         private TransactionRepository $transactionRepository,

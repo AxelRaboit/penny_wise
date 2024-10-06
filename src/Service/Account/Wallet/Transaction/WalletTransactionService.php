@@ -11,7 +11,7 @@ use App\Enum\Transaction\TransactionCategoryEnum;
 use App\Exception\NoPreviousTransactionsException;
 use App\Exception\NoPreviousWalletException;
 use App\Exception\WalletNotFoundWithinLimitException;
-use App\Manager\Transaction\TransactionManager;
+use App\Manager\Refacto\Account\Wallet\Transaction\WalletTransactionManager;
 use App\Repository\Transaction\TransactionCategoryRepository;
 use App\Repository\Transaction\TransactionRepository;
 use App\Service\Account\Wallet\WalletService;
@@ -20,18 +20,18 @@ use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use InvalidArgumentException;
 
-final readonly class TransactionService
+final readonly class WalletTransactionService
 {
     private const string TRANSACTIONS = 'transactions';
 
     private const float DEFAULT_BALANCE = 0.0;
 
     public function __construct(
-        private TransactionManager $transactionManager,
         private EntityManagerInterface $entityManager,
         private TransactionRepository $transactionRepository,
         private WalletService $walletService,
         private TransactionCategoryRepository $transactionCategoryRepository,
+        private WalletTransactionManager $walletTransactionManager
     ) {}
 
     /**
@@ -217,6 +217,6 @@ final readonly class TransactionService
         $transactionInfoDto = $this->getAllTransactionInformationByUser($previousWallet);
         $totalLeftToSpend = $transactionInfoDto->getTotalLeftToSpend();
 
-        $this->transactionManager->copyTransactionsFromPreviousMonth($currentWallet, $totalLeftToSpend);
+        $this->walletTransactionManager->copyTransactionsFromPreviousMonth($currentWallet, $totalLeftToSpend);
     }
 }

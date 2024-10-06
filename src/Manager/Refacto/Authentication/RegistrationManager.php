@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Manager\Authentication;
+namespace App\Manager\Refacto\Authentication;
 
 use App\Entity\User;
 use App\Entity\UserInformation;

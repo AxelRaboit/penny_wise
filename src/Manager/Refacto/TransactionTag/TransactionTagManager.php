@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Manager\Transaction;
+namespace App\Manager\Refacto\TransactionTag;
 
 use App\Entity\TransactionTag;
 use Doctrine\ORM\EntityManagerInterface;

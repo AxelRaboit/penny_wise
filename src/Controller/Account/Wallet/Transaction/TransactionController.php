@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Wallet\Transaction;
+namespace App\Controller\Account\Wallet\Transaction;
 
 use App\Entity\Transaction;
 use App\Entity\Wallet;
 use App\Exception\TransactionAccessDeniedException;
 use App\Exception\WalletAccessDeniedException;
 use App\Form\Transaction\TransactionForWalletType;
-use App\Manager\Account\Wallet\Transaction\TransactionWalletCreationManager;
-use App\Manager\Account\Wallet\Transaction\TransactionWalletDeleteManager;
-use App\Manager\Transaction\TransactionManager;
+use App\Manager\Refacto\Account\Wallet\Transaction\WalletTransactionCreationManager;
+use App\Manager\Refacto\Account\Wallet\Transaction\WalletTransactionDeleteManager;
+use App\Manager\Refacto\Account\Wallet\Transaction\WalletTransactionManager;
 use App\Security\Voter\Transaction\TransactionVoter;
-use App\Service\Checker\Wallet\Transaction\TransactionCheckerService;
+use App\Service\Checker\Transaction\TransactionCheckerService;
 use App\Service\Checker\Wallet\WalletCheckerService;
 use App\Service\Voter\Account\Wallet\Transaction\TransactionVoterService;
 use App\Service\Voter\Account\Wallet\WalletVoterService;
@@ -30,9 +30,9 @@ final class TransactionController extends AbstractController
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
         private readonly TransactionCheckerService $transactionCheckerService,
-        private readonly TransactionManager $transactionManager,
-        private readonly TransactionWalletDeleteManager $transactionWalletDeleteManager,
-        private readonly TransactionWalletCreationManager $transactionWalletCreationManager,
+        private readonly WalletTransactionManager $walletTransactionManager,
+        private readonly WalletTransactionDeleteManager $walletTransactionDeleteManager,
+        private readonly WalletTransactionCreationManager $walletTransactionCreationManager,
         private readonly WalletVoterService $walletVoterService,
         private readonly WalletCheckerService $walletCheckerService,
         private readonly TransactionVoterService $transactionVoterService,
@@ -48,7 +48,7 @@ final class TransactionController extends AbstractController
 
         $user = $wallet->getIndividual();
 
-        $transaction = $this->transactionWalletCreationManager->beginTransactionCreationWithWallet($wallet, $user);
+        $transaction = $this->walletTransactionCreationManager->beginTransactionCreationWithWallet($wallet, $user);
 
         $form = $this->createForm(TransactionForWalletType::class, $transaction, [
             'wallet' => $wallet,
@@ -57,7 +57,7 @@ final class TransactionController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->transactionWalletCreationManager->saveTransactionWallet($transaction);
+            $this->walletTransactionCreationManager->saveTransactionWallet($transaction);
 
             return $this->redirectToRoute('account_wallet_dashboard', [
                 'accountId' => $wallet->getAccount()->getId(),
@@ -83,7 +83,7 @@ final class TransactionController extends AbstractController
         }
 
         $user = $wallet->getIndividual();
-        $transaction = $this->transactionWalletCreationManager->beginTransactionWithWalletAndCategoryCreation($wallet, $user, $category);
+        $transaction = $this->walletTransactionCreationManager->beginTransactionWithWalletAndCategoryCreation($wallet, $user, $category);
 
         $form = $this->createForm(TransactionForWalletType::class, $transaction, [
             'transactionCategory' => $transaction->getTransactionCategory(),
@@ -93,7 +93,7 @@ final class TransactionController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->transactionWalletCreationManager->saveTransactionWallet($transaction);
+            $this->walletTransactionCreationManager->saveTransactionWallet($transaction);
 
             return $this->redirectToRoute('account_wallet_dashboard', [
                 'accountId' => $wallet->getAccount()->getId(),
@@ -122,7 +122,7 @@ final class TransactionController extends AbstractController
         }
 
         try {
-            $this->transactionManager->deleteTransaction($transaction);
+            $this->walletTransactionManager->deleteTransaction($transaction);
             $this->addFlash('success', 'Transaction deleted successfully.');
         } catch (Exception $exception) {
             $this->addFlash('error', sprintf('Error deleting transaction: %s', $exception->getMessage()));
@@ -183,7 +183,7 @@ final class TransactionController extends AbstractController
             return $this->redirectToRoute('account_list');
         }
 
-        $isDeleted = $this->transactionWalletDeleteManager->deleteTransactionsByCategory($wallet, $category);
+        $isDeleted = $this->walletTransactionDeleteManager->deleteTransactionsByCategory($wallet, $category);
         if (!$isDeleted) {
             $this->addFlash('warning', sprintf('No transactions found for the category %s.', $category));
         } else {

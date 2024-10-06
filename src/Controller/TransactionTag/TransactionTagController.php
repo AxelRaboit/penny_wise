@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Transaction;
+namespace App\Controller\TransactionTag;
 
 use App\Entity\TransactionTag;
 use App\Entity\User;
 use App\Form\Transaction\TransactionTagType;
-use App\Manager\Transaction\TransactionTagManager;
+use App\Manager\Refacto\TransactionTag\TransactionTagManager;
 use App\Repository\Transaction\TransactionTagRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;

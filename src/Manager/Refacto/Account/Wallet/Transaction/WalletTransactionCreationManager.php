@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace App\Manager\Account\Wallet\Transaction;
+namespace App\Manager\Refacto\Account\Wallet\Transaction;
 
 use App\Entity\Transaction;
 use App\Entity\TransactionCategory;
 use App\Entity\User;
 use App\Entity\Wallet;
-use App\Manager\Transaction\TransactionCreationManager;
+use App\Manager\Refacto\Transaction\TransactionCreationManager;
 use App\Repository\Transaction\TransactionCategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use LogicException;
 
-final readonly class TransactionWalletCreationManager
+final readonly class WalletTransactionCreationManager
 {
     public function __construct(
         private TransactionCreationManager $transactionCreationManager,

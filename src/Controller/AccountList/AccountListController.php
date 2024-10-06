@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Account;
+namespace App\Controller\AccountList;
 
 use App\Entity\Account;
 use App\Exception\AccountAccessDeniedException;
@@ -10,9 +10,8 @@ use App\Exception\MaxAccountsReachedException;
 use App\Form\Account\AccountType;
 use App\Form\Account\Wallet\WalletType;
 use App\Form\Wallet\WalletCreateWithPreselectedMonthType;
-use App\Manager\Account\AccountManager;
-use App\Manager\Account\Wallet\WalletCreationManager;
-use App\Manager\Wallet\WalletManager;
+use App\Manager\Refacto\AccountList\AccountListWalletManager;
+use App\Manager\Refacto\AccountList\Wallet\AccountListWalletCreationManager;
 use App\Security\Voter\Account\AccountVoter;
 use App\Service\Account\Wallet\WalletService;
 use App\Service\Checker\Account\AccountCheckerService;
@@ -26,16 +25,15 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Translation\Exception\NotFoundResourceException;
 
-final class AccountController extends AbstractController
+final class AccountListController extends AbstractController
 {
     public function __construct(
         private readonly WalletService $walletService,
-        private readonly AccountManager $accountManager,
         private readonly AccountCheckerService $accountCheckerService,
         private readonly UserCheckerService $userCheckerService,
-        private readonly WalletManager $walletManager,
         private readonly AccountVoterService $accountVoterService,
-        private readonly WalletCreationManager $walletCreationManager,
+        private readonly AccountListWalletManager $accountListWalletManager,
+        private readonly AccountListWalletCreationManager $accountListWalletCreationManager,
     ) {}
 
     #[Route('/', name: 'account_list')]
@@ -64,7 +62,7 @@ final class AccountController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->accountManager->createAccount($account);
+            $this->accountListWalletManager->createAccount($account);
 
             return $this->redirectToRoute('account_list');
         }
@@ -86,7 +84,7 @@ final class AccountController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->accountManager->updateAccount($account);
+            $this->accountListWalletManager->updateAccount($account);
 
             return $this->redirectToRoute('account_list');
         }
@@ -108,7 +106,7 @@ final class AccountController extends AbstractController
             return $this->redirectToRoute('account_list');
         }
 
-        $this->accountManager->deleteAccount($accountId);
+        $this->accountListWalletManager->deleteAccount($accountId);
 
         return $this->redirectToRoute('account_list');
     }
@@ -122,7 +120,7 @@ final class AccountController extends AbstractController
         }
 
         try {
-            $this->walletManager->deleteWalletsForYear($account, $year);
+            $this->accountListWalletManager->deleteWalletsForYear($account, $year);
             $this->addFlash('success', sprintf('The year %d and all its wallets and transactions were deleted successfully.', $year));
         } catch (NotFoundResourceException $exception) {
             $this->addFlash('warning', $exception->getMessage());
@@ -141,13 +139,13 @@ final class AccountController extends AbstractController
             return $this->redirectToRoute('account_list');
         }
 
-        $wallet = $this->walletCreationManager->beginWalletCreation($accountId);
+        $wallet = $this->accountListWalletCreationManager->beginWalletCreation($accountId);
 
         $form = $this->createForm(WalletType::class, $wallet);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->walletCreationManager->endWalletCreation($wallet);
+            $this->accountListWalletCreationManager->endWalletCreation($wallet);
 
             return $this->redirectToRoute('account_wallet_dashboard', [
                 'accountId' => $wallet->getAccount()->getId(),
@@ -164,13 +162,13 @@ final class AccountController extends AbstractController
     #[Route('/account/{accountId}/wallet/new/year/{year}/month/{month}', name: 'account_wallet_new_for_year_month')]
     public function newWalletForYearMonth(int $accountId, int $year, int $month, Request $request): Response
     {
-        $wallet = $this->walletCreationManager->beginWalletYearCreationWithMonth($accountId, $year, $month);
+        $wallet = $this->accountListWalletCreationManager->beginWalletYearCreationWithMonth($accountId, $year, $month);
 
         $form = $this->createForm(WalletCreateWithPreselectedMonthType::class, $wallet);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->walletCreationManager->endWalletCreation($wallet);
+            $this->accountListWalletCreationManager->endWalletCreation($wallet);
 
             return $this->redirectToRoute('account_wallet_dashboard', [
                 'accountId' => $wallet->getAccount()->getId(),

@@ -9,18 +9,20 @@ use App\Entity\Wallet;
 use App\Enum\Transaction\TransactionCategoryEnum;
 use App\Enum\Wallet\MonthEnum;
 use App\Form\Wallet\WalletCreateForYearType;
-use App\Manager\Account\Wallet\WalletCreationManager;
-use App\Manager\Wallet\WalletManager;
+use App\Form\Wallet\WalletUpdateType;
+use App\Manager\Refacto\Account\Wallet\AccountWalletCreationManager;
+use App\Manager\Refacto\Account\Wallet\AccountWalletManager;
 use App\Repository\Note\NoteRepository;
 use App\Repository\Wallet\WalletRepository;
 use App\Security\Voter\Account\AccountVoter;
-use App\Service\Account\Wallet\Transaction\TransactionService;
+use App\Service\Account\Wallet\Transaction\WalletTransactionService;
 use App\Service\Account\Wallet\WalletChartService;
 use App\Service\Account\Wallet\WalletService;
 use App\Service\Checker\Account\AccountCheckerService;
 use App\Service\Checker\Wallet\WalletCheckerService;
 use App\Service\User\UserCheckerService;
 use App\Util\WalletHelper;
+use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use InvalidArgumentException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -34,17 +36,18 @@ use Symfony\UX\Chartjs\Model\Chart;
 final class WalletController extends AbstractController
 {
     public function __construct(
-        private readonly TransactionService $transactionService,
+        private readonly WalletTransactionService $walletTransactionService,
         private readonly WalletService $walletService,
         private readonly WalletRepository $walletRepository,
         private readonly NoteRepository $noteRepository,
-        private readonly WalletManager $walletManager,
         private readonly WalletHelper $walletHelper,
         private readonly WalletChartService $walletChartService,
         private readonly UserCheckerService $userCheckerService,
         private readonly WalletCheckerService $walletCheckerService,
         private readonly AccountCheckerService $accountCheckerService,
-        private readonly WalletCreationManager $walletCreationManager,
+        private readonly AccountWalletManager $accountWalletManager,
+        private readonly AccountWalletCreationManager $accountWalletCreationManager,
+        private readonly EntityManagerInterface $entityManager,
     ) {}
 
     #[Route('/account/{accountId}/wallet/dashboard/{year}/{month}', name: 'account_wallet_dashboard')]
@@ -57,7 +60,7 @@ final class WalletController extends AbstractController
 
         $wallet = $this->walletCheckerService->getWalletOrThrow($accountId, $year, $month);
         $walletsAndTransactionsFromYear = $this->walletService->getWalletsByAccountAndYear($accountId, $year);
-        $transactions = $this->transactionService->getAllTransactionInformationByUser($wallet);
+        $transactions = $this->walletTransactionService->getAllTransactionInformationByUser($wallet);
         $notesFromWallet = $this->noteRepository->getNotesFromWallet($wallet);
         $leftToSpendChart = $this->walletChartService->createLeftToSpendChart($transactions);
 
@@ -92,13 +95,13 @@ final class WalletController extends AbstractController
     #[Route('/account/{accountId}/wallet/new/year/{year}', name: 'account_wallet_new')]
     public function newWalletForYear(int $year, int $accountId, Request $request): Response
     {
-        $wallet = $this->walletCreationManager->beginWalletYearCreation($accountId, $year);
+        $wallet = $this->accountWalletCreationManager->beginWalletYearCreation($accountId, $year);
 
         $form = $this->createForm(WalletCreateForYearType::class, $wallet);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->walletCreationManager->endWalletCreation($wallet);
+            $this->accountWalletCreationManager->endWalletCreation($wallet);
 
             return $this->redirectToRoute('account_wallet_dashboard', [
                 'accountId' => $wallet->getAccount()->getId(),
@@ -108,6 +111,31 @@ final class WalletController extends AbstractController
         }
 
         return $this->render('wallet/walletForAccount/new_wallet_for_year.html.twig', [
+            'form' => $form,
+            'wallet' => $wallet,
+        ]);
+    }
+
+    #[Route('/account/{accountId}/wallet/edit/{id}', name: 'account_wallet_edit', methods: ['GET', 'POST'])]
+    public function editWallet(Wallet $wallet, Request $request): Response
+    {
+        // TODO AXEL: Check if user is allowed to edit this wallet
+
+        $form = $this->createForm(WalletUpdateType::class, $wallet);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->entityManager->flush();
+
+            return $this->redirectToRoute('account_wallet_dashboard', [
+                'accountId' => $wallet->getAccount()->getId(),
+                'year' => $wallet->getYear(),
+                'month' => $wallet->getMonth(),
+            ]);
+        }
+
+        return $this->render('wallet/edit.html.twig', [
             'form' => $form,
             'wallet' => $wallet,
         ]);
@@ -171,7 +199,7 @@ final class WalletController extends AbstractController
         $wallet = $this->walletCheckerService->getWalletOrThrow($accountId, $year, $month);
 
         try {
-            $this->transactionService->copyTransactionsFromPreviousMonth($wallet, $category);
+            $this->walletTransactionService->copyTransactionsFromPreviousMonth($wallet, $category);
             $this->addFlash('success', $successMessage);
         } catch (Exception $exception) {
             $this->addFlash('warning', $exception->getMessage());
@@ -228,7 +256,7 @@ final class WalletController extends AbstractController
             $wallet = $this->walletCheckerService->getWalletOrThrow($accountId, $year, $month);
             $user = $wallet->getIndividual();
 
-            $this->walletManager->createWalletForMonth($user, $adjacentYear, $adjacentMonthEnum, $wallet, $account);
+            $this->accountWalletManager->createWalletForMonth($user, $adjacentYear, $adjacentMonthEnum, $wallet, $account);
 
             $this->addFlash('success', sprintf('Wallet for %s %d created successfully.', $adjacentMonthEnum->getName(), $adjacentYear));
         } catch (Exception $exception) {
@@ -264,7 +292,7 @@ final class WalletController extends AbstractController
         $nextMonth = $this->walletHelper->getNextMonthAndYear($year, $month);
 
         try {
-            $this->walletManager->deleteWalletForMonth($user, $year, $month);
+            $this->accountWalletManager->deleteWalletForMonth($user, $year, $month);
             $this->addFlash('success', sprintf('Wallet for %s %d deleted successfully.', MonthEnum::from($month)->getName(), $year));
         } catch (Exception $exception) {
             $this->addFlash('error', sprintf('An error occurred while deleting the wallet: %s', $exception->getMessage()));
@@ -323,7 +351,7 @@ final class WalletController extends AbstractController
         $user = $account->getIndividual();
 
         try {
-            $this->walletManager->resetBalance($user, $year, $month);
+            $this->accountWalletManager->resetBalance($user, $year, $month);
             $this->addFlash('success', 'Starting balance reset successfully.');
         } catch (Exception $exception) {
             $this->addFlash('warning', sprintf('An error occurred while resetting the starting balance: %s', $exception->getMessage()));
@@ -347,7 +375,7 @@ final class WalletController extends AbstractController
         $wallet = $this->walletCheckerService->getWalletOrThrow($accountId, $year, $month);
 
         try {
-            $this->transactionService->copyLeftToSpendFromPreviousMonth($wallet);
+            $this->walletTransactionService->copyLeftToSpendFromPreviousMonth($wallet);
             $this->addFlash('success', sprintf('Left to spend from previous month copied successfully for %s %d.', MonthEnum::from($month)->getName(), $year));
         } catch (Exception $exception) {
             $this->addFlash('error', sprintf('An error occurred while copying left to spend from previous month: %s', $exception->getMessage()));

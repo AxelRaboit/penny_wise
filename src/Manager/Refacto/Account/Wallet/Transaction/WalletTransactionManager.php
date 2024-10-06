@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Manager\Transaction;
+namespace App\Manager\Refacto\Account\Wallet\Transaction;
 
 use App\Entity\Transaction;
 use App\Entity\Wallet;
 use Doctrine\ORM\EntityManagerInterface;
 
-final readonly class TransactionManager
+final readonly class WalletTransactionManager
 {
     public function __construct(
         private EntityManagerInterface $entityManager

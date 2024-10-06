@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Manager\Transaction;
+namespace App\Manager\Refacto\Transaction;
 
 use App\Entity\Transaction;
 use Doctrine\ORM\EntityManagerInterface;
 
 final readonly class TransactionCreationManager
 {
-    public function __construct(private readonly EntityManagerInterface $entityManager) {}
+    public function __construct(private EntityManagerInterface $entityManager) {}
 
     public function beginTransactionCreation(): Transaction
     {

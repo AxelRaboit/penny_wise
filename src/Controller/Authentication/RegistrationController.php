@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Authentication;
 
-use App\Manager\Authentication\RegistrationManager;
+use App\Manager\Refacto\Authentication\RegistrationManager;
 use App\Service\RegistrationService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

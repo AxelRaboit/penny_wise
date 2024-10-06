@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Manager\Account\Wallet;
+namespace App\Manager\Refacto\AccountList\Wallet;
 
 use App\Entity\Wallet;
 use App\Service\Checker\Account\AccountCheckerService;
@@ -11,7 +11,7 @@ use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use RuntimeException;
 
-final readonly class WalletCreationManager
+final readonly class AccountListWalletCreationManager
 {
     public function __construct(
         private AccountCheckerService $accountCheckerService,
@@ -35,14 +35,6 @@ final readonly class WalletCreationManager
         return $wallet;
     }
 
-    public function endWalletCreation(Wallet $wallet): void
-    {
-        $user = $this->userCheckerService->getUserOrThrow();
-        $wallet->setIndividual($user);
-        $this->entityManager->persist($wallet);
-        $this->entityManager->flush();
-    }
-
     public function beginWalletYearCreationWithMonth(int $accountId, int $year, int $month): Wallet
     {
         $wallet = $this->beginWalletYearCreation($accountId, $year);
@@ -59,5 +51,13 @@ final readonly class WalletCreationManager
         $wallet->setEndDate($endDate);
 
         return $wallet;
+    }
+
+    public function endWalletCreation(Wallet $wallet): void
+    {
+        $user = $this->userCheckerService->getUserOrThrow();
+        $wallet->setIndividual($user);
+        $this->entityManager->persist($wallet);
+        $this->entityManager->flush();
     }
 }
