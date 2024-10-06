@@ -4,7 +4,7 @@ export function initializeMonthlyModals() {
     attachModalEvents({
         modalId: 'copyBillsModal',
         modalTitle: 'Copy previous month\'s bills',
-        modalMessage: 'Are you sure you want to copy the bills from the previous month to the current month?',
+        modalMessageHeader: 'Are you sure you want to copy the bills from the previous month to the current month?',
         triggerButtonSelector: '.js-copy-bills-button',
         confirmButtonId: 'confirmCopyBills',
         confirmLabel: 'Copy',
@@ -15,7 +15,7 @@ export function initializeMonthlyModals() {
     attachModalEvents({
         modalId: 'copyExpensesModal',
         modalTitle: 'Copy previous month\'s expenses',
-        modalMessage: 'Are you sure you want to copy the expenses from the previous month to the current month?',
+        modalMessageHeader: 'Are you sure you want to copy the expenses from the previous month to the current month?',
         triggerButtonSelector: '.js-copy-expenses-button',
         confirmButtonId: 'confirmCopyExpenses',
         confirmLabel: 'Copy',
@@ -26,7 +26,7 @@ export function initializeMonthlyModals() {
     attachModalEvents({
         modalId: 'createPreviousWalletModal',
         modalTitle: 'Create previous month\'s wallet',
-        modalMessage: 'Are you sure you want to create a wallet for the previous month?',
+        modalMessageHeader: 'Are you sure you want to create a wallet for the previous month?',
         triggerButtonSelector: '.js-create-previous-wallet-button',
         confirmButtonId: 'confirmCreatePreviousWallet',
         confirmLabel: 'Create',
@@ -37,7 +37,7 @@ export function initializeMonthlyModals() {
     attachModalEvents({
         modalId: 'createNextWalletModal',
         modalTitle: 'Create next month\'s wallet',
-        modalMessage: 'Are you sure you want to create a wallet for the next month?',
+        modalMessageHeader: 'Are you sure you want to create a wallet for the next month?',
         triggerButtonSelector: '.js-create-next-wallet-button',
         confirmButtonId: 'confirmCreateNextWallet',
         confirmLabel: 'Create',
@@ -48,7 +48,7 @@ export function initializeMonthlyModals() {
     attachModalEvents({
         modalId: 'deleteWalletModal',
         modalTitle: 'Delete wallet and all of it\'s transactions',
-        modalMessage: 'Are you sure you want to delete the wallet?',
+        modalMessageHeader: 'Are you sure you want to delete the wallet?',
         triggerButtonSelector: '.js-delete-wallet-button',
         confirmButtonId: 'confirmDeleteWallet',
         confirmLabel: 'Delete',
@@ -59,7 +59,7 @@ export function initializeMonthlyModals() {
     attachModalEvents({
         modalId: 'copyLeftToSpendModal',
         modalTitle: 'Copy left to spend from previous month',
-        modalMessage: 'Are you sure you want to copy the left to spend from the previous month to the current month?',
+        modalMessageHeader: 'Are you sure you want to copy the left to spend from the previous month to the current month?',
         triggerButtonSelector: '.js-copy-left-to-spend-button',
         confirmButtonId: 'confirmCopyLeftToSpend',
         confirmLabel: 'Initialize',
@@ -70,7 +70,7 @@ export function initializeMonthlyModals() {
     attachModalEvents({
         modalId: 'resetStartBalanceModal',
         modalTitle: 'Reset starting balance',
-        modalMessage: 'Are you sure you want to reset the starting balance of the current month?',
+        modalMessageHeader: 'Are you sure you want to reset the starting balance of the current month?',
         triggerButtonSelector: '.js-reset-start-balance-button',
         confirmButtonId: 'confirmResetStartBalance',
         confirmLabel: 'Reset',
@@ -81,7 +81,7 @@ export function initializeMonthlyModals() {
     attachModalEvents({
         modalId: 'copyIncomesModal',
         modalTitle: 'Copy previous month\'s incomes',
-        modalMessage: 'Are you sure you want to copy the incomes from the previous month to the current month?',
+        modalMessageHeader: 'Are you sure you want to copy the incomes from the previous month to the current month?',
         triggerButtonSelector: '.js-copy-incomes-button',
         confirmButtonId: 'confirmCopyIncomes',
         confirmLabel: 'Copy',
@@ -92,7 +92,7 @@ export function initializeMonthlyModals() {
     attachModalEvents({
         modalId: 'copyDebtsModal',
         modalTitle: 'Copy previous month\'s debts',
-        modalMessage: 'Are you sure you want to copy the debts from the previous month to the current month?',
+        modalMessageHeader: 'Are you sure you want to copy the debts from the previous month to the current month?',
         triggerButtonSelector: '.js-copy-debts-button',
         confirmButtonId: 'confirmCopyDebts',
         confirmLabel: 'Copy',
@@ -103,7 +103,7 @@ export function initializeMonthlyModals() {
     attachModalEvents({
         modalId: 'deleteTransactionsFromCategoryModal',
         modalTitle: 'Delete transactions',
-        modalMessage: 'Are you sure you want to delete all transactions from the selected category?',
+        modalMessageHeader: 'Are you sure you want to delete all transactions from the selected category?',
         triggerButtonSelector: '.js-delete-transactions-from-category-button',
         confirmButtonId: 'confirmDeleteTransactionsFromCategory',
         confirmLabel: 'Delete',

@@ -1,4 +1,4 @@
-const createModal = ({modalId, modalTitle, modalMessage, confirmButtonId, cancelButtonId, confirmLabel = 'Yes', cancelLabel = 'No'}) => {
+const createModal = ({modalId, modalTitle, modalMessageHeader, modalMessage = '', confirmButtonId, cancelButtonId, confirmLabel = 'Yes', cancelLabel = 'No'}) => {
     let existingModal = document.getElementById(modalId);
     if (existingModal) {
         return existingModal;
@@ -11,7 +11,8 @@ const createModal = ({modalId, modalTitle, modalMessage, confirmButtonId, cancel
     modal.innerHTML = `
         <div class="bg-accent rounded-md shadow-lg p-4 w-1/3">
             <h3 class="text-lg font-bold mb-4">${modalTitle}</h3>
-            <p class="mb-4">${modalMessage}</p>
+            <p class="mb-4">${modalMessageHeader}</p>
+            ${modalMessage ? `<p class="mb-4 text-sm text-gray-700">${modalMessage}</p>` : ''}
             <div class="flex justify-end">
                 <button id="${cancelButtonId}" class="bg-gray-500 text-white p-2 rounded-md mr-2">${cancelLabel}</button>
                 <button id="${confirmButtonId}" class="bg-red-500 text-white p-2 rounded-md">${confirmLabel}</button>
@@ -32,18 +33,20 @@ const closeModal = (modal) => {
 };
 
 const attachModalEvents = function({
-    modalId,
-    modalTitle,
-    modalMessage,
-    triggerButtonSelector,
-    confirmButtonId,
-    cancelButtonId,
-    confirmLabel,
-    cancelLabel,
-}) {
+                                       modalId,
+                                       modalTitle,
+                                       modalMessageHeader,
+                                       modalMessage = '',
+                                       triggerButtonSelector,
+                                       confirmButtonId,
+                                       cancelButtonId,
+                                       confirmLabel,
+                                       cancelLabel,
+                                   }) {
     const modal = createModal({
         modalId,
         modalTitle,
+        modalMessageHeader,
         modalMessage,
         confirmButtonId,
         cancelButtonId,
