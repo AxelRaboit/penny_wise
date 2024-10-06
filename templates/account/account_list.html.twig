@@ -11,25 +11,26 @@
                 <div class="flex flex-wrap">
                     {% for account in accounts %}
                         <div class="w-full p-1 rounded-md mb-4 bg-senary" x-data="{ open: true }">
-                            <div class="flex justify-between items-center bg-primary text-white p-2 rounded-md cursor-pointer">
-                                <button class="flex-1 text-left" @click="open = !open">
+                            <div class="flex justify-between items-center bg-primary text-white p-2 rounded-md cursor-pointer" @click="open = !open">
+                                <div class="flex-1 text-left">
                                     <span class="text-lg font-bold text-white">{{ account.getName() }}</span>
-                                </button>
+                                </div>
                                 <div class="flex items-center space-x-2">
-                                    <a href=" {{ path('account_edit', {accountId: account.getId()}) }}"
+                                    <a href="{{ path('account_edit', {accountId: account.getId()}) }}"
                                        class="bg-quinary hover:bg-quinary-hover text-white rounded-md text-sm py-1 px-2">
                                         <i class="fa-solid fa-pen"></i>
                                     </a>
                                     <button type="button"
-                                            data-action-url=" {{ path('account_delete', {accountId: account.getId()}) }} "
+                                            data-action-url="{{ path('account_delete', {accountId: account.getId()}) }}"
                                             class="js-delete-account-button bg-red-500 text-white rounded-md text-sm py-1 px-2 hover:bg-red-700">
                                         <i class="fa-solid fa-trash-can"></i>
                                     </button>
                                     <span class="text-white bg-quinary hover:bg-quinary-hover py-1 px-2 rounded-md">
-                                    <i :class="open ? 'fa-solid fa-chevron-up' : 'fa-solid fa-chevron-down'" @click="open = !open"></i>
-                                </span>
+                                        <i :class="open ? 'fa-solid fa-chevron-up' : 'fa-solid fa-chevron-down'"></i>
+                                    </span>
                                 </div>
                             </div>
+
 
                             <div class="flex flex-wrap" x-show="open" x-transition>
                                 {% for year in account.getYears() %}
@@ -62,9 +63,7 @@
                                                     </div>
                                                 {% endfor %}
 
-                                                {# Ajouter le bouton "plus" pour ajouter le prochain mois #}
                                                 {% if months|length == 0 %}
-                                                    {# Aucun mois n'existe, bouton pour janvier #}
                                                     <div class="relative">
                                                         <a href="{{ path('account_wallet_new_for_year_month', {accountId: account.getId(), year: year.getYear(), month: 1}) }}"
                                                            class="block text-sm font-bold py-2 px-4 rounded-md bg-primary text-white hover:bg-primary-hover text-center mb-1">
@@ -72,7 +71,6 @@
                                                         </a>
                                                     </div>
                                                 {% elseif months|last.getMonthNumber < 12 %}
-                                                    {# Un bouton pour ajouter le prochain mois après le dernier mois existant #}
                                                     <div class="relative">
                                                         <a href="{{ path('account_wallet_new_for_year_month', {accountId: account.getId(), year: year.getYear(), month: months|last.getMonthNumber + 1}) }}"
                                                            class="block text-sm font-bold py-2 px-4 rounded-md bg-primary text-white hover:bg-primary-hover text-center mb-1">
