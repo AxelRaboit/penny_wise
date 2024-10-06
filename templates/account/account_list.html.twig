@@ -38,7 +38,7 @@
                                             <h2 class="text-md font-bold p-2 text-white">{{ year.getYear() }}</h2>
                                             <button type="button"
                                                     data-action-url="{{ path('account_year_delete', {accountId: account.getId(), year: year.getYear()}) }}"
-                                                    class="js-delete-wallet-button absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center text-xs hover:bg-red-700 shadow-lg z-10"
+                                                    class="js-delete-year-button absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center text-xs hover:bg-red-700 shadow-lg z-10"
                                                     x-show="hover" x-transition.opacity>
                                                 <i class="fa-solid fa-trash-can"></i>
                                             </button>
