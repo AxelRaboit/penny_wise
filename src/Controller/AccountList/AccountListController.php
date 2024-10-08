@@ -12,7 +12,6 @@ use App\Form\Account\Wallet\WalletType;
 use App\Form\Wallet\WalletCreateWithPreselectedMonthType;
 use App\Manager\Refacto\AccountList\AccountListWalletManager;
 use App\Manager\Refacto\AccountList\Wallet\AccountListWalletCreationManager;
-use App\Security\Voter\Account\AccountVoter;
 use App\Service\Account\Wallet\WalletService;
 use App\Service\Checker\Account\AccountCheckerService;
 use App\Service\User\UserCheckerService;
@@ -48,7 +47,7 @@ final class AccountListController extends AbstractController
     }
 
     #[Route('/account/new', name: 'account_new')]
-    public function new(Request $request): Response
+    public function newAccount(Request $request): Response
     {
         if (!$this->checkAccountCreationPermissions()) {
             return $this->redirectToRoute('account_list');
@@ -72,10 +71,10 @@ final class AccountListController extends AbstractController
         ]);
     }
 
-    #[Route('/account/{accountId}/edit', name: 'account_edit')]
-    public function edit(int $accountId, Request $request): Response
+    #[Route('/account/{id}/edit', name: 'account_edit')]
+    public function editAccount(int $id, Request $request): Response
     {
-        $account = $this->getAccountWithAccessCheck($accountId);
+        $account = $this->getAccountWithAccessCheck($id);
         if (!$account instanceof Account) {
             return $this->redirectToRoute('account_list');
         }
@@ -98,23 +97,23 @@ final class AccountListController extends AbstractController
     /**
      * @throws Exception
      */
-    #[Route('/account/{accountId}/delete', name: 'account_delete')]
-    public function delete(int $accountId): Response
+    #[Route('/account/{id}/delete', name: 'account_delete')]
+    public function deleteAccount(int $id): Response
     {
-        $account = $this->getAccountWithAccessCheck($accountId);
+        $account = $this->getAccountWithAccessCheck($id);
         if (!$account instanceof Account) {
             return $this->redirectToRoute('account_list');
         }
 
-        $this->accountListWalletManager->deleteAccount($accountId);
+        $this->accountListWalletManager->deleteAccount($account);
 
         return $this->redirectToRoute('account_list');
     }
 
-    #[Route('/account/{accountId}/delete/{year}', name: 'account_year_delete')]
-    public function deleteYearlyWallet(int $accountId, int $year): RedirectResponse
+    #[Route('/account/{id}/delete/{year}', name: 'account_year_delete')]
+    public function deleteYearAccount(int $id, int $year): RedirectResponse
     {
-        $account = $this->getAccountWithAccessCheck($accountId);
+        $account = $this->getAccountWithAccessCheck($id);
         if (!$account instanceof Account) {
             return $this->redirectToRoute('account_list');
         }
@@ -131,15 +130,15 @@ final class AccountListController extends AbstractController
         return $this->redirectToRoute('account_list');
     }
 
-    #[Route('/account/{accountId}/wallet/new', name: 'account_new_wallet')]
-    public function newWallet(Request $request, int $accountId): Response
+    #[Route('/account/{id}/wallet/new', name: 'account_new_wallet')]
+    public function newWalletAccount(Request $request, int $id): Response
     {
-        $account = $this->accountCheckerService->getAccountOrThrow($accountId);
-        if (!$this->isGranted(AccountVoter::ACCESS_ACCOUNT, $account)) {
+        $account = $this->getAccountWithAccessCheck($id);
+        if (!$account instanceof Account) {
             return $this->redirectToRoute('account_list');
         }
 
-        $wallet = $this->accountListWalletCreationManager->beginWalletCreation($accountId);
+        $wallet = $this->accountListWalletCreationManager->beginWalletCreation($account);
 
         $form = $this->createForm(WalletType::class, $wallet);
         $form->handleRequest($request);
@@ -155,15 +154,21 @@ final class AccountListController extends AbstractController
         ]);
     }
 
-    #[Route('/account/{accountId}/wallet/new/{year}/{month}', name: 'account_wallet_new_for_year_month')]
-    public function newWalletForYearMonth(int $accountId, int $year, int $month, Request $request): Response
+    #[Route('/account/{id}/wallet/new/{year}/{month}', name: 'account_wallet_new_for_year_month')]
+    public function newWalletForYearMonth(int $id, int $year, int $month, Request $request): Response
     {
-        $account = $this->accountCheckerService->getAccountOrThrow($accountId);
-        if (!$this->isGranted(AccountVoter::ACCESS_ACCOUNT, $account)) {
+        /*
+         * TODO AXEL: Faire en sorte de ne pas avoir besoin de {month} car on créer le next month
+         * Donc récuperer le dernier wallet lié au account et à l'année, par exemple si le dernier mois du account & year est Novembre, alors on créer Décembre
+         * et l'url serait /account/{id}/wallet/new/{year}/next-month
+        */
+
+        $account = $this->getAccountWithAccessCheck($id);
+        if (!$account instanceof Account) {
             return $this->redirectToRoute('account_list');
         }
 
-        $wallet = $this->accountListWalletCreationManager->beginWalletYearCreationWithMonth($accountId, $year, $month);
+        $wallet = $this->accountListWalletCreationManager->beginWalletYearCreationWithMonth($account, $year, $month);
 
         $form = $this->createForm(WalletCreateWithPreselectedMonthType::class, $wallet);
         $form->handleRequest($request);

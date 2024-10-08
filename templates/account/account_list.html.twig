@@ -16,12 +16,12 @@
                                     <span class="text-lg font-bold text-white">{{ account.getName() }}</span>
                                 </div>
                                 <div class="flex items-center space-x-2">
-                                    <a href="{{ path('account_edit', {accountId: account.getId()}) }}"
+                                    <a href="{{ path('account_edit', {id: account.getId()}) }}"
                                        class="bg-quinary hover:bg-quinary-hover text-white rounded-md text-sm py-1 px-2" @click.stop>
                                         <i class="fa-solid fa-pen"></i>
                                     </a>
                                     <button type="button"
-                                            data-action-url="{{ path('account_delete', {accountId: account.getId()}) }}"
+                                            data-action-url="{{ path('account_delete', {id: account.getId()}) }}"
                                             class="js-delete-account-button bg-red-500 text-white rounded-md text-sm py-1 px-2 hover:bg-red-700" @click.stop>
                                         <i class="fa-solid fa-trash-can"></i>
                                     </button>
@@ -37,7 +37,7 @@
                                         <div class="text-center bg-secondary rounded-t-md relative" x-data="{ hover: false }" @mouseenter="hover = true" @mouseleave="hover = false">
                                             <h2 class="text-md font-bold p-2 text-white">{{ year.getYear() }}</h2>
                                             <button type="button"
-                                                    data-action-url="{{ path('account_year_delete', {accountId: account.getId(), year: year.getYear()}) }}"
+                                                    data-action-url="{{ path('account_year_delete', {id: account.getId(), year: year.getYear()}) }}"
                                                     class="js-delete-year-button absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center text-xs hover:bg-red-700 shadow-lg z-10"
                                                     x-show="hover" x-transition.opacity>
                                                 <i class="fa-solid fa-trash-can"></i>
@@ -64,14 +64,14 @@
 
                                                 {% if months|length == 0 %}
                                                     <div class="relative">
-                                                        <a href="{{ path('account_wallet_new_for_year_month', {accountId: account.getId(), year: year.getYear(), month: 1}) }}"
+                                                        <a href="{{ path('account_wallet_new_for_year_month', {id: account.getId(), year: year.getYear(), month: 1}) }}"
                                                            class="block text-sm font-bold py-2 px-4 rounded-md bg-primary text-white hover:bg-primary-hover text-center mb-1">
                                                             <i class="fa-solid fa-plus"></i>
                                                         </a>
                                                     </div>
                                                 {% elseif months|last.getMonthNumber < 12 %}
                                                     <div class="relative">
-                                                        <a href="{{ path('account_wallet_new_for_year_month', {accountId: account.getId(), year: year.getYear(), month: months|last.getMonthNumber + 1}) }}"
+                                                        <a href="{{ path('account_wallet_new_for_year_month', {id: account.getId(), year: year.getYear(), month: months|last.getMonthNumber + 1}) }}"
                                                            class="block text-sm font-bold py-2 px-4 rounded-md bg-primary text-white hover:bg-primary-hover text-center mb-1">
                                                             <i class="fa-solid fa-plus"></i>
                                                         </a>
@@ -84,7 +84,7 @@
                                 {% endfor %}
 
                                 <div class="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 p-1 rounded-md">
-                                    <a href="{{ path('account_new_wallet', {accountId: account.getId()}) }}"
+                                    <a href="{{ path('account_new_wallet', {id: account.getId()}) }}"
                                        class="flex items-center justify-center min-h-[228px] bg-secondary text-white hover:bg-secondary-hover text-center rounded-md p-4">
                                         <i class="fa-solid fa-plus text-3xl"></i>
                                     </a>

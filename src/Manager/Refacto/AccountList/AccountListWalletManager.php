@@ -5,11 +5,9 @@ declare(strict_types=1);
 namespace App\Manager\Refacto\AccountList;
 
 use App\Entity\Account;
-use App\Repository\Account\AccountRepository;
 use App\Repository\Wallet\WalletRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use LogicException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Translation\Exception\NotFoundResourceException;
 
 final readonly class AccountListWalletManager
@@ -17,7 +15,6 @@ final readonly class AccountListWalletManager
     public function __construct(
         private WalletRepository $walletRepository,
         private EntityManagerInterface $entityManager,
-        private AccountRepository $accountRepository,
     ) {}
 
     public function createAccount(Account $account): Account
@@ -34,13 +31,8 @@ final readonly class AccountListWalletManager
         $this->entityManager->flush();
     }
 
-    public function deleteAccount(int $id): void
+    public function deleteAccount(Account $account): void
     {
-        $account = $this->accountRepository->find($id);
-        if (!$account instanceof Account) {
-            throw new NotFoundHttpException('Account not found');
-        }
-
         foreach ($account->getWallets() as $wallet) {
             foreach ($wallet->getTransactions() as $transaction) {
                 $this->entityManager->remove($transaction);

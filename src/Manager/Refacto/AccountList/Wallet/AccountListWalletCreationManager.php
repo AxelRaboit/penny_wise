@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Manager\Refacto\AccountList\Wallet;
 
+use App\Entity\Account;
 use App\Entity\Wallet;
-use App\Service\Checker\Account\AccountCheckerService;
 use App\Service\User\UserCheckerService;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
@@ -14,30 +14,27 @@ use RuntimeException;
 final readonly class AccountListWalletCreationManager
 {
     public function __construct(
-        private AccountCheckerService $accountCheckerService,
         private EntityManagerInterface $entityManager,
         private UserCheckerService $userCheckerService,
     ) {}
 
-    public function beginWalletCreation(int $accountId): Wallet
+    public function beginWalletCreation(Account $account): Wallet
     {
-        $account = $this->accountCheckerService->getAccountOrThrow($accountId);
-
         return (new Wallet())
             ->setAccount($account);
     }
 
-    public function beginWalletYearCreation(int $accountId, int $year): Wallet
+    public function beginWalletYearCreation(Account $account, int $year): Wallet
     {
-        $wallet = $this->beginWalletCreation($accountId);
+        $wallet = $this->beginWalletCreation($account);
         $wallet->setYear($year);
 
         return $wallet;
     }
 
-    public function beginWalletYearCreationWithMonth(int $accountId, int $year, int $month): Wallet
+    public function beginWalletYearCreationWithMonth(Account $account, int $year, int $month): Wallet
     {
-        $wallet = $this->beginWalletYearCreation($accountId, $year);
+        $wallet = $this->beginWalletYearCreation($account, $year);
         $wallet->setMonth($month);
 
         $startDate = DateTimeImmutable::createFromFormat('Y-m-d', sprintf('%04d-%02d-01', $year, $month));
