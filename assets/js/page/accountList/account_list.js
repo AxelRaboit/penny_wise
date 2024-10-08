@@ -31,7 +31,7 @@ export function initializeWalletListModals() {
         modalMessageHeader: 'Are you sure you want to delete this year?',
         modalMessage: 'This action will also delete all of the months and transactions associated with this year.',
         triggerButtonSelector: '.js-delete-year-button',
-        confirmButtonId: 'confirmDeleteWallet',
+        confirmButtonId: 'confirmDeleteYear',
         confirmLabel: 'Delete',
         cancelButtonId: 'cancelDeleteYear',
         cancelLabel: 'Cancel',
