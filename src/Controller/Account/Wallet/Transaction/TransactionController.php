@@ -6,8 +6,6 @@ namespace App\Controller\Account\Wallet\Transaction;
 
 use App\Entity\Transaction;
 use App\Entity\Wallet;
-use App\Exception\TransactionAccessDeniedException;
-use App\Exception\WalletAccessDeniedException;
 use App\Form\Transaction\TransactionForWalletType;
 use App\Manager\Refacto\Account\Wallet\Transaction\WalletTransactionCreationManager;
 use App\Manager\Refacto\Account\Wallet\Transaction\WalletTransactionDeleteManager;
@@ -170,8 +168,8 @@ final class TransactionController extends AbstractController
     {
         return $this->getEntityWithAccessCheck(
             $walletId,
-            fn($id) => $this->walletCheckerService->getWalletByIdOrThrow($id),
-            fn($wallet) => $this->walletVoterService->canAccessWallet($wallet),
+            fn ($id): Wallet => $this->walletCheckerService->getWalletByIdOrThrow($id),
+            fn ($wallet) => $this->walletVoterService->canAccessWallet($wallet),
             'You are not allowed to access this wallet.'
         );
     }
@@ -180,8 +178,8 @@ final class TransactionController extends AbstractController
     {
         return $this->getEntityWithAccessCheck(
             $transactionId,
-            fn($id) => $this->transactionCheckerService->getTransactionOrThrow($id),
-            fn($transaction) => $this->transactionVoterService->canAccessTransaction($transaction),
+            fn ($id): Transaction => $this->transactionCheckerService->getTransactionOrThrow($id),
+            fn ($transaction) => $this->transactionVoterService->canAccessTransaction($transaction),
             'You are not allowed to access this transaction.'
         );
     }
@@ -213,10 +211,10 @@ final class TransactionController extends AbstractController
 
     /**
      * @template T
-     * @param int $entityId
-     * @param callable(int): T $getEntityFunction
+     *
+     * @param callable(int): T  $getEntityFunction
      * @param callable(T): void $accessCheckFunction
-     * @param string $errorMessage
+     *
      * @return T|null
      */
     private function getEntityWithAccessCheck(int $entityId, callable $getEntityFunction, callable $accessCheckFunction, string $errorMessage): mixed
@@ -226,7 +224,7 @@ final class TransactionController extends AbstractController
             $accessCheckFunction($entity);
 
             return $entity;
-        } catch (Exception $e) {
+        } catch (Exception) {
             $this->addFlash('error', $errorMessage);
 
             return null;
