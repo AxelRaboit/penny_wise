@@ -59,11 +59,7 @@ final class TransactionController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->walletTransactionCreationManager->saveTransactionWallet($transaction);
 
-            return $this->redirectToRoute('account_wallet_dashboard', [
-                'accountId' => $wallet->getAccount()->getId(),
-                'year' => $wallet->getYear(),
-                'month' => $wallet->getMonth(),
-            ]);
+            return $this->redirectToWalletDashboard($wallet);
         }
 
         return $this->render('transaction/forWallet/new_for_wallet.html.twig', [
@@ -95,11 +91,7 @@ final class TransactionController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->walletTransactionCreationManager->saveTransactionWallet($transaction);
 
-            return $this->redirectToRoute('account_wallet_dashboard', [
-                'accountId' => $wallet->getAccount()->getId(),
-                'year' => $transaction->getWallet()->getYear(),
-                'month' => $transaction->getWallet()->getMonth(),
-            ]);
+            return $this->redirectToWalletDashboard($wallet);
         }
 
         return $this->render('transaction/forWallet/new_for_wallet.html.twig', [
@@ -126,19 +118,9 @@ final class TransactionController extends AbstractController
             $this->addFlash('success', 'Transaction deleted successfully.');
         } catch (Exception $exception) {
             $this->addFlash('error', sprintf('Error deleting transaction: %s', $exception->getMessage()));
-
-            return $this->redirectToRoute('account_wallet_dashboard', [
-                'accountId' => $wallet->getAccount()->getId(),
-                'year' => $wallet->getYear(),
-                'month' => $wallet->getMonth(),
-            ]);
         }
 
-        return $this->redirectToRoute('account_wallet_dashboard', [
-            'accountId' => $wallet->getAccount()->getId(),
-            'year' => $wallet->getYear(),
-            'month' => $wallet->getMonth(),
-        ]);
+        return $this->redirectToWalletDashboard($wallet);
     }
 
     #[Route('/wallet/transaction/{transactionId}/edit', name: 'edit_transaction_from_wallet')]
@@ -161,11 +143,7 @@ final class TransactionController extends AbstractController
             $this->entityManager->flush();
             $this->addFlash('success', 'Transaction updated successfully.');
 
-            return $this->redirectToRoute('account_wallet_dashboard', [
-                'accountId' => $wallet->getAccount()->getId(),
-                'year' => $transaction->getWallet()->getYear(),
-                'month' => $transaction->getWallet()->getMonth(),
-            ]);
+            return $this->redirectToWalletDashboard($wallet);
         }
 
         return $this->render('transaction/forWallet/edit_for_wallet.html.twig', [
@@ -183,13 +161,36 @@ final class TransactionController extends AbstractController
             return $this->redirectToRoute('account_list');
         }
 
-        $isDeleted = $this->walletTransactionDeleteManager->deleteTransactionsByCategory($wallet, $category);
-        if (!$isDeleted) {
-            $this->addFlash('warning', sprintf('No transactions found for the category %s.', $category));
-        } else {
-            $this->addFlash('success', sprintf('All transactions in category %s deleted successfully.', ucfirst($category)));
-        }
+        $this->deleteTransactionsByCategory($wallet, $category);
 
+        return $this->redirectToWalletDashboard($wallet);
+    }
+
+    private function getWalletWithAccessCheck(int $walletId): ?Wallet
+    {
+        return $this->getEntityWithAccessCheck(
+            $walletId,
+            fn($id) => $this->walletCheckerService->getWalletByIdOrThrow($id),
+            fn($wallet) => $this->walletVoterService->canAccessWallet($wallet),
+            'You are not allowed to access this wallet.'
+        );
+    }
+
+    private function getTransactionWithAccessCheck(int $transactionId): ?Transaction
+    {
+        return $this->getEntityWithAccessCheck(
+            $transactionId,
+            fn($id) => $this->transactionCheckerService->getTransactionOrThrow($id),
+            fn($transaction) => $this->transactionVoterService->canAccessTransaction($transaction),
+            'You are not allowed to access this transaction.'
+        );
+    }
+
+    /**
+     * Redirect to wallet dashboard.
+     */
+    private function redirectToWalletDashboard(Wallet $wallet): RedirectResponse
+    {
         return $this->redirectToRoute('account_wallet_dashboard', [
             'accountId' => $wallet->getAccount()->getId(),
             'year' => $wallet->getYear(),
@@ -198,34 +199,35 @@ final class TransactionController extends AbstractController
     }
 
     /**
-     * Get the wallet with access check.
+     * Delete transactions by category and handle result.
      */
-    private function getWalletWithAccessCheck(int $walletId): ?Wallet
+    private function deleteTransactionsByCategory(Wallet $wallet, string $category): void
     {
-        try {
-            $wallet = $this->walletCheckerService->getWalletByIdOrThrow($walletId);
-            $this->walletVoterService->canAccessWallet($wallet);
-
-            return $wallet;
-        } catch (WalletAccessDeniedException) {
-            $this->addFlash('error', 'You are not allowed to delete transactions from this wallet.');
-
-            return null;
+        $isDeleted = $this->walletTransactionDeleteManager->deleteTransactionsByCategory($wallet, $category);
+        if (!$isDeleted) {
+            $this->addFlash('warning', sprintf('No transactions found for the category %s.', $category));
+        } else {
+            $this->addFlash('success', sprintf('All transactions in category %s deleted successfully.', ucfirst($category)));
         }
     }
 
     /**
-     * Get the transaction with access check.
+     * @template T
+     * @param int $entityId
+     * @param callable(int): T $getEntityFunction
+     * @param callable(T): void $accessCheckFunction
+     * @param string $errorMessage
+     * @return T|null
      */
-    private function getTransactionWithAccessCheck(int $transactionId): ?Transaction
+    private function getEntityWithAccessCheck(int $entityId, callable $getEntityFunction, callable $accessCheckFunction, string $errorMessage): mixed
     {
         try {
-            $transaction = $this->transactionCheckerService->getTransactionOrThrow($transactionId);
-            $this->transactionVoterService->canAccessTransaction($transaction);
+            $entity = $getEntityFunction($entityId);
+            $accessCheckFunction($entity);
 
-            return $transaction;
-        } catch (TransactionAccessDeniedException) {
-            $this->addFlash('error', 'You are not allowed to edit this transaction.');
+            return $entity;
+        } catch (Exception $e) {
+            $this->addFlash('error', $errorMessage);
 
             return null;
         }
