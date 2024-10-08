@@ -147,11 +147,7 @@ final class AccountListController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->accountListWalletCreationManager->endWalletCreation($wallet);
 
-            return $this->redirectToRoute('account_wallet_dashboard', [
-                'accountId' => $wallet->getAccount()->getId(),
-                'year' => $wallet->getYear(),
-                'month' => $wallet->getMonth(),
-            ]);
+            return $this->redirectToRoute('account_list');
         }
 
         return $this->render('account/wallet/new.html.twig', [
@@ -159,9 +155,14 @@ final class AccountListController extends AbstractController
         ]);
     }
 
-    #[Route('/account/{accountId}/wallet/new/year/{year}/month/{month}', name: 'account_wallet_new_for_year_month')]
+    #[Route('/account/{accountId}/wallet/new/{year}/{month}', name: 'account_wallet_new_for_year_month')]
     public function newWalletForYearMonth(int $accountId, int $year, int $month, Request $request): Response
     {
+        $account = $this->accountCheckerService->getAccountOrThrow($accountId);
+        if (!$this->isGranted(AccountVoter::ACCESS_ACCOUNT, $account)) {
+            return $this->redirectToRoute('account_list');
+        }
+
         $wallet = $this->accountListWalletCreationManager->beginWalletYearCreationWithMonth($accountId, $year, $month);
 
         $form = $this->createForm(WalletCreateWithPreselectedMonthType::class, $wallet);
@@ -170,11 +171,7 @@ final class AccountListController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->accountListWalletCreationManager->endWalletCreation($wallet);
 
-            return $this->redirectToRoute('account_wallet_dashboard', [
-                'accountId' => $wallet->getAccount()->getId(),
-                'year' => $wallet->getYear(),
-                'month' => $wallet->getMonth(),
-            ]);
+            return $this->redirectToRoute('account_list');
         }
 
         return $this->render('wallet/walletForAccount/new_wallet_for_year.html.twig', [
