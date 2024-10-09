@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Controller\Account\Wallet;
 
 use App\Entity\Account;
-use App\Entity\User;
 use App\Entity\Wallet;
 use App\Enum\Transaction\TransactionCategoryEnum;
 use App\Enum\Wallet\MonthEnum;
@@ -22,7 +21,6 @@ use App\Service\Account\Wallet\WalletService;
 use App\Service\Checker\Account\AccountCheckerService;
 use App\Service\Checker\Wallet\WalletCheckerService;
 use App\Service\EntityAccessService;
-use App\Service\User\UserCheckerService;
 use App\Util\WalletHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
@@ -45,7 +43,6 @@ final class WalletAccountController extends AbstractController
         private readonly NoteRepository $noteRepository,
         private readonly WalletHelper $walletHelper,
         private readonly WalletChartService $walletChartService,
-        private readonly UserCheckerService $userCheckerService,
         private readonly WalletCheckerService $walletCheckerService,
         private readonly AccountCheckerService $accountCheckerService,
         private readonly AccountWalletManager $accountWalletManager,
@@ -374,19 +371,17 @@ final class WalletAccountController extends AbstractController
         }
 
         return $this->redirectToNextAvailableWallet($accountId, [
-            'year' => (int)$previousMonth['year'],
-            'month' => (int)$previousMonth['month'],
+            'year' => (int) $previousMonth['year'],
+            'month' => (int) $previousMonth['month'],
         ], [
-            'year' => (int)$nextMonth['year'],
-            'month' => (int)$nextMonth['month'],
+            'year' => (int) $nextMonth['year'],
+            'month' => (int) $nextMonth['month'],
         ]);
     }
 
     /**
-     * @param int $accountId
      * @param array{year: int, month: int} $previousMonth
      * @param array{year: int, month: int} $nextMonth
-     * @return RedirectResponse
      */
     private function redirectToNextAvailableWallet(int $accountId, array $previousMonth, array $nextMonth): RedirectResponse
     {

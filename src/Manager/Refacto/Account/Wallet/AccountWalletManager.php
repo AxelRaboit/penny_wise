@@ -75,8 +75,8 @@ class AccountWalletManager
      * Deletes the wallet for a given user for a specific month and year, along with its associated transactions.
      *
      * @param int $accountId the ID of the account
-     * @param int  $year  the year for which the wallet is being deleted
-     * @param int  $month the month for which the wallet is being deleted
+     * @param int $year      the year for which the wallet is being deleted
+     * @param int $month     the month for which the wallet is being deleted
      *
      * @throws NotFoundResourceException if the wallet for the given year and month is not found
      */
