@@ -74,16 +74,16 @@ class AccountWalletManager
     /**
      * Deletes the wallet for a given user for a specific month and year, along with its associated transactions.
      *
-     * @param User $user  the user whose wallet will be deleted
+     * @param int $accountId the ID of the account
      * @param int  $year  the year for which the wallet is being deleted
      * @param int  $month the month for which the wallet is being deleted
      *
      * @throws NotFoundResourceException if the wallet for the given year and month is not found
      */
-    public function deleteWalletForMonth(User $user, int $year, int $month): void
+    public function deleteWalletForMonth(int $accountId, int $year, int $month): void
     {
         $wallet = $this->walletRepository
-            ->findWalletByUser($user, $year, $month);
+            ->findWalletByAccountYearAndMonth($accountId, $year, $month);
         if (!$wallet instanceof Wallet) {
             throw new NotFoundResourceException('Wallet not found for the given year and month');
         }

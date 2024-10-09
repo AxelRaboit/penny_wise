@@ -141,7 +141,7 @@
                         <div class="grid grid-cols-2 sm:grid-cols-3 gap-1">
                             {% for year in walletsAndTransactionsFromYear %}
                                 {% for month in year.getMonths() %}
-                                    <a href="{{ path('account_wallet_dashboard', {year: year.getYear(), month: month.getMonthNumber(), accountId: account.id}) }}"
+                                    <a href="{{ path('account_wallet_dashboard', {year: year.getYear(), month: month.getMonthNumber(), accountId: account.id, walletId: wallet.id}) }}"
                                        class="text-sm text-center font-bold py-2 px-4 rounded-md
                           {{ month.getMonthNumber() == currentMonth ? 'bg-quinary text-white hover:bg-quinary-hover' : 'bg-secondary text-white hover:bg-secondary-hover' }}">
                                         {{ month.getMonthName() }}
@@ -232,7 +232,7 @@
                             Copy previous transaction debts
                         </button>
                         <button type="button"
-                                data-action-url="{{ path('account_wallet_delete_month', {year: currentYear, month: currentMonth, accountId: account.id}) }}"
+                                data-action-url="{{ path('account_wallet_delete_month', {year: currentYear, month: currentMonth, accountId: account.id, walletId: wallet.id}) }}"
                                 class="js-delete-wallet-button text-center font-bold border border-danger hover:bg-danger-hover hover:text-white text-danger text-xs p-2 cursor-pointer rounded-md">
                             <i class="fa-solid fa-trash-can mr-1"></i>
                             Delete month's wallet and transactions
