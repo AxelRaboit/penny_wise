@@ -23,7 +23,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-final class TransactionController extends AbstractController
+final class TransactionWalletController extends AbstractController
 {
     public function __construct(
         private readonly EntityManagerInterface $entityManager,

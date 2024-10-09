@@ -33,7 +33,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\UX\Chartjs\Model\Chart;
 
-final class WalletController extends AbstractController
+final class WalletAccountController extends AbstractController
 {
     public function __construct(
         private readonly WalletTransactionService $walletTransactionService,
