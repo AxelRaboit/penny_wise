@@ -14,25 +14,7 @@ final readonly class WalletCheckerService
     public function __construct(private WalletRepository $walletRepository) {}
 
     /**
-     * Retrieve a wallet by its account, year, and month or throw an exception if not found.
-     *
-     * @param int $year  The year of the wallet
-     * @param int $month The month of the wallet
-     *
-     * @return Wallet The retrieved wallet entity
-     *
-     * @throws NotFoundHttpException If the wallet is not found or if the account ID is null
-     */
-    /**
-     * Retrieve a wallet by its account, year, and month or throw an exception if not found.
-     *
-     * @param int $accountId The account ID linked to the wallet
-     * @param int $year      The year of the wallet
-     * @param int $month     The month of the wallet
-     *
-     * @return Wallet The retrieved wallet entity
-     *
-     * @throws NotFoundHttpException If the wallet is not found or if the account ID is null
+     * Retrieve a wallet by its account, year, and month.
      */
     public function getWalletOrThrow(int $accountId, int $year, int $month): Wallet
     {
@@ -44,6 +26,17 @@ final readonly class WalletCheckerService
         return $wallet;
     }
 
+    /**
+     * Returns the wallet or null if not found.
+     */
+    public function getWalletOrNull(int $accountId, int $year, int $month): ?Wallet
+    {
+        return $this->walletRepository->findWalletByAccountYearAndMonth($accountId, $year, $month);
+    }
+
+    /**
+     * Returns the wallet or throws an exception if not found.
+     */
     public function getWalletByIdOrThrow(int $id): Wallet
     {
         $wallet = $this->walletRepository->find($id);
@@ -54,11 +47,22 @@ final readonly class WalletCheckerService
         return $wallet;
     }
 
+    /**
+     * Returns the wallet or null if not found.
+     */
+    public function getWalletByIdOrNull(int $id): ?Wallet
+    {
+        return $this->walletRepository->find($id);
+    }
+
+    /**
+     * Check if the given wallet exists.
+     */
     public function ensureWalletDoesNotExist(int $accountId, int $year, int $month): void
     {
         $existingWallet = $this->walletRepository->findWalletByAccountYearAndMonth($accountId, $year, $month);
         if ($existingWallet instanceof Wallet) {
-            throw new LogicException('A wallet for the same year and month is already exists.');
+            throw new LogicException('A wallet for the same year and month already exists.');
         }
     }
 }

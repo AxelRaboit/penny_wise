@@ -4,17 +4,14 @@ declare(strict_types=1);
 
 namespace App\Controller\Account\Wallet\Transaction;
 
+use App\Entity\Account;
 use App\Entity\Transaction;
 use App\Entity\Wallet;
 use App\Form\Transaction\TransactionForWalletType;
 use App\Manager\Refacto\Account\Wallet\Transaction\WalletTransactionCreationManager;
 use App\Manager\Refacto\Account\Wallet\Transaction\WalletTransactionDeleteManager;
 use App\Manager\Refacto\Account\Wallet\Transaction\WalletTransactionManager;
-use App\Security\Voter\Transaction\TransactionVoter;
-use App\Service\Checker\Transaction\TransactionCheckerService;
-use App\Service\Checker\Wallet\WalletCheckerService;
-use App\Service\Voter\Account\Wallet\Transaction\TransactionVoterService;
-use App\Service\Voter\Account\Wallet\WalletVoterService;
+use App\Service\EntityAccessService;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -27,19 +24,21 @@ final class TransactionWalletController extends AbstractController
 {
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
-        private readonly TransactionCheckerService $transactionCheckerService,
         private readonly WalletTransactionManager $walletTransactionManager,
         private readonly WalletTransactionDeleteManager $walletTransactionDeleteManager,
         private readonly WalletTransactionCreationManager $walletTransactionCreationManager,
-        private readonly WalletVoterService $walletVoterService,
-        private readonly WalletCheckerService $walletCheckerService,
-        private readonly TransactionVoterService $transactionVoterService,
+        private readonly EntityAccessService $entityAccessService,
     ) {}
 
-    #[Route('/account/{accountId}/wallet/{walletId}/transaction/new', name: 'new_transaction_for_wallet')]
+    #[Route('/account/{accountId}/wallet/{walletId}/transaction/new', name: 'new_transaction_wallet')]
     public function newForWallet(int $accountId, int $walletId, Request $request): Response
     {
-        $wallet = $this->getWalletWithAccessCheck($walletId);
+        $account = $this->entityAccessService->getAccountWithAccessCheck($accountId);
+        if (!$account instanceof Account) {
+            return $this->redirectToRoute('account_list');
+        }
+
+        $wallet = $this->entityAccessService->getWalletWithAccessCheck($walletId);
         if (!$wallet instanceof Wallet) {
             return $this->redirectToRoute('account_list');
         }
@@ -68,10 +67,15 @@ final class TransactionWalletController extends AbstractController
         ]);
     }
 
-    #[Route('/wallet/{walletId}/transaction/new/category/{category}', name: 'new_transaction_for_wallet_with_category')]
-    public function newForWalletWithCategory(Request $request, int $walletId, string $category): Response
+    #[Route('/account/{accountId}/wallet/{walletId}/transaction/new/category/{category}', name: 'new_transaction_wallet_with_category')]
+    public function newForWalletWithCategory(Request $request, int $accountId, int $walletId, string $category): Response
     {
-        $wallet = $this->getWalletWithAccessCheck($walletId);
+        $account = $this->entityAccessService->getAccountWithAccessCheck($accountId);
+        if (!$account instanceof Account) {
+            return $this->redirectToRoute('account_list');
+        }
+
+        $wallet = $this->entityAccessService->getWalletWithAccessCheck($walletId);
         if (!$wallet instanceof Wallet) {
             return $this->redirectToRoute('account_list');
         }
@@ -100,16 +104,25 @@ final class TransactionWalletController extends AbstractController
         ]);
     }
 
-    #[Route('/wallet/transaction/{id}/delete', name: 'delete_transaction')]
-    public function delete(int $id): RedirectResponse
+    #[Route('/account/{accountId}/wallet/{walletId}/transaction/{transactionId}/delete', name: 'delete_transaction_wallet')]
+    public function delete(int $accountId, int $walletId, int $transactionId): RedirectResponse
     {
-        $transaction = $this->transactionCheckerService->getTransactionOrThrow($id);
+        $account = $this->entityAccessService->getAccountWithAccessCheck($accountId);
+        if (!$account instanceof Account) {
+            return $this->redirectToRoute('account_list');
+        }
+
+        $wallet = $this->entityAccessService->getWalletWithAccessCheck($walletId);
+        if (!$wallet instanceof Wallet) {
+            return $this->redirectToRoute('account_list');
+        }
+
+        $transaction = $this->entityAccessService->getTransactionWithAccessCheck($transactionId);
+        if (!$transaction instanceof Transaction) {
+            return $this->redirectToRoute('account_list');
+        }
 
         $wallet = $transaction->getWallet();
-
-        if (!$this->isGranted(TransactionVoter::ACCESS_TRANSACTION, $transaction)) {
-            throw $this->createAccessDeniedException('You are not allowed to delete this transaction.');
-        }
 
         try {
             $this->walletTransactionManager->deleteTransaction($transaction);
@@ -121,10 +134,20 @@ final class TransactionWalletController extends AbstractController
         return $this->redirectToWalletDashboard($wallet);
     }
 
-    #[Route('/wallet/transaction/{transactionId}/edit', name: 'edit_transaction_from_wallet')]
-    public function editTransactionForWallet(int $transactionId, Request $request): Response
+    #[Route('/account/{accountId}/wallet/{walletId}/transaction/{transactionId}/edit', name: 'edit_transaction_from_wallet')]
+    public function editTransactionForWallet(int $accountId, int $walletId, int $transactionId, Request $request): Response
     {
-        $transaction = $this->getTransactionWithAccessCheck($transactionId);
+        $account = $this->entityAccessService->getAccountWithAccessCheck($accountId);
+        if (!$account instanceof Account) {
+            return $this->redirectToRoute('account_list');
+        }
+
+        $wallet = $this->entityAccessService->getWalletWithAccessCheck($walletId);
+        if (!$wallet instanceof Wallet) {
+            return $this->redirectToRoute('account_list');
+        }
+
+        $transaction = $this->entityAccessService->getTransactionWithAccessCheck($transactionId);
         if (!$transaction instanceof Transaction) {
             return $this->redirectToRoute('account_list');
         }
@@ -151,10 +174,15 @@ final class TransactionWalletController extends AbstractController
         ]);
     }
 
-    #[Route('/wallet/{id}/transaction/delete-category/{category}', name: 'delete_all_transactions_from_specific_category')]
-    public function deleteTransactionCategory(int $id, string $category): RedirectResponse
+    #[Route('/account/{accountId}/wallet/{walletId}/transaction/delete-category/{category}', name: 'delete_all_transactions_from_specific_category')]
+    public function deleteTransactionCategory(int $accountId, int $walletId, string $category): RedirectResponse
     {
-        $wallet = $this->getWalletWithAccessCheck($id);
+        $account = $this->entityAccessService->getAccountWithAccessCheck($accountId);
+        if (!$account instanceof Account) {
+            return $this->redirectToRoute('account_list');
+        }
+
+        $wallet = $this->entityAccessService->getWalletWithAccessCheck($walletId);
         if (!$wallet instanceof Wallet) {
             return $this->redirectToRoute('account_list');
         }
@@ -162,26 +190,6 @@ final class TransactionWalletController extends AbstractController
         $this->deleteTransactionsByCategory($wallet, $category);
 
         return $this->redirectToWalletDashboard($wallet);
-    }
-
-    private function getWalletWithAccessCheck(int $walletId): ?Wallet
-    {
-        return $this->getEntityWithAccessCheck(
-            $walletId,
-            fn ($id): Wallet => $this->walletCheckerService->getWalletByIdOrThrow($id),
-            fn ($wallet) => $this->walletVoterService->canAccessWallet($wallet),
-            'You are not allowed to access this wallet.'
-        );
-    }
-
-    private function getTransactionWithAccessCheck(int $transactionId): ?Transaction
-    {
-        return $this->getEntityWithAccessCheck(
-            $transactionId,
-            fn ($id): Transaction => $this->transactionCheckerService->getTransactionOrThrow($id),
-            fn ($transaction) => $this->transactionVoterService->canAccessTransaction($transaction),
-            'You are not allowed to access this transaction.'
-        );
     }
 
     /**
@@ -206,28 +214,6 @@ final class TransactionWalletController extends AbstractController
             $this->addFlash('warning', sprintf('No transactions found for the category %s.', $category));
         } else {
             $this->addFlash('success', sprintf('All transactions in category %s deleted successfully.', ucfirst($category)));
-        }
-    }
-
-    /**
-     * @template T
-     *
-     * @param callable(int): T  $getEntityFunction
-     * @param callable(T): void $accessCheckFunction
-     *
-     * @return T|null
-     */
-    private function getEntityWithAccessCheck(int $entityId, callable $getEntityFunction, callable $accessCheckFunction, string $errorMessage): mixed
-    {
-        try {
-            $entity = $getEntityFunction($entityId);
-            $accessCheckFunction($entity);
-
-            return $entity;
-        } catch (Exception) {
-            $this->addFlash('error', $errorMessage);
-
-            return null;
         }
     }
 }

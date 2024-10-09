@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Controller\AccountList;
 
 use App\Entity\Account;
-use App\Exception\AccountAccessDeniedException;
 use App\Exception\MaxAccountsReachedException;
 use App\Form\Account\AccountType;
 use App\Form\Account\Wallet\WalletType;
@@ -13,9 +12,9 @@ use App\Form\Wallet\WalletCreateWithPreselectedMonthType;
 use App\Manager\Refacto\AccountList\AccountListWalletManager;
 use App\Manager\Refacto\AccountList\Wallet\AccountListWalletCreationManager;
 use App\Service\Account\Wallet\WalletService;
-use App\Service\Checker\Account\AccountCheckerService;
+use App\Service\Checker\Account\AccountPermissionService;
+use App\Service\EntityAccessService;
 use App\Service\User\UserCheckerService;
-use App\Service\Voter\Account\AccountVoterService;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -28,11 +27,11 @@ final class AccountListController extends AbstractController
 {
     public function __construct(
         private readonly WalletService $walletService,
-        private readonly AccountCheckerService $accountCheckerService,
+        private readonly AccountPermissionService $accountPermissionService,
         private readonly UserCheckerService $userCheckerService,
-        private readonly AccountVoterService $accountVoterService,
         private readonly AccountListWalletManager $accountListWalletManager,
         private readonly AccountListWalletCreationManager $accountListWalletCreationManager,
+        private readonly EntityAccessService $entityAccessService,
     ) {}
 
     #[Route('/', name: 'account_list')]
@@ -49,7 +48,11 @@ final class AccountListController extends AbstractController
     #[Route('/account/new', name: 'account_new')]
     public function newAccount(Request $request): Response
     {
-        if (!$this->checkAccountCreationPermissions()) {
+        try {
+            $this->accountPermissionService->checkAccountCreationPermissions();
+        } catch (MaxAccountsReachedException $maxAccountsReachedException) {
+            $this->addFlash('error', $maxAccountsReachedException->getMessage());
+
             return $this->redirectToRoute('account_list');
         }
 
@@ -71,10 +74,10 @@ final class AccountListController extends AbstractController
         ]);
     }
 
-    #[Route('/account/{id}/edit', name: 'account_edit')]
-    public function editAccount(int $id, Request $request): Response
+    #[Route('/account/{accountId}/edit', name: 'account_edit')]
+    public function editAccount(int $accountId, Request $request): Response
     {
-        $account = $this->getAccountWithAccessCheck($id);
+        $account = $this->entityAccessService->getAccountWithAccessCheck($accountId);
         if (!$account instanceof Account) {
             return $this->redirectToRoute('account_list');
         }
@@ -97,10 +100,10 @@ final class AccountListController extends AbstractController
     /**
      * @throws Exception
      */
-    #[Route('/account/{id}/delete', name: 'account_delete')]
-    public function deleteAccount(int $id): Response
+    #[Route('/account/{accountId}/delete', name: 'account_delete')]
+    public function deleteAccount(int $accountId): Response
     {
-        $account = $this->getAccountWithAccessCheck($id);
+        $account = $this->entityAccessService->getAccountWithAccessCheck($accountId);
         if (!$account instanceof Account) {
             return $this->redirectToRoute('account_list');
         }
@@ -110,10 +113,10 @@ final class AccountListController extends AbstractController
         return $this->redirectToRoute('account_list');
     }
 
-    #[Route('/account/{id}/delete/{year}', name: 'account_year_delete')]
-    public function deleteYearAccount(int $id, int $year): RedirectResponse
+    #[Route('/account/{accountId}/delete/{year}', name: 'account_year_delete')]
+    public function deleteYearAccount(int $accountId, int $year): RedirectResponse
     {
-        $account = $this->getAccountWithAccessCheck($id);
+        $account = $this->entityAccessService->getAccountWithAccessCheck($accountId);
         if (!$account instanceof Account) {
             return $this->redirectToRoute('account_list');
         }
@@ -130,10 +133,10 @@ final class AccountListController extends AbstractController
         return $this->redirectToRoute('account_list');
     }
 
-    #[Route('/account/{id}/wallet/new', name: 'account_new_wallet')]
-    public function newWalletAccount(Request $request, int $id): Response
+    #[Route('/account/{accountId}/wallet/new', name: 'account_new_wallet')]
+    public function newWalletAccount(Request $request, int $accountId): Response
     {
-        $account = $this->getAccountWithAccessCheck($id);
+        $account = $this->entityAccessService->getAccountWithAccessCheck($accountId);
         if (!$account instanceof Account) {
             return $this->redirectToRoute('account_list');
         }
@@ -154,16 +157,16 @@ final class AccountListController extends AbstractController
         ]);
     }
 
-    #[Route('/account/{id}/wallet/new/{year}/{month}', name: 'account_wallet_new_for_year_month')]
-    public function newWalletForYearMonth(int $id, int $year, int $month, Request $request): Response
+    #[Route('/account/{accountId}/wallet/new/{year}/{month}', name: 'account_wallet_new_for_year_month')]
+    public function newWalletForYearMonth(int $accountId, int $year, int $month, Request $request): Response
     {
         /*
          * TODO AXEL: Faire en sorte de ne pas avoir besoin de {month} car on créer le next month
          * Donc récuperer le dernier wallet lié au account et à l'année, par exemple si le dernier mois du account & year est Novembre, alors on créer Décembre
-         * et l'url serait /account/{id}/wallet/new/{year}/next-month
+         * et l'url serait /account/{accountId}/wallet/new/{year}/next-month
         */
 
-        $account = $this->getAccountWithAccessCheck($id);
+        $account = $this->entityAccessService->getAccountWithAccessCheck($accountId);
         if (!$account instanceof Account) {
             return $this->redirectToRoute('account_list');
         }
@@ -183,38 +186,5 @@ final class AccountListController extends AbstractController
             'form' => $form,
             'wallet' => $wallet,
         ]);
-    }
-
-    /**
-     * Get the account with access check.
-     */
-    private function getAccountWithAccessCheck(int $accountId): ?Account
-    {
-        try {
-            $account = $this->accountCheckerService->getAccountOrThrow($accountId);
-            $this->accountVoterService->canAccessAccount($account);
-
-            return $account;
-        } catch (AccountAccessDeniedException $accountAccessDeniedException) {
-            $this->addFlash('error', $accountAccessDeniedException->getMessage());
-
-            return null;
-        }
-    }
-
-    /**
-     * Verify if the user has the permission to create an account.
-     */
-    private function checkAccountCreationPermissions(): bool
-    {
-        try {
-            $this->accountVoterService->canCreateAccount();
-
-            return true;
-        } catch (MaxAccountsReachedException $maxAccountsReachedException) {
-            $this->addFlash('error', $maxAccountsReachedException->getMessage());
-
-            return false;
-        }
     }
 }

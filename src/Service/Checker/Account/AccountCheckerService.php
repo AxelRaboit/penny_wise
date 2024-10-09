@@ -12,6 +12,9 @@ final readonly class AccountCheckerService
 {
     public function __construct(private AccountRepository $accountRepository) {}
 
+    /**
+     * Returns the account or throws an exception if not found.
+     */
     public function getAccountOrThrow(int $id): Account
     {
         $account = $this->accountRepository->find($id);
@@ -20,5 +23,13 @@ final readonly class AccountCheckerService
         }
 
         return $account;
+    }
+
+    /**
+     * Returns the account or null if not found.
+     */
+    public function getAccountOrNull(int $id): ?Account
+    {
+        return $this->accountRepository->find($id);
     }
 }

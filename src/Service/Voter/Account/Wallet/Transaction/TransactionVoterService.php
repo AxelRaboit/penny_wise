@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Service\Voter\Account\Wallet\Transaction;
 
 use App\Entity\Transaction;
-use App\Exception\TransactionAccessDeniedException;
 use App\Security\Voter\Transaction\TransactionVoter;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
@@ -15,10 +14,8 @@ final readonly class TransactionVoterService
         private AuthorizationCheckerInterface $authorizationChecker
     ) {}
 
-    public function canAccessTransaction(Transaction $transaction): void
+    public function canAccessTransaction(Transaction $transaction): bool
     {
-        if (!$this->authorizationChecker->isGranted(TransactionVoter::ACCESS_TRANSACTION, $transaction)) {
-            throw new TransactionAccessDeniedException();
-        }
+        return $this->authorizationChecker->isGranted(TransactionVoter::ACCESS_TRANSACTION, $transaction);
     }
 }
