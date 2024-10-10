@@ -46,6 +46,7 @@
                                         <div class="w-full rounded-b-md p-2 bg-accent min-h-[188px]">
                                             <div class="grid grid-cols-1 md:grid-cols-3 gap-1 relative">
                                                 {% set months = year.getMonths() %}
+                                                {% set lastMonth = months|last %}
                                                 {% for month in months %}
                                                     <div class="relative" x-data="{ hover: false }" @mouseenter="hover = true" @mouseleave="hover = false">
                                                         <a href="{{ path('account_wallet_dashboard', {year: year.getYear(), month: month.getMonthNumber(), accountId: account.getId(), walletId: month.getWalletId()}) }}"
@@ -62,7 +63,7 @@
                                                     </div>
                                                 {% endfor %}
 
-                                                {% if months|length < 12 %}
+                                                {% if months|length < 12 and lastMonth.getMonthNumber < 12 %}
                                                     <div class="relative">
                                                         <a href="{{ path('account_wallet_next_month', {accountId: account.getId(), year: year.getYear()}) }}"
                                                            class="block text-sm font-bold py-2 px-4 rounded-md bg-primary text-white hover:bg-primary-hover text-center mb-1">
