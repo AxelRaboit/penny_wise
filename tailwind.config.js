@@ -61,7 +61,7 @@ module.exports = {
           DEFAULT: '#D97706',
           hover: '#F59E0B',
           ring: '#B45309'
-        }
+        },
       }
     }
   },

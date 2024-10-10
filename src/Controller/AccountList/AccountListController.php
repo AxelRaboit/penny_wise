@@ -14,7 +14,6 @@ use App\Form\Wallet\WalletCreateWithPreselectedMonthType;
 use App\Manager\Refacto\Account\Wallet\AccountWalletManager;
 use App\Manager\Refacto\AccountList\AccountListWalletManager;
 use App\Manager\Refacto\AccountList\Wallet\AccountListWalletCreationManager;
-use App\Service\Account\Wallet\AccountWalletService;
 use App\Service\Account\Wallet\WalletService;
 use App\Service\Checker\Account\AccountPermissionService;
 use App\Service\EntityAccessService;
@@ -36,7 +35,6 @@ final class AccountListController extends AbstractController
         private readonly AccountListWalletManager $accountListWalletManager,
         private readonly AccountListWalletCreationManager $accountListWalletCreationManager,
         private readonly EntityAccessService $entityAccessService,
-        private readonly AccountWalletService $accountWalletService,
         private readonly AccountWalletManager $accountWalletManager,
     ) {}
 
@@ -163,16 +161,15 @@ final class AccountListController extends AbstractController
         ]);
     }
 
-    #[Route('/account/{accountId}/wallet/new/{year}/next-month', name: 'account_wallet_next_month')]
-    public function newWalletForYearNextMonth(int $accountId, int $year, Request $request): Response
+    #[Route('/account/{accountId}/wallet/new/{yearId}/month/{monthId}', name: 'account_wallet_next_month')]
+    public function newWalletForYearNextMonth(int $accountId, int $yearId, int $monthId, Request $request): Response
     {
         $account = $this->entityAccessService->getAccountWithAccessCheck($accountId);
         if (!$account instanceof Account) {
             return $this->redirectToRoute('account_list');
         }
 
-        $nextMonthData = $this->accountWalletService->getNextAvailableMonthAndYear($account, $year);
-        $wallet = $this->accountListWalletCreationManager->beginWalletYearCreationWithMonth($account, $nextMonthData['year'], $nextMonthData['month']);
+        $wallet = $this->accountListWalletCreationManager->beginWalletYearCreationWithMonth($account, $yearId, $monthId);
 
         $form = $this->createForm(WalletCreateWithPreselectedMonthType::class, $wallet);
         $form->handleRequest($request);
