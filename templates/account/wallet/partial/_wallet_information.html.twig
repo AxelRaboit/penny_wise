@@ -175,7 +175,7 @@
                             <i class="fa-solid fa-plus mr-1"></i>
                             Transaction
                         </a>
-                        <a href="{{ path('account_wallet_new', {year: currentYear, accountId: account.id}) }}" class="text-center font-bold bg-secondary hover:bg-secondary-hover text-white text-xs p-2 cursor-pointer rounded-md">
+                        <a href="{{ path('account_wallet_new', {year: currentYear, accountId: account.id, walletId: wallet.id}) }}" class="text-center font-bold bg-secondary hover:bg-secondary-hover text-white text-xs p-2 cursor-pointer rounded-md">
                             <i class="fa-solid fa-plus mr-1"></i>
                             Wallet
                         </a>
@@ -196,13 +196,13 @@
                             Reset starting balance
                         </button>
                         <button type="button"
-                                data-action-url="{{ path('account_wallet_create_previous_month', {year: currentYear, month: currentMonth, accountId: account.id}) }}"
+                                data-action-url="{{ path('account_wallet_create_previous_month', {year: currentYear, month: currentMonth, accountId: account.id, walletId: wallet.id}) }}"
                                 class="js-create-previous-wallet-button text-center font-bold bg-secondary hover:bg-secondary-hover text-white text-xs p-2 cursor-pointer rounded-md">
                             <i class="fa-solid fa-plus mr-1"></i>
                             Create previous month's wallet
                         </button>
                         <button type="button"
-                                data-action-url="{{ path('account_wallet_create_next_month', {year: currentYear, month: currentMonth, accountId: account.id}) }}"
+                                data-action-url="{{ path('account_wallet_create_next_month', {year: currentYear, month: currentMonth, accountId: account.id, walletId: wallet.id}) }}"
                                 class="js-create-next-wallet-button text-center font-bold bg-secondary hover:bg-secondary-hover text-white text-xs p-2 cursor-pointer rounded-md">
                             <i class="fa-solid fa-plus mr-1"></i>
                             Create next month's wallet

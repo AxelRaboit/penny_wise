@@ -9,9 +9,9 @@ use App\Enum\Wallet\MonthEnum;
 class WalletHelper
 {
     /**
-     * Returns the immediate previous month and year based on the current month, without checking for any constraints.
+     * Returns the immediate previous month and year.
      *
-     * @return array<string, int>
+     * @return array{year: int, month: int}
      */
     public static function getImmediatePreviousMonthAndYear(int $year, int $month): array
     {
@@ -59,24 +59,13 @@ class WalletHelper
     }
 
     /**
-     * Returns an array of previous N months and their corresponding years, including the current month.
-     *
-     * @param int $year      The starting year
-     * @param int $month     The starting month (1-12)
-     * @param int $nMonths   The number of previous months to retrieve, including the starting month
-     * @param int $accountId The account ID for which the months are being retrieved
-     *
-     * @return array<int, array{year: int, month: int, accountId: int}>
+     * @return array<array{year: int, month: int, accountId: int}>
      */
     public static function getPreviousMonthsAndYears(int $year, int $month, int $nMonths, int $accountId): array
     {
         $months = [];
 
         for ($i = 0; $i < $nMonths; ++$i) {
-            if ($month < 1) {
-                break;
-            }
-
             $months[] = ['year' => $year, 'month' => $month, 'accountId' => $accountId];
 
             $previousMonthData = self::getImmediatePreviousMonthAndYear($year, $month);

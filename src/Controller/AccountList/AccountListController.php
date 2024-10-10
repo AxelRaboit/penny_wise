@@ -5,12 +5,16 @@ declare(strict_types=1);
 namespace App\Controller\AccountList;
 
 use App\Entity\Account;
+use App\Entity\Wallet;
+use App\Enum\Wallet\MonthEnum;
 use App\Exception\MaxAccountsReachedException;
 use App\Form\Account\AccountType;
 use App\Form\Account\Wallet\WalletType;
 use App\Form\Wallet\WalletCreateWithPreselectedMonthType;
+use App\Manager\Refacto\Account\Wallet\AccountWalletManager;
 use App\Manager\Refacto\AccountList\AccountListWalletManager;
 use App\Manager\Refacto\AccountList\Wallet\AccountListWalletCreationManager;
+use App\Service\Account\Wallet\AccountWalletService;
 use App\Service\Account\Wallet\WalletService;
 use App\Service\Checker\Account\AccountPermissionService;
 use App\Service\EntityAccessService;
@@ -32,6 +36,8 @@ final class AccountListController extends AbstractController
         private readonly AccountListWalletManager $accountListWalletManager,
         private readonly AccountListWalletCreationManager $accountListWalletCreationManager,
         private readonly EntityAccessService $entityAccessService,
+        private readonly AccountWalletService $accountWalletService,
+        private readonly AccountWalletManager $accountWalletManager,
     ) {}
 
     #[Route('/', name: 'account_list')]
@@ -157,21 +163,16 @@ final class AccountListController extends AbstractController
         ]);
     }
 
-    #[Route('/account/{accountId}/wallet/new/{year}/{month}', name: 'account_wallet_new_for_year_month')]
-    public function newWalletForYearMonth(int $accountId, int $year, int $month, Request $request): Response
+    #[Route('/account/{accountId}/wallet/new/{year}/next-month', name: 'account_wallet_next_month')]
+    public function newWalletForYearNextMonth(int $accountId, int $year, Request $request): Response
     {
-        /*
-         * TODO AXEL: Faire en sorte de ne pas avoir besoin de {month} car on créer le next month
-         * Donc récuperer le dernier wallet lié au account et à l'année, par exemple si le dernier mois du account & year est Novembre, alors on créer Décembre
-         * et l'url serait /account/{accountId}/wallet/new/{year}/next-month
-        */
-
         $account = $this->entityAccessService->getAccountWithAccessCheck($accountId);
         if (!$account instanceof Account) {
             return $this->redirectToRoute('account_list');
         }
 
-        $wallet = $this->accountListWalletCreationManager->beginWalletYearCreationWithMonth($account, $year, $month);
+        $nextMonthData = $this->accountWalletService->getNextAvailableMonthAndYear($account, $year);
+        $wallet = $this->accountListWalletCreationManager->beginWalletYearCreationWithMonth($account, $nextMonthData['year'], $nextMonthData['month']);
 
         $form = $this->createForm(WalletCreateWithPreselectedMonthType::class, $wallet);
         $form->handleRequest($request);
@@ -186,5 +187,35 @@ final class AccountListController extends AbstractController
             'form' => $form,
             'wallet' => $wallet,
         ]);
+    }
+
+    #[Route('/list/account/{accountId}/wallet/{walletId}/delete/{year}/{month}/{redirectTo?}', name: 'account_list_wallet_delete_month')]
+    public function deleteWalletAndRelations(int $accountId, int $walletId, int $year, int $month): RedirectResponse
+    {
+        $account = $this->entityAccessService->getAccountWithAccessCheck($accountId);
+        if (!$account instanceof Account) {
+            return $this->redirectToRoute('account_list');
+        }
+
+        $wallet = $this->entityAccessService->getWalletWithAccessCheck($walletId);
+        if (!$wallet instanceof Wallet) {
+            return $this->redirectToRoute('account_list');
+        }
+
+        $accountId = $account->getId();
+        if (null === $accountId) {
+            throw new NotFoundResourceException('Account ID cannot be null');
+        }
+
+        try {
+            $this->accountWalletManager->deleteWalletForMonth($accountId, $year, $month);
+            $this->addFlash('success', sprintf('Wallet for %s %d deleted successfully.', MonthEnum::from($month)->getName(), $year));
+        } catch (Exception $exception) {
+            $this->addFlash('error', sprintf('An error occurred while deleting the wallet: %s', $exception->getMessage()));
+
+            return $this->redirectToRoute('account_list');
+        }
+
+        return $this->redirectToRoute('account_list');
     }
 }

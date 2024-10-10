@@ -98,8 +98,8 @@ final class WalletAccountController extends AbstractController
         ]);
     }
 
-    #[Route('/account/{accountId}/wallet/new/year/{year}', name: 'account_wallet_new')]
-    public function newWalletForYear(int $year, int $accountId, Request $request): Response
+    #[Route('/account/{accountId}/wallet/{walletId}/new/year/{year}', name: 'account_wallet_new')]
+    public function newWalletForYear(int $year, int $accountId, int $walletId, Request $request): Response
     {
         $account = $this->entityAccessService->getAccountWithAccessCheck($accountId);
         if (!$account instanceof Account) {
@@ -115,11 +115,14 @@ final class WalletAccountController extends AbstractController
             $this->accountWalletCreationManager->endWalletCreation($wallet);
 
             return $this->redirectToRoute('account_wallet_dashboard', [
+                'walletId' => $wallet->getId(),
                 'accountId' => $wallet->getAccount()->getId(),
                 'year' => $wallet->getYear(),
                 'month' => $wallet->getMonth(),
             ]);
         }
+
+        // TODO AXEL: Dans account list, voir pour le add button next month car le soucis c'est que d'une autre façon, il est possible de créer par exemple decembre alors que le mois d'avant était Mars, donc du coup les mois entre, impossible de les créé via ici
 
         return $this->render('wallet/walletForAccount/new_wallet_for_year.html.twig', [
             'form' => $form,
@@ -152,6 +155,7 @@ final class WalletAccountController extends AbstractController
             $this->entityManager->flush();
 
             return $this->redirectToRoute('account_wallet_dashboard', [
+                'walletId' => $wallet->getId(),
                 'accountId' => $wallet->getAccount()->getId(),
                 'year' => $wallet->getYear(),
                 'month' => $wallet->getMonth(),
@@ -232,106 +236,36 @@ final class WalletAccountController extends AbstractController
         );
     }
 
-    private function copyPreviousMonthTransactions(int $accountId, int $year, int $month, TransactionCategoryEnum $category, string $successMessage): Response
+    #[Route('/account/{accountId}/wallet/{walletId}/create-previous/{year}/{month}', name: 'account_wallet_create_previous_month')]
+    public function createPreviousMonthWallet(int $accountId, int $walletId, int $year, int $month): Response
     {
         $account = $this->entityAccessService->getAccountWithAccessCheck($accountId);
         if (!$account instanceof Account) {
             return $this->redirectToRoute('account_list');
         }
 
-        $account = $this->accountCheckerService->getAccountOrThrow($accountId);
-        if (!$this->isGranted(AccountVoter::ACCESS_ACCOUNT, $account)) {
+        $wallet = $this->entityAccessService->getWalletWithAccessCheck($walletId);
+        if (!$wallet instanceof Wallet) {
             return $this->redirectToRoute('account_list');
         }
 
-        $wallet = $this->walletCheckerService->getWalletOrThrow($accountId, $year, $month);
-
-        try {
-            $this->walletTransactionService->copyTransactionsFromPreviousMonth($wallet, $category);
-            $this->addFlash('success', $successMessage);
-        } catch (Exception $exception) {
-            $this->addFlash('warning', $exception->getMessage());
-        }
-
-        return $this->redirectToRoute('account_wallet_dashboard', [
-            'accountId' => $wallet->getAccount()->getId(),
-            'year' => $year,
-            'month' => $month,
-        ]);
+        return $this->createAdjacentMonthWallet($account, $wallet, $year, $month, 'previous');
     }
 
-    #[Route('/account/{accountId}/wallet/create-previous/{year}/{month}', name: 'account_wallet_create_previous_month')]
-    public function createPreviousMonthWallet(int $accountId, int $year, int $month): Response
+    #[Route('/account/{accountId}/wallet/{walletId}/create-next/{year}/{month}', name: 'account_wallet_create_next_month')]
+    public function createNextMonthWallet(int $accountId, int $walletId, int $year, int $month): Response
     {
         $account = $this->entityAccessService->getAccountWithAccessCheck($accountId);
         if (!$account instanceof Account) {
             return $this->redirectToRoute('account_list');
         }
 
-        return $this->createAdjacentMonthWallet($accountId, $year, $month, 'previous');
-    }
-
-    #[Route('/account/{accountId}/wallet/create-next/{year}/{month}', name: 'account_wallet_create_next_month')]
-    public function createNextMonthWallet(int $accountId, int $year, int $month): Response
-    {
-        $account = $this->entityAccessService->getAccountWithAccessCheck($accountId);
-        if (!$account instanceof Account) {
+        $wallet = $this->entityAccessService->getWalletWithAccessCheck($walletId);
+        if (!$wallet instanceof Wallet) {
             return $this->redirectToRoute('account_list');
         }
 
-        return $this->createAdjacentMonthWallet($accountId, $year, $month, 'next');
-    }
-
-    private function createAdjacentMonthWallet(int $accountId, int $year, int $month, string $direction): Response
-    {
-        $account = $this->entityAccessService->getAccountWithAccessCheck($accountId);
-        if (!$account instanceof Account) {
-            return $this->redirectToRoute('account_list');
-        }
-
-        try {
-            $adjacentMonth = 'next' === $direction ?
-                $this->walletHelper->getNextMonthAndYear($year, $month) :
-                $this->walletHelper->getImmediatePreviousMonthAndYear($year, $month);
-
-            $adjacentYear = $adjacentMonth['year'];
-            $adjacentMonthEnum = MonthEnum::from($adjacentMonth['month']);
-
-            $existingWallet = $this->walletService->getWalletByAccountYearAndMonth($accountId, $adjacentYear, $adjacentMonthEnum->value);
-            if ($existingWallet instanceof Wallet) {
-                $this->addFlash(
-                    'warning',
-                    sprintf('Wallet already exists for %s %d.', $adjacentMonthEnum->getName(), $adjacentYear)
-                );
-
-                return $this->redirectToRoute('account_wallet_dashboard', [
-                    'accountId' => $accountId,
-                    'year' => $adjacentYear,
-                    'month' => $adjacentMonthEnum->value,
-                ]);
-            }
-
-            $wallet = $this->walletCheckerService->getWalletOrThrow($accountId, $year, $month);
-            $user = $wallet->getIndividual();
-
-            $this->accountWalletManager->createWalletForMonth($user, $adjacentYear, $adjacentMonthEnum, $wallet, $account);
-
-            $this->addFlash('success', sprintf('Wallet for %s %d created successfully.', $adjacentMonthEnum->getName(), $adjacentYear));
-        } catch (Exception $exception) {
-            $this->addFlash('error', sprintf('An error occurred while creating the wallet: %s', $exception->getMessage()));
-
-            return $this->redirectToRoute('account_wallet_dashboard', [
-                'accountId' => $accountId,
-                'year' => $year,
-                'month' => $month,
-            ]);
-        }
-
-        return $this->redirectToRoute('account_wallet_dashboard', [
-            'accountId' => $accountId,
-            'year' => $adjacentYear,
-            'month' => $adjacentMonthEnum->value,
-        ]);
+        return $this->createAdjacentMonthWallet($account, $wallet, $year, $month, 'next');
     }
 
     #[Route('/account/{accountId}/wallet/{walletId}/delete/{year}/{month}/{redirectTo?}', name: 'account_wallet_delete_month')]
@@ -371,41 +305,12 @@ final class WalletAccountController extends AbstractController
         }
 
         return $this->redirectToNextAvailableWallet($accountId, [
-            'year' => (int) $previousMonth['year'],
-            'month' => (int) $previousMonth['month'],
+            'year' => $previousMonth['year'],
+            'month' => $previousMonth['month'],
         ], [
-            'year' => (int) $nextMonth['year'],
-            'month' => (int) $nextMonth['month'],
+            'year' => $nextMonth['year'],
+            'month' => $nextMonth['month'],
         ]);
-    }
-
-    /**
-     * @param array{year: int, month: int} $previousMonth
-     * @param array{year: int, month: int} $nextMonth
-     */
-    private function redirectToNextAvailableWallet(int $accountId, array $previousMonth, array $nextMonth): RedirectResponse
-    {
-        $previousWallet = $this->walletRepository->findWalletByAccountYearAndMonth($accountId, $previousMonth['year'], $previousMonth['month']);
-        if ($previousWallet instanceof Wallet) {
-            return $this->redirectToRoute('account_wallet_dashboard', [
-                'accountId' => $previousWallet->getAccount()->getId(),
-                'walletId' => $previousWallet->getId(),
-                'year' => $previousMonth['year'],
-                'month' => $previousMonth['month'],
-            ]);
-        }
-
-        $nextWallet = $this->walletRepository->findWalletByAccountYearAndMonth($accountId, $nextMonth['year'], $nextMonth['month']);
-        if ($nextWallet instanceof Wallet) {
-            return $this->redirectToRoute('account_wallet_dashboard', [
-                'accountId' => $nextWallet->getAccount()->getId(),
-                'walletId' => $nextWallet->getId(),
-                'year' => $nextMonth['year'],
-                'month' => $nextMonth['month'],
-            ]);
-        }
-
-        return $this->redirectToRoute('account_list');
     }
 
     #[Route('/account/{accountId}/wallet/reset-balance/{year}/{month}', name: 'account_wallet_reset_balance')]
@@ -449,6 +354,7 @@ final class WalletAccountController extends AbstractController
             $this->addFlash('error', sprintf('An error occurred while copying left to spend from previous month: %s', $exception->getMessage()));
 
             return $this->redirectToRoute('account_wallet_dashboard', [
+                'walletId' => $wallet->getId(),
                 'accountId' => $wallet->getAccount()->getId(),
                 'year' => $year,
                 'month' => $month,
@@ -456,6 +362,7 @@ final class WalletAccountController extends AbstractController
         }
 
         return $this->redirectToRoute('account_wallet_dashboard', [
+            'walletId' => $wallet->getId(),
             'accountId' => $wallet->getAccount()->getId(),
             'year' => $year,
             'month' => $month,
@@ -499,5 +406,120 @@ final class WalletAccountController extends AbstractController
         } catch (Exception $exception) {
             return new JsonResponse(['error' => sprintf('Failed to generate chart: %s', $exception->getMessage())]);
         }
+    }
+
+    // PRIVATE METHODS
+
+    /**
+     * @param array{year: int, month: int} $previousMonth
+     * @param array{year: int, month: int} $nextMonth
+     */
+    private function redirectToNextAvailableWallet(int $accountId, array $previousMonth, array $nextMonth): RedirectResponse
+    {
+        $previousWallet = $this->walletRepository->findWalletByAccountYearAndMonth($accountId, $previousMonth['year'], $previousMonth['month']);
+        if ($previousWallet instanceof Wallet) {
+            return $this->redirectToRoute('account_wallet_dashboard', [
+                'accountId' => $previousWallet->getAccount()->getId(),
+                'walletId' => $previousWallet->getId(),
+                'year' => $previousMonth['year'],
+                'month' => $previousMonth['month'],
+            ]);
+        }
+
+        $nextWallet = $this->walletRepository->findWalletByAccountYearAndMonth($accountId, $nextMonth['year'], $nextMonth['month']);
+        if ($nextWallet instanceof Wallet) {
+            return $this->redirectToRoute('account_wallet_dashboard', [
+                'accountId' => $nextWallet->getAccount()->getId(),
+                'walletId' => $nextWallet->getId(),
+                'year' => $nextMonth['year'],
+                'month' => $nextMonth['month'],
+            ]);
+        }
+
+        return $this->redirectToRoute('account_list');
+    }
+
+    private function createAdjacentMonthWallet(Account $account, Wallet $wallet, int $year, int $month, string $direction): Response
+    {
+        $accountId = $account->getId();
+        $walletId = $wallet->getId();
+        if (null === $accountId || null === $walletId) {
+            throw new LogicException('Account ID or wallet ID cannot be null');
+        }
+
+        try {
+            $adjacentMonth = 'next' === $direction ?
+                $this->walletHelper->getNextMonthAndYear($year, $month) :
+                $this->walletHelper->getImmediatePreviousMonthAndYear($year, $month);
+
+            $adjacentYear = $adjacentMonth['year'];
+            $adjacentMonthEnum = MonthEnum::from($adjacentMonth['month']);
+
+            $existingWallet = $this->walletService->getWalletByAccountYearAndMonth($accountId, $adjacentYear, $adjacentMonthEnum->value);
+            if ($existingWallet instanceof Wallet) {
+                $this->addFlash(
+                    'warning',
+                    sprintf('Wallet already exists for %s %d.', $adjacentMonthEnum->getName(), $adjacentYear)
+                );
+
+                return $this->redirectToRoute('account_wallet_dashboard', [
+                    'walletId' => $walletId,
+                    'accountId' => $accountId,
+                    'year' => $adjacentYear,
+                    'month' => $adjacentMonthEnum->value,
+                ]);
+            }
+
+            $user = $wallet->getIndividual();
+
+            $this->accountWalletManager->createWalletForMonth($user, $adjacentYear, $adjacentMonthEnum, $wallet, $account);
+
+            $this->addFlash('success', sprintf('Wallet for %s %d created successfully.', $adjacentMonthEnum->getName(), $adjacentYear));
+        } catch (Exception $exception) {
+            $this->addFlash('error', sprintf('An error occurred while creating the wallet: %s', $exception->getMessage()));
+
+            return $this->redirectToRoute('account_wallet_dashboard', [
+                'walletId' => $wallet->getId(),
+                'accountId' => $accountId,
+                'year' => $year,
+                'month' => $month,
+            ]);
+        }
+
+        return $this->redirectToRoute('account_wallet_dashboard', [
+            'walletId' => $wallet->getId(),
+            'accountId' => $accountId,
+            'year' => $adjacentYear,
+            'month' => $adjacentMonthEnum->value,
+        ]);
+    }
+
+    private function copyPreviousMonthTransactions(int $accountId, int $year, int $month, TransactionCategoryEnum $category, string $successMessage): Response
+    {
+        $account = $this->entityAccessService->getAccountWithAccessCheck($accountId);
+        if (!$account instanceof Account) {
+            return $this->redirectToRoute('account_list');
+        }
+
+        $account = $this->accountCheckerService->getAccountOrThrow($accountId);
+        if (!$this->isGranted(AccountVoter::ACCESS_ACCOUNT, $account)) {
+            return $this->redirectToRoute('account_list');
+        }
+
+        $wallet = $this->walletCheckerService->getWalletOrThrow($accountId, $year, $month);
+
+        try {
+            $this->walletTransactionService->copyTransactionsFromPreviousMonth($wallet, $category);
+            $this->addFlash('success', $successMessage);
+        } catch (Exception $exception) {
+            $this->addFlash('warning', $exception->getMessage());
+        }
+
+        return $this->redirectToRoute('account_wallet_dashboard', [
+            'walletId' => $wallet->getId(),
+            'accountId' => $wallet->getAccount()->getId(),
+            'year' => $year,
+            'month' => $month,
+        ]);
     }
 }

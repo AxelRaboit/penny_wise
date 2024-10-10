@@ -265,4 +265,19 @@ final class WalletRepository extends ServiceEntityRepository
 
         return $wallet instanceof Wallet ? $wallet : null;
     }
+
+    public function findLastWalletByAccountAndYear(int $accountId, int $year): ?Wallet
+    {
+        $result = $this->createQueryBuilder('w')
+            ->where('w.account = :accountId')
+            ->andWhere('w.year = :year')
+            ->setParameter('accountId', $accountId)
+            ->setParameter('year', $year)
+            ->orderBy('w.month', Order::Descending->value)
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+
+        return $result instanceof Wallet ? $result : null;
+    }
 }

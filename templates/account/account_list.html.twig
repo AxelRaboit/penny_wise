@@ -54,7 +54,7 @@
                                                         </a>
 
                                                         <button type="button"
-                                                                data-action-url="{{ path('account_wallet_delete_month', {accountId: account.getId(), year: year.getYear(), month: month.getMonthNumber(), walletId: month.getWalletId(), redirectTo: 'account_list'}) }}"
+                                                                data-action-url="{{ path('account_list_wallet_delete_month', {accountId: account.getId(), year: year.getYear(), month: month.getMonthNumber(), walletId: month.getWalletId(), redirectTo: 'account_list'}) }}"
                                                                 class="js-delete-wallet-button absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center text-xs hover:bg-red-700 shadow-lg z-10"
                                                                 x-show="hover" x-transition.opacity>
                                                             <i class="fa-solid fa-trash-can"></i>
@@ -62,16 +62,9 @@
                                                     </div>
                                                 {% endfor %}
 
-                                                {% if months|length == 0 %}
+                                                {% if months|length < 12 %}
                                                     <div class="relative">
-                                                        <a href="{{ path('account_wallet_new_for_year_month', {accountId: account.getId(), year: year.getYear(), month: 1}) }}"
-                                                           class="block text-sm font-bold py-2 px-4 rounded-md bg-primary text-white hover:bg-primary-hover text-center mb-1">
-                                                            <i class="fa-solid fa-plus"></i>
-                                                        </a>
-                                                    </div>
-                                                {% elseif months|last.getMonthNumber < 12 %}
-                                                    <div class="relative">
-                                                        <a href="{{ path('account_wallet_new_for_year_month', {accountId: account.getId(), year: year.getYear(), month: months|last.getMonthNumber + 1}) }}"
+                                                        <a href="{{ path('account_wallet_next_month', {accountId: account.getId(), year: year.getYear()}) }}"
                                                            class="block text-sm font-bold py-2 px-4 rounded-md bg-primary text-white hover:bg-primary-hover text-center mb-1">
                                                             <i class="fa-solid fa-plus"></i>
                                                         </a>

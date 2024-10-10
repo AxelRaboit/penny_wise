@@ -42,6 +42,8 @@ final class TransactionController extends AbstractController
             $this->transactionCreationManager->saveTransaction($transaction);
 
             return $this->redirectToRoute('account_wallet_dashboard', [
+                'walletId' => $transaction->getWallet()->getId(),
+                'accountId' => $transaction->getWallet()->getAccount()->getId(),
                 'year' => $transaction->getWallet()->getYear(),
                 'month' => $transaction->getWallet()->getMonth(),
             ]);

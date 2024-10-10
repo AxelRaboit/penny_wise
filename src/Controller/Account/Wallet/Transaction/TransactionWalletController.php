@@ -198,6 +198,7 @@ final class TransactionWalletController extends AbstractController
     private function redirectToWalletDashboard(Wallet $wallet): RedirectResponse
     {
         return $this->redirectToRoute('account_wallet_dashboard', [
+            'walletId' => $wallet->getId(),
             'accountId' => $wallet->getAccount()->getId(),
             'year' => $wallet->getYear(),
             'month' => $wallet->getMonth(),
