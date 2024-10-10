@@ -139,16 +139,32 @@
                     </div>
                     <div class="w-full rounded-b-md p-2 bg-accent">
                         <div class="grid grid-cols-2 sm:grid-cols-3 gap-1">
-                            {% for year in walletsAndTransactionsFromYear %}
-                                {% for month in year.getMonths() %}
-                                    <a href="{{ path('account_wallet_dashboard', {year: year.getYear(), month: month.getMonthNumber(), accountId: account.id, walletId: wallet.id}) }}"
-                                       class="text-sm text-center font-bold py-2 px-4 rounded-md
-                          {{ month.getMonthNumber() == currentMonth ? 'bg-quinary text-white hover:bg-quinary-hover' : 'bg-secondary text-white hover:bg-secondary-hover' }}">
-                                        {{ month.getMonthName() }}
-                                    </a>
+                            {% set allMonths = 1..12 %}
+
+                            {% for yearDto in walletsAndTransactionsFromYear %}
+                                {% set monthNumbers = yearDto.getMonths()|map(m => m.getMonthNumber()) %}
+
+                                {% for i in allMonths %}
+                                    {% if i in monthNumbers %}
+                                        {% for monthDto in yearDto.getMonths() %}
+                                            {% if monthDto.getMonthNumber() == i %}
+                                                <a href="{{ path('account_wallet_dashboard', {year: yearDto.getYear(), month: monthDto.getMonthNumber(), accountId: account.id, walletId: monthDto.getWalletId()}) }}"
+                                                   class="text-sm text-center font-bold py-2 px-4 rounded-md
+                           {{ monthDto.getMonthNumber() == currentMonth ? 'bg-quinary text-white hover:bg-quinary-hover' : 'bg-secondary text-white hover:bg-secondary-hover' }}">
+                                                    {{ monthDto.getMonthName() }}
+                                                </a>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% else %}
+                                        <a href="{{ path('account_wallet_add_quick_month', {accountId: account.getId(), yearId: yearDto.getYear(), monthId: i}) }}"
+                                           class="text-sm text-center font-bold py-2 px-4 rounded-md bg-gray-400 hover:bg-gray-300 text-white">
+                                            {{ i|month_name }}
+                                        </a>
+                                    {% endif %}
                                 {% endfor %}
                             {% endfor %}
                         </div>
+
                     </div>
 
                 </div>

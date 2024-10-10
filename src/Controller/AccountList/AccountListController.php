@@ -161,7 +161,7 @@ final class AccountListController extends AbstractController
         ]);
     }
 
-    #[Route('/account/{accountId}/wallet/new/{yearId}/month/{monthId}', name: 'account_wallet_next_month')]
+    #[Route('/account/{accountId}/wallet/new/{yearId}/{monthId}', name: 'account_wallet_add_quick_month')]
     public function newWalletForYearNextMonth(int $accountId, int $yearId, int $monthId, Request $request): Response
     {
         $account = $this->entityAccessService->getAccountWithAccessCheck($accountId);
