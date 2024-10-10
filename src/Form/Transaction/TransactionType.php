@@ -56,7 +56,9 @@ class TransactionType extends AbstractType
             ->add('wallet', EntityType::class, [
                 'class' => Wallet::class,
                 'placeholder' => 'Choose a wallet',
-                'choice_label' => 'getMonthWithYearLabel',
+                'choice_label' => function (Wallet $wallet) {
+                    return sprintf('%s (%s)', $wallet->getAccount()->getName(), $wallet->getMonthWithYearLabel());
+                },
                 'choices' => $this->walletRepository->findAllWalletByUser($user),
                 'autocomplete' => true,
             ])
