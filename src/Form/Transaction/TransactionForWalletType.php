@@ -16,6 +16,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
@@ -73,6 +74,13 @@ final class TransactionForWalletType extends AbstractType
         ->add('nature', TextType::class, [
             'required' => false,
             'attr' => ['placeholder' => 'Enter a category (optional)'],
+        ])
+        ->add('comment', TextareaType::class, [
+            'required' => false,
+            'attr' => [
+                'placeholder' => 'Add a comment',
+                'rows' => 5,
+            ],
         ])
         ->add('tag', EntityType::class, [
             'class' => TransactionTag::class,

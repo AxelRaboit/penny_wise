@@ -61,6 +61,9 @@ class Transaction
     #[ORM\JoinColumn(nullable: false)]
     private ?User $individual = null;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $comment = null;
+
     public function __construct()
     {
         $this->tag = new ArrayCollection();
@@ -212,6 +215,18 @@ class Transaction
     public function setIndividual(?User $individual): static
     {
         $this->individual = $individual;
+
+        return $this;
+    }
+
+    public function getComment(): ?string
+    {
+        return $this->comment;
+    }
+
+    public function setComment(?string $comment): static
+    {
+        $this->comment = $comment;
 
         return $this;
     }

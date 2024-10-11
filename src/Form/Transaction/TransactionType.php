@@ -18,6 +18,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -59,6 +60,13 @@ class TransactionType extends AbstractType
                 'choice_label' => fn (Wallet $wallet): string => sprintf('%s (%s)', $wallet->getAccount()->getName(), $wallet->getMonthWithYearLabel()),
                 'choices' => $this->walletRepository->findAllWalletByUser($user),
                 'autocomplete' => true,
+            ])
+            ->add('comment', TextareaType::class, [
+                'required' => false,
+                'attr' => [
+                    'placeholder' => 'Add a comment',
+                    'rows' => 5,
+                ],
             ])
             ->add('tag', EntityType::class, [
                 'class' => TransactionTag::class,
