@@ -4,6 +4,15 @@
             <div class="p-1 rounded-md">
                 <div id="monthly-overview">
                     <h2 class="rounded-t-md text-center text-md font-bold p-2 bg-secondary text-white">Overview</h2>
+
+                    <div class="flex flex-col md:flex-row bg-tertiary">
+                        <div class="w-full text-center p-2">
+                            <span class="font-bold text-xs">Current month</span>
+                        </div>
+                        <div class="w-full text-center p-2">
+                            <span class="text-xs">{{ wallet.getMonth()|month_name }} {{ wallet.getYear() }}</span>
+                        </div>
+                    </div>
                     <div class="flex flex-col md:flex-row bg-tertiary">
                         <div class="w-full text-center p-2">
                             <span class="font-bold text-xs">Currency</span>
@@ -125,44 +134,6 @@
                                 <span class="font-bold text-xs text-dark">{{ wallet.currency.value|currency_symbol }}</span>
                                 <span class="text-dark text-xs">{{ totalLeftToSpend|number_format(2, '.', ' ') }}</span>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div>
-            <div class="p-1 rounded-md">
-                <div id="monthly-month">
-                    <div class="text-center bg-secondary rounded-t-md">
-                        <h2 class="text-md font-bold p-2 text-white">{{ wallet.getMonth()|month_name }} {{ wallet.getYear() }}</h2>
-                    </div>
-                    <div class="w-full rounded-b-md p-2 bg-accent">
-                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-1">
-                            {% set allMonths = 1..12 %}
-
-                            {% for yearDto in walletsAndTransactionsFromYear %}
-                                {% set monthNumbers = yearDto.getMonths()|map(m => m.getMonthNumber()) %}
-
-                                {% for i in allMonths %}
-                                    {% if i in monthNumbers %}
-                                        {% for monthDto in yearDto.getMonths() %}
-                                            {% if monthDto.getMonthNumber() == i %}
-                                                <a href="{{ path('account_wallet_dashboard', {year: yearDto.getYear(), month: monthDto.getMonthNumber(), accountId: account.id, walletId: monthDto.getWalletId()}) }}"
-                                                   class="text-sm text-center font-bold py-2 px-4 rounded-md
-                                                    {{ monthDto.getMonthNumber() == currentMonth ? 'bg-quinary text-white hover:bg-quinary-hover' : 'bg-secondary text-white hover:bg-secondary-hover' }}">
-                                                    {{ monthDto.getMonthName() }}
-                                                </a>
-                                            {% endif %}
-                                        {% endfor %}
-                                    {% else %}
-                                        <a href="{{ path('account_wallet_add_quick_month', {accountId: account.getId(), yearId: yearDto.getYear(), monthId: i}) }}"
-                                           class="text-sm text-center font-bold py-2 px-4 rounded-md bg-gray-400 hover:bg-gray-300 text-white">
-                                            {{ i|month_name }}
-                                        </a>
-                                    {% endif %}
-                                {% endfor %}
-                            {% endfor %}
                         </div>
                     </div>
                 </div>

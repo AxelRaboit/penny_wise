@@ -39,4 +39,8 @@
     {% set importmapEntries = importmapEntries|merge(['actions']) %}
 {% endif %}
 
+{% if page_requires_calendar is defined and page_requires_calendar is same as(true) %}
+    {% set importmapEntries = importmapEntries|merge(['calendar']) %}
+{% endif %}
+
 {{ importmap(importmapEntries) }}
