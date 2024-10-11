@@ -1,4 +1,5 @@
 <div class="fixed top-[48px] bottom-[52px] right-0 flex flex-col space-y-2 z-50 p-2 bg-primary w-24">
+    <span class="text-xs text-white text-center font-bold bg-septenary rounded-md p-1.5">{{ wallet.getMonth()|month_name }} {{ wallet.getYear() }}</span>
     {% for button in buttons %}
         <button id="{{ button.id }}" class="bg-secondary hover:bg-secondary-hover text-white py-1 px-2 rounded-md shadow-lg">
             <i class="fa-solid {{ button.icon }}"></i>
