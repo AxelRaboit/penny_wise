@@ -150,7 +150,7 @@
                                             {% if monthDto.getMonthNumber() == i %}
                                                 <a href="{{ path('account_wallet_dashboard', {year: yearDto.getYear(), month: monthDto.getMonthNumber(), accountId: account.id, walletId: monthDto.getWalletId()}) }}"
                                                    class="text-sm text-center font-bold py-2 px-4 rounded-md
-                           {{ monthDto.getMonthNumber() == currentMonth ? 'bg-quinary text-white hover:bg-quinary-hover' : 'bg-secondary text-white hover:bg-secondary-hover' }}">
+                                                    {{ monthDto.getMonthNumber() == currentMonth ? 'bg-quinary text-white hover:bg-quinary-hover' : 'bg-secondary text-white hover:bg-secondary-hover' }}">
                                                     {{ monthDto.getMonthName() }}
                                                 </a>
                                             {% endif %}
@@ -164,17 +164,9 @@
                                 {% endfor %}
                             {% endfor %}
                         </div>
-
                     </div>
-
                 </div>
             </div>
-
-            {{ include('account/wallet/partial/_chart_card.html.twig', {
-                title: 'Left to spend',
-                chartId: 'chart-left-to-spend',
-                chart: leftToSpendChart.data.isDataPresent ? leftToSpendChart : null
-            }) }}
         </div>
     </div>
 
@@ -385,26 +377,4 @@
             </div>
         </div>
     </div>
-</div>
-
- <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
-    {{ include('account/wallet/partial/_chart_card.html.twig', {
-        title: 'Total monthly spent',
-        buttons: [
-            {chartType: 'monthly', chartId: 'chart-monthly-spent', chartFormat: 'bar', label: 'Bar'},
-            {chartType: 'monthly', chartId: 'chart-monthly-spent', chartFormat: 'line', label: 'Line'},
-        ],
-        chartId: 'chart-monthly-spent',
-        chart: totalSpendingForCurrentAndPreviousNthMonthsChart
-    }) }}
-
-     {{ include('account/wallet/partial/_chart_card.html.twig', {
-         title: 'Total yearly spent',
-         buttons: [
-             {chartType: 'yearly', chartId: 'chart-yearly-spent', chartFormat: 'bar', label: 'Bar'},
-             {chartType: 'yearly', chartId: 'chart-yearly-spent', chartFormat: 'line', label: 'Line'},
-         ],
-         chartId: 'chart-yearly-spent',
-         chart: totalSpendingYearsChart
-     }) }}
 </div>

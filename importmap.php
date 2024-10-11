@@ -23,8 +23,8 @@ return [
         'path' => './assets/js/component/note.js',
         'entrypoint' => true,
     ],
-    'recap' => [
-        'path' => './assets/js/component/recap.js',
+    'graphs' => [
+        'path' => './assets/js/component/graphs.js',
         'entrypoint' => true,
     ],
     'topbar' => [
