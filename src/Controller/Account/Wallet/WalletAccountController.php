@@ -70,7 +70,7 @@ final class WalletAccountController extends AbstractController
         $notesFromWallet = $this->noteRepository->getNotesFromWallet($wallet);
         $leftToSpendChart = $this->walletChartService->createLeftToSpendChart($transactions);
 
-        return $this->render('account/wallet/dashboard.html.twig', [
+        return $this->render('account/wallet/dashboard/dashboard.html.twig', [
             'leftToSpendChart' => $leftToSpendChart,
             'totalSpendingForCurrentAndPreviousNthMonthsChart' => $this->walletChartService->createTotalSpendingForCurrentAndPreviousNthMonthsChart(
                 $accountId,

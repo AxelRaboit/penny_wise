@@ -21,7 +21,7 @@
             </div>
         </div>
 
-        <div class="grid {{ transactionCategory.totalBudget ? 'md:grid-cols-2' : 'md:grid-cols-1' }} grid-cols-1 gap-2 bg-gray-100 p-1 rounded-md md:rounded-md my-1">
+        <div class="grid {{ transactionCategory.totalBudget ? 'md:grid-cols-2' : 'md:grid-cols-1' }} grid-cols-1 gap-2 bg-gray-100 p-1 rounded-md my-1">
             {% if transactionCategory.totalBudget %}
                 <div class="flex items-center justify-center bg-quinary rounded-md p-2 md:rounded-md mb-2 md:mb-0">
                     <i class="fa-solid fa-wallet text-white text-lg mr-2"></i>
@@ -93,7 +93,7 @@
                             {% endif %}
                         </div>
 
-                        <div class="md:col-span-1 text-center flex items-center justify-center space-x-2 md:pl-2">
+                        <div class="md:col-span-1 text-center flex items-center justify-center space-x-2 md:pl-4 md:pr-4">
                             <a href="{{ path('edit_transaction_from_wallet', {accountId: account.id, walletId: wallet.id, transactionId: transaction.transaction.id}) }}" title="Edit" class="text-secondary hover:text-secondary-hover">
                                 <i class="fa-solid fa-pen-to-square cursor-pointer"></i>
                             </a>

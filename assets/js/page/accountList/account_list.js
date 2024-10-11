@@ -1,4 +1,4 @@
-import {attachModalEvents} from "../../component/modal.js";
+import {attachModalEvents} from "../../component/Modal/modal.js";
 
 export function initializeWalletListModals() {
     attachModalEvents({

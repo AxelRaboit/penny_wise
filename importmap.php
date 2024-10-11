@@ -19,28 +19,8 @@ return [
         'entrypoint' => true,
     ],
     // Components
-    'note' => [
-        'path' => './assets/js/component/note.js',
-        'entrypoint' => true,
-    ],
-    'graphs' => [
-        'path' => './assets/js/component/graphs.js',
-        'entrypoint' => true,
-    ],
-    'actions' => [
-        'path' => './assets/js/component/actions.js',
-        'entrypoint' => true,
-    ],
-    'calendar' => [
-        'path' => './assets/js/component/calendar.js',
-        'entrypoint' => true,
-    ],
-    'overview' => [
-        'path' => './assets/js/component/overview.js',
-        'entrypoint' => true,
-    ],
-    'information' => [
-        'path' => './assets/js/component/information.js',
+    'wallet_side_modal' => [
+        'path' => './assets/js/component/Modal/wallet_side_modal.js',
         'entrypoint' => true,
     ],
     'topbar' => [

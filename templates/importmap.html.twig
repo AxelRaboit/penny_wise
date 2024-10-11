@@ -27,28 +27,8 @@
 {% endif %}
 
 {# Components #}
-{% if page_requires_note is defined and page_requires_note is same as(true) %}
-    {% set importmapEntries = importmapEntries|merge(['note']) %}
-{% endif %}
-
-{% if page_requires_graphs is defined and page_requires_graphs is same as(true) %}
-    {% set importmapEntries = importmapEntries|merge(['graphs']) %}
-{% endif %}
-
-{% if page_requires_actions is defined and page_requires_actions is same as(true) %}
-    {% set importmapEntries = importmapEntries|merge(['actions']) %}
-{% endif %}
-
-{% if page_requires_calendar is defined and page_requires_calendar is same as(true) %}
-    {% set importmapEntries = importmapEntries|merge(['calendar']) %}
-{% endif %}
-
-{% if page_requires_overview is defined and page_requires_overview is same as(true) %}
-    {% set importmapEntries = importmapEntries|merge(['overview']) %}
-{% endif %}
-
-{% if page_requires_information is defined and page_requires_information is same as(true) %}
-    {% set importmapEntries = importmapEntries|merge(['information']) %}
+{% if page_requires_wallet_side_modal is defined and page_requires_wallet_side_modal is same as(true) %}
+    {% set importmapEntries = importmapEntries|merge(['wallet_side_modal']) %}
 {% endif %}
 
 {{ importmap(importmapEntries) }}

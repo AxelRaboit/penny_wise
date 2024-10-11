@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ wallet.month|month_name }} {{ wallet.year }} {{ parent() }}{% endblock %}
+
+{% set page_requires_monthly = true %}
+{% set page_requires_transaction = true %}
+{% set page_requires_wallet_side_modal = true %}
+
+{% block body %}
+    <div class="flex justify-center">
+        <div class="w-full lg:w-11/12 p-4 mr-24">
+            <div class="mb-1">
+                {{ include('account/wallet/partial/transaction/_transactions.html.twig') }}
+            </div>
+        </div>
+
+        {{ include('account/wallet/dashboard/_side_menu.html.twig', {
+            buttons: [
+                { id: 'openOverviewModal', icon: 'fa-gauge' },
+                { id: 'openInformationModal', icon: 'fa-circle-info' },
+                { id: 'openGraphsModal', icon: 'fa-chart-simple' },
+                { id: 'openCalendarModal', icon: 'fa-calendar' },
+                { id: 'openActionsModal', icon: 'fa-screwdriver-wrench' },
+                { id: 'openNoteModal', icon: 'fa-book' }
+            ]
+        }) }}
+    </div>
+
+    {{ include('components/note.html.twig') }}
+    {{ include('components/actions.html.twig') }}
+    {{ include('components/graphs.html.twig') }}
+    {{ include('components/calendar.html.twig') }}
+    {{ include('components/overview.html.twig') }}
+    {{ include('components/information.html.twig') }}
+{% endblock %}

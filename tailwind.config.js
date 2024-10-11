@@ -11,6 +11,9 @@ module.exports = {
       screens: {
         'xxl': '1740px',
       },
+      zIndex: {
+        '99': '99',
+      },
       colors: {
         primary: {
           DEFAULT: '#18181B',

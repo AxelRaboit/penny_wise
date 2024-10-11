@@ -33,16 +33,16 @@ const closeModal = (modal) => {
 };
 
 const attachModalEvents = function({
-                                       modalId,
-                                       modalTitle,
-                                       modalMessageHeader,
-                                       modalMessage = '',
-                                       triggerButtonSelector,
-                                       confirmButtonId,
-                                       cancelButtonId,
-                                       confirmLabel,
-                                       cancelLabel,
-                                   }) {
+   modalId,
+   modalTitle,
+   modalMessageHeader,
+   modalMessage = '',
+   triggerButtonSelector,
+   confirmButtonId,
+   cancelButtonId,
+   confirmLabel,
+   cancelLabel,
+}) {
     const modal = createModal({
         modalId,
         modalTitle,
