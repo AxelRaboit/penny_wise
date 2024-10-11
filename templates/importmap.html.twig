@@ -43,4 +43,12 @@
     {% set importmapEntries = importmapEntries|merge(['calendar']) %}
 {% endif %}
 
+{% if page_requires_overview is defined and page_requires_overview is same as(true) %}
+    {% set importmapEntries = importmapEntries|merge(['overview']) %}
+{% endif %}
+
+{% if page_requires_information is defined and page_requires_information is same as(true) %}
+    {% set importmapEntries = importmapEntries|merge(['information']) %}
+{% endif %}
+
 {{ importmap(importmapEntries) }}

@@ -8,18 +8,10 @@
 {% set page_requires_graphs = true %}
 {% set page_requires_actions = true %}
 {% set page_requires_calendar = true %}
+{% set page_requires_overview = true %}
+{% set page_requires_information = true %}
 
 {% block body %}
-    <div class="mb-1">
-        {{ include('account/wallet/partial/_wallet_information.html.twig', {
-            wallet: wallet,
-            walletsAndTransactionsFromYear: walletsAndTransactionsFromYear,
-            currentMonth: currentMonth,
-            currentYear: currentYear,
-            account: account
-        }) }}
-    </div>
-
     <div class="mb-1">
         {{ include('account/wallet/partial/transaction/_transactions.html.twig') }}
     </div>
@@ -29,5 +21,7 @@
         {{ include('components/actions.html.twig') }}
         {{ include('components/graphs.html.twig') }}
         {{ include('components/calendar.html.twig') }}
+        {{ include('components/overview.html.twig') }}
+        {{ include('components/information.html.twig') }}
     </div>
 {% endblock %}

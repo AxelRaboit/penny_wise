@@ -1,0 +1,144 @@
+<div id="informationBubble" x-show="hoverAll" x-transition.opacity.duration.300ms
+     class="fixed bottom-84 right-4 bg-secondary hover:bg-secondary-hover text-white py-4 px-5 rounded-full cursor-pointer shadow-lg z-40">
+    <i class="fa-solid fa-circle-info"></i>
+</div>
+
+<div id="informationModal" class="fixed top-0 right-0 w-full md:w-1/3 h-full bg-accent shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out z-50 overflow-hidden">
+    <div class="bg-secondary text-white p-4 flex justify-between items-center">
+        <div class="flex items-center justify-center">
+            <h2 class="text-md font-bold text-white mr-5">Information</h2>
+        </div>
+        <button id="closeInformationModal" class="text-white hover:text-gray-200">
+            <i class="fa-solid fa-times text-xl"></i>
+        </button>
+    </div>
+
+    <div class="p-4 h-[calc(100%-4rem)] overflow-y-auto">
+        <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-2 xxl:grid-cols-2">
+            <div class="p-1 rounded-md">
+                <div>
+                    <div class="text-center bg-secondary rounded-t-md">
+                        <h2 class="text-md font-bold p-1 text-white">Start balance</h2>
+                    </div>
+
+                    <div class="w-full rounded-b-md p-1 bg-accent border border-solid border-gray-300">
+                        <div class="rounded-br-md w-full text-center">
+                            <div class="bg-accent flex items-center justify-center space-x-2">
+                                <span class="font-bold text-lg text-dark">{{ wallet.currency.value|currency_symbol }}</span>
+                                <span class="font-bold text-lg text-dark">{{ wallet.startBalance|number_format(2, '.', ' ') }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-1 rounded-md">
+                <div>
+                    <div class="text-center bg-secondary rounded-t-md">
+                        <h2 class="text-md font-bold p-1 text-white">Saving</h2>
+                    </div>
+
+                    <div class="w-full rounded-b-md p-1 bg-accent border border-solid border-gray-300">
+                        <div class="rounded-br-md w-full text-center">
+                            <div class="bg-accent flex items-center justify-center space-x-2">
+                                <span class="font-bold text-lg text-dark">{{ wallet.currency.value|currency_symbol }}</span>
+                                <span class="font-bold text-lg text-dark {{ totalSaving < 0 ? 'text-danger' : 'text-dark' }}">{{ totalSaving|number_format(2, '.', ' ') }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-1 rounded-md">
+                <div>
+                    <div class="text-center bg-secondary rounded-t-md">
+                        <h2 class="text-md font-bold p-1 text-white">Budget</h2>
+                    </div>
+
+                    <div class="w-full rounded-b-md p-1 bg-accent border border-solid border-gray-300">
+                        <div class="rounded-br-md w-full text-center">
+                            <div class="bg-accent flex items-center justify-center space-x-2">
+                                <span class="font-bold text-lg text-dark">{{ wallet.currency.value|currency_symbol }}</span>
+                                <span class="font-bold text-lg text-dark {{ totalBudget < 0 ? 'text-danger' : 'text-dark' }}">{{ totalBudget|number_format(2, '.', ' ') }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-1 rounded-md">
+                <div>
+                    <div class="text-center bg-secondary rounded-t-md">
+                        <h2 class="text-md font-bold p-1 text-white">Left</h2>
+                    </div>
+
+                    <div class="w-full rounded-b-md p-1 bg-accent border border-solid border-gray-300">
+                        <div class="rounded-br-md w-full text-center">
+                            <div class="bg-accent flex items-center justify-center space-x-2">
+                                <span class="font-bold text-lg text-dark">{{ wallet.currency.value|currency_symbol }}</span>
+                                <span class="font-bold text-lg text-dark {{ totalLeftToSpend < 0 ? 'text-danger' : 'text-dark' }}">{{ totalLeftToSpend|number_format(2, '.', ' ') }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="p-1 rounded-md mb-1">
+                <div id="spend-limit">
+                    <h2 class="rounded-t-md text-center font-bold p-1 bg-secondary text-white">
+                        <span class="font-bold text-md text-white">Spend limit</span>
+                        {% if wallet.spendingLimit is not null %}
+                            {% if totalSpending > wallet.spendingLimit %}
+                                <span class="bg-danger text-white text-xs rounded-md p-1 ml-2">
+                                Exceeded (<span class="font-bold text-secondary text-white text-xs">{{ wallet.currency.value|currency_symbol }}</span>
+                                {{ (totalSpending - wallet.spendingLimit)|number_format(2, '.', ' ') }})
+                            </span>
+                            {% elseif totalSpending < wallet.spendingLimit %}
+                                <span class="bg-success text-white text-xs rounded-md p-1 ml-2">
+                                Left (<span class="font-bold text-secondary text-white text-xs">{{ wallet.currency.value|currency_symbol }}</span>
+                                {{ (wallet.spendingLimit - totalSpending)|number_format(2, '.', ' ') }})
+                            </span>
+                            {% else %}
+                                <span class="bg-warning text-white text-xs rounded-md p-1 ml-2">
+                                Exactly on the limit (<span class="font-bold text-secondary text-white text-xs">{{ wallet.currency.value|currency_symbol }}</span>
+                                {{ wallet.spendingLimit|number_format(2, '.', ' ') }})
+                            </span>
+                            {% endif %}
+                        {% else %}
+                            <span class="bg-success text-white text-xs rounded-md p-1 ml-2">
+                        Unlimited
+                    </span>
+                        {% endif %}
+                    </h2>
+
+                    <div class="flex flex-col md:flex-row bg-accent rounded-b-md">
+                        <div class="w-full text-center border border-solid border-gray-300 p-1 rounded-b-md">
+                            {% if wallet.spendingLimit is not null %}
+                                <span class="font-bold text-xs text-secondary">
+                            {{ wallet.currency.value|currency_symbol }}
+                        </span>
+                            {% endif %}
+                            <span class="font-bold text-lg">{{ wallet.spendingLimit is not null ? wallet.spendingLimit|number_format(2, '.', ' ') : '<i class="fa-solid fa-infinity"></i>'|raw }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-1 rounded-md">
+                <div>
+                    <div class="text-center bg-secondary rounded-t-md">
+                        <h2 class="text-md font-bold p-1 text-white">Spending</h2>
+                    </div>
+
+                    <div class="w-full rounded-b-md p-1 bg-accent border border-solid border-gray-300">
+                        <div class="rounded-br-md w-full text-center">
+                            <div class="bg-accent flex items-center justify-center space-x-2">
+                                <span class="font-bold text-lg text-dark">{{ wallet.currency.value|currency_symbol }}</span>
+                                <span class="font-bold text-lg text-dark">{{ totalSpending|number_format(2, '.', ' ') }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

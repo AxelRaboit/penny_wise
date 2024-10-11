@@ -35,6 +35,14 @@ return [
         'path' => './assets/js/component/calendar.js',
         'entrypoint' => true,
     ],
+    'overview' => [
+        'path' => './assets/js/component/overview.js',
+        'entrypoint' => true,
+    ],
+    'information' => [
+        'path' => './assets/js/component/information.js',
+        'entrypoint' => true,
+    ],
     'topbar' => [
         'path' => './assets/js/component/topbar.js',
         'entrypoint' => true,
