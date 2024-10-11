@@ -1,4 +1,4 @@
-<div class="p-1 rounded-md" x-data="{ open: true }">
+<div class="p-1 rounded-md" x-data="{ open: {{ transactionCategory.transactions|length > 0 ? 'true' : 'false' }} }">
     <div id="monthlyBill">
         <div class="flex justify-between items-center bg-secondary text-white rounded-md p-2">
             <div class="flex items-center">
@@ -41,8 +41,8 @@
             </div>
         </div>
 
-        <div x-show="open" class="transition-all duration-300" class="{'rounded-b-md': !open}">
-            <div class="hidden md:flex bg-accent bg-secondary rounded-md mb-1">
+        <div x-show="open" class="transition-all duration-300 {'rounded-b-md': !open}">
+            <div class="hidden md:flex bg-accent bg-secondary rounded-md">
                 <div class="w-full text-center"><span class="font-bold text-white text-xs">Date</span></div>
                 <div class="w-full text-center hidden md:block"><span class="font-bold text-white text-xs">Tags</span></div>
                 <div class="w-full text-center"><span class="font-bold text-white text-xs">Nature</span></div>
@@ -52,8 +52,8 @@
                 <div class="w-full text-center"><span class="font-bold text-white text-xs">Actions</span></div>
             </div>
 
-            {% for transactions in transactionCategory %}
-                {% for transaction in transactions %}
+            <div class="my-1">
+                {% for transaction in transactionCategory.transactions %}
                     <div class="transaction flex flex-col md:grid md:grid-cols-7 items-center bg-accent p-1 rounded-md mb-1 text-xs md:flex-row">
                         <div class="md:col-span-1 text-center md:border-r md:pr-2">
                             <span>{{ transaction.transaction.date ? transaction.transaction.date|date('d M Y') : '-' }}</span>
@@ -105,14 +105,14 @@
                             </button>
                         </div>
                     </div>
-                {% endfor %}
-            {% else %}
-                <div class="flex bg-accent rounded-b-md">
-                    <div class="w-full text-center border border-solid border-gray-300 p-2">
-                        <span class="font-bold">No {{ transactionCategory.type }}</span>
+                {% else %}
+                    <div class="flex bg-accent rounded-md">
+                        <div class="w-full text-center border border-solid border-gray-300 p-2 rounded-md">
+                            <span class="font-bold text-xs">No {{ transactionCategory.type }}</span>
+                        </div>
                     </div>
-                </div>
-            {% endfor %}
+                {% endfor %}
+            </div>
         </div>
     </div>
 
