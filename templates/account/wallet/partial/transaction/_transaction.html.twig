@@ -54,7 +54,7 @@
 
             <div class="my-1">
                 {% for transaction in transactionCategory.transactions %}
-                    <div class="transaction flex flex-col md:grid md:grid-cols-7 items-center bg-accent p-1 rounded-md mb-1 text-xs md:flex-row">
+                    <div class="transaction flex flex-col md:grid md:grid-cols-7 items-center bg-accent p-1 rounded-md mb-1 text-xs md:flex-row" title="{{ transaction.transaction.comment }}">
                         <div class="md:col-span-1 text-center md:border-r md:pr-2">
                             <span>{{ transaction.transaction.date ? transaction.transaction.date|date('d M Y') : '-' }}</span>
                         </div>

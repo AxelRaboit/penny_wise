@@ -16,12 +16,12 @@
 
         {{ include('account/wallet/dashboard/_side_menu.html.twig', {
             buttons: [
-                {id: 'openOverviewModal', icon: 'fa-gauge'},
-                {id: 'openInformationModal', icon: 'fa-circle-info'},
-                {id: 'openGraphsModal', icon: 'fa-chart-simple'},
-                {id: 'openCalendarModal', icon: 'fa-calendar'},
-                {id: 'openActionsModal', icon: 'fa-screwdriver-wrench'},
-                {id: 'openNoteModal', icon: 'fa-book'}
+                {id: 'openOverviewModal', icon: 'fa-gauge', title: 'Summary information about the wallet'},
+                {id: 'openInformationModal', icon: 'fa-circle-info', title: 'Summary information about the wallet amounts'},
+                {id: 'openGraphsModal', icon: 'fa-chart-simple', title: 'Graphic representation of the wallet'},
+                {id: 'openCalendarModal', icon: 'fa-calendar', title: 'Monthly calendar'},
+                {id: 'openActionsModal', icon: 'fa-screwdriver-wrench', title: 'Interact through actions on the wallet'},
+                {id: 'openNoteModal', icon: 'fa-book', title: 'Notes'}
             ]
         }) }}
     </div>
