@@ -35,4 +35,8 @@
     {% set importmapEntries = importmapEntries|merge(['graphs']) %}
 {% endif %}
 
+{% if page_requires_actions is defined and page_requires_actions is same as(true) %}
+    {% set importmapEntries = importmapEntries|merge(['actions']) %}
+{% endif %}
+
 {{ importmap(importmapEntries) }}

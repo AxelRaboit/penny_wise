@@ -32,5 +32,5 @@ function initializeGraphsModal() {
     window.addEventListener('beforeunload', closeModal);
 }
 
-/*document.addEventListener('DOMContentLoaded', initializeRecapModal);*/
+/*document.addEventListener('DOMContentLoaded', initializeGraphsModal);*/
 document.addEventListener('turbo:load', initializeGraphsModal);

@@ -6,6 +6,7 @@
 {% set page_requires_transaction = true %}
 {% set page_requires_note = true %}
 {% set page_requires_graphs = true %}
+{% set page_requires_actions = true %}
 
 {% block body %}
     <div class="mb-1">
@@ -24,6 +25,7 @@
 
     <div x-data="{ hoverAll: false }" @mouseenter="hoverAll = true" @mouseleave="hoverAll = false" class="fixed bottom-0 right-0 w-32 h-40 z-50">
         {{ include('components/note.html.twig') }}
+        {{ include('components/actions.html.twig') }}
         {{ include('components/graphs.html.twig') }}
     </div>
 {% endblock %}

@@ -27,6 +27,10 @@ return [
         'path' => './assets/js/component/graphs.js',
         'entrypoint' => true,
     ],
+    'actions' => [
+        'path' => './assets/js/component/actions.js',
+        'entrypoint' => true,
+    ],
     'topbar' => [
         'path' => './assets/js/component/topbar.js',
         'entrypoint' => true,
