@@ -97,7 +97,7 @@
                             <a href="{{ path('edit_transaction_from_wallet', {accountId: account.id, walletId: wallet.id, transactionId: transaction.transaction.id}) }}" title="Edit" class="text-secondary hover:text-secondary-hover">
                                 <i class="fa-solid fa-pen-to-square cursor-pointer"></i>
                             </a>
-                            <a href="{# {{ path('view_transaction', {id: transaction.transaction.id}) }} #}" title="View" class="text-secondary hover:text-secondary-hover">
+                            <a href=" {{ path('show_transaction_from_wallet', {accountId: account.id, walletId: wallet.id, transactionId: transaction.transaction.id}) }} " title="View" class="text-secondary hover:text-secondary-hover">
                                 <i class="fa-solid fa-eye cursor-pointer"></i>
                             </a>
                             <button type="button" data-action-url="{{ path('delete_transaction_wallet', {accountId: account.id, walletId: wallet.id, transactionId: transaction.transaction.id}) }}" title="Delete" class="js-delete-button text-danger hover:text-danger-hover">

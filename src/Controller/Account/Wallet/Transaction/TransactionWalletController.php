@@ -134,6 +134,31 @@ final class TransactionWalletController extends AbstractController
         return $this->redirectToWalletDashboard($wallet);
     }
 
+    #[Route('/account/{accountId}/wallet/{walletId}/transaction/{transactionId}/show', name: 'show_transaction_from_wallet')]
+    public function viewTransaction(int $accountId, int $walletId, int $transactionId): Response
+    {
+        $account = $this->entityAccessService->getAccountWithAccessCheck($accountId);
+        if (!$account instanceof Account) {
+            return $this->redirectToRoute('account_list');
+        }
+
+        $wallet = $this->entityAccessService->getWalletWithAccessCheck($walletId);
+        if (!$wallet instanceof Wallet) {
+            return $this->redirectToRoute('account_list');
+        }
+
+        $transaction = $this->entityAccessService->getTransactionWithAccessCheck($transactionId);
+        if (!$transaction instanceof Transaction) {
+            return $this->redirectToRoute('account_list');
+        }
+
+        return $this->render('wallet/show.html.twig', [
+            'transaction' => $transaction,
+            'wallet' => $wallet,
+            'account' => $wallet->getAccount(),
+        ]);
+    }
+
     #[Route('/account/{accountId}/wallet/{walletId}/transaction/{transactionId}/edit', name: 'edit_transaction_from_wallet')]
     public function editTransactionForWallet(int $accountId, int $walletId, int $transactionId, Request $request): Response
     {

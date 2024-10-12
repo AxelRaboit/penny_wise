@@ -4,7 +4,7 @@
 
 {% block body %}
     <div>
-        <div class="bg-senary shadow-md rounded-md p-6 max-w-4xl mx-auto">
+        <div class="bg-tertiary shadow-md rounded-md p-6 max-w-4xl mx-auto">
             <div class="flex items-center relative">
                 <div class="w-24 h-24 rounded-full overflow-hidden relative group">
                     <a href="{{ path('profile_settings_edit') }}">
@@ -21,38 +21,38 @@
                 </div>
                 <div class="ml-6">
                     {% if app.user.userInformation and app.user.userInformation.firstname and app.user.userInformation.lastname %}
-                        <h1 class="text-xl font-bold text-gray-800">{{ app.user.userInformation.firstname }} {{ app.user.userInformation.lastname }}</h1>
+                        <h1 class="font-semibold">{{ app.user.userInformation.firstname }} {{ app.user.userInformation.lastname }}</h1>
                     {% else %}
-                        <h1 class="text-xl font-bold text-gray-800">User</h1>
+                        <h1 class="font-semibold">User</h1>
                     {% endif %}
-                    <p class="text-gray-600">@{{ app.user.username }}</p>
+                    <p>@{{ app.user.username }}</p>
                 </div>
             </div>
 
             <div class="mt-6">
-                <h2 class="text-xl font-semibold text-gray-800">Profile Information</h2>
+                <h2 class="font-semibold">Profile Information</h2>
                 <div class="mt-4">
-                    <div class="grid grid-cols-1 md:grid-cols-1 gap-6 mb-2">
-                        <div class="bg-gray-50 p-4 rounded-md">
-                            <h3 class="font-semibold text-gray-700">Bio</h3>
-                            <p class="text-gray-800">{{ app.user.userInformation.bio ?? '-' }}</p>
+                    <div class="grid grid-cols-1 md:grid-cols-1 gap-2 mb-2">
+                        <div class="bg-senary p-2 rounded-md">
+                            <h3 class="font-semibold">Bio</h3>
+                            <p>{{ app.user.userInformation.bio ?? '-' }}</p>
                         </div>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
-                        <div class="bg-gray-50 p-4 rounded-md">
-                            <h3 class="font-semibold text-gray-700">First Name</h3>
-                            <p class="text-gray-800">{{ app.user.userInformation.firstname ?? '-' }}</p>
+                        <div class="bg-senary p-2 rounded-md">
+                            <h3 class="font-semibold">First Name</h3>
+                            <p>{{ app.user.userInformation.firstname ?? '-' }}</p>
                         </div>
-                        <div class="bg-gray-50 p-4 rounded-md">
-                            <h3 class="font-semibold text-gray-700">Last Name</h3>
-                            <p class="text-gray-800">{{ app.user.userInformation.lastname ?? '-' }}</p>
+                        <div class="bg-senary p-2 rounded-md">
+                            <h3 class="font-semibold">Last Name</h3>
+                            <p>{{ app.user.userInformation.lastname ?? '-' }}</p>
                         </div>
-                        <div class="bg-gray-50 p-4 rounded-md">
-                            <h3 class="font-semibold text-gray-700">Email</h3>
-                            <p class="text-gray-800">{{ app.user.email }}</p>
+                        <div class="bg-senary p-2 rounded-md">
+                            <h3 class="font-semibold">Email</h3>
+                            <p>{{ app.user.email }}</p>
                         </div>
-                        <div class="bg-gray-50 p-4 rounded-md">
-                            <h3 class="font-semibold text-gray-700">Username</h3>
+                        <div class="bg-senary p-2 rounded-md">
+                            <h3 class="font-semibold">Username</h3>
                             <p class="text-gray-800">{{ app.user.username }}</p>
                         </div>
                     </div>
