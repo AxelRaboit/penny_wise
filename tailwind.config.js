@@ -15,11 +15,6 @@ module.exports = {
         '99': '99',
       },
       colors: {
-        primaryTheme: {
-          DEFAULT: '#6C5B7B',  // Desaturated purple, subtle but distinctive
-          hover: '#574867',    // Darker purple for hover states
-          ring: '#463952',     // Focus ring for purple theme
-        },
         primary: {
           DEFAULT: '#1C1C1E', // Very dark grey, perfect for dark backgrounds
           hover: '#2D2D2F',   // A slightly lighter shade for hover states
@@ -64,6 +59,11 @@ module.exports = {
           DEFAULT: '#F44336', // Subtle red for error states
           hover: '#C62828',   // Darker red for error hover states
           ring: '#D32F2F'     // To highlight error messages or states
+        },
+        warning: {
+          DEFAULT: '#FF9800', // Subtle orange for warnings
+          hover: '#FB8C00',   // Darker orange for warning hover states
+          ring: '#EF6C00'     // To highlight warnings
         },
         neutral: {
           DEFAULT: '#9E9E9E', // Neutral grey for secondary text or details

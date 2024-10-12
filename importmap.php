@@ -19,8 +19,8 @@ return [
         'entrypoint' => true,
     ],
     // Components
-    'wallet_side_menu_modal' => [
-        'path' => './assets/js/component/Modal/wallet_side_menu_modal.js',
+    'side_menu_modal' => [
+        'path' => './assets/js/component/Modal/side_menu_modal.js',
         'entrypoint' => true,
     ],
     'topbar' => [

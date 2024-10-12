@@ -1,4 +1,4 @@
-{% set importmapEntries = ['app', 'topbar'] %}
+{% set importmapEntries = ['app', 'topbar', 'side_menu_modal'] %}
 
 {# Pages #}
 {% if page_requires_monthly is defined and page_requires_monthly is same as(true) %}
@@ -27,8 +27,6 @@
 {% endif %}
 
 {# Components #}
-{% if page_requires_wallet_side_menu_modal is defined and page_requires_wallet_side_menu_modal is same as(true) %}
-    {% set importmapEntries = importmapEntries|merge(['wallet_side_menu_modal']) %}
-{% endif %}
+{# CODE HERE #}
 
 {{ importmap(importmapEntries) }}

@@ -44,7 +44,7 @@ final class AccountListController extends AbstractController
         $user = $this->userCheckerService->getUserOrThrow();
         $accounts = $this->walletService->findAllAccountsWithWalletsByUser($user);
 
-        return $this->render('account/account_list.html.twig', [
+        return $this->render('account/accountList/account_list.html.twig', [
             'accounts' => $accounts,
         ]);
     }

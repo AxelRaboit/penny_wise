@@ -9,10 +9,8 @@
         <div class="{{ accounts is not empty ? '' : 'flex justify-center items-center' }}">
             {% if accounts is not empty %}
                 <div class="flex flex-wrap bg-quinary rounded-md">
-                    {% set monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'] %}
-
                     {% for account in accounts %}
-                        <div class="w-full p-1 rounded-md mb-4 bg-senary" x-data="{ open: true }">
+                        <div class="w-full p-1 rounded-md bg-quinary" x-data="{ open: true }">
                             <div class="flex justify-between items-center bg-primary text-white p-2 rounded-md cursor-pointer" @click="open = !open">
                                 <div class="flex-1 text-left">
                                     <span class="text-lg font-bold text-white">{{ account.getName() }}</span>
@@ -45,7 +43,7 @@
                                                 <i class="fa-solid fa-trash-can"></i>
                                             </button>
                                         </div>
-                                        <div class="w-full rounded-b-md p-2 bg-senary min-h-[188px]">
+                                        <div class="w-full rounded-b-md p-2 bg-tertiary min-h-[188px]">
                                             <div class="grid grid-cols-1 md:grid-cols-3 gap-1 relative">
                                                 {% set months = year.getMonths() %}
                                                 {% set monthNumbers = months|map(m => m.getMonthNumber())|default([]) %}

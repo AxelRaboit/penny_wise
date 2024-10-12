@@ -4,7 +4,6 @@
 
 {% set page_requires_monthly = true %}
 {% set page_requires_transaction = true %}
-{% set page_requires_wallet_side_menu_modal = true %}
 
 {% block body %}
     <div class="flex justify-center">
@@ -13,17 +12,6 @@
                 {{ include('account/wallet/partial/transaction/_transactions.html.twig') }}
             </div>
         </div>
-
-        {{ include('account/wallet/dashboard/_side_menu.html.twig', {
-            buttons: [
-                {id: 'openWalletSideMenuSummaryModal', icon: 'fa-gauge', title: 'Summary information about the wallet'},
-                {id: 'openWalletSideMenuInformationModal', icon: 'fa-circle-info', title: 'Summary information about the wallet amounts'},
-                {id: 'openWalletSideMenuGraphsModal', icon: 'fa-chart-simple', title: 'Graphic representation of the wallet'},
-                {id: 'openWalletSideMenuCalendarModal', icon: 'fa-calendar', title: 'Monthly calendar'},
-                {id: 'openWalletSideMenuActionsModal', icon: 'fa-screwdriver-wrench', title: 'Interact through actions on the wallet'},
-                {id: 'openWalletSideMenuNoteModal', icon: 'fa-book', title: 'Notes'}
-            ]
-        }) }}
     </div>
 
     {{ include('components/wallet/dashboard/sideMenu/wallet_note.html.twig') }}
@@ -32,4 +20,17 @@
     {{ include('components/wallet/dashboard/sideMenu/wallet_calendar.html.twig') }}
     {{ include('components/wallet/dashboard/sideMenu/wallet_summary.html.twig') }}
     {{ include('components/wallet/dashboard/sideMenu/wallet_information.html.twig') }}
+{% endblock %}
+
+{% block sidemenu %}
+    {{ include('account/wallet/dashboard/sideMenu/side_menu.html.twig', {
+        buttons: [
+            {id: 'openWalletSideMenuSummaryModal', icon: 'fa-gauge', title: 'Summary information about the wallet'},
+            {id: 'openWalletSideMenuInformationModal', icon: 'fa-circle-info', title: 'Summary information about the wallet amounts'},
+            {id: 'openWalletSideMenuGraphsModal', icon: 'fa-chart-simple', title: 'Graphic representation of the wallet'},
+            {id: 'openWalletSideMenuCalendarModal', icon: 'fa-calendar', title: 'Monthly calendar'},
+            {id: 'openWalletSideMenuActionsModal', icon: 'fa-screwdriver-wrench', title: 'Interact through actions on the wallet'},
+            {id: 'openWalletSideMenuNoteModal', icon: 'fa-book', title: 'Notes'}
+        ]
+    }) }}
 {% endblock %}

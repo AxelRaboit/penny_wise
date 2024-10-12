@@ -13,21 +13,28 @@
             {{ include('importmap.html.twig') }}
         {% endblock %}
     </head>
-    <body>
+    <body class="flex flex-col min-h-screen">
         {{ include('components/topbar/topbar.html.twig') }}
 
-        <div id="app">
-            {% for label, messages in app.flashes %}
-                <div class="p-4 mb-4 text-sm text-white text-center {{ label == 'success' ? 'bg-success' : label == 'warning' ? 'bg-warning' : 'bg-danger' }}" role="alert">
-                    {% for message in messages %}
-                        <span class="font-bold text-white">{{ label|capitalize }}:</span> {{ message }}
-                    {% endfor %}
-                </div>
-            {% endfor %}
+        <div class="flex flex-1 pr-24">
+            <main class="flex-1 p-4">
+                {% for label, messages in app.flashes %}
+                    <div class="w-full p-4 mb-4 text-sm text-white text-center rounded-md {{ label == 'success' ? 'bg-success' : label == 'warning' ? 'bg-warning' : 'bg-danger' }}" role="alert">
+                        {% for message in messages %}
+                            <span class="font-bold text-white">{{ label|capitalize }}:</span> {{ message }}
+                        {% endfor %}
+                    </div>
+                {% endfor %}
 
-            <div class="min-h-[calc(100vh-48px-52px)] p-4">
                 {% block body %}{% endblock %}
-            </div>
+            </main>
+
+            <aside class="fixed top-[48px] bottom-[52px] right-0 flex flex-col space-y-2 z-40 p-2 bg-primary w-24">
+                {% include 'components/clock.html.twig' %}
+
+                {% block sidemenu %}
+                {% endblock %}
+            </aside>
         </div>
 
         {{ include('components/footer.html.twig') }}

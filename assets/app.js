@@ -1,4 +1,5 @@
 import './bootstrap.js';
+import './js/page/base/index.js';
 
 Turbo.session.drive = false;
 /*
