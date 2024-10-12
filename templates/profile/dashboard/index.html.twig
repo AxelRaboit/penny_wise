@@ -3,8 +3,8 @@
 {% block title %}Dashboard{{ parent() }}{% endblock %}
 
 {% block body %}
-    <div class="container mx-auto mt-10">
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="container mx-auto">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 max-w-4xl mx-auto">
             <div class="bg-senary shadow-md rounded-md p-6 flex flex-col justify-center items-center">
                 <i class="fa-solid fa-piggy-bank text-dark text-4xl mb-4"></i>
                 <h2 class="text-lg font-bold text-gray-700 mb-4">New Account</h2>
@@ -22,12 +22,20 @@
             </div>
 
             <div class="bg-senary shadow-md rounded-md p-6 flex flex-col justify-center items-center">
+                <i class="fa-solid fa-money-bill-transfer text-dark text-4xl mb-4"></i>
+                <h2 class="text-lg font-bold text-gray-700 mb-4">Transfer money</h2>
+                <a href="#" class="bg-primary hover:bg-primary-hover text-white font-bold py-2 px-4 rounded-md">
+                    <i class="fa-solid fa-money-bill-transfer mr-1"></i> Tansfer money
+                </a>
+            </div>
+
+            <div class="bg-senary shadow-md rounded-md p-6 flex flex-col justify-center items-center">
                 <i class="fa-solid fa-money-bill text-dark text-4xl mb-4"></i>
                 <h2 class="text-lg font-bold text-gray-700 mb-4">New transaction</h2>
                 {% if hasWallet %}
-                <a href="{{ path('new_transaction') }}" class="bg-primary hover:bg-primary-hover text-white font-bold py-2 px-4 rounded-md">
-                    <i class="fa-solid fa-plus mr-1"></i> New Transaction
-                </a>
+                    <a href="{{ path('new_transaction') }}" class="bg-primary hover:bg-primary-hover text-white font-bold py-2 px-4 rounded-md">
+                        <i class="fa-solid fa-plus mr-1"></i> New Transaction
+                    </a>
                 {% else %}
                     <span>You need to create a wallet first</span>
                 {% endif %}
