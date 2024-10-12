@@ -6,90 +6,14 @@
 
 {% block body %}
     <div id="account-list-page" class="hidden">
-        <div class="{{ accounts is not empty ? '' : 'flex justify-center items-center' }}">
-            {% if accounts is not empty %}
-                <div class="flex flex-wrap bg-quinary rounded-md">
-                    {% for account in accounts %}
-                        <div class="w-full p-1 rounded-md bg-quinary">
-                            <div class="flex justify-between items-center bg-primary text-white p-2 rounded-md cursor-pointer">
-                                <div class="flex-1 text-left">
-                                    <span class="text-lg font-bold text-white">{{ account.getName() }}</span>
-                                </div>
-                                <div class="flex items-center space-x-2">
-                                    <a href="{{ path('account_edit', {accountId: account.getId()}) }}"
-                                       class="bg-quinary hover:bg-quinary-hover text-white rounded-md text-sm py-1 px-2">
-                                        <i class="fa-solid fa-pen"></i>
-                                    </a>
-                                    <button type="button"
-                                            data-action-url="{{ path('account_delete', {accountId: account.getId()}) }}"
-                                            class="js-delete-account-button bg-red-500 text-white rounded-md text-sm py-1 px-2 hover:bg-red-700">
-                                        <i class="fa-solid fa-trash-can"></i>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div class="flex flex-wrap">
-                                {% for year in account.getYears() %}
-                                    <div class="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 p-1 rounded-md">
-                                        <div class="text-center bg-secondary rounded-t-md relative">
-                                            <h2 class="text-md font-bold p-2 text-white">{{ year.getYear() }}</h2>
-                                            <button type="button"
-                                                    data-action-url="{{ path('account_year_delete', {accountId: account.getId(), year: year.getYear()}) }}"
-                                                    class="js-delete-year-button absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center text-xs hover:bg-red-700 shadow-lg z-10">
-                                                <i class="fa-solid fa-trash-can"></i>
-                                            </button>
-                                        </div>
-                                        <div class="w-full rounded-b-md p-2 bg-tertiary min-h-[188px]">
-                                            <div class="grid grid-cols-1 md:grid-cols-3 gap-1 relative">
-                                                {% set months = year.getMonths() %}
-                                                {% set monthNumbers = months|map(m => m.getMonthNumber())|default([]) %}
-
-                                                {% for i in 1..12 %}
-                                                    {% if i in monthNumbers %}
-                                                        {% for month in months %}
-                                                            {% if month.getMonthNumber() == i %}
-                                                                <div class="relative">
-                                                                    <a href="{{ path('account_wallet_dashboard', {year: year.getYear(), month: month.getMonthNumber(), accountId: account.getId(), walletId: month.getWalletId()}) }}"
-                                                                       class="block text-sm font-bold py-2 px-4 rounded-md bg-secondary text-white hover:bg-secondary-hover text-center mb-1">
-                                                                        {{ month.getMonthName() }}
-                                                                    </a>
-                                                                </div>
-                                                            {% endif %}
-                                                        {% endfor %}
-                                                    {% else %}
-                                                        <div class="relative">
-                                                            <a href="{{ path('account_wallet_add_quick_month', {accountId: account.getId(), yearId: year.getYear(), monthId: i}) }}"
-                                                               class="block text-sm font-bold py-2 px-4 rounded-md bg-gray-400 hover:bg-gray-300 text-white text-center mb-1">
-                                                                {{ i|month_name }}
-                                                            </a>
-                                                        </div>
-                                                    {% endif %}
-                                                {% endfor %}
-                                            </div>
-                                        </div>
-                                    </div>
-                                {% endfor %}
-
-                                <div class="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 p-1 rounded-md">
-                                    <a href="{{ path('account_new_wallet', {accountId: account.getId()}) }}"
-                                       class="flex items-center justify-center min-h-[228px] bg-secondary text-white hover:bg-secondary-hover text-center rounded-md p-4">
-                                        <i class="fa-solid fa-plus text-3xl"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
-            {% else %}
-                <div class="text-center bg-senary p-6 rounded-md shadow-md w-full max-w-md">
-                    <img src="{{ asset('media/logo.png') }}" alt="logo" class="w-full rounded-md mb-4">
-                    <h2 class="text-xl font-bold mb-4">Welcome!</h2>
-                    <p class="mb-4">It looks like you don't have any accounts yet. Please create an account to start managing your wallets.</p>
-                    <a href="{{ path('account_new') }}" class="text-center font-bold bg-primary hover:bg-primary-hover text-white py-2 px-4 rounded-md">
-                        Create your first account
-                    </a>
-                </div>
-            {% endif %}
+        <div class="container mx-auto max-w-screen-xl w-full">
+            <div class="{{ accounts is not empty ? '' : 'flex justify-center items-center' }}">
+                {% if accounts is not empty %}
+                    {{ include('account/accountList/part/_list.html.twig', {accounts: accounts}) }}
+                {% else %}
+                    {{ include('account/accountList/part/_welcome.html.twig') }}
+                {% endif %}
+            </div>
         </div>
     </div>
 
