@@ -5,41 +5,37 @@
 {% set page_requires_account_list = true %}
 
 {% block body %}
-    <div class="container mx-auto max-w-screen-xl">
+    <div id="account-list-page" class="hidden">
         <div class="{{ accounts is not empty ? '' : 'flex justify-center items-center' }}">
             {% if accounts is not empty %}
                 <div class="flex flex-wrap bg-quinary rounded-md">
                     {% for account in accounts %}
-                        <div class="w-full p-1 rounded-md bg-quinary" x-data="{ open: true }">
-                            <div class="flex justify-between items-center bg-primary text-white p-2 rounded-md cursor-pointer" @click="open = !open">
+                        <div class="w-full p-1 rounded-md bg-quinary">
+                            <div class="flex justify-between items-center bg-primary text-white p-2 rounded-md cursor-pointer">
                                 <div class="flex-1 text-left">
                                     <span class="text-lg font-bold text-white">{{ account.getName() }}</span>
                                 </div>
                                 <div class="flex items-center space-x-2">
                                     <a href="{{ path('account_edit', {accountId: account.getId()}) }}"
-                                       class="bg-quinary hover:bg-quinary-hover text-white rounded-md text-sm py-1 px-2" @click.stop>
+                                       class="bg-quinary hover:bg-quinary-hover text-white rounded-md text-sm py-1 px-2">
                                         <i class="fa-solid fa-pen"></i>
                                     </a>
                                     <button type="button"
                                             data-action-url="{{ path('account_delete', {accountId: account.getId()}) }}"
-                                            class="js-delete-account-button bg-red-500 text-white rounded-md text-sm py-1 px-2 hover:bg-red-700" @click.stop>
+                                            class="js-delete-account-button bg-red-500 text-white rounded-md text-sm py-1 px-2 hover:bg-red-700">
                                         <i class="fa-solid fa-trash-can"></i>
                                     </button>
-                                    <span class="text-white bg-quinary hover:bg-quinary-hover py-1 px-2 rounded-md">
-                                        <i :class="open ? 'fa-solid fa-chevron-up' : 'fa-solid fa-chevron-down'"></i>
-                                    </span>
                                 </div>
                             </div>
 
-                            <div class="flex flex-wrap" x-show="open" x-transition>
+                            <div class="flex flex-wrap">
                                 {% for year in account.getYears() %}
                                     <div class="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 p-1 rounded-md">
-                                        <div class="text-center bg-secondary rounded-t-md relative" x-data="{ hover: false }" @mouseenter="hover = true" @mouseleave="hover = false">
+                                        <div class="text-center bg-secondary rounded-t-md relative">
                                             <h2 class="text-md font-bold p-2 text-white">{{ year.getYear() }}</h2>
                                             <button type="button"
                                                     data-action-url="{{ path('account_year_delete', {accountId: account.getId(), year: year.getYear()}) }}"
-                                                    class="js-delete-year-button absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center text-xs hover:bg-red-700 shadow-lg z-10"
-                                                    x-show="hover" x-transition.opacity>
+                                                    class="js-delete-year-button absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center text-xs hover:bg-red-700 shadow-lg z-10">
                                                 <i class="fa-solid fa-trash-can"></i>
                                             </button>
                                         </div>
@@ -52,18 +48,11 @@
                                                     {% if i in monthNumbers %}
                                                         {% for month in months %}
                                                             {% if month.getMonthNumber() == i %}
-                                                                <div class="relative" x-data="{ hover: false }" @mouseenter="hover = true" @mouseleave="hover = false">
+                                                                <div class="relative">
                                                                     <a href="{{ path('account_wallet_dashboard', {year: year.getYear(), month: month.getMonthNumber(), accountId: account.getId(), walletId: month.getWalletId()}) }}"
                                                                        class="block text-sm font-bold py-2 px-4 rounded-md bg-secondary text-white hover:bg-secondary-hover text-center mb-1">
                                                                         {{ month.getMonthName() }}
                                                                     </a>
-
-                                                                    <button type="button"
-                                                                            data-action-url="{{ path('account_list_wallet_delete_month', {accountId: account.getId(), year: year.getYear(), month: month.getMonthNumber(), walletId: month.getWalletId(), redirectTo: 'account_list'}) }}"
-                                                                            class="js-delete-wallet-button absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center text-xs hover:bg-red-700 shadow-lg z-10"
-                                                                            x-show="hover" x-transition.opacity>
-                                                                        <i class="fa-solid fa-trash-can"></i>
-                                                                    </button>
                                                                 </div>
                                                             {% endif %}
                                                         {% endfor %}
@@ -103,4 +92,6 @@
             {% endif %}
         </div>
     </div>
+
+    {{ include('components/spinner/page-spinner.html.twig', {spinnerId: 'loadingPageSpinner'}) }}
 {% endblock %}

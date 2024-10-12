@@ -6,7 +6,7 @@
 {% set page_requires_transaction = true %}
 
 {% block body %}
-    <div class="flex justify-center">
+    <div id="wallet-dashboard-page" class="flex justify-center hidden">
         <div class="w-full p-4 mr-24">
             <div class="mb-1">
                 {{ include('account/wallet/partial/transaction/_transactions.html.twig') }}
@@ -20,6 +20,8 @@
     {{ include('components/wallet/dashboard/sideMenu/wallet_calendar.html.twig') }}
     {{ include('components/wallet/dashboard/sideMenu/wallet_summary.html.twig') }}
     {{ include('components/wallet/dashboard/sideMenu/wallet_information.html.twig') }}
+
+    {{ include('components/spinner/page-spinner.html.twig', {spinnerId: 'loadingPageSpinner'}) }}
 {% endblock %}
 
 {% block sidemenu %}
