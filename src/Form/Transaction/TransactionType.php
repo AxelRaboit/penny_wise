@@ -74,6 +74,7 @@ class TransactionType extends AbstractType
                 'choice_label' => 'getName',
                 'placeholder' => 'Choose a tag',
                 'autocomplete' => true,
+                'required' => false,
             ])
         ;
     }
