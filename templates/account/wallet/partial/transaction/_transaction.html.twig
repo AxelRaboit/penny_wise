@@ -11,7 +11,7 @@
                 </a>
                 <button type="button"
                         data-action-url="{{ path('delete_all_transactions_from_specific_category', {accountId: account.id, walletId: wallet.id, category: transactionCategory.type}) }}"
-                        class="js-delete-transactions-from-category-button bg-danger px-3 py-1 rounded-md">
+                        class="js-delete-transactions-from-category-button bg-danger hover:bg-danger-hover px-3 py-1 rounded-md">
                     <i class="fa-solid fa-trash text-white text-xs"></i>
                 </button>
                 <button @click="open = !open" class="bg-quinary hover:bg-quinary-hover text-white px-3 py-1 rounded-md">

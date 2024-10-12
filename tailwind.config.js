@@ -16,60 +16,50 @@ module.exports = {
       },
       colors: {
         primary: {
-          DEFAULT: '#18181B',
-          hover: '#0F0F11',
-          ring: '#34343A'
+          DEFAULT: '#1C1C1E', // Very dark grey, perfect for dark backgrounds
+          hover: '#2D2D2F',   // A slightly lighter shade for hover states
+          ring: '#3C3C3E'     // Dark grey for focus rings
         },
         secondary: {
-          DEFAULT: '#2a2a38',
-          hover: '#20202c',
-          ring: '#20202c'
+          DEFAULT: '#2E2E30', // Medium grey, ideal for secondary sections
+          hover: '#404042',   // A lighter tone for hover interactions
+          ring: '#5A5A5D'     // A softer ring for focus states
         },
         tertiary: {
-          DEFAULT: '#F3F4F6',
-          hover: '#C6CCD4',
-          ring: '#D1D5DB'
+          DEFAULT: '#E5E5E5', // Very light grey, great for neutral backgrounds
+          hover: '#CCCCCC',   // Slight variation for hover on light elements
+          ring: '#AFAFAF'     // Accent color for focus rings on light zones
         },
         quaternary: {
-          DEFAULT: '#0E0E10',
-          hover: '#060607',
-          ring: '#2A2A33'
+          DEFAULT: '#555555', // Grey for accents or dividers
+          hover: '#6B6B6B',   // A bit lighter for hover states
+          ring: '#787878'     // Ring for accentuated elements
         },
         quinary: {
-          DEFAULT: '#1F1F23',
-          hover: '#151519',
-          ring: '#4B4B56'
-        },
-        senary: {
-          DEFAULT: '#1f1f2b',
-          hover: '#141421',
-          ring: '#181823'
-        },
-        septenary: {
-          DEFAULT: '#9146FF',
-          hover: '#6e34cc',
-          ring: '#5B29A6'
+          DEFAULT: '#A3A3A3', // Pale grey for passive elements or text
+          hover: '#8C8C8C',   // Slightly darker tone for hover states
+          ring: '#707070'     // Ring for passive elements focus
         },
         accent: {
-          DEFAULT: '#ECEFF4',
-          hover: '#C6CCD4',
-          ring: '#C6CCD4'
+          DEFAULT: '#F5F5F5', // Almost white, for neutral section backgrounds
+          hover: '#E0E0E0',   // Slight variation for hover interactions
+          ring: '#D4D4D4'     // Ring for focus on very light elements
         },
         success: {
-          DEFAULT: '#10B981',
-          hover: '#0D9466',
-          ring: '#0D9466'
+          DEFAULT: '#4CAF50', // Subtle green for success messages
+          hover: '#43A047',   // Darker green for positive interactions
+          ring: '#388E3C'     // Focus ring for success states
         },
         danger: {
-          DEFAULT: '#DC2626',
-          hover: '#A31E1E',
-          ring: '#B91C1C'
+          DEFAULT: '#F44336', // Subtle red for error states
+          hover: '#E53935',   // Darker red for error hover states
+          ring: '#D32F2F'     // To highlight error messages or states
         },
-        warning: {
-          DEFAULT: '#D97706',
-          hover: '#A35A04',
-          ring: '#B45309'
-        },
+        neutral: {
+          DEFAULT: '#9E9E9E', // Neutral grey for secondary text or details
+          hover: '#7F7F7F',   // Slightly darker tone for hover on neutral elements
+          ring: '#616161'     // Accent ring for focus on neutral elements
+        }
       }
     }
   },
