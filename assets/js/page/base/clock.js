@@ -1,4 +1,4 @@
-export function clock() {
+const clock = () => {
     const currentTimeElement = document.getElementById('clock');
     const spinnerElement = document.querySelector('#clockContainer .spinner');
 
@@ -21,8 +21,7 @@ export function clock() {
     currentTimeElement.classList.remove('hidden');
 }
 
-export function initializeClock() {
+export const initializeClock = () => {
     setInterval(clock, 1000);
 }
 
-document.addEventListener('DOMContentLoaded', initializeClock);

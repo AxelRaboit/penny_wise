@@ -19,7 +19,7 @@
         <div class="flex flex-1 pr-24">
             <main class="flex-1 p-4">
                 {% for label, messages in app.flashes %}
-                    <div class="w-full p-4 mb-4 text-sm text-white text-center rounded-md {{ label == 'success' ? 'bg-success' : label == 'warning' ? 'bg-warning' : 'bg-danger' }}" role="alert">
+                    <div class="alert-flash w-full p-4 mb-4 text-sm text-white text-center rounded-md {{ label == 'success' ? 'bg-success' : label == 'warning' ? 'bg-warning' : 'bg-danger' }}" role="alert">
                         {% for message in messages %}
                             <span class="font-bold text-white">{{ label|capitalize }}:</span> {{ message }}
                         {% endfor %}
