@@ -12,13 +12,6 @@
             }) }}
 
             <div class="p-4">
-                <div class="mb-4">
-                    <div class="bg-warning rounded-md text-white px-4 py-3" role="alert">
-                        <p class="font-bold">Informational message</p>
-                        <p class="text-sm">This creation is related to the wallet of <span class="font-bold">{{ wallet.month|month_name }} {{ wallet.year }}</span>.</p>
-                    </div>
-                </div>
-
                 {{ form_start(form) }}
 
                 {{ include('transaction/partials/form/_fields.html.twig') }}
