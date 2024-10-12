@@ -16,7 +16,14 @@
     <body class="flex flex-col min-h-screen">
         {{ include('components/topbar/topbar.html.twig') }}
 
-        <div class="flex flex-1 pr-24">
+        <div class="flex flex-1">
+            <aside class="sticky top-[48px] flex flex-col space-y-2 z-40 p-2 bg-primary w-24 h-[calc(100vh-100px)] overflow-y-auto">
+                {{ include('components/clock.html.twig') }}
+
+                {% block sidemenu %}
+                {% endblock %}
+            </aside>
+
             <main class="flex-1 p-4">
                 {% for label, messages in app.flashes %}
                     <div class="alert-flash w-full p-4 mb-4 text-sm text-white text-center rounded-md {{ label == 'success' ? 'bg-success' : label == 'warning' ? 'bg-warning' : 'bg-danger' }}" role="alert">
@@ -28,13 +35,6 @@
 
                 {% block body %}{% endblock %}
             </main>
-
-            <aside class="fixed top-[48px] bottom-[52px] right-0 flex flex-col space-y-2 z-40 p-2 bg-primary w-24">
-                {{ include('components/clock.html.twig') }}
-
-                {% block sidemenu %}
-                {% endblock %}
-            </aside>
         </div>
 
         {{ include('components/footer.html.twig') }}
