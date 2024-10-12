@@ -10,35 +10,39 @@
             {{ form_start(registrationForm) }}
 
             <div class="space-y-4">
-                <div>
-                    {{ form_label(registrationForm.email, null, {label_attr: {class: 'block text-gray-600'}}) }}
-                    {{ form_widget(registrationForm.email, {attr: {class: 'w-full p-3 border border-gray-300 rounded-md'}}) }}
-                    <div class="text-danger text-sm mt-1">
-                        {{ form_errors(registrationForm.email) }}
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                    <div>
+                        {{ form_label(registrationForm.email, null, {label_attr: {class: 'block text-gray-600'}}) }}
+                        {{ form_widget(registrationForm.email, {attr: {class: 'w-full p-3 border border-gray-300 rounded-md'}}) }}
+                        <div class="text-danger text-sm mt-1">
+                            {{ form_errors(registrationForm.email) }}
+                        </div>
+                    </div>
+
+                    <div>
+                        {{ form_label(registrationForm.username, null, {label_attr: {class: 'block text-gray-600'}}) }}
+                        {{ form_widget(registrationForm.username, {attr: {class: 'w-full p-3 border border-gray-300 rounded-md'}}) }}
+                        <div class="text-danger text-sm mt-1">
+                            {{ form_errors(registrationForm.username) }}
+                        </div>
                     </div>
                 </div>
 
-                <div>
-                    {{ form_label(registrationForm.username, null, {label_attr: {class: 'block text-gray-600'}}) }}
-                    {{ form_widget(registrationForm.username, {attr: {class: 'w-full p-3 border border-gray-300 rounded-md'}}) }}
-                    <div class="text-danger text-sm mt-1">
-                        {{ form_errors(registrationForm.username) }}
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                    <div>
+                        {{ form_label(registrationForm.plainPassword.first, null, {label_attr: {class: 'block text-gray-600'}}) }}
+                        {{ form_widget(registrationForm.plainPassword.first, {attr: {class: 'w-full p-3 border border-gray-300 rounded-md'}}) }}
+                        <div class="text-danger text-sm mt-1">
+                            {{ form_errors(registrationForm.plainPassword.first) }}
+                        </div>
                     </div>
-                </div>
 
-                <div>
-                    {{ form_label(registrationForm.plainPassword.first, null, {label_attr: {class: 'block text-gray-600'}}) }}
-                    {{ form_widget(registrationForm.plainPassword.first, {attr: {class: 'w-full p-3 border border-gray-300 rounded-md'}}) }}
-                    <div class="text-danger text-sm mt-1">
-                        {{ form_errors(registrationForm.plainPassword.first) }}
-                    </div>
-                </div>
-
-                <div>
-                    {{ form_label(registrationForm.plainPassword.second, null, {label_attr: {class: 'block text-gray-600'}}) }}
-                    {{ form_widget(registrationForm.plainPassword.second, {attr: {class: 'w-full p-3 border border-gray-300 rounded-md'}}) }}
-                    <div class="text-danger text-sm mt-1">
-                        {{ form_errors(registrationForm.plainPassword.second) }}
+                    <div>
+                        {{ form_label(registrationForm.plainPassword.second, null, {label_attr: {class: 'block text-gray-600'}}) }}
+                        {{ form_widget(registrationForm.plainPassword.second, {attr: {class: 'w-full p-3 border border-gray-300 rounded-md'}}) }}
+                        <div class="text-danger text-sm mt-1">
+                            {{ form_errors(registrationForm.plainPassword.second) }}
+                        </div>
                     </div>
                 </div>
 
