@@ -44,7 +44,7 @@ final readonly class AccountDto
     /**
      * Create an AccountDto from an array of data.
      *
-     * @param array{id: int, name: string, years: YearDto[]} $data the data to create the AccountDto from
+     * @param array{id: int, name: string, years: YearDto[], identifier: ?string} $data
      *
      * @return AccountDto the newly created AccountDto instance
      */
@@ -54,7 +54,7 @@ final readonly class AccountDto
             id: $data['id'],
             name: $data['name'],
             years: $data['years'],
-            identifier: $data['identifier']
+            identifier: $data['identifier'],
         );
     }
 }
