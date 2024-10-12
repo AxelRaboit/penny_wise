@@ -1,4 +1,4 @@
-<div id="noteModal" class="fixed top-0 right-0 w-full md:w-1/3 h-full bg-accent shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out z-50 overflow-hidden">
+<div id="walletSideMenuNoteModal" class="fixed top-0 right-0 w-full md:w-1/3 h-full bg-senary shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out z-50 overflow-hidden">
     <div class="bg-secondary text-white p-4 flex justify-between items-center">
         <div class="flex items-center justify-center">
             <h2 class="text-md font-bold text-white mr-5">Notes</h2>
@@ -6,7 +6,7 @@
                 <i class="fa-solid fa-plus"></i>
             </span>
         </div>
-        <button id="closeNoteModal" class="text-white hover:text-gray-200">
+        <button id="closeWalletSideMenuNoteModal" class="text-white hover:text-gray-200">
             <i class="fa-solid fa-times text-xl"></i>
         </button>
     </div>
@@ -14,7 +14,7 @@
     <div class="p-4 h-[calc(100%-4rem)] overflow-y-auto">
         {% if notesFromWallet|length > 0 %}
             {% for note in notesFromWallet %}
-                <div class="flex flex-col bg-accent border border-gray-300 mb-4 p-2 rounded-md shadow">
+                <div class="flex flex-col bg-senary border border-gray-300 mb-4 p-2 rounded-md shadow">
                     <div class="w-full">
                         <div class="flex justify-between items-center mb-2">
                             <p class="font-bold">{{ note.title }}</p>

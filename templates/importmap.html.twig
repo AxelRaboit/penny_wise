@@ -27,8 +27,8 @@
 {% endif %}
 
 {# Components #}
-{% if page_requires_wallet_side_modal is defined and page_requires_wallet_side_modal is same as(true) %}
-    {% set importmapEntries = importmapEntries|merge(['wallet_side_modal']) %}
+{% if page_requires_wallet_side_menu_modal is defined and page_requires_wallet_side_menu_modal is same as(true) %}
+    {% set importmapEntries = importmapEntries|merge(['wallet_side_menu_modal']) %}
 {% endif %}
 
 {{ importmap(importmapEntries) }}

@@ -15,6 +15,11 @@ module.exports = {
         '99': '99',
       },
       colors: {
+        primaryTheme: {
+          DEFAULT: '#6C5B7B',  // Desaturated purple, subtle but distinctive
+          hover: '#574867',    // Darker purple for hover states
+          ring: '#463952',     // Focus ring for purple theme
+        },
         primary: {
           DEFAULT: '#1C1C1E', // Very dark grey, perfect for dark backgrounds
           hover: '#2D2D2F',   // A slightly lighter shade for hover states
@@ -40,10 +45,15 @@ module.exports = {
           hover: '#8C8C8C',   // Slightly darker tone for hover states
           ring: '#707070'     // Ring for passive elements focus
         },
-        accent: {
+        senary: {
           DEFAULT: '#F5F5F5', // Almost white, for neutral section backgrounds
           hover: '#E0E0E0',   // Slight variation for hover interactions
           ring: '#D4D4D4'     // Ring for focus on very light elements
+        },
+        accent: {
+          DEFAULT: '#C0392B', // Crimson Red as the accent color
+          hover: '#A02821',   // Darker crimson for hover interactions
+          ring: '#7D1F19'     // Focus ring for crimson accents
         },
         success: {
           DEFAULT: '#4CAF50', // Subtle green for success messages
@@ -52,7 +62,7 @@ module.exports = {
         },
         danger: {
           DEFAULT: '#F44336', // Subtle red for error states
-          hover: '#E53935',   // Darker red for error hover states
+          hover: '#C62828',   // Darker red for error hover states
           ring: '#D32F2F'     // To highlight error messages or states
         },
         neutral: {

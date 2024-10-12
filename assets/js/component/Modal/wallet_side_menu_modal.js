@@ -1,11 +1,11 @@
 function initializeModals() {
     const modals = [
-        { buttonId: 'openNoteModal', modalId: 'noteModal', closeId: 'closeNoteModal' },
-        { buttonId: 'openActionsModal', modalId: 'actionsModal', closeId: 'closeActionsModal' },
-        { buttonId: 'openGraphsModal', modalId: 'graphsModal', closeId: 'closeGraphsModal' },
-        { buttonId: 'openCalendarModal', modalId: 'calendarModal', closeId: 'closeCalendarModal' },
-        { buttonId: 'openOverviewModal', modalId: 'overviewModal', closeId: 'closeOverviewModal' },
-        { buttonId: 'openInformationModal', modalId: 'informationModal', closeId: 'closeInformationModal' }
+        { buttonId: 'openWalletSideMenuNoteModal', modalId: 'walletSideMenuNoteModal', closeId: 'closeWalletSideMenuNoteModal' },
+        { buttonId: 'openWalletSideMenuActionsModal', modalId: 'walletSideMenuActionsModal', closeId: 'closeWalletSideMenuActionsModal' },
+        { buttonId: 'openWalletSideMenuGraphsModal', modalId: 'walletSideMenuGraphsModal', closeId: 'closeWalletSideMenuGraphsModal' },
+        { buttonId: 'openWalletSideMenuCalendarModal', modalId: 'walletSideMenuCalendarModal', closeId: 'closeWalletSideMenuCalendarModal' },
+        { buttonId: 'openWalletSideMenuSummaryModal', modalId: 'walletSideMenuSummaryModal', closeId: 'closeWalletSideMenuSummaryModal' },
+        { buttonId: 'openWalletSideMenuInformationModal', modalId: 'walletSideMenuInformationModal', closeId: 'closeWalletSideMenuInformationModal' }
     ];
 
     const body = document.body;

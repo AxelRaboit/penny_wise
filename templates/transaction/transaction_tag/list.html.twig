@@ -5,7 +5,7 @@
 {% set page_requires_transaction_tag_list = true %}
 
 {% block body %}
-    <div class="bg-accent shadow-md rounded-md max-w-lg mx-auto mt-6">
+    <div class="bg-senary shadow-md rounded-md max-w-lg mx-auto mt-6">
         <div class="bg-secondary text-center py-2 rounded-t-md">
             <h1 class="text-md font-bold text-white">Transaction Tags</h1>
         </div>
@@ -13,7 +13,7 @@
         <div class="p-4">
             <div>
                 {% for tag in transactionTags %}
-                    <div class="p-4 rounded-md {{ loop.index is odd ? 'bg-accent' : 'bg-tertiary' }}">
+                    <div class="p-4 rounded-md {{ loop.index is odd ? 'bg-senary' : 'bg-tertiary' }}">
                         <div class="flex justify-between items-center">
                             <div class="font-semibold text-white rounded-md py-1 px-2" style="background-color: {{ tag.color }};">
                                 #{{ tag.name }}
@@ -31,7 +31,7 @@
                         </div>
                     </div>
                 {% else %}
-                    <div class="p-4 rounded-md bg-accent text-center">
+                    <div class="p-4 rounded-md bg-senary text-center">
                         <span>No transaction tags found.</span>
                     </div>
                 {% endfor %}

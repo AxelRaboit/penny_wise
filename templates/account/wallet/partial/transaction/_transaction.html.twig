@@ -42,7 +42,7 @@
         </div>
 
         <div x-show="open" class="transition-all duration-300 {'rounded-b-md': !open}">
-            <div class="hidden md:flex bg-accent bg-secondary rounded-md">
+            <div class="hidden md:flex bg-secondary rounded-md">
                 <div class="w-full text-center"><span class="font-bold text-white text-xs">Date</span></div>
                 <div class="w-full text-center hidden md:block"><span class="font-bold text-white text-xs">Tags</span></div>
                 <div class="w-full text-center"><span class="font-bold text-white text-xs">Nature</span></div>
@@ -54,7 +54,7 @@
 
             <div class="my-1">
                 {% for transaction in transactionCategory.transactions %}
-                    <div class="transaction flex flex-col md:grid md:grid-cols-7 items-center bg-accent p-1 rounded-md mb-1 text-xs md:flex-row" title="{{ transaction.transaction.comment }}">
+                    <div class="transaction flex flex-col md:grid md:grid-cols-7 items-center bg-senary p-1 rounded-md mb-1 text-xs md:flex-row" title="{{ transaction.transaction.comment }}">
                         <div class="md:col-span-1 text-center md:border-r md:pr-2">
                             <span>{{ transaction.transaction.date ? transaction.transaction.date|date('d M Y') : '-' }}</span>
                         </div>
@@ -106,7 +106,7 @@
                         </div>
                     </div>
                 {% else %}
-                    <div class="flex bg-accent rounded-md">
+                    <div class="flex bg-senary rounded-md">
                         <div class="w-full text-center border border-solid border-gray-300 p-2 rounded-md">
                             <span class="font-bold text-xs">No {{ transactionCategory.type }}</span>
                         </div>

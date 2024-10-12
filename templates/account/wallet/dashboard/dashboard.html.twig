@@ -4,11 +4,11 @@
 
 {% set page_requires_monthly = true %}
 {% set page_requires_transaction = true %}
-{% set page_requires_wallet_side_modal = true %}
+{% set page_requires_wallet_side_menu_modal = true %}
 
 {% block body %}
     <div class="flex justify-center">
-        <div class="w-full lg:w-11/12 p-4 mr-24">
+        <div class="w-full p-4 mr-24">
             <div class="mb-1">
                 {{ include('account/wallet/partial/transaction/_transactions.html.twig') }}
             </div>
@@ -16,20 +16,20 @@
 
         {{ include('account/wallet/dashboard/_side_menu.html.twig', {
             buttons: [
-                {id: 'openOverviewModal', icon: 'fa-gauge', title: 'Summary information about the wallet'},
-                {id: 'openInformationModal', icon: 'fa-circle-info', title: 'Summary information about the wallet amounts'},
-                {id: 'openGraphsModal', icon: 'fa-chart-simple', title: 'Graphic representation of the wallet'},
-                {id: 'openCalendarModal', icon: 'fa-calendar', title: 'Monthly calendar'},
-                {id: 'openActionsModal', icon: 'fa-screwdriver-wrench', title: 'Interact through actions on the wallet'},
-                {id: 'openNoteModal', icon: 'fa-book', title: 'Notes'}
+                {id: 'openWalletSideMenuSummaryModal', icon: 'fa-gauge', title: 'Summary information about the wallet'},
+                {id: 'openWalletSideMenuInformationModal', icon: 'fa-circle-info', title: 'Summary information about the wallet amounts'},
+                {id: 'openWalletSideMenuGraphsModal', icon: 'fa-chart-simple', title: 'Graphic representation of the wallet'},
+                {id: 'openWalletSideMenuCalendarModal', icon: 'fa-calendar', title: 'Monthly calendar'},
+                {id: 'openWalletSideMenuActionsModal', icon: 'fa-screwdriver-wrench', title: 'Interact through actions on the wallet'},
+                {id: 'openWalletSideMenuNoteModal', icon: 'fa-book', title: 'Notes'}
             ]
         }) }}
     </div>
 
-    {{ include('components/note.html.twig') }}
-    {{ include('components/actions.html.twig') }}
-    {{ include('components/graphs.html.twig') }}
-    {{ include('components/calendar.html.twig') }}
-    {{ include('components/overview.html.twig') }}
-    {{ include('components/information.html.twig') }}
+    {{ include('components/wallet/dashboard/sideMenu/wallet_note.html.twig') }}
+    {{ include('components/wallet/dashboard/sideMenu/wallet_actions.html.twig') }}
+    {{ include('components/wallet/dashboard/sideMenu/wallet_graphs.html.twig') }}
+    {{ include('components/wallet/dashboard/sideMenu/wallet_calendar.html.twig') }}
+    {{ include('components/wallet/dashboard/sideMenu/wallet_summary.html.twig') }}
+    {{ include('components/wallet/dashboard/sideMenu/wallet_information.html.twig') }}
 {% endblock %}

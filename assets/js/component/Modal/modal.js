@@ -9,7 +9,7 @@ const createModal = ({modalId, modalTitle, modalMessageHeader, modalMessage = ''
     modal.classList.add('fixed', 'inset-0', 'hidden', 'bg-gray-900', 'bg-opacity-50', 'flex', 'justify-center', 'items-center');
 
     modal.innerHTML = `
-        <div class="bg-accent rounded-md shadow-lg p-4 w-1/3">
+        <div class="bg-senary rounded-md shadow-lg p-4 w-1/3">
             <h3 class="text-lg font-bold mb-4">${modalTitle}</h3>
             <p class="mb-4">${modalMessageHeader}</p>
             ${modalMessage ? `<p class="mb-4 text-sm text-gray-700">${modalMessage}</p>` : ''}

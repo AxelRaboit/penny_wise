@@ -8,7 +8,7 @@
     <div class="container mx-auto max-w-screen-xl">
         <div class="{{ accounts is not empty ? '' : 'flex justify-center items-center' }}">
             {% if accounts is not empty %}
-                <div class="flex flex-wrap bg-primary rounded-md">
+                <div class="flex flex-wrap bg-quinary rounded-md">
                     {% set monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'] %}
 
                     {% for account in accounts %}
@@ -45,7 +45,7 @@
                                                 <i class="fa-solid fa-trash-can"></i>
                                             </button>
                                         </div>
-                                        <div class="w-full rounded-b-md p-2 bg-accent min-h-[188px]">
+                                        <div class="w-full rounded-b-md p-2 bg-senary min-h-[188px]">
                                             <div class="grid grid-cols-1 md:grid-cols-3 gap-1 relative">
                                                 {% set months = year.getMonths() %}
                                                 {% set monthNumbers = months|map(m => m.getMonthNumber())|default([]) %}
@@ -94,7 +94,7 @@
                     {% endfor %}
                 </div>
             {% else %}
-                <div class="text-center bg-accent p-6 rounded-md shadow-md w-full max-w-md">
+                <div class="text-center bg-senary p-6 rounded-md shadow-md w-full max-w-md">
                     <img src="{{ asset('media/logo.png') }}" alt="logo" class="w-full rounded-md mb-4">
                     <h2 class="text-xl font-bold mb-4">Welcome!</h2>
                     <p class="mb-4">It looks like you don't have any accounts yet. Please create an account to start managing your wallets.</p>
