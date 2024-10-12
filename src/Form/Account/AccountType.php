@@ -23,8 +23,13 @@ class AccountType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'attr' => ['placeholder' => 'Account name'],
-                'label' => 'Account Name',
+                'attr' => ['placeholder' => 'Name'],
+                'label' => 'Name',
+            ])
+            ->add('identifier', TextType::class, [
+                'attr' => ['placeholder' => 'Identifier'],
+                'label' => 'Identifier',
+                'required' => false,
             ])
             ->add('priority', IntegerType::class, [
                 'attr' => ['placeholder' => 'Priority'],

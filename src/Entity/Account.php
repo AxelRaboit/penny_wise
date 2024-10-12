@@ -34,6 +34,9 @@ class Account
     #[ORM\Column(type: Types::INTEGER, nullable: true, options: ['default' => 0])]
     private ?int $priority = 0;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $identifier = null;
+
     public function __construct()
     {
         $this->wallets = new ArrayCollection();
@@ -94,6 +97,18 @@ class Account
     public function setPriority(?int $priority): static
     {
         $this->priority = $priority;
+
+        return $this;
+    }
+
+    public function getIdentifier(): ?string
+    {
+        return $this->identifier;
+    }
+
+    public function setIdentifier(?string $identifier): static
+    {
+        $this->identifier = $identifier;
 
         return $this;
     }

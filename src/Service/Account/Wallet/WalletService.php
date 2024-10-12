@@ -136,6 +136,7 @@ final readonly class WalletService
                 'id' => $account->getId(),
                 'name' => $account->getName(),
                 'years' => $years,
+                'identifier' => $account->getIdentifier(),
             ];
 
             $accountsAndWallets[] = AccountDto::createFrom($accountData);

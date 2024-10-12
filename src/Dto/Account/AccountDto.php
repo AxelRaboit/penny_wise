@@ -14,7 +14,8 @@ final readonly class AccountDto
     public function __construct(
         private int $id,
         private string $name,
-        private array $years
+        private array $years,
+        private ?string $identifier = null
     ) {}
 
     public function getId(): int
@@ -35,6 +36,11 @@ final readonly class AccountDto
         return $this->years;
     }
 
+    public function getIdentifier(): ?string
+    {
+        return $this->identifier;
+    }
+
     /**
      * Create an AccountDto from an array of data.
      *
@@ -47,7 +53,8 @@ final readonly class AccountDto
         return new self(
             id: $data['id'],
             name: $data['name'],
-            years: $data['years']
+            years: $data['years'],
+            identifier: $data['identifier']
         );
     }
 }
