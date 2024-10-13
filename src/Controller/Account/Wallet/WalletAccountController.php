@@ -22,6 +22,7 @@ use App\Service\Checker\Account\AccountCheckerService;
 use App\Service\Checker\Wallet\WalletCheckerService;
 use App\Service\EntityAccessService;
 use App\Util\WalletHelper;
+use DateMalformedStringException;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use InvalidArgumentException;
@@ -51,6 +52,9 @@ final class WalletAccountController extends AbstractController
         private readonly EntityAccessService $entityAccessService,
     ) {}
 
+    /**
+     * @throws DateMalformedStringException
+     */
     #[Route('/account/{accountId}/wallet/{walletId}/dashboard/{year}/{month}', name: 'account_wallet_dashboard')]
     public function accountWalletDashboard(int $accountId, int $walletId, int $year, int $month): Response
     {
@@ -69,6 +73,7 @@ final class WalletAccountController extends AbstractController
         $transactions = $this->walletTransactionService->getAllTransactionInformationByUser($wallet);
         $notesFromWallet = $this->noteRepository->getNotesFromWallet($wallet);
         $leftToSpendChart = $this->walletChartService->createLeftToSpendChart($transactions);
+        $walletNavigation = $this->walletService->getWalletNavigationForCurrentMonth($accountId, $year, $month);
 
         return $this->render('account/wallet/dashboard/dashboard.html.twig', [
             'leftToSpendChart' => $leftToSpendChart,
@@ -95,6 +100,8 @@ final class WalletAccountController extends AbstractController
             'currentYear' => $year,
             'currentMonth' => $month,
             'account' => $account,
+            'navigationPreviousWallet' => $walletNavigation['navigationPreviousWallet'],
+            'navigationNextWallet' => $walletNavigation['navigationNextWallet'],
         ]);
     }
 

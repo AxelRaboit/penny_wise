@@ -14,6 +14,8 @@ use App\Exception\WalletNotFoundWithinLimitException;
 use App\Repository\Account\AccountRepository;
 use App\Repository\Wallet\WalletRepository;
 use App\Util\WalletHelper;
+use DateMalformedStringException;
+use DateTime;
 
 final readonly class WalletService
 {
@@ -188,5 +190,41 @@ final readonly class WalletService
         }
 
         return $years;
+    }
+
+    /**
+     * Finds the previous and next wallets for a given account and current year/month.
+     *
+     * @param int $accountId The account ID
+     * @param int $year      The current year
+     * @param int $month     The current month
+     *
+     * @return array{
+     *     navigationPreviousWallet: MonthDto|null,
+     *     navigationNextWallet: MonthDto|null
+     * }
+     *
+     * @throws DateMalformedStringException
+     */
+    public function getWalletNavigationForCurrentMonth(int $accountId, int $year, int $month): array
+    {
+        $previousDate = (new DateTime())->setDate($year, $month, 1)->modify('-1 month');
+        $previousYear = (int) $previousDate->format('Y');
+        $previousMonth = (int) $previousDate->format('m');
+        $previousWallet = $this->getWalletByAccountYearAndMonth($accountId, $previousYear, $previousMonth);
+
+        $nextDate = (new DateTime())->setDate($year, $month, 1)->modify('+1 month');
+        $nextYear = (int) $nextDate->format('Y');
+        $nextMonth = (int) $nextDate->format('m');
+        $nextWallet = $this->getWalletByAccountYearAndMonth($accountId, $nextYear, $nextMonth);
+
+        return [
+            'navigationPreviousWallet' => $previousWallet instanceof Wallet && null !== $previousWallet->getId()
+                ? new MonthDto($previousMonth, MonthEnum::from($previousMonth)->getName(), $previousWallet->getId())
+                : null,
+            'navigationNextWallet' => $nextWallet instanceof Wallet && null !== $nextWallet->getId()
+                ? new MonthDto($nextMonth, MonthEnum::from($nextMonth)->getName(), $nextWallet->getId())
+                : null,
+        ];
     }
 }

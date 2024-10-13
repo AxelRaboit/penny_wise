@@ -6,8 +6,9 @@
 {% set page_requires_transaction = true %}
 
 {% block body %}
-    <div id="wallet-dashboard-page" class="flex justify-center hidden">
+    <div id="wallet-dashboard-page" class="max-w-screen-xxl mx-auto">
         <div class="w-full p-4">
+            {{ include('account/wallet/dashboard/wallet_navigation.html.twig') }}
             <div class="mb-1">
                 {{ include('account/wallet/partial/transaction/_transactions.html.twig') }}
             </div>
