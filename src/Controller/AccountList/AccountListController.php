@@ -44,7 +44,7 @@ final class AccountListController extends AbstractController
         $user = $this->userCheckerService->getUserOrThrow();
         $accounts = $this->walletService->findAllAccountsWithWalletsByUser($user);
 
-        return $this->render('account/accountList/account_list.html.twig', [
+        return $this->render('accountList/list.html.twig', [
             'accounts' => $accounts,
         ]);
     }
@@ -180,7 +180,7 @@ final class AccountListController extends AbstractController
             return $this->redirectToRoute('account_list');
         }
 
-        return $this->render('wallet/walletForAccount/new_wallet_for_year.html.twig', [
+        return $this->render('account/accountList/wallet/new_quick.html.twig', [
             'form' => $form,
             'wallet' => $wallet,
         ]);

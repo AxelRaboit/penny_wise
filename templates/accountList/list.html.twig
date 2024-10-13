@@ -9,9 +9,9 @@
         <div>
             <div class="{{ accounts is not empty ? '' : 'flex justify-center items-center' }}">
                 {% if accounts is not empty %}
-                    {{ include('account/accountList/part/_list.html.twig', {accounts: accounts}) }}
+                    {{ include('accountList/part/_list.html.twig', {accounts: accounts}) }}
                 {% else %}
-                    {{ include('account/accountList/part/_welcome.html.twig') }}
+                    {{ include('accountList/part/_welcome.html.twig') }}
                 {% endif %}
             </div>
         </div>
@@ -23,7 +23,7 @@
 {% endblock %}
 
 {% block sidemenu %}
-    {{ include('account/accountList/sideMenu/test.html.twig') }}
+    {{ include('accountList/sideMenu/test.html.twig') }}
 
     {{ include('components/sideMenu/buttons.html.twig', {
         buttons: [
