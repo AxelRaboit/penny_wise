@@ -1,11 +1,11 @@
 {% set graphsModalContent %}
-    {{ include('account/wallet/partial/_chart_card.html.twig', {
+    {{ include('account/wallet/dashboard/chart/chart_card.html.twig', {
         title: 'Left to spend',
         chartId: 'chart-left-to-spend',
         chart: leftToSpendChart.data.isDataPresent ? leftToSpendChart : null
     }) }}
 
-    {{ include('account/wallet/partial/_chart_card.html.twig', {
+    {{ include('account/wallet/dashboard/chart/chart_card.html.twig', {
         title: 'Total monthly spent',
         buttons: [
             {chartType: 'monthly', chartId: 'chart-monthly-spent', chartFormat: 'bar', label: 'Bar'},
@@ -15,7 +15,7 @@
         chart: totalSpendingForCurrentAndPreviousNthMonthsChart
     }) }}
 
-    {{ include('account/wallet/partial/_chart_card.html.twig', {
+    {{ include('account/wallet/dashboard/chart/chart_card.html.twig', {
         title: 'Total yearly spent',
         buttons: [
             {chartType: 'yearly', chartId: 'chart-yearly-spent', chartFormat: 'bar', label: 'Bar'},
