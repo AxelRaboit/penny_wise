@@ -37,7 +37,11 @@ export function initializeModals(modalConfig) {
 
             const buttonsInsideModal = modal.querySelectorAll('button');
             buttonsInsideModal.forEach((modalButton) => {
-                modalButton.addEventListener('click', closeModal);
+                modalButton.addEventListener('click', (event) => {
+                    if (!modalButton.classList.contains('side-menu-no-close-on-interaction')) {
+                        closeModal();
+                    }
+                });
             });
         }
     });

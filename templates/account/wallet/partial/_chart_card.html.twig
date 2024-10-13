@@ -6,7 +6,7 @@
     {% if buttons is defined %}
         <div class="chart-controls p-2 bg-white">
             {% for button in buttons %}
-                <button class="month-chart-data-button text-sm text-center font-bold py-0.5 px-2 rounded-md bg-secondary text-white hover:bg-secondary-hover"
+                <button class="side-menu-no-close-on-interaction month-chart-data-button text-sm text-center font-bold py-0.5 px-2 rounded-md bg-secondary text-white hover:bg-secondary-hover"
                         data-chart-type="{{ button.chartType }}"
                         data-chart-id="{{ button.chartId }}"
                         data-chart-format="{{ button.chartFormat }}"

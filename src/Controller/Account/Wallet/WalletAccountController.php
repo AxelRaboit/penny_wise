@@ -405,7 +405,7 @@ final class WalletAccountController extends AbstractController
                 default => throw new InvalidArgumentException('Invalid chart type'),
             };
 
-            $chartHtml = $this->renderView('account/wallet/chart/chart.html.twig', [
+            $chartHtml = $this->renderView('account/wallet/dashboard/chart/chart.html.twig', [
                 'chart' => $chart,
             ]);
 
