@@ -34,6 +34,11 @@ export function initializeModals(modalConfig) {
                     closeModal();
                 }
             });
+
+            const buttonsInsideModal = modal.querySelectorAll('button');
+            buttonsInsideModal.forEach((modalButton) => {
+                modalButton.addEventListener('click', closeModal);
+            });
         }
     });
 }
