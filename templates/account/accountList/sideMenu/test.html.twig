@@ -1,0 +1,10 @@
+{% set testModalContent %}
+    Ceci est du contenu test
+{% endset %}
+
+{{ include('components/sideMenu/modal.html.twig', {
+    modalId: 'accountListSideMenuTestModal',
+    modalTitle: 'Test',
+    modalContent: testModalContent,
+    closeModalId: 'closeAccountListSideMenuTestModal'
+}) }}

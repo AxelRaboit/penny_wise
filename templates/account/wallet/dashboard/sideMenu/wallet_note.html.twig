@@ -1,0 +1,33 @@
+{% set notesModalContent %}
+    {% if notesFromWallet|length > 0 %}
+        {% for note in notesFromWallet %}
+            <div class="flex flex-col bg-senary border border-gray-300 mb-4 p-2 rounded-md shadow">
+                <div class="w-full">
+                    <div class="flex justify-between items-center mb-2">
+                        <p class="font-bold">{{ note.title }}</p>
+                        <div class="flex space-x-2">
+                            <a href="#" class="bg-secondary hover:bg-secondary-hover text-white py-2 px-3 rounded-md">
+                                <i class="fa-solid fa-pencil"></i>
+                            </a>
+                            <a href="#" class="bg-danger hover:bg-danger-hover text-white py-2 px-3 rounded-md">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <p>{{ note.message }}</p>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="text-center p-4 bg-gray-100 border border-gray-300 rounded-md">
+            <span class="font-bold text-gray-700">No notes</span>
+        </div>
+    {% endif %}
+{% endset %}
+
+{{ include('components/sideMenu/modal.html.twig', {
+    modalId: 'walletSideMenuNoteModal',
+    modalTitle: 'Notes',
+    modalContent: notesModalContent,
+    closeModalId: 'closeWalletSideMenuNoteModal'
+}) }}

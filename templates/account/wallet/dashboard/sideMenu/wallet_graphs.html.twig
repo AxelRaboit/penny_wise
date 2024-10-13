@@ -1,0 +1,34 @@
+{% set graphsModalContent %}
+    {{ include('account/wallet/partial/_chart_card.html.twig', {
+        title: 'Left to spend',
+        chartId: 'chart-left-to-spend',
+        chart: leftToSpendChart.data.isDataPresent ? leftToSpendChart : null
+    }) }}
+
+    {{ include('account/wallet/partial/_chart_card.html.twig', {
+        title: 'Total monthly spent',
+        buttons: [
+            {chartType: 'monthly', chartId: 'chart-monthly-spent', chartFormat: 'bar', label: 'Bar'},
+            {chartType: 'monthly', chartId: 'chart-monthly-spent', chartFormat: 'line', label: 'Line'},
+        ],
+        chartId: 'chart-monthly-spent',
+        chart: totalSpendingForCurrentAndPreviousNthMonthsChart
+    }) }}
+
+    {{ include('account/wallet/partial/_chart_card.html.twig', {
+        title: 'Total yearly spent',
+        buttons: [
+            {chartType: 'yearly', chartId: 'chart-yearly-spent', chartFormat: 'bar', label: 'Bar'},
+            {chartType: 'yearly', chartId: 'chart-yearly-spent', chartFormat: 'line', label: 'Line'},
+        ],
+        chartId: 'chart-yearly-spent',
+        chart: totalSpendingYearsChart
+    }) }}
+{% endset %}
+
+{{ include('components/sideMenu/modal.html.twig', {
+    modalId: 'walletSideMenuGraphsModal',
+    modalTitle: 'Graphs',
+    modalContent: graphsModalContent,
+    closeModalId: 'closeWalletSideMenuGraphsModal'
+}) }}

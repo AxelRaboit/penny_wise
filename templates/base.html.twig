@@ -17,11 +17,10 @@
         {{ include('components/topbar/topbar.html.twig') }}
 
         <div class="flex flex-1">
-            <aside class="sticky top-[48px] flex flex-col space-y-2 z-40 p-2 bg-primary w-24 h-[calc(100vh-100px)] overflow-y-auto">
+            <aside class="sticky top-[48px] flex flex-col z-40 p-2 bg-primary w-24 h-[calc(100vh-100px)] overflow-y-auto">
                 {{ include('components/clock.html.twig') }}
 
-                {% block sidemenu %}
-                {% endblock %}
+                {% block sidemenu %}{% endblock %}
             </aside>
 
             <main class="flex-1 p-4">
@@ -36,6 +35,8 @@
                 {% block body %}{% endblock %}
             </main>
         </div>
+
+        {% block loadingSpinner %}{% endblock %}
 
         {{ include('components/footer.html.twig') }}
     </body>

@@ -16,6 +16,18 @@
             </div>
         </div>
     </div>
+{% endblock %}
 
+{% block loadingSpinner %}
     {{ include('components/spinner/page-spinner.html.twig', {spinnerId: 'loadingPageSpinner'}) }}
+{% endblock %}
+
+{% block sidemenu %}
+    {{ include('account/accountList/sideMenu/test.html.twig') }}
+
+    {{ include('components/sideMenu/buttons.html.twig', {
+        buttons: [
+            {id: 'openAccountListSideMenuTestModal', icon: 'fa-book', title: 'Notes'}
+        ]
+    }) }}
 {% endblock %}

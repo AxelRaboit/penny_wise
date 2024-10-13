@@ -13,19 +13,23 @@
             </div>
         </div>
     </div>
+{% endblock %}
 
-    {{ include('components/wallet/dashboard/sideMenu/wallet_note.html.twig') }}
-    {{ include('components/wallet/dashboard/sideMenu/wallet_actions.html.twig') }}
-    {{ include('components/wallet/dashboard/sideMenu/wallet_graphs.html.twig') }}
-    {{ include('components/wallet/dashboard/sideMenu/wallet_calendar.html.twig') }}
-    {{ include('components/wallet/dashboard/sideMenu/wallet_summary.html.twig') }}
-    {{ include('components/wallet/dashboard/sideMenu/wallet_information.html.twig') }}
-
+{% block loadingSpinner %}
     {{ include('components/spinner/page-spinner.html.twig', {spinnerId: 'loadingPageSpinner'}) }}
 {% endblock %}
 
 {% block sidemenu %}
-    {{ include('account/wallet/dashboard/sideMenu/side_menu.html.twig', {
+    <span class="text-xs text-white text-center font-bold bg-accent rounded-md p-1.5 mb-2">Wallet: {{ wallet.getMonth()|month_name }} {{ wallet.getYear() }}</span>
+
+    {{ include('account/wallet/dashboard/sideMenu/wallet_graphs.html.twig') }}
+    {{ include('account/wallet/dashboard/sideMenu/wallet_information.html.twig') }}
+    {{ include('account/wallet/dashboard/sideMenu/wallet_summary.html.twig') }}
+    {{ include('account/wallet/dashboard/sideMenu/wallet_calendar.html.twig') }}
+    {{ include('account/wallet/dashboard/sideMenu/wallet_actions.html.twig') }}
+    {{ include('account/wallet/dashboard/sideMenu/wallet_note.html.twig') }}
+
+    {{ include('components/sideMenu/buttons.html.twig', {
         buttons: [
             {id: 'openWalletSideMenuSummaryModal', icon: 'fa-gauge', title: 'Summary information about the wallet'},
             {id: 'openWalletSideMenuInformationModal', icon: 'fa-circle-info', title: 'Summary information about the wallet amounts'},
