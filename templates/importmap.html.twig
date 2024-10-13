@@ -35,7 +35,6 @@
     {% set importmapEntries = importmapEntries|merge(['transaction_tag_crud']) %}
 {% endif %}
 
-
 {# Partials #}
 {% if page_requires_transaction_fields is defined and page_requires_transaction_fields is same as(true) %}
     {% set importmapEntries = importmapEntries|merge(['transaction_fields']) %}
