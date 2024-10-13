@@ -28,8 +28,15 @@ return [
         'entrypoint' => true,
     ],
     // Pages
+    // Account
+    // Account - Wallet - Dashboard
     'account_wallet_dashboard' => [
         'path' => './assets/js/page/account/wallet/dashboard/index.js',
+        'entrypoint' => true,
+    ],
+    // Account - Wallet - Dashboard - Transaction
+    'account_wallet_dashboard_transaction_list' => [
+        'path' => './assets/js/page/account/wallet/dashboard/transaction/list/index.js',
         'entrypoint' => true,
     ],
     'account_wallet_dashboard_transaction_new' => [
@@ -37,13 +44,15 @@ return [
         'entrypoint' => true,
     ],
     'account_wallet_dashboard_transaction_edit' => [
-        'path' => './assets/js/page/account/wallet/dashboard/transaction/edittransaction/index.js',
+        'path' => './assets/js/page/account/wallet/dashboard/transaction/edit/index.js',
         'entrypoint' => true,
     ],
+    // Account List
     'account_list' => [
         'path' => './assets/js/page/accountList/index.js',
         'entrypoint' => true,
     ],
+    // Transaction
     'transaction_tag_list' => [
         'path' => './assets/js/page/transactionTag/transaction_tag_list.js',
         'entrypoint' => true,
@@ -53,10 +62,6 @@ return [
         'entrypoint' => true,
     ],
     // Partials
-    'transaction' => [
-        'path' => './assets/js/partial/transaction_tab.js',
-        'entrypoint' => true,
-    ],
     'transaction_fields' => [
         'path' => './assets/js/partial/form/transaction/fields.js',
         'entrypoint' => true,

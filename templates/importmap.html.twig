@@ -9,6 +9,10 @@
 {% endif %}
 
 {# Account - Wallet - Dashboard - Transaction #}
+{% if page_account_wallet_dashboard_transaction_list is defined and page_account_wallet_dashboard_transaction_list is same as(true) %}
+    {% set importmapEntries = importmapEntries|merge(['account_wallet_dashboard_transaction_list']) %}
+{% endif %}
+
 {% if page_requires_account_wallet_dashboard_transaction_new is defined and page_requires_account_wallet_dashboard_transaction_new is same as(true) %}
     {% set importmapEntries = importmapEntries|merge(['account_wallet_dashboard_transaction_new']) %}
 {% endif %}
@@ -31,11 +35,8 @@
     {% set importmapEntries = importmapEntries|merge(['transaction_tag_crud']) %}
 {% endif %}
 
-{# Partials #}
-{% if page_requires_transaction is defined and page_requires_transaction is same as(true) %}
-    {% set importmapEntries = importmapEntries|merge(['transaction']) %}
-{% endif %}
 
+{# Partials #}
 {% if page_requires_transaction_fields is defined and page_requires_transaction_fields is same as(true) %}
     {% set importmapEntries = importmapEntries|merge(['transaction_fields']) %}
 {% endif %}
