@@ -28,8 +28,16 @@ return [
         'entrypoint' => true,
     ],
     // Pages
-    'monthly' => [
-        'path' => './assets/js/page/monthly/index.js',
+    'account_wallet_dashboard' => [
+        'path' => './assets/js/page/account/wallet/dashboard/index.js',
+        'entrypoint' => true,
+    ],
+    'account_wallet_dashboard_transaction_new' => [
+        'path' => './assets/js/page/account/wallet/dashboard/transaction/new/index.js',
+        'entrypoint' => true,
+    ],
+    'account_wallet_dashboard_transaction_edit' => [
+        'path' => './assets/js/page/account/wallet/dashboard/transaction/edittransaction/index.js',
         'entrypoint' => true,
     ],
     'account_list' => [

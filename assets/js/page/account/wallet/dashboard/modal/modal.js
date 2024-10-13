@@ -1,6 +1,6 @@
-import {attachModalEvents} from "../../component/Modal/modal.js";
+import {attachModalEvents} from "../../../../../component/Modal/modal.js";
 
-export function initializeMonthlyModals() {
+export function initializeModals() {
     attachModalEvents({
         modalId: 'copyBillsModal',
         modalTitle: 'Copy previous month\'s bills',

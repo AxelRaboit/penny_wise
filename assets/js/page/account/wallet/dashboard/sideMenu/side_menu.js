@@ -1,6 +1,6 @@
-import { initializeModals } from '../../component/Modal/side_menu_modal.js';
+import { initializeModals } from '../../../../../component/Modal/side_menu_modal.js';
 
-export function initializeMonthlySideMenu() {
+export function initializeSideMenu() {
     const modalConfig = [
         {
             buttonId: 'openWalletSideMenuNoteModal',

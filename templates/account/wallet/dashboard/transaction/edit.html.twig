@@ -3,9 +3,10 @@
 {% block title %}Edit Transaction - {{ parent() }}{% endblock %}
 
 {% set page_requires_transaction_fields = true %}
+{% set page_requires_account_wallet_dashboard_transaction_edit = true %}
 
 {% block body %}
-    <div>
+    <div id="account-wallet-dashboard-transaction-edit-page" class="hidden max-w-screen-xxl mx-auto">
         <div class="bg-senary shadow-md rounded-md max-w-lg mx-auto">
             {{ include('transaction/partials/form/_title.html.twig', {
                 title: 'Edit Transaction',
@@ -19,11 +20,14 @@
                 {{ include('transaction/partials/form/_action_buttons.html.twig', {
                     submit_label: 'Save Changes',
                     cancel_label: 'Cancel',
-                    accountId: accountId,
                 }) }}
 
                 {{ form_end(form) }}
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block loadingSpinner %}
+    {{ include('components/spinner/page-spinner.html.twig', {spinnerId: 'loadingPageSpinner'}) }}
 {% endblock %}

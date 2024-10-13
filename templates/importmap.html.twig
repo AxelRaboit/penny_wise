@@ -1,14 +1,28 @@
 {% set importmapEntries = ['app', 'topbar', 'side_menu_modal'] %}
 
 {# Pages #}
-{% if page_requires_monthly is defined and page_requires_monthly is same as(true) %}
-    {% set importmapEntries = importmapEntries|merge(['monthly']) %}
+
+{# Account #}
+{# Account - Wallet - Dashboard #}
+{% if page_requires_account_wallet_dashboard is defined and page_requires_account_wallet_dashboard is same as(true) %}
+    {% set importmapEntries = importmapEntries|merge(['account_wallet_dashboard']) %}
 {% endif %}
 
+{# Account - Wallet - Dashboard - Transaction #}
+{% if page_requires_account_wallet_dashboard_transaction_new is defined and page_requires_account_wallet_dashboard_transaction_new is same as(true) %}
+    {% set importmapEntries = importmapEntries|merge(['account_wallet_dashboard_transaction_new']) %}
+{% endif %}
+
+{% if page_requires_account_wallet_dashboard_transaction_edit is defined and page_requires_account_wallet_dashboard_transaction_edit is same as(true) %}
+    {% set importmapEntries = importmapEntries|merge(['account_wallet_dashboard_transaction_edit']) %}
+{% endif %}
+
+{# Account List #}
 {% if page_requires_account_list is defined and page_requires_account_list is same as(true) %}
     {% set importmapEntries = importmapEntries|merge(['account_list']) %}
 {% endif %}
 
+{# Transaction #}
 {% if page_requires_transaction_tag_list is defined and page_requires_transaction_tag_list is same as(true) %}
     {% set importmapEntries = importmapEntries|merge(['transaction_tag_list']) %}
 {% endif %}

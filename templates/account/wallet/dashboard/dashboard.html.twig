@@ -2,11 +2,11 @@
 
 {% block title %}{{ wallet.month|month_name }} {{ wallet.year }} - {{ parent() }}{% endblock %}
 
-{% set page_requires_monthly = true %}
+{% set page_requires_account_wallet_dashboard = true %}
 {% set page_requires_transaction = true %}
 
 {% block body %}
-    <div id="wallet-dashboard-page" class="max-w-screen-xxl mx-auto hidden">
+    <div id="account-wallet-dashboard-page" class="max-w-screen-xxl mx-auto hidden">
         <div class="w-full p-4">
             {{ include('account/wallet/dashboard/wallet_navigation.html.twig') }}
             <div class="mb-1">

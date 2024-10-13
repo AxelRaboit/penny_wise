@@ -59,7 +59,7 @@ final class TransactionWalletController extends AbstractController
             return $this->redirectToWalletDashboard($wallet);
         }
 
-        return $this->render('transaction/forWallet/new_for_wallet.html.twig', [
+        return $this->render('account/wallet/dashboard/transaction/new.html.twig', [
             'form' => $form,
             'wallet' => $wallet,
             'transaction' => $transaction,
@@ -96,7 +96,7 @@ final class TransactionWalletController extends AbstractController
             return $this->redirectToWalletDashboard($wallet);
         }
 
-        return $this->render('transaction/forWallet/new_for_wallet.html.twig', [
+        return $this->render('account/wallet/dashboard/transaction/new.html.twig', [
             'form' => $form,
             'wallet' => $wallet,
             'transaction' => $transaction,
@@ -192,7 +192,7 @@ final class TransactionWalletController extends AbstractController
             return $this->redirectToWalletDashboard($wallet);
         }
 
-        return $this->render('transaction/forWallet/edit_for_wallet.html.twig', [
+        return $this->render('account/wallet/dashboard/transaction/edit.html.twig', [
             'form' => $form,
             'transaction' => $transaction,
             'accountId' => $wallet->getAccount()->getId(),
