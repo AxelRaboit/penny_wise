@@ -161,9 +161,6 @@ final class AccountListController extends AbstractController
         ]);
     }
 
-    /**
-     * TODO AXEL: maybe change the location of this route for WalletAccountController, but i also need to see what happens to the managers used inside.
-     */
     #[Route('/account/{accountId}/wallet/new/{yearId}/{monthId}', name: 'account_wallet_add_quick_month')]
     public function newWalletForYearNextMonth(int $accountId, int $yearId, int $monthId, Request $request): Response
     {
