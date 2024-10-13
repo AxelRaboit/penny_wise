@@ -15,8 +15,6 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class WalletController extends AbstractController
 {
-    private const string NEW_WALLET_TEMPLATE = 'wallet/new.html.twig';
-
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
     ) {}
@@ -40,7 +38,7 @@ final class WalletController extends AbstractController
             return $this->redirectToRoute('dashboard');
         }
 
-        return $this->render(self::NEW_WALLET_TEMPLATE, [
+        return $this->render('wallet/new.html.twig', [
             'form' => $form,
         ]);
     }
