@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ wallet.month|month_name }} {{ wallet.year }} {{ parent() }}{% endblock %}
+{% block title %}{{ wallet.month|month_name }} {{ wallet.year }} - {{ parent() }}{% endblock %}
 
 {% set page_requires_monthly = true %}
 {% set page_requires_transaction = true %}
