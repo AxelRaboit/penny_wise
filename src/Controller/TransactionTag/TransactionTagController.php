@@ -7,7 +7,7 @@ namespace App\Controller\TransactionTag;
 use App\Entity\TransactionTag;
 use App\Entity\User;
 use App\Form\Transaction\TransactionTagType;
-use App\Manager\Refacto\TransactionTag\TransactionTagManager;
+use App\Manager\TransactionTag\TransactionTagManager;
 use App\Repository\Transaction\TransactionTagRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;

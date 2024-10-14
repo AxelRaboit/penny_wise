@@ -7,7 +7,7 @@ namespace App\Controller\Transaction;
 use App\Entity\User;
 use App\Exception\UserHasNoWalletException;
 use App\Form\Transaction\TransactionType;
-use App\Manager\Refacto\Transaction\TransactionCreationManager;
+use App\Manager\Transaction\TransactionCreationManager;
 use App\Service\User\UserCheckerService;
 use App\Service\Wallet\WalletService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

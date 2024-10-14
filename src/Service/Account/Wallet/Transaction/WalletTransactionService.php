@@ -11,7 +11,7 @@ use App\Enum\Transaction\TransactionCategoryEnum;
 use App\Exception\NoPreviousTransactionsException;
 use App\Exception\NoPreviousWalletException;
 use App\Exception\WalletNotFoundWithinLimitException;
-use App\Manager\Refacto\Account\Wallet\Transaction\WalletTransactionManager;
+use App\Manager\Account\Wallet\Transaction\WalletTransactionManager;
 use App\Repository\Transaction\TransactionCategoryRepository;
 use App\Repository\Transaction\TransactionRepository;
 use App\Service\Account\Wallet\WalletService;

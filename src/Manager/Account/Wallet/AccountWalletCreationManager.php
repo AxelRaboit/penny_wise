@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Manager\Refacto\Account\Wallet;
+namespace App\Manager\Account\Wallet;
 
 use App\Entity\Wallet;
 use App\Service\Checker\Account\AccountCheckerService;

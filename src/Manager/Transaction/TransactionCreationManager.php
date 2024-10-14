@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Manager\Refacto\Transaction;
+namespace App\Manager\Transaction;
 
 use App\Entity\Transaction;
 use Doctrine\ORM\EntityManagerInterface;

@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Manager\Refacto\Account\Wallet;
+namespace App\Manager\Account\Wallet;
 
 use App\Entity\Account;
 use App\Entity\User;
 use App\Entity\Wallet;
 use App\Enum\Wallet\MonthEnum;
-use App\Manager\Refacto\Account\Wallet\Transaction\WalletTransactionDeleteManager;
+use App\Manager\Account\Wallet\Transaction\WalletTransactionDeleteManager;
 use App\Repository\Wallet\WalletRepository;
 use App\Service\Checker\Wallet\WalletCheckerService;
 use DateMalformedStringException;

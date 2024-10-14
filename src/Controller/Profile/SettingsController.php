@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Profile;
 
 use App\Form\Profile\ProfileType;
-use App\Manager\Refacto\Profile\Settings\UserInformationUpdateManager;
+use App\Manager\Profile\Settings\UserInformationUpdateManager;
 use App\Service\Profile\Settings\ProfilePictureService;
 use App\Service\User\UserCheckerService;
 use Doctrine\ORM\EntityManagerInterface;

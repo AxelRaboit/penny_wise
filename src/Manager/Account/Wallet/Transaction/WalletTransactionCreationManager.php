@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Manager\Refacto\Account\Wallet\Transaction;
+namespace App\Manager\Account\Wallet\Transaction;
 
 use App\Entity\Transaction;
 use App\Entity\TransactionCategory;
 use App\Entity\User;
 use App\Entity\Wallet;
-use App\Manager\Refacto\Transaction\TransactionCreationManager;
+use App\Manager\Transaction\TransactionCreationManager;
 use App\Repository\Transaction\TransactionCategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use LogicException;

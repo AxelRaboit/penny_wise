@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Manager\Refacto\Account\Wallet\Transaction;
+namespace App\Manager\Account\Wallet\Transaction;
 
 use App\Entity\Wallet;
 use App\Repository\Transaction\TransactionRepository;
