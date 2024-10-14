@@ -2,8 +2,10 @@
 
 {% block title %}Transaction Details - {{ parent() }}{% endblock %}
 
+{% set page_requires_account_wallet_dashboard_transaction_show = true %}
+
 {% block body %}
-    <div>
+    <div id="account-wallet-dashboard-transaction-show-page" class="hidden max-w-screen-xxl mx-auto">
         <div class="bg-secondary text-white text-center p-2 rounded-t-md max-w-4xl mx-auto">
             <h1 class="text-md font-bold text-white">Transaction Details</h1>
         </div>
@@ -59,4 +61,8 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block loadingSpinner %}
+    {{ include('components/spinner/page-spinner.html.twig', {spinnerId: 'loadingPageSpinner'}) }}
 {% endblock %}

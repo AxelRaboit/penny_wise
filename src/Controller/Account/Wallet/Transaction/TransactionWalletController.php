@@ -152,7 +152,7 @@ final class TransactionWalletController extends AbstractController
             return $this->redirectToRoute('account_list');
         }
 
-        return $this->render('wallet/show.html.twig', [
+        return $this->render('account/wallet/dashboard/transaction/show.html.twig', [
             'transaction' => $transaction,
             'wallet' => $wallet,
             'account' => $wallet->getAccount(),

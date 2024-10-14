@@ -21,6 +21,10 @@
     {% set importmapEntries = importmapEntries|merge(['account_wallet_dashboard_transaction_edit']) %}
 {% endif %}
 
+{% if page_requires_account_wallet_dashboard_transaction_show is defined and page_requires_account_wallet_dashboard_transaction_show is same as(true) %}
+    {% set importmapEntries = importmapEntries|merge(['account_wallet_dashboard_transaction_show']) %}
+{% endif %}
+
 {# Account List #}
 {% if page_requires_account_list is defined and page_requires_account_list is same as(true) %}
     {% set importmapEntries = importmapEntries|merge(['account_list']) %}
