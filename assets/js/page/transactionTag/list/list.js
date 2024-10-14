@@ -1,4 +1,9 @@
-import { attachModalEvents } from '../../component/Modal/modal.js';
+import { attachModalEvents } from '../../../component/Modal/modal.js';
+import {handlePageSpinner} from "../../../component/Spinner/page-spinner.js";
+
+document.addEventListener('DOMContentLoaded', function () {
+    handlePageSpinner('transaction-tag-list-page', 'loadingPageSpinner');
+});
 
 attachModalEvents({
     modalId: 'deleteTransactionTagModal',

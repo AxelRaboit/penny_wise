@@ -69,7 +69,7 @@ final class TransactionTagController extends AbstractController
 
         $transactionTags = $transactionTagRepository->findByUser($user);
 
-        return $this->render('transaction/transaction_tag/list.html.twig', [
+        return $this->render('transaction_tag/list.html.twig', [
             'transactionTags' => $transactionTags,
         ]);
     }

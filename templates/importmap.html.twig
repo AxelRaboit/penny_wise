@@ -39,13 +39,17 @@
     {% set importmapEntries = importmapEntries|merge(['account_list']) %}
 {% endif %}
 
-{# Transaction #}
+{# Transaction Tag #}
 {% if page_requires_transaction_tag_list is defined and page_requires_transaction_tag_list is same as(true) %}
     {% set importmapEntries = importmapEntries|merge(['transaction_tag_list']) %}
 {% endif %}
 
-{% if page_requires_transaction_tag_crud is defined and page_requires_transaction_tag_crud is same as(true) %}
-    {% set importmapEntries = importmapEntries|merge(['transaction_tag_crud']) %}
+{% if page_requires_transaction_tag_edit is defined and page_requires_transaction_tag_edit is same as(true) %}
+    {% set importmapEntries = importmapEntries|merge(['transaction_tag_edit']) %}
+{% endif %}
+
+{% if page_requires_transaction_tag_new is defined and page_requires_transaction_tag_new is same as(true) %}
+    {% set importmapEntries = importmapEntries|merge(['transaction_tag_new']) %}
 {% endif %}
 
 {# Partials #}

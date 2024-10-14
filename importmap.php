@@ -65,13 +65,17 @@ return [
         'path' => './assets/js/page/accountList/index.js',
         'entrypoint' => true,
     ],
-    // Transaction
+    // Transaction Tag
     'transaction_tag_list' => [
-        'path' => './assets/js/page/transactionTag/transaction_tag_list.js',
+        'path' => './assets/js/page/transactionTag/list/list.js',
         'entrypoint' => true,
     ],
-    'transaction_tag_crud' => [
-        'path' => './assets/js/page/transactionTag/transaction_tag_crud.js',
+    'transaction_tag_edit' => [
+        'path' => './assets/js/page/transactionTag/edit/edit.js',
+        'entrypoint' => true,
+    ],
+    'transaction_tag_new' => [
+        'path' => './assets/js/page/transactionTag/new/new.js',
         'entrypoint' => true,
     ],
     // Partials
