@@ -2,8 +2,10 @@
 
 {% block title %}New Wallet for {{ wallet.year }}{% endblock %}
 
+{% set page_requires_account_wallet_dashboard_wallet_new = true %}
+
 {% block body %}
-    <div>
+    <div id="account-wallet-dashboard-wallet-new-page" class="hidden max-w-screen-xxl mx-auto">
         <div class="bg-senary shadow-lg rounded-md max-w-lg mx-auto">
             <div class="bg-secondary text-white text-center py-2 rounded-t-md">
                 <h1 class="text-md font-bold text-white">Add a New Wallet</h1>
@@ -67,4 +69,8 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block loadingSpinner %}
+    {{ include('components/spinner/page-spinner.html.twig', {spinnerId: 'loadingPageSpinner'}) }}
 {% endblock %}

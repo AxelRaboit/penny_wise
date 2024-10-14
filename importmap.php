@@ -51,6 +51,11 @@ return [
         'path' => './assets/js/page/account/wallet/dashboard/transaction/show/index.js',
         'entrypoint' => true,
     ],
+    // Account - Wallet - Dashboard - Wallet
+    'account_wallet_dashboard_wallet_new' => [
+        'path' => './assets/js/page/account/wallet/dashboard/wallet/new/index.js',
+        'entrypoint' => true,
+    ],
     // Account List
     'account_list' => [
         'path' => './assets/js/page/accountList/index.js',
