@@ -1,6 +1,10 @@
 const clock = () => {
     const currentTimeElement = document.getElementById('clock');
     const spinnerElement = document.querySelector('#clockContainer .spinner');
+    if (!currentTimeElement || !spinnerElement) {
+        console.error('currentTimeElement or spinnerElement is null');
+        return;
+    }
 
     const now = new Date();
     const hours = now.getHours().toString().padStart(2, '0');

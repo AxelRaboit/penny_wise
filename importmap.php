@@ -18,6 +18,14 @@ return [
         'path' => './assets/app.js',
         'entrypoint' => true,
     ],
+    'base' => [
+        'path' => './assets/js/page/base/base.js',
+        'entrypoint' => true,
+    ],
+    'base_no_topbar' => [
+        'path' => './assets/js/page/base/base_no_topbar.js',
+        'entrypoint' => true,
+    ],
     // Components
     'side_menu_modal' => [
         'path' => './assets/js/component/Modal/side_menu_modal.js',

@@ -1,3 +1,5 @@
+{% set page_requires_base_no_topbar = true %}
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -10,7 +12,7 @@
         {% endblock %}
 
         {% block javascripts %}
-            {% block importmap %}{{ importmap('app') }}{% endblock %}
+            {{ include('importmap.html.twig') }}
         {% endblock %}
     </head>
     <body>

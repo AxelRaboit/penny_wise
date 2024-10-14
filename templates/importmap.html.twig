@@ -1,6 +1,15 @@
 {% set importmapEntries = ['app', 'topbar', 'side_menu_modal'] %}
 
 {# Pages #}
+{# Base #}
+{% if page_requires_base is defined and page_requires_base is same as(true) %}
+    {% set importmapEntries = importmapEntries|merge(['base']) %}
+{% endif %}
+
+{% if page_requires_base_no_topbar is defined and page_requires_base_no_topbar is same as(true) %}
+    {% dump('test') %}
+    {% set importmapEntries = importmapEntries|merge(['base_no_topbar']) %}
+{% endif %}
 
 {# Account #}
 {# Account - Wallet - Dashboard #}
