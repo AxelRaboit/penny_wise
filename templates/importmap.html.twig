@@ -7,7 +7,6 @@
 {% endif %}
 
 {% if page_requires_base_no_topbar is defined and page_requires_base_no_topbar is same as(true) %}
-    {% dump('test') %}
     {% set importmapEntries = importmapEntries|merge(['base_no_topbar']) %}
 {% endif %}
 
