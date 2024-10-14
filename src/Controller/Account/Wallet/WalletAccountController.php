@@ -169,7 +169,7 @@ final class WalletAccountController extends AbstractController
             ]);
         }
 
-        return $this->render('wallet/edit.html.twig', [
+        return $this->render('account/wallet/dashboard/wallet/edit.html.twig', [
             'form' => $form,
             'wallet' => $wallet,
         ]);

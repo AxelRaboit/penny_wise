@@ -2,8 +2,10 @@
 
 {% block title %}Edit Wallet for {{ wallet.year }}{% endblock %}
 
+{% set page_requires_account_wallet_dashboard_wallet_edit = true %}
+
 {% block body %}
-    <div>
+    <div id="account-wallet-dashboard-wallet-edit-page" class="hidden max-w-screen-xxl mx-auto">
         <div class="bg-senary shadow-lg rounded-md max-w-lg mx-auto">
             <div class="bg-secondary text-white text-center p-2 rounded-t-md">
                 <h1 class="text-md font-bold text-white">Edit Wallet</h1>
@@ -65,4 +67,8 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block loadingSpinner %}
+    {{ include('components/spinner/page-spinner.html.twig', {spinnerId: 'loadingPageSpinner'}) }}
 {% endblock %}
