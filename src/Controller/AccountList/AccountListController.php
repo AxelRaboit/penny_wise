@@ -180,7 +180,7 @@ final class AccountListController extends AbstractController
             return $this->redirectToRoute('account_list');
         }
 
-        return $this->render('account/accountList/wallet/new_quick.html.twig', [
+        return $this->render('accountList/wallet/new_quick.html.twig', [
             'form' => $form,
             'wallet' => $wallet,
         ]);
