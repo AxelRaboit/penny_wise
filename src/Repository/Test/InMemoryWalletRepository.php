@@ -32,7 +32,7 @@ final readonly class InMemoryWalletRepository
             if (
                 $existingWallet->getYear() === $wallet->getYear()
                 && $existingWallet->getMonth() === $wallet->getMonth()
-                && $existingWallet->getIndividual() === $wallet->getIndividual()
+                && $existingWallet->getUser() === $wallet->getUser()
             ) {
                 throw new LogicException('A wallet for the same year and month is already exists.');
             }

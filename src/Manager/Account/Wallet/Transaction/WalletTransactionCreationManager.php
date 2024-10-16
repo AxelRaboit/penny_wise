@@ -25,7 +25,7 @@ final readonly class WalletTransactionCreationManager
     {
         $transaction = $this->transactionCreationManager->beginTransactionCreation();
         $transaction->setWallet($wallet);
-        $transaction->setIndividual($user);
+        $transaction->setUser($user);
 
         return $transaction;
     }
@@ -59,7 +59,7 @@ final readonly class WalletTransactionCreationManager
 
         $transaction = new Transaction();
         $transaction->setWallet($wallet);
-        $transaction->setIndividual($user);
+        $transaction->setUser($user);
         $transaction->setTransactionCategory($transactionCategory);
 
         return $transaction;

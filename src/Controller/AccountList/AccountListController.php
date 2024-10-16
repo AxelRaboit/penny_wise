@@ -62,7 +62,7 @@ final class AccountListController extends AbstractController
 
         $account = new Account();
         $user = $this->userCheckerService->getUserOrThrow();
-        $account->setIndividual($user);
+        $account->setUser($user);
         $form = $this->createForm(AccountType::class, $account);
 
         $form->handleRequest($request);

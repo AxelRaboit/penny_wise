@@ -48,7 +48,7 @@ class InMemoryWalletRepositoryTest extends TestCase
             ->setMonth(self::MONTH_SEPTEMBER)
             ->setStartDate(new DateTime(self::START_DATE))
             ->setEndDate(new DateTime(self::END_DATE))
-            ->setIndividual($user);
+            ->setUser($user);
 
         $walletRepository->save($wallet);
 
@@ -71,7 +71,7 @@ class InMemoryWalletRepositoryTest extends TestCase
             ->setMonth(self::MONTH_SEPTEMBER)
             ->setStartDate(new DateTime(self::START_DATE))
             ->setEndDate(new DateTime(self::END_DATE))
-            ->setIndividual($user);
+            ->setUser($user);
 
         $walletRepository->save($wallet);
 
@@ -94,7 +94,7 @@ class InMemoryWalletRepositoryTest extends TestCase
             ->setMonth(self::MONTH_SEPTEMBER)
             ->setStartDate(new DateTime(self::START_DATE))
             ->setEndDate(new DateTime(self::END_DATE))
-            ->setIndividual($user);
+            ->setUser($user);
         $walletRepository->save($wallet);
 
         $foundWallet = $walletRepository->findOneBy(['year' => self::YEAR_2024, 'month' => self::MONTH_SEPTEMBER]);
@@ -156,14 +156,14 @@ class InMemoryWalletRepositoryTest extends TestCase
         $wallet1 = new Wallet();
         $wallet1->setYear(self::YEAR_2024)
             ->setMonth(self::MONTH_SEPTEMBER)
-            ->setIndividual($user);
+            ->setUser($user);
 
         $walletRepository->save($wallet1);
 
         $wallet2 = new Wallet();
         $wallet2->setYear(self::YEAR_2024)
             ->setMonth(self::MONTH_SEPTEMBER)
-            ->setIndividual($user);
+            ->setUser($user);
 
         $this->expectException(LogicException::class);
         $this->expectExceptionMessage('A wallet for the same year and month is already exists.');

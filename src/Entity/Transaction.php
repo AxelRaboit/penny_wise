@@ -59,7 +59,7 @@ class Transaction
 
     #[ORM\ManyToOne(inversedBy: 'transactions')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $individual = null;
+    private ?User $user = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $comment = null;
@@ -207,14 +207,14 @@ class Transaction
         return $this;
     }
 
-    public function getIndividual(): ?User
+    public function getUser(): ?User
     {
-        return $this->individual;
+        return $this->user;
     }
 
-    public function setIndividual(?User $individual): static
+    public function setUser(?User $user): static
     {
-        $this->individual = $individual;
+        $this->user = $user;
 
         return $this;
     }

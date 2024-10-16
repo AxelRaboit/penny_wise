@@ -101,7 +101,7 @@ class AppFixtures extends Fixture
         $endDate = $startDate->modify('last day of this month');
 
         $wallet = new Wallet();
-        $wallet->setIndividual($this->user);
+        $wallet->setUser($this->user);
         $wallet->setYear($year);
         $wallet->setMonth($month);
         $wallet->setCurrency(CurrencyEnum::EUR);

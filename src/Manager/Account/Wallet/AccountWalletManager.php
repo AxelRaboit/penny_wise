@@ -61,7 +61,7 @@ class AccountWalletManager
         $newWallet->setCurrency($currentWallet->getCurrency());
         $newWallet->setStartDate($startDate);
         $newWallet->setEndDate($endDate);
-        $newWallet->setIndividual($user);
+        $newWallet->setUser($user);
         $newWallet->setAccount($account);
         $newWallet->setYear($year);
         $newWallet->setMonth($monthEnum->value);

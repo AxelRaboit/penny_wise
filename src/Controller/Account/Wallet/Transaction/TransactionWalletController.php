@@ -43,7 +43,7 @@ final class TransactionWalletController extends AbstractController
             return $this->redirectToRoute('account_list');
         }
 
-        $user = $wallet->getIndividual();
+        $user = $wallet->getUser();
 
         $transaction = $this->walletTransactionCreationManager->beginTransactionCreationWithWallet($wallet, $user);
 
@@ -80,7 +80,7 @@ final class TransactionWalletController extends AbstractController
             return $this->redirectToRoute('account_list');
         }
 
-        $user = $wallet->getIndividual();
+        $user = $wallet->getUser();
         $transaction = $this->walletTransactionCreationManager->beginTransactionWithWalletAndCategoryCreation($wallet, $user, $category);
 
         $form = $this->createForm(TransactionForWalletType::class, $transaction, [

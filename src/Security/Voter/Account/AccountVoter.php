@@ -55,7 +55,7 @@ class AccountVoter extends Voter
 
     private function canCreateAccount(User $user): bool
     {
-        $existingAccounts = $this->accountRepository->count(['individual' => $user]);
+        $existingAccounts = $this->accountRepository->count(['user' => $user]);
         if ($existingAccounts >= self::MAX_ACCOUNTS) {
             throw new MaxAccountsReachedException();
         }

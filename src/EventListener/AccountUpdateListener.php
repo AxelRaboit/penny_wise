@@ -25,9 +25,9 @@ final readonly class AccountUpdateListener
         }
 
         $name = $data->getName();
-        $user = $data->getIndividual();
+        $user = $data->getUser();
 
-        $existingAccount = $this->accountRepository->findOneBy(['name' => $name, 'individual' => $user]);
+        $existingAccount = $this->accountRepository->findOneBy(['name' => $name, 'user' => $user]);
 
         if (null !== $existingAccount && $existingAccount->getId() !== $data->getId()) {
             $form->get('name')->addError(new FormError('You already have an account with this name.'));

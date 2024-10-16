@@ -68,7 +68,7 @@ final class WalletRepository extends ServiceEntityRepository
     public function findAllWalletByUser(User $user): array
     {
         $qb = $this->createQueryBuilder('w')
-            ->where('w.individual = :user')
+            ->where('w.user = :user')
             ->setParameter('user', $user);
 
         /** @var Wallet[] $wallets */
@@ -88,7 +88,7 @@ final class WalletRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('w')
             ->select('1')
-            ->where('w.individual = :user')
+            ->where('w.user = :user')
             ->setParameter('user', $user)
             ->setMaxResults(1);
 
@@ -106,7 +106,7 @@ final class WalletRepository extends ServiceEntityRepository
     public function findSpecificWalletByUser(User $user, int $id): ?Wallet
     {
         $qb = $this->createQueryBuilder('w')
-            ->where('w.individual = :user')
+            ->where('w.user = :user')
             ->andWhere('w.id = :id')
             ->setParameter('user', $user)
             ->setParameter('id', $id);
@@ -248,12 +248,12 @@ final class WalletRepository extends ServiceEntityRepository
      */
     public function findWalletByUser(User $user, int $year, int $month): ?Wallet
     {
-        // TODO AXEL: use account ID instead of individual (check if it's possible for each usage)
+        // TODO AXEL: use account ID instead of user (check if it's possible for each usage)
 
         $month = MonthEnum::from($month);
 
         $wallet = $this->createQueryBuilder('w')
-            ->where('w.individual = :user')
+            ->where('w.user = :user')
             ->andWhere('w.year = :year')
             ->andWhere('w.month = :month')
             ->setParameter('user', $user)

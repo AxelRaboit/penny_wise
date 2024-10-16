@@ -31,7 +31,7 @@ class Wallet
 
     #[ORM\ManyToOne(inversedBy: 'wallets')]
     #[ORM\JoinColumn(nullable: false)]
-    private User $individual;
+    private User $user;
 
     #[ORM\Column]
     private int $year;
@@ -94,14 +94,14 @@ class Wallet
         return $this->id;
     }
 
-    public function getIndividual(): User
+    public function getUser(): User
     {
-        return $this->individual;
+        return $this->user;
     }
 
-    public function setIndividual(User $individual): static
+    public function setUser(User $user): static
     {
-        $this->individual = $individual;
+        $this->user = $user;
 
         return $this;
     }

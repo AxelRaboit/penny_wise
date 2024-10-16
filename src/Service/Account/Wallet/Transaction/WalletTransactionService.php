@@ -156,7 +156,7 @@ final readonly class WalletTransactionService
      */
     public function copyTransactionsFromPreviousMonth(Wallet $currentWallet, TransactionCategoryEnum $transactionCategoryEnum): void
     {
-        $previousWallet = $this->walletService->findPreviousWallet($currentWallet->getIndividual(), $currentWallet->getYear(), $currentWallet->getMonth());
+        $previousWallet = $this->walletService->findPreviousWallet($currentWallet->getUser(), $currentWallet->getYear(), $currentWallet->getMonth());
         if (!$previousWallet instanceof Wallet) {
             throw new NoPreviousWalletException();
         }
@@ -174,7 +174,7 @@ final readonly class WalletTransactionService
         foreach ($previousTransactions as $transaction) {
             $newTransactionDate = $transaction->getDate();
             $newTransaction = new Transaction();
-            $newTransaction->setIndividual($transaction->getIndividual());
+            $newTransaction->setUser($transaction->getUser());
             $newTransaction->setAmount($transaction->getAmount());
             $newTransaction->setBudget($transaction->getBudget());
             $newTransaction->setDate(
@@ -209,7 +209,7 @@ final readonly class WalletTransactionService
      */
     public function copyLeftToSpendFromPreviousMonth(Wallet $currentWallet): void
     {
-        $previousWallet = $this->walletService->findPreviousWallet($currentWallet->getIndividual(), $currentWallet->getYear(), $currentWallet->getMonth());
+        $previousWallet = $this->walletService->findPreviousWallet($currentWallet->getUser(), $currentWallet->getYear(), $currentWallet->getMonth());
         if (!$previousWallet instanceof Wallet) {
             throw new NoPreviousWalletException();
         }

@@ -112,7 +112,7 @@ class TransactionRepository extends ServiceEntityRepository
     public function findSpecificTransactionByUser(User $user, int $id): ?Transaction
     {
         $qb = $this->createQueryBuilder('t')
-            ->where('t.individual = :user')
+            ->where('t.user = :user')
             ->andWhere('t.id = :id')
             ->setParameter('user', $user)
             ->setParameter('id', $id)

@@ -36,7 +36,7 @@ final readonly class AccountWalletCreationManager
     public function endWalletCreation(Wallet $wallet): void
     {
         $user = $this->userCheckerService->getUserOrThrow();
-        $wallet->setIndividual($user);
+        $wallet->setUser($user);
         $this->entityManager->persist($wallet);
         $this->entityManager->flush();
     }

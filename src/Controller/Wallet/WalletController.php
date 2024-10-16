@@ -30,7 +30,7 @@ final class WalletController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var User $user */
             $user = $this->getUser();
-            $wallet->setIndividual($user);
+            $wallet->setUser($user);
 
             $this->entityManager->persist($wallet);
             $this->entityManager->flush();

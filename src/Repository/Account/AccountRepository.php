@@ -30,7 +30,7 @@ final class AccountRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('a')
             ->leftJoin('a.wallets', 'w')
             ->addSelect('w')
-            ->where('a.individual = :user')
+            ->where('a.user = :user')
             ->orderBy('a.priority', Order::Descending->value)
             ->setParameter('user', $user)
             ->getQuery();
@@ -46,7 +46,7 @@ final class AccountRepository extends ServiceEntityRepository
         /** @var Account|null $account */
         $account = $this->createQueryBuilder('a')
             ->andWhere('a.id = :accountId')
-            ->andWhere('a.individual = :user')
+            ->andWhere('a.user = :user')
             ->setParameter('accountId', $accountId)
             ->setParameter('user', $user)
             ->getQuery()

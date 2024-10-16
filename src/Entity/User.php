@@ -50,7 +50,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var Collection<int, Wallet>
      */
-    #[ORM\OneToMany(targetEntity: Wallet::class, mappedBy: 'individual')]
+    #[ORM\OneToMany(targetEntity: Wallet::class, mappedBy: 'user')]
     private Collection $wallets;
 
     #[ORM\OneToOne(targetEntity: UserInformation::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
@@ -72,14 +72,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var Collection<int, Transaction>
      */
-    #[ORM\OneToMany(targetEntity: Transaction::class, mappedBy: 'individual')]
+    #[ORM\OneToMany(targetEntity: Transaction::class, mappedBy: 'user')]
     private Collection $transactions;
 
     /**
      * @var Collection<int, Account>
      */
-    #[ORM\OneToMany(targetEntity: Account::class, mappedBy: 'individual')]
+    #[ORM\OneToMany(targetEntity: Account::class, mappedBy: 'user')]
     private Collection $accounts;
+
+    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
+    private ?UserSettings $userSettings = null;
 
     #[ORM\PrePersist]
     public function onPrePersist(): void
@@ -193,7 +196,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->wallets->contains($wallet)) {
             $this->wallets->add($wallet);
-            $wallet->setIndividual($this);
+            $wallet->setUser($this);
         }
 
         return $this;
@@ -300,7 +303,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->transactions->contains($transaction)) {
             $this->transactions->add($transaction);
-            $transaction->setIndividual($this);
+            $transaction->setUser($this);
         }
 
         return $this;
@@ -309,8 +312,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeTransaction(Transaction $transaction): static
     {
         // set the owning side to null (unless already changed)
-        if ($this->transactions->removeElement($transaction) && $transaction->getIndividual() === $this) {
-            $transaction->setIndividual(null);
+        if ($this->transactions->removeElement($transaction) && $transaction->getUser() === $this) {
+            $transaction->setUser(null);
         }
 
         return $this;
@@ -328,8 +331,25 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->accounts->contains($account)) {
             $this->accounts->add($account);
-            $account->setIndividual($this);
+            $account->setUser($this);
         }
+
+        return $this;
+    }
+
+    public function getUserSettings(): ?UserSettings
+    {
+        return $this->userSettings;
+    }
+
+    public function setUserSettings(UserSettings $userSettings): static
+    {
+        // set the owning side of the relation if necessary
+        if ($userSettings->getUser() !== $this) {
+            $userSettings->setUser($this);
+        }
+
+        $this->userSettings = $userSettings;
 
         return $this;
     }

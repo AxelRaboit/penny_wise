@@ -288,7 +288,7 @@ final class WalletAccountController extends AbstractController
             return $this->redirectToRoute('account_list');
         }
 
-        $user = $account->getIndividual();
+        $user = $account->getUser();
         $accountId = $account->getId();
         if (null === $accountId) {
             throw new LogicException('Account ID cannot be null');
@@ -328,7 +328,7 @@ final class WalletAccountController extends AbstractController
             return $this->redirectToRoute('account_list');
         }
 
-        $user = $account->getIndividual();
+        $user = $account->getUser();
 
         try {
             $this->accountWalletManager->resetBalance($user, $year, $month);
@@ -477,7 +477,7 @@ final class WalletAccountController extends AbstractController
                 ]);
             }
 
-            $user = $wallet->getIndividual();
+            $user = $wallet->getUser();
 
             $this->accountWalletManager->createWalletForMonth($user, $adjacentYear, $adjacentMonthEnum, $wallet, $account);
 
