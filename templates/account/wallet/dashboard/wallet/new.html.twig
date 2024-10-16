@@ -6,8 +6,8 @@
 
 {% block body %}
     <div id="account-wallet-dashboard-wallet-new-page" class="hidden max-w-screen-xxl mx-auto">
-        <div class="bg-senary shadow-lg rounded-md max-w-lg mx-auto">
-            <div class="bg-secondary text-white text-center py-2 rounded-t-md">
+        <div class="bg-secondary shadow-lg rounded-md max-w-lg mx-auto">
+            <div class="bg-tertiary text-white text-center py-2 rounded-t-md">
                 <h1 class="text-md font-bold text-white">Add a New Wallet</h1>
             </div>
 
@@ -15,7 +15,7 @@
                 {{ form_start(form) }}
 
                 {% if form_errors(form) %}
-                    <div class="mb-4 p-4 bg-red-100 text-danger rounded-md">
+                    <div class="mb-4 p-4 bg-danger text-white rounded-md">
                         {{ form_errors(form) }}
                     </div>
                 {% endif %}
@@ -23,8 +23,8 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-1">
                     {% if form.month is defined %}
                         <div class="flex flex-col mb-2">
-                            {{ form_label(form.month, null, {label_attr: {class: 'text-gray-700 font-semibold'}}) }}
-                            {{ form_widget(form.month, {attr: {class: 'rounded-md'}}) }}
+                            {{ form_label(form.month, null, {label_attr: {class: 'text-white'}}) }}
+                            {{ form_widget(form.month) }}
                             <div class="text-danger text-sm">
                                 {{ form_errors(form.month) }}
                             </div>
@@ -32,24 +32,24 @@
                     {% endif %}
 
                     <div class="flex flex-col mb-2">
-                        {{ form_label(form.currency, null, {label_attr: {class: 'text-gray-700 font-semibold'}}) }}
-                        {{ form_widget(form.currency, {attr: {class: 'rounded-md'}}) }}
+                        {{ form_label(form.currency, null, {label_attr: {class: 'text-white'}}) }}
+                        {{ form_widget(form.currency) }}
                         <div class="text-danger text-sm">
                             {{ form_errors(form.currency) }}
                         </div>
                     </div>
 
                     <div class="flex flex-col mb-2">
-                        {{ form_label(form.start_balance, null, {label_attr: {class: 'text-gray-700 font-semibold'}}) }}
-                        {{ form_widget(form.start_balance, {attr: {class: 'rounded-md p-2'}}) }}
+                        {{ form_label(form.start_balance, null, {label_attr: {class: 'text-white'}}) }}
+                        {{ form_widget(form.start_balance, {attr: {class: 'rounded-md p-2 bg-secondary border-quaternary border-solid border'}}) }}
                         <div class="text-danger text-sm">
                             {{ form_errors(form.start_balance) }}
                         </div>
                     </div>
 
                     <div class="flex flex-col mb-2">
-                        {{ form_label(form.spending_limit, null, {label_attr: {class: 'text-gray-700 font-semibold'}}) }}
-                        {{ form_widget(form.spending_limit, {attr: {class: 'rounded-md p-2'}}) }}
+                        {{ form_label(form.spending_limit, null, {label_attr: {class: 'text-white'}}) }}
+                        {{ form_widget(form.spending_limit, {attr: {class: 'rounded-md p-2 bg-secondary border-quaternary border-solid border'}}) }}
                         <div class="text-danger text-sm">
                             {{ form_errors(form.spending_limit) }}
                         </div>
@@ -57,10 +57,10 @@
                 </div>
 
                 <div class="mt-4 flex justify-between">
-                    <a href="{{ app.request.headers.get('referer') ?: path('account_list') }}" class="bg-primary hover:bg-primary-hover text-white font-bold py-2 px-4 rounded-md">
+                    <a href="{{ app.request.headers.get('referer') ?: path('account_list') }}" class="bg-quaternary hover:bg-quaternary-hover border-solid border border-quaternary-ring text-white font-bold py-2 px-4 rounded-md">
                         <i class="fa-solid fa-arrow-left mr-1"></i> Back
                     </a>
-                    <button type="submit" class="text-center font-bold bg-secondary hover:bg-secondary-hover text-white py-2 px-4 rounded-md">
+                    <button type="submit" class="bg-quinary hover:bg-quinary-hover border-solid border border-quaternary-ring text-center font-bold text-white py-2 px-4 rounded-md">
                         Add Wallet
                     </button>
                 </div>

@@ -50,10 +50,15 @@ module.exports = {
           hover: '#d9e2e9',     // Légèrement plus foncé pour les hover
           ring: '#bcd4e2'       // Anneau bleu très clair pour le focus
         },
-        accent: {
-          DEFAULT: '#C0392B',   // Rouge accent
-          hover: '#A02821',     // Rouge plus sombre pour le hover
-          ring: '#7D1F19'       // Rouge foncé pour les focus
+        'accent-primary': {
+          DEFAULT: '#4CAF50',   // Vert subtil pour les succès
+          hover: '#43A047',     // Vert plus foncé pour le hover
+          ring: '#388E3C'       // Anneau vert pour le focus succès
+        },
+        'accent-secondary': {
+          DEFAULT: '#00BCD4',   // Bleu subtil pour les succès
+          hover: '#00ACC1',     // Bleu plus foncé pour le hover
+          ring: '#0097A7'       // Anneau bleu pour le focus succès
         },
         success: {
           DEFAULT: '#4CAF50',   // Vert subtil pour les succès
