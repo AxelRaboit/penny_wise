@@ -1,7 +1,7 @@
 {% set calendarModalContent %}
     <div id="monthly-month">
-        <div class="w-full rounded-b-md p-2 bg-tertiary">
-            <div class="mb-2 bg-senary p-2 rounded-md">
+        <div class="w-full rounded-b-md p-2">
+            <div class="mb-2 p-2 rounded-md border-quaternary border-solid border border-quaternary-ring">
                 <div class="grid grid-cols-2 sm:grid-cols-3 gap-1">
                     {% set allMonths = 1..12 %}
                     {% for yearDto in walletsAndTransactionsFromYear %}
@@ -12,11 +12,11 @@
                                 {% for monthDto in yearDto.getMonths() %}
                                     {% if monthDto.getMonthNumber() == i %}
                                         <a href="{{ path('account_wallet_dashboard', {year: yearDto.getYear(), month: monthDto.getMonthNumber(), accountId: account.id, walletId: monthDto.getWalletId()}) }}"
-                                           class="text-sm text-center font-bold py-2 px-4 rounded-md
+                                           class="text-sm text-center font-bold py-2 px-4 rounded-md text-white
                                                 {% if monthDto.getMonthNumber() == currentMonth and yearDto.getYear() == currentYear %}
-                                                    bg-accent hover:bg-accent-hover text-white
+                                                    bg-accent-primary hover:bg-accent-primary-hover text-center mb-1 border-solid border border-accent-primary-ring
                                                 {% else %}
-                                                    bg-secondary text-white hover:bg-secondary-hover
+                                                    bg-quaternary hover:bg-quaternary-hover text-center mb-1 border-solid border border-quaternary-ring
                                                 {% endif %}">
                                             {{ monthDto.getMonthName() }}
                                         </a>
@@ -24,7 +24,7 @@
                                 {% endfor %}
                             {% else %}
                                 <a href="{{ path('account_wallet_add_quick_month', {accountId: account.getId(), yearId: yearDto.getYear(), monthId: i}) }}"
-                                   class="text-sm text-center font-bold py-2 px-4 rounded-md bg-gray-400 hover:bg-gray-300 text-white">
+                                   class="text-sm text-center font-bold py-2 px-4 rounded-md border-dashed border border-quaternary hover:bg-primary-hover text-white">
                                     {{ i|month_name }}
                                 </a>
                             {% endif %}
