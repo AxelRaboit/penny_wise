@@ -45,7 +45,7 @@ class AppExtension extends AbstractExtension
     }
 
     /**
-     * Returns the first three letters of the month
+     * Returns the first three letters of the month.
      *
      * @param int $monthNumber The number of the month (1 for January, 12 for December)
      *
