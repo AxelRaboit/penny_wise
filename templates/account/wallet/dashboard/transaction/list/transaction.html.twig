@@ -1,120 +1,107 @@
 <div class="rounded-md" x-data="{ open: {{ transactionCategory.transactions|length > 0 ? 'true' : 'false' }} }">
     <div id="monthlyBill">
-        <div class="flex justify-between items-center bg-secondary text-white rounded-md p-2">
-            <div class="flex items-center">
-                <h2 class="text-md font-bold text-white">{{ transactionCategory.type|capitalize }}</h2>
+        <div class="flex flex-col justify-between items-center text-white rounded-md border-quaternary border-solid border bg-secondary">
+            <div class="w-full flex justify-between flex-row mb-2 bg-tertiary p-2">
+                <div class="flex items-center">
+                    <h2 class="text-md font-bold text-white">{{ transactionCategory.type|capitalize }}</h2>
+                </div>
+
+                <div class="flex space-x-1">
+                    <a href="{{ path('new_transaction_wallet_with_category', {accountId: account.id, walletId: wallet.id, category: transactionCategory.type}) }}" class="text-senary hover:bg-tertiary-hover text-white px-2.5 py-1.5 rounded-md flex items-center justify-center">
+                        <i class="fa-solid fa-plus text-white text-xs"></i>
+                    </a>
+                    <button type="button"
+                            data-action-url="{{ path('delete_all_transactions_from_specific_category', {accountId: account.id, walletId: wallet.id, category: transactionCategory.type}) }}"
+                            class="js-delete-transactions-from-category-button text-senary hover:bg-tertiary-hover text-sm px-2.5 py-1.5 rounded-md flex items-center justify-center">
+                        <i class="fa-solid fa-trash text-white text-xs"></i>
+                    </button>
+                    <button @click="open = !open" class="text-senary hover:bg-tertiary-hover text-white px-2.5 py-1.5 rounded-md flex items-center justify-center">
+                        <span x-show="!open" class="text-white text-xs"><i class="fa-solid fa-chevron-up"></i></span>
+                        <span x-show="open" class="text-white text-xs"><i class="fa-solid fa-chevron-down"></i></span>
+                    </button>
+                </div>
             </div>
 
-            <div class="flex space-x-2">
-                <a href="{{ path('new_transaction_wallet_with_category', {accountId: account.id, walletId: wallet.id, category: transactionCategory.type}) }}" class="bg-quinary hover:bg-quinary-hover text-white px-3 py-1 rounded-md flex items-center justify-center">
-                    <i class="fa-solid fa-plus text-white text-xs"></i>
-                </a>
-                <button type="button"
-                        data-action-url="{{ path('delete_all_transactions_from_specific_category', {accountId: account.id, walletId: wallet.id, category: transactionCategory.type}) }}"
-                        class="js-delete-transactions-from-category-button bg-danger hover:bg-danger-hover px-3 py-1 rounded-md">
-                    <i class="fa-solid fa-trash text-white text-xs"></i>
-                </button>
-                <button @click="open = !open" class="bg-quinary hover:bg-quinary-hover text-white px-3 py-1 rounded-md">
-                    <span x-show="!open" class="text-white text-xs"><i class="fa-solid fa-chevron-up"></i></span>
-                    <span x-show="open" class="text-white text-xs"><i class="fa-solid fa-chevron-down"></i></span>
-                </button>
-            </div>
-        </div>
+            <div class="grid {{ transactionCategory.totalBudget ? 'md:grid-cols-2' : 'md:grid-cols-1' }} grid-cols-1 gap-2 rounded-md mb-2 p-2 w-full">
+                {% if transactionCategory.totalBudget %}
+                    <div class="flex items-center justify-center bg-quaternary text-white border-solid border border-quaternary-ring rounded-md p-2 md:rounded-md md:mb-0">
+                        <i class="fa-solid fa-wallet text-white text-lg mr-2"></i>
+                        <div class="text-center">
+                            <span class="text-white text-sm block">Budget</span>
+                            <span class="text-white text-sm font-bold">{{ wallet.currency.value|currency_symbol }}{{ transactionCategory.totalBudget|number_format(2, '.', ' ') }}</span>
+                        </div>
+                    </div>
+                {% endif %}
 
-        <div class="grid {{ transactionCategory.totalBudget ? 'md:grid-cols-2' : 'md:grid-cols-1' }} grid-cols-1 gap-2 bg-gray-100 p-1 rounded-md my-1">
-            {% if transactionCategory.totalBudget %}
-                <div class="flex items-center justify-center bg-quinary rounded-md p-2 md:rounded-md mb-2 md:mb-0">
-                    <i class="fa-solid fa-wallet text-white text-lg mr-2"></i>
+                <div class="flex items-center justify-center {{ transactionCategory.totalBudget > 0 and transactionCategory.total > transactionCategory.totalBudget ? 'bg-danger border-solid border border-danger-ring' : 'bg-quaternary border-solid border border-quaternary-ring' }} text-white rounded-md p-2 md:rounded-md md:mb-0">
+                    <i class="fa-solid fa-coins text-white text-lg mr-2"></i>
                     <div class="text-center">
-                        <span class="text-white text-sm block">Budget</span>
-                        <span class="text-white text-sm font-bold">{{ wallet.currency.value|currency_symbol }}{{ transactionCategory.totalBudget|number_format(2, '.', ' ') }}</span>
+                        <span class="text-white text-sm block">Actual</span>
+                        <span class="text-white text-sm font-bold">{{ wallet.currency.value|currency_symbol }}{{ transactionCategory.total|number_format(2, '.', ' ') }}</span>
                     </div>
                 </div>
-            {% endif %}
-
-            <div class="flex items-center justify-center {{ transactionCategory.totalBudget > 0 and transactionCategory.total > transactionCategory.totalBudget ? 'bg-danger' : 'bg-quinary' }} rounded-md p-2 md:rounded-md mb-2 md:mb-0">
-                <i class="fa-solid fa-coins text-white text-lg mr-2"></i>
-                <div class="text-center">
-                    <span class="text-white text-sm block">Actual</span>
-                    <span class="text-white text-sm font-bold">{{ wallet.currency.value|currency_symbol }}{{ transactionCategory.total|number_format(2, '.', ' ') }}</span>
-                </div>
-            </div>
-        </div>
-
-        <div x-show="open" class="transition-all duration-300 {'rounded-b-md': !open}">
-            <div class="hidden md:flex bg-secondary rounded-md">
-                <div class="w-full text-center"><span class="font-bold text-white text-xs">Date</span></div>
-                <div class="w-full text-center hidden md:block"><span class="font-bold text-white text-xs">Tags</span></div>
-                <div class="w-full text-center"><span class="font-bold text-white text-xs">Nature</span></div>
-                <div class="w-full text-center"><span class="font-bold text-white text-xs">Budget</span></div>
-                <div class="w-full text-center"><span class="font-bold text-white text-xs">Actual</span></div>
-                <div class="w-full text-center hidden md:block"><span class="font-bold text-white text-xs">Remaining</span></div>
-                <div class="w-full text-center"><span class="font-bold text-white text-xs">Actions</span></div>
             </div>
 
-            <div class="my-1">
-                {% for transaction in transactionCategory.transactions %}
-                    <div class="transaction flex flex-col md:grid md:grid-cols-7 items-center bg-senary p-1 rounded-md mb-1 text-xs md:flex-row" title="{{ transaction.transaction.comment }}">
-                        <div class="md:col-span-1 text-center md:border-r md:pr-2">
-                            <span>{{ transaction.transaction.date ? transaction.transaction.date|date('d M Y') : '-' }}</span>
-                        </div>
-                        <div class="md:col-span-1 text-center hidden md:block md:border-r md:pr-2">
-                            {% if transaction.transaction.tag|length > 0 %}
-                                <div class="flex justify-center space-x-1">
-                                    {% for tag in transaction.transaction.tag|slice(0, 3) %}
-                                        <span class="inline-block w-2 h-2 rounded-full" style="background-color: {{ tag.color }};" title="{{ tag.name }}"></span>
-                                    {% endfor %}
-                                    {% if transaction.transaction.tag|length > 3 %}
-                                        <span class="text-gray-500" title="{{ transaction.transaction.tag|map(tag => tag.name)|join(', ') }}">+{{ transaction.transaction.tag|length - 3 }}</span>
-                                    {% endif %}
-                                </div>
-                            {% else %}
-                                <span class="text-gray-500">-</span>
-                            {% endif %}
-                        </div>
-                        <div class="md:col-span-1 text-center md:border-r md:pr-2">
-                            <span class="{{ transaction.transaction.nature ? 'font-bold' : '' }}">{{ transaction.transaction.nature ?? '-' }}</span>
-                        </div>
-                        <div class="md:col-span-1 text-center md:border-r md:pr-2">
-                            <span class="{{ transaction.budgetInfo.overBudget ? 'text-danger' : 'text-success' }}">
-                                {{ transaction.budgetInfo.budget ? transaction.budgetInfo.budget|number_format(2, '.', ' ') : '-' }}
-                            </span>
-                        </div>
-                        <div class="md:col-span-1 text-center md:border-r md:pr-2">
-                            <span class="font-semibold">{{ transaction.transaction.amount|number_format(2, '.', ' ') }}</span>
-                        </div>
-                        <div class="md:col-span-1 text-center hidden md:block md:border-r md:pr-2">
-                            {% if transaction.budgetInfo.budget %}
+            <div x-show="open" class="transition-all duration-300 {'rounded-b-md': !open} w-full">
+                <div class="border-b border-solid border-quaternary mb-2"></div>
+
+                {% if transactionCategory.transactions|length > 0 %}
+                    <div class="hidden md:flex bg-secondary rounded-md">
+                        <div class="w-1/6 text-center"><span class="font-bold text-white text-xs">Date</span></div>
+                        <div class="w-1/6 text-center"><span class="font-bold text-white text-xs">Nature</span></div>
+                        <div class="w-1/6 text-center"><span class="font-bold text-white text-xs">Budget</span></div>
+                        <div class="w-1/6 text-center"><span class="font-bold text-white text-xs">Actual</span></div>
+                        <div class="w-1/6 text-center"><span class="font-bold text-white text-xs">Remaining</span></div>
+                        <div class="w-1/6 text-center"><span class="font-bold text-white text-xs">Actions</span></div>
+                    </div>
+                {% endif %}
+
+                <div>
+                    {% for transaction in transactionCategory.transactions %}
+                        <div class="flex flex-col md:grid md:grid-cols-6 items-center bg-secondary p-1 rounded-md mb-1 text-xs md:flex-row" title="{{ transaction.transaction.comment }}">
+                            <div class="md:col-span-1 text-center md:pr-2">
+                                <span class="text-white">{{ transaction.transaction.date ? transaction.transaction.date|date('d') : '-' }}</span>
+                            </div>
+                            <div class="md:col-span-1 text-center md:pr-2">
+                                <span class="text-white">{{ transaction.transaction.nature ?? '-' }}</span>
+                            </div>
+                            <div class="md:col-span-1 text-center md:pr-2">
                                 <span class="{{ transaction.budgetInfo.overBudget ? 'text-danger' : 'text-success' }}">
-                                    {{ transaction.budgetInfo.remaining|number_format(2, '.', ' ') }}
+                                    {{ transaction.budgetInfo.budget ? transaction.budgetInfo.budget|number_format(2, '.', ' ') : '-' }}
                                 </span>
-                            {% else %}
-                                <span>-</span>
-                            {% endif %}
+                            </div>
+                            <div class="md:col-span-1 text-center md:pr-2">
+                                <span class="text-white">{{ transaction.transaction.amount|number_format(2, '.', ' ') }}</span>
+                            </div>
+                            <div class="md:col-span-1 text-center md:pr-2">
+                                {% if transaction.budgetInfo.budget %}
+                                    <span class="{{ transaction.budgetInfo.overBudget ? 'text-danger' : 'text-success' }}">
+                                        {{ transaction.budgetInfo.remaining|number_format(2, '.', ' ') }}
+                                    </span>
+                                {% else %}
+                                    <span>-</span>
+                                {% endif %}
+                            </div>
+                            <div class="md:col-span-1 text-center flex items-center justify-center space-x-2 md:pl-4 md:pr-4">
+                                <a href="{{ path('edit_transaction_from_wallet', {accountId: account.id, walletId: wallet.id, transactionId: transaction.transaction.id}) }}" title="Edit" class="text-secondary hover:text-secondary-hover">
+                                    <i class="fa-solid fa-pen-to-square cursor-pointer text-senary hover:text-senary-hover text-sm"></i>
+                                </a>
+                                <a href=" {{ path('show_transaction_from_wallet', {accountId: account.id, walletId: wallet.id, transactionId: transaction.transaction.id}) }} " title="View" class="text-secondary hover:text-secondary-hover">
+                                    <i class="fa-solid fa-eye cursor-pointer text-senary hover:text-senary-hover text-sm"></i>
+                                </a>
+                                <button type="button" data-action-url="{{ path('delete_transaction_wallet', {accountId: account.id, walletId: wallet.id, transactionId: transaction.transaction.id}) }}" title="Delete" class="js-delete-button">
+                                    <i class="fa-solid fa-trash-can cursor-pointer text-senary hover:text-senary-hover text-sm"></i>
+                                </button>
+                            </div>
                         </div>
-
-                        <div class="md:col-span-1 text-center flex items-center justify-center space-x-2 md:pl-4 md:pr-4">
-                            <a href="{{ path('edit_transaction_from_wallet', {accountId: account.id, walletId: wallet.id, transactionId: transaction.transaction.id}) }}" title="Edit" class="text-secondary hover:text-secondary-hover">
-                                <i class="fa-solid fa-pen-to-square cursor-pointer"></i>
-                            </a>
-                            <a href=" {{ path('show_transaction_from_wallet', {accountId: account.id, walletId: wallet.id, transactionId: transaction.transaction.id}) }} " title="View" class="text-secondary hover:text-secondary-hover">
-                                <i class="fa-solid fa-eye cursor-pointer"></i>
-                            </a>
-                            <button type="button" data-action-url="{{ path('delete_transaction_wallet', {accountId: account.id, walletId: wallet.id, transactionId: transaction.transaction.id}) }}" title="Delete" class="js-delete-button text-danger hover:text-danger-hover">
-                                <i class="fa-solid fa-trash-can cursor-pointer"></i>
-                            </button>
+                    {% else %}
+                        <div class="text-center mb-2">
+                            <span class="font-bold text-xs p-2 rounded-md text-white">No {{ transactionCategory.type }}</span>
                         </div>
-                    </div>
-                {% else %}
-                    <div class="flex bg-senary rounded-md">
-                        <div class="w-full text-center border border-solid border-gray-300 p-2 rounded-md">
-                            <span class="font-bold text-xs">No {{ transactionCategory.type }}</span>
-                        </div>
-                    </div>
-                {% endfor %}
+                    {% endfor %}
+                </div>
             </div>
+
         </div>
     </div>
-
-    <div class="bg-secondary p-2 rounded-md"></div>
 </div>

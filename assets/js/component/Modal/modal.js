@@ -9,13 +9,13 @@ const createModal = ({modalId, modalTitle, modalMessageHeader, modalMessage = ''
     modal.classList.add('fixed', 'inset-0', 'hidden', 'bg-gray-900', 'bg-opacity-50', 'flex', 'justify-center', 'items-center');
 
     modal.innerHTML = `
-        <div class="bg-senary rounded-md shadow-lg p-4 w-1/3">
-            <h3 class="text-lg font-bold mb-4">${modalTitle}</h3>
-            <p class="mb-4">${modalMessageHeader}</p>
-            ${modalMessage ? `<p class="mb-4 text-sm text-gray-700">${modalMessage}</p>` : ''}
+        <div class="bg-tertiary rounded-md shadow-lg p-4 w-1/3 border-solid border border-quaternary-ring">
+            <h3 class="text-lg text-white font-bold mb-4">${modalTitle}</h3>
+            <p class="mb-4 text-white">${modalMessageHeader}</p>
+            ${modalMessage ? `<p class="mb-4 text-sm text-white">${modalMessage}</p>` : ''}
             <div class="flex justify-end">
-                <button id="${cancelButtonId}" class="bg-gray-500 text-white p-2 rounded-md mr-2">${cancelLabel}</button>
-                <button id="${confirmButtonId}" class="bg-red-500 text-white p-2 rounded-md">${confirmLabel}</button>
+                <button id="${cancelButtonId}" class="bg-quaternary hover:bg-quaternary-hover text-white p-2 rounded-md mr-2">${cancelLabel}</button>
+                <button id="${confirmButtonId}" class="bg-quinary hover:bg-quinary-hover text-white p-2 rounded-md">${confirmLabel}</button>
             </div>
         </div>
     `;

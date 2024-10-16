@@ -2,44 +2,54 @@
 
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>{% block title %}Penny Wise{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
-        <script src="https://kit.fontawesome.com/582e93cff3.js" crossorigin="anonymous"></script>
-        {% block stylesheets %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Penny Wise{% endblock %}</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+    <script src="https://kit.fontawesome.com/582e93cff3.js" crossorigin="anonymous"></script>
+    {% block stylesheets %}
+    {% endblock %}
+
+    {% block javascripts %}
+        {{ include('importmap.html.twig') }}
+    {% endblock %}
+</head>
+<body class="flex flex-col min-h-screen">
+{{ include('components/topbar/topbar.html.twig') }}
+
+<div class="flex flex-1" x-data="{ expanded: true }">
+    <aside :class="expanded ? 'w-64' : 'w-24'" class="sticky top-[48px] flex flex-col z-40 p-2 bg-secondary h-[calc(100vh-100px)] overflow-y-auto transition-all duration-300 ease-in-out">
+
+        <button @click="expanded = !expanded" class="flex justify-center items-center bg-quaternary hover:bg-quaternary-hover rounded-md py-1 px-2 text-senary transition-colors self-end mb-4">
+            <i class="fa-solid text-xs" :class="expanded ? 'fa-chevron-left' : 'fa-chevron-right'"></i>
+        </button>
+
+        <div class="border-b border-solid border-quaternary mb-2"></div>
+
+        {{ include('components/clock.html.twig') }}
+
+        <div class="border-b border-solid border-quaternary mb-2"></div>
+
+        {% block sidemenu %}
         {% endblock %}
+    </aside>
 
-        {% block javascripts %}
-            {{ include('importmap.html.twig') }}
-        {% endblock %}
-    </head>
-    <body class="flex flex-col min-h-screen">
-        {{ include('components/topbar/topbar.html.twig') }}
-
-        <div class="flex flex-1">
-            <aside class="sticky top-[48px] flex flex-col z-40 p-2 bg-primary w-24 h-[calc(100vh-100px)] overflow-y-auto">
-                {{ include('components/clock.html.twig') }}
-
-                {% block sidemenu %}{% endblock %}
-            </aside>
-
-            <main class="flex-1 p-4">
-                {% for label, messages in app.flashes %}
-                    <div class="alert-flash w-full p-4 mb-4 text-sm text-white text-center rounded-md {{ label == 'success' ? 'bg-success' : label == 'warning' ? 'bg-warning' : 'bg-danger' }}" role="alert">
-                        {% for message in messages %}
-                            <span class="font-bold text-white">{{ label|capitalize }}:</span> {{ message }}
-                        {% endfor %}
-                    </div>
+    <main class="flex-1 p-4">
+        {% for label, messages in app.flashes %}
+            <div class="alert-flash w-full p-4 mb-4 text-sm text-white text-center rounded-md {{ label == 'success' ? 'bg-success' : label == 'warning' ? 'bg-warning' : 'bg-danger' }}" role="alert">
+                {% for message in messages %}
+                    <span class="font-bold text-white">{{ label|capitalize }}:</span> {{ message }}
                 {% endfor %}
+            </div>
+        {% endfor %}
 
-                {% block body %}{% endblock %}
-            </main>
-        </div>
+        {% block body %}{% endblock %}
+    </main>
+</div>
 
-        {% block loadingSpinner %}{% endblock %}
+{% block loadingSpinner %}{% endblock %}
 
-        {{ include('components/footer.html.twig') }}
-    </body>
+{{ include('components/footer.html.twig') }}
+</body>
 </html>

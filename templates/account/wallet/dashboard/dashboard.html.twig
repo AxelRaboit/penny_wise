@@ -21,7 +21,12 @@
 {% endblock %}
 
 {% block sidemenu %}
-    <span class="text-xs text-white text-center font-bold bg-accent rounded-md p-1.5 mb-2">Wallet: {{ wallet.getMonth()|month_name }} {{ wallet.getYear() }}</span>
+    <div class="flex items-start flex-col text-white mb-2 w-full">
+        <span class="w-full text-sm text-white font-bold mb-2 text-center">Wallet</span>
+        <span title="{{ wallet.getMonth()|month_name }} {{ wallet.getYear() }}" class="w-full text-sm text-white text-center bg-quaternary border-solid border border-quaternary-ring rounded-md p-2">{{ wallet.getMonth()|month_abbreviation }} {{ wallet.getYear() }}</span>
+    </div>
+
+    <div class="border-b border-solid border-quaternary mb-2"></div>
 
     {{ include('account/wallet/dashboard/sideMenu/wallet_graphs.html.twig') }}
     {{ include('account/wallet/dashboard/sideMenu/wallet_summary.html.twig') }}
@@ -31,11 +36,11 @@
 
     {{ include('components/sideMenu/buttons.html.twig', {
         buttons: [
-            {id: 'openWalletSideMenuSummaryModal', icon: 'fa-gauge', title: 'Summary information about the wallet'},
-            {id: 'openWalletSideMenuGraphsModal', icon: 'fa-chart-simple', title: 'Graphic representation of the wallet'},
-            {id: 'openWalletSideMenuCalendarModal', icon: 'fa-calendar', title: 'Monthly calendar'},
-            {id: 'openWalletSideMenuActionsModal', icon: 'fa-screwdriver-wrench', title: 'Interact through actions on the wallet'},
-            {id: 'openWalletSideMenuNoteModal', icon: 'fa-book', title: 'Notes'}
+            {id: 'openWalletSideMenuSummaryModal', icon: 'fa-gauge', title: 'Summary information about the wallet', text: 'Summary'},
+            {id: 'openWalletSideMenuGraphsModal', icon: 'fa-chart-simple', title: 'Graphic representation of the wallet', text: 'Graphics'},
+            {id: 'openWalletSideMenuCalendarModal', icon: 'fa-calendar', title: 'Monthly calendar', text: 'Calendar'},
+            {id: 'openWalletSideMenuActionsModal', icon: 'fa-screwdriver-wrench', title: 'Interact through actions on the wallet', text: 'Actions'},
+            {id: 'openWalletSideMenuNoteModal', icon: 'fa-book', title: 'Notes', text: 'Notes'}
         ]
     }) }}
 {% endblock %}

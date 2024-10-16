@@ -1,5 +1,8 @@
 {% for button in buttons %}
-    <button id="{{ button.id }}" class="bg-secondary hover:bg-secondary-hover text-white py-1 px-2 rounded-md mb-2" title="{{ button.title }}">
-        <i class="fa-solid {{ button.icon }}"></i>
+    <button id="{{ button.id }}" class="bg-quaternary border border-solid border-quaternary-ring hover:bg-quaternary-hover text-white py-1 px-2 rounded-md mb-2" title="{{ button.title }}">
+        <i class="fa-solid {{ button.icon }} text-sm mr-2 text-senary"></i>
+        {% if button.text is defined %}
+            <span class="text-sm text-white" x-show="expanded">{{ button.text }}</span>
+        {% endif %}
     </button>
 {% endfor %}

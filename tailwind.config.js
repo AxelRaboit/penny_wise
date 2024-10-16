@@ -16,59 +16,64 @@ module.exports = {
       },
       colors: {
         primary: {
-          DEFAULT: '#1C1C1E', // Very dark grey, perfect for dark backgrounds
-          hover: '#2D2D2F',   // A slightly lighter shade for hover states
-          ring: '#3C3C3E'     // Dark grey for focus rings
+          DEFAULT: '#010409',   // Noir très sombre, proche du noir pur
+          hover: '#11151A',     // Gris très foncé pour le hover
+          ring: '#2C333A'       // Gris foncé pour les anneaux de focus
         },
         secondary: {
-          DEFAULT: '#2E2E30', // Medium grey, ideal for secondary sections
-          hover: '#404042',   // A lighter tone for hover interactions
-          ring: '#5A5A5D'     // A softer ring for focus states
+          DEFAULT: '#0D1117',   // Gris-noir pour les sections secondaires
+          hover: '#1A2028',     // Gris plus clair pour le hover
+          ring: '#2C313A'       // Anneau gris foncé
         },
         tertiary: {
-          DEFAULT: '#E5E5E5', // Very light grey, great for neutral backgrounds
-          hover: '#CCCCCC',   // Slight variation for hover on light elements
-          ring: '#AFAFAF'     // Accent color for focus rings on light zones
+          DEFAULT: '#151B23',   // Noir légèrement cassé
+          hover: '#202833',     // Légèrement plus clair pour le hover
+          ring: '#333A44'       // Anneau gris encore plus clair
         },
         quaternary: {
-          DEFAULT: '#555555', // Grey for accents or dividers
-          hover: '#6B6B6B',   // A bit lighter for hover states
-          ring: '#787878'     // Ring for accentuated elements
+          DEFAULT: '#262C36',   // Gris foncé pour accents ou dividers
+          hover: '#3B414D',     // Gris plus clair pour le hover
+          ring: '#4A515E'       // Anneau de focus gris foncé
         },
         quinary: {
-          DEFAULT: '#A3A3A3', // Pale grey for passive elements or text
-          hover: '#8C8C8C',   // Slightly darker tone for hover states
-          ring: '#707070'     // Ring for passive elements focus
+          DEFAULT: '#31363F',   // Couleur intermédiaire entre gris et bleu nuit
+          hover: '#4A4F58',     // Gris plus clair pour les hover
+          ring: '#555B66'       // Anneau plus clair pour focus
         },
         senary: {
-          DEFAULT: '#F5F5F5', // Almost white, for neutral section backgrounds
-          hover: '#E0E0E0',   // Slight variation for hover interactions
-          ring: '#D4D4D4'     // Ring for focus on very light elements
+          DEFAULT: '#9198A0',   // Gris doux pour les éléments passifs
+          hover: '#A4AAB0',     // Plus clair pour les hover
+          ring: '#B4BAC0'       // Anneau pour les focus
+        },
+        septenary: {
+          DEFAULT: '#f0f6fc',   // Très clair, utilisé pour les textes sur des fonds sombres
+          hover: '#d9e2e9',     // Légèrement plus foncé pour les hover
+          ring: '#bcd4e2'       // Anneau bleu très clair pour le focus
         },
         accent: {
-          DEFAULT: '#C0392B', // Crimson Red as the accent color
-          hover: '#A02821',   // Darker crimson for hover interactions
-          ring: '#7D1F19'     // Focus ring for crimson accents
+          DEFAULT: '#C0392B',   // Rouge accent
+          hover: '#A02821',     // Rouge plus sombre pour le hover
+          ring: '#7D1F19'       // Rouge foncé pour les focus
         },
         success: {
-          DEFAULT: '#4CAF50', // Subtle green for success messages
-          hover: '#43A047',   // Darker green for positive interactions
-          ring: '#388E3C'     // Focus ring for success states
+          DEFAULT: '#4CAF50',   // Vert subtil pour les succès
+          hover: '#43A047',     // Vert plus foncé pour le hover
+          ring: '#388E3C'       // Anneau vert pour le focus succès
         },
         danger: {
-          DEFAULT: '#F44336', // Subtle red for error states
-          hover: '#C62828',   // Darker red for error hover states
-          ring: '#D32F2F'     // To highlight error messages or states
+          DEFAULT: '#F44336',   // Rouge pour les erreurs
+          hover: '#C62828',     // Rouge foncé pour le hover
+          ring: '#D32F2F'       // Rouge plus vif pour les focus erreurs
         },
         warning: {
-          DEFAULT: '#FF9800', // Subtle orange for warnings
-          hover: '#FB8C00',   // Darker orange for warning hover states
-          ring: '#EF6C00'     // To highlight warnings
+          DEFAULT: '#FF9800',   // Orange pour les avertissements
+          hover: '#FB8C00',     // Orange foncé pour le hover
+          ring: '#EF6C00'       // Orange pour les focus
         },
         neutral: {
-          DEFAULT: '#9E9E9E', // Neutral grey for secondary text or details
-          hover: '#7F7F7F',   // Slightly darker tone for hover on neutral elements
-          ring: '#616161'     // Accent ring for focus on neutral elements
+          DEFAULT: '#9E9E9E',   // Gris neutre pour les textes secondaires
+          hover: '#7F7F7F',     // Gris plus foncé pour les hover
+          ring: '#616161'       // Anneau gris neutre pour les focus
         }
       }
     }

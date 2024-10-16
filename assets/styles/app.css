@@ -12,8 +12,8 @@
 }
 
 body {
-    background-color: var(--color-quaternary);
-    color: var(--color-primary);
+    background-color: var(--color-tertiary);
+    color: white;
 }
 
 span, label, p, h1, h2, h3, h4, h5, h6, a, button {
