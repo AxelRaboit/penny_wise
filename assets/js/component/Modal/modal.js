@@ -14,8 +14,8 @@ const createModal = ({modalId, modalTitle, modalMessageHeader, modalMessage = ''
             <p class="mb-4 text-white">${modalMessageHeader}</p>
             ${modalMessage ? `<p class="mb-4 text-sm text-white">${modalMessage}</p>` : ''}
             <div class="flex justify-end">
-                <button id="${cancelButtonId}" class="bg-quaternary hover:bg-quaternary-hover text-white p-2 rounded-md mr-2">${cancelLabel}</button>
-                <button id="${confirmButtonId}" class="bg-quinary hover:bg-quinary-hover text-white p-2 rounded-md">${confirmLabel}</button>
+                <button id="${cancelButtonId}" class="bg-quaternary hover:bg-quaternary-hover text-white p-2 rounded-md mr-2 border-solid border border-quaternary-ring">${cancelLabel}</button>
+                <button id="${confirmButtonId}" class="bg-quinary hover:bg-quinary-hover text-white p-2 rounded-md border-solid border border-quaternary-ring">${confirmLabel}</button>
             </div>
         </div>
     `;

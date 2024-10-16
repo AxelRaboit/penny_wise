@@ -9,11 +9,11 @@
 
     <div class="ml-3">
         {% if app.user.userInformation.firstname and app.user.userInformation.lastname %}
-            <span class="block text-sm font-bold text-white">
+            <span class="text-sm font-bold text-white">
                 {{ app.user.userInformation.firstname }} {{ app.user.userInformation.lastname }}
             </span>
         {% endif %}
-        <span class="block text-sm text-white">
+        <span class="text-sm text-white">
             {{ app.user.email }}
         </span>
     </div>

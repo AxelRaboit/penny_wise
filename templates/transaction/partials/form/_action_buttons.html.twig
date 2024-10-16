@@ -1,7 +1,7 @@
 <div class="mt-4 flex justify-between">
     <a href="{{ path('account_wallet_dashboard', {year: transaction.wallet.year, month: transaction.wallet.month, accountId: accountId, walletId: transaction.wallet.id}) }}"
-       class="bg-primary hover:bg-primary-hover text-white font-bold py-2 px-4 rounded-md">
+       class="bg-quaternary hover:bg-quaternary-hover text-white font-bold py-2 px-4 rounded-md border-solid border border-quaternary-ring">
         <i class="fa-solid fa-arrow-left mr-1"></i> {{ cancel_label }}
     </a>
-    <button type="submit" class="bg-secondary hover:bg-secondary-hover text-white font-bold py-2 px-4 rounded-md">{{ submit_label }}</button>
+    <button type="submit" class="bg-quinary hover:bg-quinary-hover text-white font-bold py-2 px-4 rounded-md border-solid border border-quaternary-ring">{{ submit_label }}</button>
 </div>
