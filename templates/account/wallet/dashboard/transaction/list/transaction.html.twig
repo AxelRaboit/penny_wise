@@ -1,7 +1,7 @@
 <div class="rounded-md" x-data="{ open: {{ transactionCategory.transactions|length > 0 ? 'true' : 'false' }} }">
     <div id="monthlyBill">
         <div class="flex flex-col justify-between items-center text-white rounded-md border-quaternary border-solid border bg-secondary">
-            <div class="w-full flex justify-between flex-row mb-2 bg-tertiary p-2">
+            <div class="w-full flex justify-between flex-row mb-2 bg-tertiary p-2 border border-solid border-quaternary rounded-t-md">
                 <div class="flex items-center">
                     <h2 class="text-md font-bold text-white">{{ transactionCategory.type|capitalize }}</h2>
                 </div>
