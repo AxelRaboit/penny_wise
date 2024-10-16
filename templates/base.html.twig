@@ -19,9 +19,11 @@
 {{ include('components/topbar/topbar.html.twig') }}
 
 <div class="flex flex-1" x-data="{ expanded: true }">
-    <aside :class="expanded ? 'w-64' : 'w-24'" class="sticky top-[48px] flex flex-col z-40 p-2 bg-secondary h-[calc(100vh-100px)] overflow-y-auto transition-all duration-300 ease-in-out">
+    <aside x-data="{ expanded: {{ app.user and app.user.getUserSettings() and app.user.getUserSettings().isSideMenuCollapse() ? 'false' : 'true' }} }"
+           :class="expanded ? 'w-64' : 'w-24'"
+           class="sticky top-[48px] flex flex-col z-40 p-2 bg-secondary h-[calc(100vh-100px)] overflow-y-auto transition-all duration-300 ease-in-out">
 
-        <button @click="expanded = !expanded" class="flex justify-center items-center bg-quaternary hover:bg-quaternary-hover rounded-md py-1 px-2 text-senary transition-colors self-end mb-4">
+        <button id="js-toggle-sidebar-button" @click="expanded = !expanded" class="flex justify-center items-center bg-quaternary hover:bg-quaternary-hover py-1 px-2 text-senary transition-colors self-end mb-4 rounded-md">
             <i class="fa-solid text-xs" :class="expanded ? 'fa-chevron-left' : 'fa-chevron-right'"></i>
         </button>
 
@@ -53,3 +55,4 @@
 {{ include('components/footer.html.twig') }}
 </body>
 </html>
+

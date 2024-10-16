@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Manager\Profile\Settings;
+namespace App\Manager\User\Profile\Settings;
 
 use App\Entity\UserInformation;
 use App\Service\User\UserCheckerService;

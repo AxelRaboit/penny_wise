@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Profile;
+namespace App\Controller\User\Profile;
 
 use App\Entity\User;
 use App\Repository\Wallet\WalletRepository;
