@@ -4,31 +4,28 @@ declare(strict_types=1);
 
 namespace App\Manager\Account\Wallet;
 
+use App\Entity\Account;
 use App\Entity\Wallet;
-use App\Service\Checker\Account\AccountCheckerService;
 use App\Service\User\UserCheckerService;
 use Doctrine\ORM\EntityManagerInterface;
 
 final readonly class AccountWalletCreationManager
 {
     public function __construct(
-        private AccountCheckerService $accountCheckerService,
         private EntityManagerInterface $entityManager,
         private UserCheckerService $userCheckerService,
     ) {}
 
-    public function beginWalletYearCreation(int $accountId, int $year): Wallet
+    public function beginWalletYearCreation(Account $account, int $year): Wallet
     {
-        $wallet = $this->beginWalletCreation($accountId);
+        $wallet = $this->beginWalletCreation($account);
         $wallet->setYear($year);
 
         return $wallet;
     }
 
-    public function beginWalletCreation(int $accountId): Wallet
+    public function beginWalletCreation(Account $account): Wallet
     {
-        $account = $this->accountCheckerService->getAccountOrThrow($accountId);
-
         return (new Wallet())
             ->setAccount($account);
     }

@@ -7,11 +7,11 @@
                 </div>
 
                 <div class="flex space-x-1">
-                    <a href="{{ path('new_transaction_wallet_with_category', {accountId: account.id, walletId: wallet.id, category: transactionCategory.type}) }}" class="text-senary hover:bg-tertiary-hover text-white px-2.5 py-1.5 rounded-md flex items-center justify-center">
+                    <a href="{{ path('new_transaction_wallet_with_category', {account: account.id, wallet: wallet.id, category: transactionCategory.type}) }}" class="text-senary hover:bg-tertiary-hover text-white px-2.5 py-1.5 rounded-md flex items-center justify-center">
                         <i class="fa-solid fa-plus text-white text-xs"></i>
                     </a>
                     <button type="button"
-                            data-action-url="{{ path('delete_all_transactions_from_specific_category', {accountId: account.id, walletId: wallet.id, category: transactionCategory.type}) }}"
+                            data-action-url="{{ path('delete_all_transactions_from_specific_category', {account: account.id, wallet: wallet.id, category: transactionCategory.type}) }}"
                             class="js-delete-transactions-from-category-button text-senary hover:bg-tertiary-hover text-sm px-2.5 py-1.5 rounded-md flex items-center justify-center">
                         <i class="fa-solid fa-trash text-white text-xs"></i>
                     </button>
@@ -83,13 +83,13 @@
                                 {% endif %}
                             </div>
                             <div class="md:col-span-1 text-center flex items-center justify-center space-x-2 md:pl-4 md:pr-4">
-                                <a href="{{ path('edit_transaction_from_wallet', {accountId: account.id, walletId: wallet.id, transactionId: transaction.transaction.id}) }}" title="Edit" class="text-secondary hover:text-secondary-hover">
+                                <a href="{{ path('edit_transaction_from_wallet', {account: account.id, wallet: wallet.id, transaction: transaction.transaction.id}) }}" title="Edit" class="text-secondary hover:text-secondary-hover">
                                     <i class="fa-solid fa-pen-to-square cursor-pointer text-senary hover:text-senary-hover text-sm"></i>
                                 </a>
-                                <a href=" {{ path('show_transaction_from_wallet', {accountId: account.id, walletId: wallet.id, transactionId: transaction.transaction.id}) }} " title="View" class="text-secondary hover:text-secondary-hover">
+                                <a href=" {{ path('show_transaction_from_wallet', {account: account.id, wallet: wallet.id, transaction: transaction.transaction.id}) }} " title="View" class="text-secondary hover:text-secondary-hover">
                                     <i class="fa-solid fa-eye cursor-pointer text-senary hover:text-senary-hover text-sm"></i>
                                 </a>
-                                <button type="button" data-action-url="{{ path('delete_transaction_wallet', {accountId: account.id, walletId: wallet.id, transactionId: transaction.transaction.id}) }}" title="Delete" class="js-delete-button">
+                                <button type="button" data-action-url="{{ path('delete_transaction_wallet', {account: account.id, wallet: wallet.id, transaction: transaction.transaction.id}) }}" title="Delete" class="js-delete-button">
                                     <i class="fa-solid fa-trash-can cursor-pointer text-senary hover:text-senary-hover text-sm"></i>
                                 </button>
                             </div>
@@ -101,7 +101,6 @@
                     {% endfor %}
                 </div>
             </div>
-
         </div>
     </div>
 </div>

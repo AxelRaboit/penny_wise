@@ -7,7 +7,6 @@ namespace App\Controller\AccountList;
 use App\Entity\Account;
 use App\Entity\Wallet;
 use App\Enum\Wallet\MonthEnum;
-use App\Exception\MaxAccountsReachedException;
 use App\Form\Account\AccountType;
 use App\Form\Account\Wallet\WalletType;
 use App\Form\Wallet\WalletCreateWithPreselectedMonthType;
@@ -15,8 +14,6 @@ use App\Manager\Account\Wallet\AccountWalletManager;
 use App\Manager\AccountList\AccountListWalletManager;
 use App\Manager\AccountList\Wallet\AccountListWalletCreationManager;
 use App\Service\Account\Wallet\WalletService;
-use App\Service\Checker\Account\AccountPermissionService;
-use App\Service\EntityAccessService;
 use App\Service\User\UserCheckerService;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,17 +21,16 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Translation\Exception\NotFoundResourceException;
 
 final class AccountListController extends AbstractController
 {
     public function __construct(
         private readonly WalletService $walletService,
-        private readonly AccountPermissionService $accountPermissionService,
         private readonly UserCheckerService $userCheckerService,
         private readonly AccountListWalletManager $accountListWalletManager,
         private readonly AccountListWalletCreationManager $accountListWalletCreationManager,
-        private readonly EntityAccessService $entityAccessService,
         private readonly AccountWalletManager $accountWalletManager,
     ) {}
 
@@ -50,16 +46,9 @@ final class AccountListController extends AbstractController
     }
 
     #[Route('/account/new', name: 'account_new')]
+    #[IsGranted('CREATE_ACCOUNT')]
     public function newAccount(Request $request): Response
     {
-        try {
-            $this->accountPermissionService->checkAccountCreationPermissions();
-        } catch (MaxAccountsReachedException $maxAccountsReachedException) {
-            $this->addFlash('error', $maxAccountsReachedException->getMessage());
-
-            return $this->redirectToRoute('account_list');
-        }
-
         $account = new Account();
         $user = $this->userCheckerService->getUserOrThrow();
         $account->setUser($user);
@@ -79,14 +68,10 @@ final class AccountListController extends AbstractController
         ]);
     }
 
-    #[Route('/account/{accountId}/edit', name: 'account_edit')]
-    public function editAccount(int $accountId, Request $request): Response
+    #[Route('/account/{account}/edit', name: 'account_edit')]
+    #[IsGranted('ACCESS_ACCOUNT', subject: 'account')]
+    public function editAccount(Account $account, Request $request): Response
     {
-        $account = $this->entityAccessService->getAccountWithAccessCheck($accountId);
-        if (!$account instanceof Account) {
-            return $this->redirectToRoute('account_list');
-        }
-
         $form = $this->createForm(AccountType::class, $account);
         $form->handleRequest($request);
 
@@ -105,27 +90,19 @@ final class AccountListController extends AbstractController
     /**
      * @throws Exception
      */
-    #[Route('/account/{accountId}/delete', name: 'account_delete')]
-    public function deleteAccount(int $accountId): Response
+    #[Route('/account/{account}/delete', name: 'account_delete')]
+    #[IsGranted('ACCESS_ACCOUNT', subject: 'account')]
+    public function deleteAccount(Account $account): Response
     {
-        $account = $this->entityAccessService->getAccountWithAccessCheck($accountId);
-        if (!$account instanceof Account) {
-            return $this->redirectToRoute('account_list');
-        }
-
         $this->accountListWalletManager->deleteAccount($account);
 
         return $this->redirectToRoute('account_list');
     }
 
-    #[Route('/account/{accountId}/delete/{year}', name: 'account_year_delete')]
-    public function deleteYearAccount(int $accountId, int $year): RedirectResponse
+    #[Route('/account/{account}/delete/{year}', name: 'account_year_delete')]
+    #[IsGranted('ACCESS_ACCOUNT', subject: 'account')]
+    public function deleteYearAccount(Account $account, int $year): RedirectResponse
     {
-        $account = $this->entityAccessService->getAccountWithAccessCheck($accountId);
-        if (!$account instanceof Account) {
-            return $this->redirectToRoute('account_list');
-        }
-
         try {
             $this->accountListWalletManager->deleteWalletsForYear($account, $year);
             $this->addFlash('success', sprintf('The year %d and all its wallets and transactions were deleted successfully.', $year));
@@ -138,14 +115,10 @@ final class AccountListController extends AbstractController
         return $this->redirectToRoute('account_list');
     }
 
-    #[Route('/account/{accountId}/wallet/new', name: 'account_new_wallet')]
-    public function newWalletAccount(Request $request, int $accountId): Response
+    #[Route('/account/{account}/wallet/new', name: 'account_new_wallet')]
+    #[IsGranted('ACCESS_ACCOUNT', subject: 'account')]
+    public function newWalletAccount(Request $request, Account $account): Response
     {
-        $account = $this->entityAccessService->getAccountWithAccessCheck($accountId);
-        if (!$account instanceof Account) {
-            return $this->redirectToRoute('account_list');
-        }
-
         $wallet = $this->accountListWalletCreationManager->beginWalletCreation($account);
 
         $form = $this->createForm(WalletType::class, $wallet);
@@ -162,14 +135,10 @@ final class AccountListController extends AbstractController
         ]);
     }
 
-    #[Route('/account/{accountId}/wallet/new/{yearId}/{monthId}', name: 'account_wallet_add_quick_month')]
-    public function newWalletForYearNextMonth(int $accountId, int $yearId, int $monthId, Request $request): Response
+    #[Route('/account/{account}/wallet/new/{yearId}/{monthId}', name: 'account_wallet_add_quick_month')]
+    #[IsGranted('ACCESS_ACCOUNT', subject: 'account')]
+    public function newWalletForYearNextMonth(Account $account, int $yearId, int $monthId, Request $request): Response
     {
-        $account = $this->entityAccessService->getAccountWithAccessCheck($accountId);
-        if (!$account instanceof Account) {
-            return $this->redirectToRoute('account_list');
-        }
-
         $wallet = $this->accountListWalletCreationManager->beginWalletYearCreationWithMonth($account, $yearId, $monthId);
 
         $form = $this->createForm(WalletCreateWithPreselectedMonthType::class, $wallet);
@@ -187,19 +156,11 @@ final class AccountListController extends AbstractController
         ]);
     }
 
-    #[Route('/list/account/{accountId}/wallet/{walletId}/delete/{year}/{month}/{redirectTo?}', name: 'account_list_wallet_delete_month')]
-    public function deleteWalletAndRelations(int $accountId, int $walletId, int $year, int $month): RedirectResponse
+    #[Route('/list/account/{account}/wallet/{wallet}/delete/{year}/{month}/{redirectTo?}', name: 'account_list_wallet_delete_month')]
+    #[IsGranted('ACCESS_ACCOUNT', subject: 'account')]
+    #[IsGranted('ACCESS_WALLET', subject: 'wallet')]
+    public function deleteWalletAndRelations(Account $account, Wallet $wallet, int $year, int $month): RedirectResponse
     {
-        $account = $this->entityAccessService->getAccountWithAccessCheck($accountId);
-        if (!$account instanceof Account) {
-            return $this->redirectToRoute('account_list');
-        }
-
-        $wallet = $this->entityAccessService->getWalletWithAccessCheck($walletId);
-        if (!$wallet instanceof Wallet) {
-            return $this->redirectToRoute('account_list');
-        }
-
         $accountId = $account->getId();
         if (null === $accountId) {
             throw new NotFoundResourceException('Account ID cannot be null');

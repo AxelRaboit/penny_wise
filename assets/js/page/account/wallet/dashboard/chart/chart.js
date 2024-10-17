@@ -6,7 +6,8 @@ export function initializeChartButtons() {
             const year = this.getAttribute('data-year');
             const month = this.getAttribute('data-month');
             const chartFormat = this.getAttribute('data-chart-format') || 'bar';
-            const accountId = this.getAttribute('data-account-id');
+            const account = this.getAttribute('data-account-id');
+            const wallet = this.getAttribute('data-wallet-id');
 
             if (!accountId) {
                 console.error('Account ID is missing for chart request');
@@ -25,7 +26,7 @@ export function initializeChartButtons() {
                 return;
             }
 
-            const url = `/account/${accountId}/wallet/chart/data?type=${chartType}&year=${year}&month=${month}&format=${chartFormat}`;
+            const url = `/account/${account}/wallet/${wallet}/chart/data?type=${chartType}&year=${year}&month=${month}&format=${chartFormat}`;
 
             fetch(url)
                 .then(response => {

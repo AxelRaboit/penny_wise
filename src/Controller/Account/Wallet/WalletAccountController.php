@@ -14,13 +14,9 @@ use App\Manager\Account\Wallet\AccountWalletCreationManager;
 use App\Manager\Account\Wallet\AccountWalletManager;
 use App\Repository\Note\NoteRepository;
 use App\Repository\Wallet\WalletRepository;
-use App\Security\Voter\Account\AccountVoter;
 use App\Service\Account\Wallet\Transaction\WalletTransactionService;
 use App\Service\Account\Wallet\WalletChartService;
 use App\Service\Account\Wallet\WalletService;
-use App\Service\Checker\Account\AccountCheckerService;
-use App\Service\Checker\Wallet\WalletCheckerService;
-use App\Service\EntityAccessService;
 use App\Util\WalletHelper;
 use DateMalformedStringException;
 use Doctrine\ORM\EntityManagerInterface;
@@ -33,6 +29,8 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\Translation\Exception\NotFoundResourceException;
 use Symfony\UX\Chartjs\Model\Chart;
 
 final class WalletAccountController extends AbstractController
@@ -44,31 +42,24 @@ final class WalletAccountController extends AbstractController
         private readonly NoteRepository $noteRepository,
         private readonly WalletHelper $walletHelper,
         private readonly WalletChartService $walletChartService,
-        private readonly WalletCheckerService $walletCheckerService,
-        private readonly AccountCheckerService $accountCheckerService,
         private readonly AccountWalletManager $accountWalletManager,
         private readonly AccountWalletCreationManager $accountWalletCreationManager,
         private readonly EntityManagerInterface $entityManager,
-        private readonly EntityAccessService $entityAccessService,
     ) {}
 
     /**
      * @throws DateMalformedStringException
      */
-    #[Route('/account/{accountId}/wallet/{walletId}/dashboard/{year}/{month}', name: 'account_wallet_dashboard')]
-    public function accountWalletDashboard(int $accountId, int $walletId, int $year, int $month): Response
+    #[Route('/account/{account}/wallet/{wallet}/dashboard/{year}/{month}', name: 'account_wallet_dashboard')]
+    #[IsGranted('ACCESS_ACCOUNT', subject: 'account')]
+    #[IsGranted('ACCESS_WALLET', subject: 'wallet')]
+    public function accountWalletDashboard(Account $account, Wallet $wallet, int $year, int $month): Response
     {
-        $account = $this->entityAccessService->getAccountWithAccessCheck($accountId);
-        if (!$account instanceof Account) {
-            return $this->redirectToRoute('account_list');
+        $accountId = $account->getId();
+        if (null === $accountId) {
+            throw new NotFoundResourceException('Account not found');
         }
 
-        $wallet = $this->entityAccessService->getWalletWithAccessCheck($walletId);
-        if (!$wallet instanceof Wallet) {
-            return $this->redirectToRoute('account_list');
-        }
-
-        $wallet = $this->walletCheckerService->getWalletOrThrow($accountId, $year, $month);
         $walletsAndTransactionsFromYear = $this->walletService->getWalletsByAccountAndYear($accountId, $year);
         $transactions = $this->walletTransactionService->getAllTransactionInformationByUser($wallet);
         $notesFromWallet = $this->noteRepository->getNotesFromWallet($wallet);
@@ -105,15 +96,18 @@ final class WalletAccountController extends AbstractController
         ]);
     }
 
-    #[Route('/account/{accountId}/wallet/{walletId}/new/year/{year}', name: 'account_wallet_new')]
-    public function newWalletForYear(int $year, int $accountId, int $walletId, Request $request): Response
+    #[Route('/account/{account}/wallet/{wallet}/new/year/{year}', name: 'account_wallet_new')]
+    #[IsGranted('ACCESS_ACCOUNT', subject: 'account')]
+    #[IsGranted('ACCESS_WALLET', subject: 'wallet')]
+    public function newWalletForYear(int $year, Account $account, Wallet $wallet, Request $request): Response
     {
-        $account = $this->entityAccessService->getAccountWithAccessCheck($accountId);
-        if (!$account instanceof Account) {
-            return $this->redirectToRoute('account_list');
+        $accountId = $account->getId();
+        if (null === $accountId) {
+            throw new NotFoundResourceException('Account not found');
         }
 
-        $wallet = $this->accountWalletCreationManager->beginWalletYearCreation($accountId, $year);
+        // TODO AXEL: I have a doubt about having {wallet} in the url
+        $wallet = $this->accountWalletCreationManager->beginWalletYearCreation($account, $year);
 
         $form = $this->createForm(WalletCreateForYearType::class, $wallet);
         $form->handleRequest($request);
@@ -137,24 +131,10 @@ final class WalletAccountController extends AbstractController
         ]);
     }
 
-    #[Route('/account/{accountId}/wallet/edit/{id}', name: 'account_wallet_edit', methods: ['GET', 'POST'])]
-    public function editWallet(int $accountId, Wallet $wallet, Request $request): Response
+    #[Route('/account/{account}/wallet/edit/{wallet}', name: 'account_wallet_edit', methods: ['GET', 'POST'])]
+    #[IsGranted('ACCESS_ACCOUNT', subject: 'account')]
+    public function editWallet(Account $account, Wallet $wallet, Request $request): Response
     {
-        $account = $this->entityAccessService->getAccountWithAccessCheck($accountId);
-        if (!$account instanceof Account) {
-            return $this->redirectToRoute('account_list');
-        }
-
-        $walletId = $wallet->getId();
-        if (null === $walletId) {
-            throw new LogicException('Wallet ID cannot be null');
-        }
-
-        $wallet = $this->entityAccessService->getWalletWithAccessCheck($walletId);
-        if (!$wallet instanceof Wallet) {
-            return $this->redirectToRoute('account_list');
-        }
-
         $form = $this->createForm(WalletUpdateType::class, $wallet);
         $form->handleRequest($request);
 
@@ -175,16 +155,12 @@ final class WalletAccountController extends AbstractController
         ]);
     }
 
-    #[Route('/account/{accountId}/wallet/copy-bills/{year}/{month}', name: 'account_wallet_copy_previous_month_bills')]
-    public function copyPreviousMonthBills(int $accountId, int $year, int $month): Response
+    #[Route('/account/{account}/wallet/{wallet}/copy-bills/{year}/{month}', name: 'account_wallet_copy_previous_month_bills')]
+    #[IsGranted('ACCESS_ACCOUNT', subject: 'account')]
+    public function copyPreviousMonthBills(Account $account, Wallet $wallet, int $year, int $month): Response
     {
-        $account = $this->entityAccessService->getAccountWithAccessCheck($accountId);
-        if (!$account instanceof Account) {
-            return $this->redirectToRoute('account_list');
-        }
-
         return $this->copyPreviousMonthTransactions(
-            $accountId,
+            $wallet,
             $year,
             $month,
             TransactionCategoryEnum::Bills,
@@ -192,16 +168,13 @@ final class WalletAccountController extends AbstractController
         );
     }
 
-    #[Route('/account/{accountId}/wallet/copy-incomes/{year}/{month}', name: 'account_wallet_copy_previous_month_incomes')]
-    public function copyPreviousMonthIncomes(int $accountId, int $year, int $month): Response
+    #[Route('/account/{account}/wallet/{wallet}/copy-incomes/{year}/{month}', name: 'account_wallet_copy_previous_month_incomes')]
+    #[IsGranted('ACCESS_ACCOUNT', subject: 'account')]
+    #[IsGranted('ACCESS_WALLET', subject: 'wallet')]
+    public function copyPreviousMonthIncomes(Account $account, Wallet $wallet, int $year, int $month): Response
     {
-        $account = $this->entityAccessService->getAccountWithAccessCheck($accountId);
-        if (!$account instanceof Account) {
-            return $this->redirectToRoute('account_list');
-        }
-
         return $this->copyPreviousMonthTransactions(
-            $accountId,
+            $wallet,
             $year,
             $month,
             TransactionCategoryEnum::Incomes,
@@ -209,16 +182,12 @@ final class WalletAccountController extends AbstractController
         );
     }
 
-    #[Route('/account/{accountId}/wallet/copy-debts/{year}/{month}', name: 'account_wallet_copy_previous_month_debts')]
-    public function copyPreviousMonthDebts(int $accountId, int $year, int $month): Response
+    #[Route('/account/{account}/wallet/{wallet}/copy-debts/{year}/{month}', name: 'account_wallet_copy_previous_month_debts')]
+    #[IsGranted('ACCESS_ACCOUNT', subject: 'account')]
+    public function copyPreviousMonthDebts(Account $account, Wallet $wallet, int $year, int $month): Response
     {
-        $account = $this->entityAccessService->getAccountWithAccessCheck($accountId);
-        if (!$account instanceof Account) {
-            return $this->redirectToRoute('account_list');
-        }
-
         return $this->copyPreviousMonthTransactions(
-            $accountId,
+            $wallet,
             $year,
             $month,
             TransactionCategoryEnum::Debts,
@@ -226,16 +195,17 @@ final class WalletAccountController extends AbstractController
         );
     }
 
-    #[Route('/account/{accountId}/wallet/copy-expenses/{year}/{month}', name: 'account_wallet_copy_previous_month_expenses')]
-    public function copyPreviousMonthExpenses(int $accountId, int $year, int $month): Response
+    #[Route('/account/{account}/wallet/{wallet}/copy-expenses/{year}/{month}', name: 'account_wallet_copy_previous_month_expenses')]
+    #[IsGranted('ACCESS_ACCOUNT', subject: 'account')]
+    public function copyPreviousMonthExpenses(Account $account, Wallet $wallet, int $year, int $month): Response
     {
-        $account = $this->entityAccessService->getAccountWithAccessCheck($accountId);
-        if (!$account instanceof Account) {
-            return $this->redirectToRoute('account_list');
+        $accountId = $account->getId();
+        if (null === $accountId) {
+            throw new NotFoundResourceException('Account not found');
         }
 
         return $this->copyPreviousMonthTransactions(
-            $accountId,
+            $wallet,
             $year,
             $month,
             TransactionCategoryEnum::Expenses,
@@ -243,52 +213,27 @@ final class WalletAccountController extends AbstractController
         );
     }
 
-    #[Route('/account/{accountId}/wallet/{walletId}/create-previous/{year}/{month}', name: 'account_wallet_create_previous_month')]
-    public function createPreviousMonthWallet(int $accountId, int $walletId, int $year, int $month): Response
+    #[Route('/account/{account}/wallet/{wallet}/create-previous/{year}/{month}', name: 'account_wallet_create_previous_month')]
+    #[IsGranted('ACCESS_ACCOUNT', subject: 'account')]
+    #[IsGranted('ACCESS_WALLET', subject: 'wallet')]
+    public function createPreviousMonthWallet(Account $account, Wallet $wallet, int $year, int $month): Response
     {
-        $account = $this->entityAccessService->getAccountWithAccessCheck($accountId);
-        if (!$account instanceof Account) {
-            return $this->redirectToRoute('account_list');
-        }
-
-        $wallet = $this->entityAccessService->getWalletWithAccessCheck($walletId);
-        if (!$wallet instanceof Wallet) {
-            return $this->redirectToRoute('account_list');
-        }
-
         return $this->createAdjacentMonthWallet($account, $wallet, $year, $month, 'previous');
     }
 
-    #[Route('/account/{accountId}/wallet/{walletId}/create-next/{year}/{month}', name: 'account_wallet_create_next_month')]
-    public function createNextMonthWallet(int $accountId, int $walletId, int $year, int $month): Response
+    #[Route('/account/{account}/wallet/{wallet}/create-next/{year}/{month}', name: 'account_wallet_create_next_month')]
+    #[IsGranted('ACCESS_ACCOUNT', subject: 'account')]
+    #[IsGranted('ACCESS_WALLET', subject: 'wallet')]
+    public function createNextMonthWallet(Account $account, Wallet $wallet, int $year, int $month): Response
     {
-        $account = $this->entityAccessService->getAccountWithAccessCheck($accountId);
-        if (!$account instanceof Account) {
-            return $this->redirectToRoute('account_list');
-        }
-
-        $wallet = $this->entityAccessService->getWalletWithAccessCheck($walletId);
-        if (!$wallet instanceof Wallet) {
-            return $this->redirectToRoute('account_list');
-        }
-
         return $this->createAdjacentMonthWallet($account, $wallet, $year, $month, 'next');
     }
 
-    #[Route('/account/{accountId}/wallet/{walletId}/delete/{year}/{month}/{redirectTo?}', name: 'account_wallet_delete_month')]
-    public function deleteWalletAndRelations(int $accountId, int $walletId, int $year, int $month): RedirectResponse
+    #[Route('/account/{account}/wallet/{wallet}/delete/{year}/{month}/{redirectTo?}', name: 'account_wallet_delete_month')]
+    #[IsGranted('ACCESS_ACCOUNT', subject: 'account')]
+    #[IsGranted('ACCESS_WALLET', subject: 'wallet')]
+    public function deleteWalletAndRelations(Account $account, Wallet $wallet, int $year, int $month): RedirectResponse
     {
-        $account = $this->entityAccessService->getAccountWithAccessCheck($accountId);
-        if (!$account instanceof Account) {
-            return $this->redirectToRoute('account_list');
-        }
-
-        $wallet = $this->entityAccessService->getWalletWithAccessCheck($walletId);
-        if (!$wallet instanceof Wallet) {
-            return $this->redirectToRoute('account_list');
-        }
-
-        $user = $account->getUser();
         $accountId = $account->getId();
         if (null === $accountId) {
             throw new LogicException('Account ID cannot be null');
@@ -304,8 +249,8 @@ final class WalletAccountController extends AbstractController
             $this->addFlash('error', sprintf('An error occurred while deleting the wallet: %s', $exception->getMessage()));
 
             return $this->redirectToRoute('account_wallet_dashboard', [
-                'walletId' => $walletId,
-                'accountId' => $accountId,
+                'wallet' => $wallet->getId(),
+                'account' => $account->getId(),
                 'year' => $year,
                 'month' => $month,
             ]);
@@ -320,14 +265,11 @@ final class WalletAccountController extends AbstractController
         ]);
     }
 
-    #[Route('/account/{accountId}/wallet/reset-balance/{year}/{month}', name: 'account_wallet_reset_balance')]
-    public function resetStartBalance(int $accountId, int $year, int $month): RedirectResponse
+    #[Route('/account/{account}/wallet/{wallet}/reset-balance/{year}/{month}', name: 'account_wallet_reset_balance')]
+    #[IsGranted('ACCESS_ACCOUNT', subject: 'account')]
+    #[IsGranted('ACCESS_WALLET', subject: 'wallet')]
+    public function resetStartBalance(Account $account, Wallet $wallet, int $year, int $month): RedirectResponse
     {
-        $account = $this->accountCheckerService->getAccountOrThrow($accountId);
-        if (!$this->isGranted(AccountVoter::ACCESS_ACCOUNT, $account)) {
-            return $this->redirectToRoute('account_list');
-        }
-
         $user = $account->getUser();
 
         try {
@@ -338,22 +280,18 @@ final class WalletAccountController extends AbstractController
         }
 
         return $this->redirectToRoute('account_wallet_dashboard', [
-            'accountId' => $accountId,
+            'account' => $account->getId(),
+            'wallet' => $wallet->getId(),
             'year' => $year,
             'month' => $month,
         ]);
     }
 
-    #[Route('/account/{accountId}/wallet/copy-left-to-spend/{year}/{month}', name: 'account_wallet_copy_left_to_spend')]
-    public function copyLeftToSpend(int $accountId, int $year, int $month): RedirectResponse
+    #[Route('/account/{account}/wallet/{wallet}/copy-left-to-spend/{year}/{month}', name: 'account_wallet_copy_left_to_spend')]
+    #[IsGranted('ACCESS_ACCOUNT', subject: 'account')]
+    #[IsGranted('ACCESS_WALLET', subject: 'wallet')]
+    public function copyLeftToSpend(Account $account, Wallet $wallet, int $year, int $month): RedirectResponse
     {
-        $account = $this->entityAccessService->getAccountWithAccessCheck($accountId);
-        if (!$account instanceof Account) {
-            return $this->redirectToRoute('account_list');
-        }
-
-        $wallet = $this->walletCheckerService->getWalletOrThrow($accountId, $year, $month);
-
         try {
             $this->walletTransactionService->copyLeftToSpendFromPreviousMonth($wallet);
             $this->addFlash('success', sprintf('Left to spend from previous month copied successfully for %s %d.', MonthEnum::from($month)->getName(), $year));
@@ -361,27 +299,29 @@ final class WalletAccountController extends AbstractController
             $this->addFlash('error', sprintf('An error occurred while copying left to spend from previous month: %s', $exception->getMessage()));
 
             return $this->redirectToRoute('account_wallet_dashboard', [
-                'walletId' => $wallet->getId(),
-                'accountId' => $wallet->getAccount()->getId(),
+                'wallet' => $wallet->getId(),
+                'account' => $account->getId(),
                 'year' => $year,
                 'month' => $month,
             ]);
         }
 
         return $this->redirectToRoute('account_wallet_dashboard', [
-            'walletId' => $wallet->getId(),
-            'accountId' => $wallet->getAccount()->getId(),
+            'wallet' => $wallet->getId(),
+            'account' => $wallet->getAccount()->getId(),
             'year' => $year,
             'month' => $month,
         ]);
     }
 
-    #[Route('/account/{accountId}/wallet/chart/data', name: 'account_wallet_chart_data', methods: ['GET'])]
-    public function getChartData(Request $request, int $accountId): JsonResponse
+    #[Route('/account/{account}/wallet/{wallet}/chart/data', name: 'account_wallet_chart_data', methods: ['GET'])]
+    #[IsGranted('ACCESS_ACCOUNT', subject: 'account')]
+    #[IsGranted('ACCESS_WALLET', subject: 'wallet')]
+    public function getChartData(Request $request, Account $account): JsonResponse
     {
-        $account = $this->entityAccessService->getAccountWithAccessCheck($accountId);
-        if (!$account instanceof Account) {
-            return new JsonResponse(['error' => 'Account not found or not accessible.']);
+        $accountId = $account->getId();
+        if (null === $accountId) {
+            throw new NotFoundResourceException('Account not found');
         }
 
         $chartType = $request->query->get('type');
@@ -426,8 +366,8 @@ final class WalletAccountController extends AbstractController
         $previousWallet = $this->walletRepository->findWalletByAccountYearAndMonth($accountId, $previousMonth['year'], $previousMonth['month']);
         if ($previousWallet instanceof Wallet) {
             return $this->redirectToRoute('account_wallet_dashboard', [
-                'accountId' => $previousWallet->getAccount()->getId(),
-                'walletId' => $previousWallet->getId(),
+                'account' => $previousWallet->getAccount()->getId(),
+                'wallet' => $previousWallet->getId(),
                 'year' => $previousMonth['year'],
                 'month' => $previousMonth['month'],
             ]);
@@ -436,8 +376,8 @@ final class WalletAccountController extends AbstractController
         $nextWallet = $this->walletRepository->findWalletByAccountYearAndMonth($accountId, $nextMonth['year'], $nextMonth['month']);
         if ($nextWallet instanceof Wallet) {
             return $this->redirectToRoute('account_wallet_dashboard', [
-                'accountId' => $nextWallet->getAccount()->getId(),
-                'walletId' => $nextWallet->getId(),
+                'account' => $nextWallet->getAccount()->getId(),
+                'wallet' => $nextWallet->getId(),
                 'year' => $nextMonth['year'],
                 'month' => $nextMonth['month'],
             ]);
@@ -470,8 +410,8 @@ final class WalletAccountController extends AbstractController
                 );
 
                 return $this->redirectToRoute('account_wallet_dashboard', [
-                    'walletId' => $walletId,
-                    'accountId' => $accountId,
+                    'wallet' => $walletId,
+                    'account' => $accountId,
                     'year' => $adjacentYear,
                     'month' => $adjacentMonthEnum->value,
                 ]);
@@ -494,27 +434,15 @@ final class WalletAccountController extends AbstractController
         }
 
         return $this->redirectToRoute('account_wallet_dashboard', [
-            'walletId' => $wallet->getId(),
-            'accountId' => $accountId,
+            'wallet' => $wallet->getId(),
+            'account' => $accountId,
             'year' => $adjacentYear,
             'month' => $adjacentMonthEnum->value,
         ]);
     }
 
-    private function copyPreviousMonthTransactions(int $accountId, int $year, int $month, TransactionCategoryEnum $category, string $successMessage): Response
+    private function copyPreviousMonthTransactions(Wallet $wallet, int $year, int $month, TransactionCategoryEnum $category, string $successMessage): Response
     {
-        $account = $this->entityAccessService->getAccountWithAccessCheck($accountId);
-        if (!$account instanceof Account) {
-            return $this->redirectToRoute('account_list');
-        }
-
-        $account = $this->accountCheckerService->getAccountOrThrow($accountId);
-        if (!$this->isGranted(AccountVoter::ACCESS_ACCOUNT, $account)) {
-            return $this->redirectToRoute('account_list');
-        }
-
-        $wallet = $this->walletCheckerService->getWalletOrThrow($accountId, $year, $month);
-
         try {
             $this->walletTransactionService->copyTransactionsFromPreviousMonth($wallet, $category);
             $this->addFlash('success', $successMessage);
@@ -523,8 +451,8 @@ final class WalletAccountController extends AbstractController
         }
 
         return $this->redirectToRoute('account_wallet_dashboard', [
-            'walletId' => $wallet->getId(),
-            'accountId' => $wallet->getAccount()->getId(),
+            'wallet' => $wallet->getId(),
+            'account' => $wallet->getAccount()->getId(),
             'year' => $year,
             'month' => $month,
         ]);

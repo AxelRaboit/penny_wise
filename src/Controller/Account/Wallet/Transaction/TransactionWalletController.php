@@ -11,7 +11,6 @@ use App\Form\Transaction\TransactionForWalletType;
 use App\Manager\Account\Wallet\Transaction\WalletTransactionCreationManager;
 use App\Manager\Account\Wallet\Transaction\WalletTransactionDeleteManager;
 use App\Manager\Account\Wallet\Transaction\WalletTransactionManager;
-use App\Service\EntityAccessService;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,6 +18,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 final class TransactionWalletController extends AbstractController
 {
@@ -27,22 +27,13 @@ final class TransactionWalletController extends AbstractController
         private readonly WalletTransactionManager $walletTransactionManager,
         private readonly WalletTransactionDeleteManager $walletTransactionDeleteManager,
         private readonly WalletTransactionCreationManager $walletTransactionCreationManager,
-        private readonly EntityAccessService $entityAccessService,
     ) {}
 
-    #[Route('/account/{accountId}/wallet/{walletId}/transaction/new', name: 'new_transaction_wallet')]
-    public function newForWallet(int $accountId, int $walletId, Request $request): Response
+    #[Route('/account/{account}/wallet/{wallet}/transaction/new', name: 'new_transaction_wallet')]
+    #[IsGranted('ACCESS_ACCOUNT', subject: 'account')]
+    #[IsGranted('ACCESS_WALLET', subject: 'wallet')]
+    public function newForWallet(Account $account, Wallet $wallet, Request $request): Response
     {
-        $account = $this->entityAccessService->getAccountWithAccessCheck($accountId);
-        if (!$account instanceof Account) {
-            return $this->redirectToRoute('account_list');
-        }
-
-        $wallet = $this->entityAccessService->getWalletWithAccessCheck($walletId);
-        if (!$wallet instanceof Wallet) {
-            return $this->redirectToRoute('account_list');
-        }
-
         $user = $wallet->getUser();
 
         $transaction = $this->walletTransactionCreationManager->beginTransactionCreationWithWallet($wallet, $user);
@@ -56,7 +47,7 @@ final class TransactionWalletController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->walletTransactionCreationManager->saveTransactionWallet($transaction);
 
-            return $this->redirectToWalletDashboard($wallet);
+            return $this->redirectToWalletDashboard($wallet, $account);
         }
 
         return $this->render('account/wallet/dashboard/transaction/new.html.twig', [
@@ -67,19 +58,11 @@ final class TransactionWalletController extends AbstractController
         ]);
     }
 
-    #[Route('/account/{accountId}/wallet/{walletId}/transaction/new/category/{category}', name: 'new_transaction_wallet_with_category')]
-    public function newForWalletWithCategory(Request $request, int $accountId, int $walletId, string $category): Response
+    #[Route('/account/{account}/wallet/{wallet}/transaction/new/category/{category}', name: 'new_transaction_wallet_with_category')]
+    #[IsGranted('ACCESS_ACCOUNT', subject: 'account')]
+    #[IsGranted('ACCESS_WALLET', subject: 'wallet')]
+    public function newForWalletWithCategory(Request $request, Account $account, Wallet $wallet, string $category): Response
     {
-        $account = $this->entityAccessService->getAccountWithAccessCheck($accountId);
-        if (!$account instanceof Account) {
-            return $this->redirectToRoute('account_list');
-        }
-
-        $wallet = $this->entityAccessService->getWalletWithAccessCheck($walletId);
-        if (!$wallet instanceof Wallet) {
-            return $this->redirectToRoute('account_list');
-        }
-
         $user = $wallet->getUser();
         $transaction = $this->walletTransactionCreationManager->beginTransactionWithWalletAndCategoryCreation($wallet, $user, $category);
 
@@ -93,7 +76,7 @@ final class TransactionWalletController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->walletTransactionCreationManager->saveTransactionWallet($transaction);
 
-            return $this->redirectToWalletDashboard($wallet);
+            return $this->redirectToWalletDashboard($wallet, $account);
         }
 
         return $this->render('account/wallet/dashboard/transaction/new.html.twig', [
@@ -104,26 +87,12 @@ final class TransactionWalletController extends AbstractController
         ]);
     }
 
-    #[Route('/account/{accountId}/wallet/{walletId}/transaction/{transactionId}/delete', name: 'delete_transaction_wallet')]
-    public function delete(int $accountId, int $walletId, int $transactionId): RedirectResponse
+    #[Route('/account/{account}/wallet/{wallet}/transaction/{transaction}/delete', name: 'delete_transaction_wallet')]
+    #[IsGranted('ACCESS_ACCOUNT', subject: 'account')]
+    #[IsGranted('ACCESS_WALLET', subject: 'wallet')]
+    #[IsGranted('ACCESS_TRANSACTION', subject: 'transaction')]
+    public function delete(Account $account, Wallet $wallet, Transaction $transaction): RedirectResponse
     {
-        $account = $this->entityAccessService->getAccountWithAccessCheck($accountId);
-        if (!$account instanceof Account) {
-            return $this->redirectToRoute('account_list');
-        }
-
-        $wallet = $this->entityAccessService->getWalletWithAccessCheck($walletId);
-        if (!$wallet instanceof Wallet) {
-            return $this->redirectToRoute('account_list');
-        }
-
-        $transaction = $this->entityAccessService->getTransactionWithAccessCheck($transactionId);
-        if (!$transaction instanceof Transaction) {
-            return $this->redirectToRoute('account_list');
-        }
-
-        $wallet = $transaction->getWallet();
-
         try {
             $this->walletTransactionManager->deleteTransaction($transaction);
             $this->addFlash('success', 'Transaction deleted successfully.');
@@ -131,54 +100,28 @@ final class TransactionWalletController extends AbstractController
             $this->addFlash('error', sprintf('Error deleting transaction: %s', $exception->getMessage()));
         }
 
-        return $this->redirectToWalletDashboard($wallet);
+        return $this->redirectToWalletDashboard($wallet, $account);
     }
 
-    #[Route('/account/{accountId}/wallet/{walletId}/transaction/{transactionId}/show', name: 'show_transaction_from_wallet')]
-    public function viewTransaction(int $accountId, int $walletId, int $transactionId): Response
+    #[Route('/account/{account}/wallet/{wallet}/transaction/{transaction}/show', name: 'show_transaction_from_wallet')]
+    #[IsGranted('ACCESS_ACCOUNT', subject: 'account')]
+    #[IsGranted('ACCESS_WALLET', subject: 'wallet')]
+    #[IsGranted('ACCESS_TRANSACTION', subject: 'transaction')]
+    public function viewTransaction(Account $account, Wallet $wallet, Transaction $transaction): Response
     {
-        $account = $this->entityAccessService->getAccountWithAccessCheck($accountId);
-        if (!$account instanceof Account) {
-            return $this->redirectToRoute('account_list');
-        }
-
-        $wallet = $this->entityAccessService->getWalletWithAccessCheck($walletId);
-        if (!$wallet instanceof Wallet) {
-            return $this->redirectToRoute('account_list');
-        }
-
-        $transaction = $this->entityAccessService->getTransactionWithAccessCheck($transactionId);
-        if (!$transaction instanceof Transaction) {
-            return $this->redirectToRoute('account_list');
-        }
-
         return $this->render('account/wallet/dashboard/transaction/show.html.twig', [
             'transaction' => $transaction,
             'wallet' => $wallet,
-            'account' => $wallet->getAccount(),
+            'account' => $account,
         ]);
     }
 
-    #[Route('/account/{accountId}/wallet/{walletId}/transaction/{transactionId}/edit', name: 'edit_transaction_from_wallet')]
-    public function editTransactionForWallet(int $accountId, int $walletId, int $transactionId, Request $request): Response
+    #[Route('/account/{account}/wallet/{wallet}/transaction/{transaction}/edit', name: 'edit_transaction_from_wallet')]
+    #[IsGranted('ACCESS_ACCOUNT', subject: 'account')]
+    #[IsGranted('ACCESS_WALLET', subject: 'wallet')]
+    #[IsGranted('ACCESS_TRANSACTION', subject: 'transaction')]
+    public function editTransactionForWallet(Account $account, Wallet $wallet, Transaction $transaction, Request $request): Response
     {
-        $account = $this->entityAccessService->getAccountWithAccessCheck($accountId);
-        if (!$account instanceof Account) {
-            return $this->redirectToRoute('account_list');
-        }
-
-        $wallet = $this->entityAccessService->getWalletWithAccessCheck($walletId);
-        if (!$wallet instanceof Wallet) {
-            return $this->redirectToRoute('account_list');
-        }
-
-        $transaction = $this->entityAccessService->getTransactionWithAccessCheck($transactionId);
-        if (!$transaction instanceof Transaction) {
-            return $this->redirectToRoute('account_list');
-        }
-
-        $wallet = $transaction->getWallet();
-
         $form = $this->createForm(TransactionForWalletType::class, $transaction, [
             'wallet' => $wallet,
         ]);
@@ -189,7 +132,7 @@ final class TransactionWalletController extends AbstractController
             $this->entityManager->flush();
             $this->addFlash('success', 'Transaction updated successfully.');
 
-            return $this->redirectToWalletDashboard($wallet);
+            return $this->redirectToWalletDashboard($wallet, $account);
         }
 
         return $this->render('account/wallet/dashboard/transaction/edit.html.twig', [
@@ -199,32 +142,24 @@ final class TransactionWalletController extends AbstractController
         ]);
     }
 
-    #[Route('/account/{accountId}/wallet/{walletId}/transaction/delete-category/{category}', name: 'delete_all_transactions_from_specific_category')]
-    public function deleteTransactionCategory(int $accountId, int $walletId, string $category): RedirectResponse
+    #[Route('/account/{account}/wallet/{wallet}/transaction/delete-category/{category}', name: 'delete_all_transactions_from_specific_category')]
+    #[IsGranted('ACCESS_ACCOUNT', subject: 'account')]
+    #[IsGranted('ACCESS_WALLET', subject: 'wallet')]
+    public function deleteTransactionCategory(Account $account, Wallet $wallet, Transaction $transaction, string $category): RedirectResponse
     {
-        $account = $this->entityAccessService->getAccountWithAccessCheck($accountId);
-        if (!$account instanceof Account) {
-            return $this->redirectToRoute('account_list');
-        }
-
-        $wallet = $this->entityAccessService->getWalletWithAccessCheck($walletId);
-        if (!$wallet instanceof Wallet) {
-            return $this->redirectToRoute('account_list');
-        }
-
         $this->deleteTransactionsByCategory($wallet, $category);
 
-        return $this->redirectToWalletDashboard($wallet);
+        return $this->redirectToWalletDashboard($wallet, $account);
     }
 
     /**
      * Redirect to wallet dashboard.
      */
-    private function redirectToWalletDashboard(Wallet $wallet): RedirectResponse
+    private function redirectToWalletDashboard(Wallet $wallet, Account $account): RedirectResponse
     {
         return $this->redirectToRoute('account_wallet_dashboard', [
-            'walletId' => $wallet->getId(),
-            'accountId' => $wallet->getAccount()->getId(),
+            'wallet' => $wallet->getId(),
+            'account' => $account->getId(),
             'year' => $wallet->getYear(),
             'month' => $wallet->getMonth(),
         ]);

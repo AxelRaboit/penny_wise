@@ -11,7 +11,7 @@
                             {% if i in monthNumbers %}
                                 {% for monthDto in yearDto.getMonths() %}
                                     {% if monthDto.getMonthNumber() == i %}
-                                        <a href="{{ path('account_wallet_dashboard', {year: yearDto.getYear(), month: monthDto.getMonthNumber(), accountId: account.id, walletId: monthDto.getWalletId()}) }}"
+                                        <a href="{{ path('account_wallet_dashboard', {year: yearDto.getYear(), month: monthDto.getMonthNumber(), account: account.id, wallet: monthDto.getWalletId()}) }}"
                                            class="text-sm text-center font-bold py-2 px-4 rounded-md text-white
                                                 {% if monthDto.getMonthNumber() == currentMonth and yearDto.getYear() == currentYear %}
                                                     bg-accent-primary hover:bg-accent-primary-hover text-center mb-1 border-solid border border-accent-primary-ring
@@ -23,7 +23,7 @@
                                     {% endif %}
                                 {% endfor %}
                             {% else %}
-                                <a href="{{ path('account_wallet_add_quick_month', {accountId: account.getId(), yearId: yearDto.getYear(), monthId: i}) }}"
+                                <a href="{{ path('account_wallet_add_quick_month', {account: account.getId(), yearId: yearDto.getYear(), monthId: i}) }}"
                                    class="text-sm text-center font-bold py-2 px-4 rounded-md border-dashed border border-quaternary hover:bg-primary-hover text-white">
                                     {{ i|month_name }}
                                 </a>

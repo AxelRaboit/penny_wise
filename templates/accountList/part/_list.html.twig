@@ -14,12 +14,12 @@
                     {% endif %}
                 </div>
                 <div class="flex items-center space-x-1">
-                    <a href="{{ path('account_edit', {accountId: account.getId()}) }}"
+                    <a href="{{ path('account_edit', {account: account.getId()}) }}"
                        class="rounded-md text-senary hover:bg-secondary-hover py-1 px-2">
                         <i class="fa-solid fa-pen text-sm"></i>
                     </a>
                     <button type="button"
-                            data-action-url="{{ path('account_delete', {accountId: account.getId()}) }}"
+                            data-action-url="{{ path('account_delete', {account: account.getId()}) }}"
                             class="js-delete-account-button rounded-md text-senary hover:bg-secondary-hover text-sm py-1 px-2">
                         <i class="fa-solid fa-trash-can text-sm"></i>
                     </button>
@@ -32,7 +32,7 @@
                         <div class="text-center bg-tertiary rounded-t-md relative" x-data="{ hover: false }" @mouseenter="hover = true" @mouseleave="hover = false">
                             <h2 class="text-md font-bold p-2 text-white">{{ year.getYear() }}</h2>
                             <button type="button"
-                                    data-action-url="{{ path('account_year_delete', {accountId: account.getId(), year: year.getYear()}) }}"
+                                    data-action-url="{{ path('account_year_delete', {account: account.getId(), year: year.getYear()}) }}"
                                     class="js-delete-year-button absolute -top-2 -right-2 w-6 h-6 bg-quaternary hover:bg-quaternary-hover text-white rounded-md flex items-center justify-center text-xs hover:bg-danger-hover shadow-lg z-10"
                                     x-show="hover" x-transition.opacity>
                                 <i class="fa-solid fa-trash-can"></i>
@@ -49,12 +49,12 @@
                                         {% for month in months %}
                                             {% if month.getMonthNumber() == i %}
                                                 <div class="relative" x-data="{ hover: false }" @mouseenter="hover = true" @mouseleave="hover = false">
-                                                    <a href="{{ path('account_wallet_dashboard', {year: year.getYear(), month: month.getMonthNumber(), accountId: account.getId(), walletId: month.getWalletId()}) }}"
+                                                    <a href="{{ path('account_wallet_dashboard', {year: year.getYear(), month: month.getMonthNumber(), account: account.getId(), wallet: month.getWalletId()}) }}"
                                                        class="block text-sm font-bold py-2 px-4 rounded-md bg-quaternary hover:bg-quaternary-hover text-white text-center mb-1 border-solid border border-quaternary-ring">
                                                         {{ month.getMonthName() }}
                                                     </a>
                                                     <button type="button"
-                                                            data-action-url="{{ path('account_list_wallet_delete_month', {accountId: account.getId(), year: year.getYear(), month: month.getMonthNumber(), walletId: month.getWalletId(), redirectTo: 'account_list'}) }}"
+                                                            data-action-url="{{ path('account_list_wallet_delete_month', {account: account.getId(), year: year.getYear(), month: month.getMonthNumber(), wallet: month.getWalletId(), redirectTo: 'account_list'}) }}"
                                                             class="js-delete-wallet-button absolute -top-2 -right-2 w-6 h-6 bg-quaternary hover:bg-quaternary-hover border border-solid border-quaternary-ring text-white rounded-md flex items-center justify-center text-xs z-10"
                                                             x-show="hover" x-transition.opacity>
                                                         <i class="fa-solid fa-trash-can"></i>
@@ -64,7 +64,7 @@
                                         {% endfor %}
                                     {% else %}
                                         <div class="relative">
-                                            <a href="{{ path('account_wallet_add_quick_month', {accountId: account.getId(), yearId: year.getYear(), monthId: i}) }}"
+                                            <a href="{{ path('account_wallet_add_quick_month', {account: account.getId(), yearId: year.getYear(), monthId: i}) }}"
                                                class="block text-sm font-bold py-2 px-4 rounded-md text-white text-center mb-1 border-dashed border border-quaternary hover:bg-primary-hover">
                                                 {{ i|month_name }}
                                             </a>
@@ -77,7 +77,7 @@
                 {% endfor %}
 
                 <div class="w-full flex-2 lg:flex-1 p-1 rounded-md">
-                    <a href="{{ path('account_new_wallet', {accountId: account.getId()}) }}"
+                    <a href="{{ path('account_new_wallet', {account: account.getId()}) }}"
                        class="flex items-center justify-center min-h-[240px] text-white text-center rounded-md p-4 border-dashed border border-quaternary hover:bg-primary-hover h-full">
                         <i class="fa-solid fa-plus text-3xl text-quaternary"></i>
                     </a>
