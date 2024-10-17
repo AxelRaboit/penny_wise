@@ -63,6 +63,7 @@ final class AccountListController extends AbstractController
         $account = new Account();
         $user = $this->userCheckerService->getUserOrThrow();
         $account->setUser($user);
+        // TODO AXEL: set the account identifier with a random and unique value
         $form = $this->createForm(AccountType::class, $account);
 
         $form->handleRequest($request);
