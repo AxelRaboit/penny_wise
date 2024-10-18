@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Manager\Transaction;
 
 use App\Entity\Transaction;
+use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 
 final readonly class TransactionCreationManager
@@ -16,8 +17,9 @@ final readonly class TransactionCreationManager
         return new Transaction();
     }
 
-    public function saveTransaction(Transaction $transaction): void
+    public function saveTransaction(Transaction $transaction, User $user): void
     {
+        $transaction->setUser($user);
         $this->handleTransactionTags($transaction);
         $this->entityManager->persist($transaction);
         $this->entityManager->flush();

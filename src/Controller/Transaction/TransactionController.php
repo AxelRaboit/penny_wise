@@ -39,11 +39,11 @@ final class TransactionController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->transactionCreationManager->saveTransaction($transaction);
+            $this->transactionCreationManager->saveTransaction($transaction, $user);
 
             return $this->redirectToRoute('account_wallet_dashboard', [
-                'walletId' => $transaction->getWallet()->getId(),
-                'accountId' => $transaction->getWallet()->getAccount()->getId(),
+                'wallet' => $transaction->getWallet()->getId(),
+                'account' => $transaction->getWallet()->getAccount()->getId(),
                 'year' => $transaction->getWallet()->getYear(),
                 'month' => $transaction->getWallet()->getMonth(),
             ]);
