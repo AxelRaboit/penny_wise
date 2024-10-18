@@ -6,8 +6,8 @@
 
 {% block body %}
     <div id="transaction-tag-list-page" class="hidden max-w-screen-xxl mx-auto">
-        <div class="bg-senary shadow-md rounded-md max-w-lg mx-auto mt-6">
-            <div class="bg-secondary text-center py-2 rounded-t-md">
+        <div class="bg-secondary shadow-md rounded-md max-w-lg mx-auto mt-6 border border-quaternary border-solid">
+            <div class="bg-tertiary text-center py-2 rounded-t-md border-b border-quaternary border-solid">
                 <h1 class="text-md font-bold text-white">Transaction Tags</h1>
             </div>
 
@@ -32,18 +32,18 @@
                             </div>
                         </div>
                     {% else %}
-                        <div class="p-4 rounded-md bg-senary text-center">
-                            <span>No transaction tags found.</span>
+                        <div class="p-4 rounded-md bg-tertiary text-center border border-solid border-quaternary">
+                            <span class="text-white">No transaction tags found.</span>
                         </div>
                     {% endfor %}
                 </div>
 
                 <div class="flex justify-between mt-4">
-                    <a href="{{ app.request.headers.get('referer') ?: path('account_list') }}" class="bg-primary hover:bg-primary-hover text-white font-bold py-2 px-4 rounded-md">
+                    <a href="{{ app.request.headers.get('referer') ?: path('account_list') }}" class="bg-quaternary hover:bg-quaternary-hover border-solid border border-quaternary-ring text-white font-bold py-2 px-4 rounded-md">
                         <i class="fa-solid fa-arrow-left"></i> Back
                     </a>
 
-                    <a href="{{ path('transaction_tag_new') }}" class="bg-secondary hover:bg-secondary-hover text-white font-bold py-2 px-4 rounded-md">
+                    <a href="{{ path('transaction_tag_new') }}" class="bg-accent-primary hover:bg-accent-primary-hover text-white font-bold py-2 px-4 rounded-md">
                         <i class="fa-solid fa-plus"></i> Add Tag
                     </a>
                 </div>
