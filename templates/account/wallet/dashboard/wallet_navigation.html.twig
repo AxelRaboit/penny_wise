@@ -21,8 +21,8 @@
             <a href="{{ path('account_wallet_dashboard', {
                 year: currentYear,
                 month: navigationNextWallet.getMonthNumber(),
-                accountId: account.id,
-                walletId: navigationNextWallet.getWalletId()
+                account: account.id,
+                wallet: navigationNextWallet.getWalletId()
             }) }}" class="bg-quaternary hover:bg-quaternary-hover text-white border-solid border border-quaternary-ring py-2 px-4 rounded-md font-bold text-xs">
                 Next <i class="fa-solid fa-chevron-right"></i>
             </a>
