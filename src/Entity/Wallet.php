@@ -16,9 +16,8 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: WalletRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-#[ORM\Table(name: 'wallet', uniqueConstraints: [
-    new ORM\UniqueConstraint(name: 'account_year_month_unique', columns: ['account_id', 'year', 'month']),
-])]
+#[ORM\Table(name: 'wallet')]
+#[ORM\UniqueConstraint(name: 'account_year_month_unique', columns: ['account_id', 'year', 'month'])]
 class Wallet
 {
     use TimestampableTrait;

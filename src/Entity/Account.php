@@ -14,8 +14,9 @@ use Doctrine\ORM\Mapping as ORM;
 class Account
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
+    #[ORM\SequenceGenerator(sequenceName: 'account_id_seq', allocationSize: 1, initialValue: 1)]
+    #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
 
     /**

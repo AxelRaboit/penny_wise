@@ -13,8 +13,9 @@ use Doctrine\ORM\Mapping as ORM;
 class Note
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
+    #[ORM\SequenceGenerator(sequenceName: 'note_id_seq', allocationSize: 1, initialValue: 1)]
+    #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
 
     #[ORM\Column(length: 100, nullable: true)]
