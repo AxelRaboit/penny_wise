@@ -26,6 +26,7 @@ final class TransactionController extends AbstractController
     #[Route('/transaction/new', name: 'new_transaction')]
     public function new(Request $request): Response
     {
+        // TODO AXEL: Need to refactor the way we retrieve the user and handleHasNoWallet by using Attributes
         $user = $this->userCheckerService->getUserOrThrow();
         if (!$this->handleUserHasNoWallet($user)) {
             return $this->redirectToRoute('account_list');

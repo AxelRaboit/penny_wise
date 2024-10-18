@@ -19,7 +19,7 @@ final readonly class TransactionCreationManager
 
     public function saveTransaction(Transaction $transaction, User $user): void
     {
-        $transaction->setUser($user);
+        $this->handleUser($transaction, $user);
         $this->handleTransactionTags($transaction);
         $this->entityManager->persist($transaction);
         $this->entityManager->flush();
@@ -33,5 +33,10 @@ final readonly class TransactionCreationManager
 
         $this->entityManager->persist($transaction);
         $this->entityManager->flush();
+    }
+
+    private function handleUser(Transaction $transaction, User $user): void
+    {
+        $transaction->setUser($user);
     }
 }
