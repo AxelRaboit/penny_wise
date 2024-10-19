@@ -27,11 +27,11 @@
     <div class="flex items-center flex-col text-white mb-2 w-full">
         <span class="w-full text-sm text-white font-bold mb-2 text-center">Wallet</span>
         <twig:BadgeNeon
-                color="accent-primary"
-                size="sm"
-                borderStyle="solid"
-                label="{{ wallet.getMonth()|month_abbreviation }} {{ wallet.getYear() }}"
-                title="{{ wallet.getMonth()|month_name }} {{ wallet.getYear() }}"
+            color="accent-primary"
+            size="sm"
+            borderStyle="solid"
+            label="{{ wallet.getMonth()|month_abbreviation }} {{ wallet.getYear() }}"
+            title="{{ wallet.getMonth()|month_name }} {{ wallet.getYear() }}"
         />
     </div>
 

@@ -34,19 +34,20 @@
 }) %}
 
 {% set actionUrl = route ? path(route, routeParams) : null %}
+{% set expandedAlpineState = 'expanded' %}
 
 {% if disabled %}
     <span id="{{ id }}" class="{{ buttonClasses.apply({color, size, fullWidth, borderStyle, disabled}) }} {{ extraClasses }}" title="{{ title }}" {{ buttonMacros.renderAlpineAttributes(alpineAttributes) }} {{ attributes|raw }}>
-        {{ buttonMacros.renderContent(icon, label, iconPosition) }}
+        {{ buttonMacros.renderContent(icon, label, iconPosition, expandedAlpineState) }}
     </span>
 {% else %}
     {% if dataActionUrl %}
         <button id="{{ id }}" type="button" class="{{ buttonClasses.apply({color, size, fullWidth, borderStyle}) }} {{ extraClasses }}" title="{{ title }}" data-action-url="{{ actionUrl }}" {{ buttonMacros.renderAlpineAttributes(alpineAttributes) }} {{ attributes|raw }}>
-            {{ buttonMacros.renderContent(icon, label, iconPosition) }}
+            {{ buttonMacros.renderContent(icon, label, iconPosition, expandedAlpineState) }}
         </button>
     {% else %}
         <a href="{{ actionUrl }}" id="{{ id }}" class="{{ buttonClasses.apply({color, size, fullWidth, borderStyle}) }} {{ extraClasses }}" title="{{ title }}" {{ buttonMacros.renderAlpineAttributes(alpineAttributes) }} {{ attributes|raw }}>
-            {{ buttonMacros.renderContent(icon, label, iconPosition) }}
+            {{ buttonMacros.renderContent(icon, label, iconPosition, expandedAlpineState) }}
         </a>
     {% endif %}
 {% endif %}

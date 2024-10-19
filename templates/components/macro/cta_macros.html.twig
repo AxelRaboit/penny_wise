@@ -1,0 +1,27 @@
+{% macro renderAlpineAttributes(attributes) %}
+    {% for key, value in attributes %}
+        {{ key }}="{{ value }}"
+    {% endfor %}
+{% endmacro %}
+
+{% macro renderIcon(icon, label, position) %}
+    {% if icon and position == 'left' %}
+        <i class="fa-solid {{ icon }} {% if label is not empty %}mr-1{% endif %}"></i>
+    {% elseif icon and position == 'right' %}
+        <i class="fa-solid {{ icon }} {% if label is not empty %}ml-1{% endif %}"></i>
+    {% endif %}
+{% endmacro %}
+
+{% macro renderContent(icon, label, iconPosition, expanded = null) %}
+    {% if iconPosition == 'left' %}
+        {{ _self.renderIcon(icon, label, 'left') }}
+        {% if label is not empty %}
+            <span class="text-white" {% if expanded is not null %}x-show="{{ expanded }}" x-transition{% endif %}>{{ label }}</span>
+        {% endif %}
+    {% else %}
+        {% if label is not empty %}
+            <span class="text-white" {% if expanded is not null %}x-show="{{ expanded }}" x-transition{% endif %}>{{ label }}</span>
+        {% endif %}
+        {{ _self.renderIcon(icon, label, 'right') }}
+    {% endif %}
+{% endmacro %}
