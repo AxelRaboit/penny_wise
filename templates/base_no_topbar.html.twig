@@ -7,16 +7,24 @@
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
         <script src="https://kit.fontawesome.com/582e93cff3.js" crossorigin="anonymous"></script>
         {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+            {{ encore_entry_link_tags('base') }}
             {{ encore_entry_link_tags('base_no_topbar') }}
         {% endblock %}
 
         {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+            {{ encore_entry_script_tags('base') }}
             {{ encore_entry_script_tags('base_no_topbar') }}
         {% endblock %}
     </head>
     <body>
-        <div id="app">
+        <div id="base-no-topbar-page" class="hidden">
             {% block body %}{% endblock %}
         </div>
+
+        {% block loadingSpinner %}
+            {{ include('components/spinner/page-spinner.html.twig', {spinnerId: 'loadingPageSpinner'}) }}
+        {% endblock %}
     </body>
 </html>
