@@ -20,7 +20,7 @@
         </div>
     {% endif %}
 
-    <div id="{{ chartId }}" class="pb-4 bg-white rounded-b-md">
+    <div id="{{ chartId }}" class="pb-4 bg-white rounded-b-md flex justify-center items-center">
         {% if chart is defined and chart is not null and chart.data.isDataPresent %}
             {{ render_chart(chart) }}
         {% elseif chartHtml is defined %}
