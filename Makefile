@@ -87,6 +87,18 @@ form:
 test:
 	$(PHP) $(BIN_UNIT) --testdox --debug
 
+fix:
+	make fix-twig
+	make rector-fix
+	make fix-php
+	make stan
+	make rector-fix
+	make fix-php
+
+prepare:
+	make fix
+	make test
+
 stan:
 	@$(PHP_STAN) analyse -c phpstan.neon --memory-limit 1G
 
