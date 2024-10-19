@@ -1,13 +1,13 @@
 {% for button in buttons %}
-    <twig:Cta
-            id="{{ button.id }}"
-            color="quaternary"
-            size="md"
-            fullWidth="false"
-            extraClasses="mb-2"
-            icon="{{ button.icon }}"
-            label="{{ button.text is defined ? button.text : '' }}"
-            title="{{ button.title }}"
-            dataActionUrl="true"
+    <twig:cva:CtaComponent
+        id="{{ button.id }}"
+        color="quaternary"
+        size="md"
+        fullWidth="false"
+        extraClasses="mb-2"
+        icon="{{ button.icon }}"
+        label="{{ button.text is defined ? button.text : '' }}"
+        title="{{ button.title }}"
+        dataActionUrl="true"
     />
 {% endfor %}

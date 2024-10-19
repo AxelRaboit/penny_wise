@@ -1,7 +1,7 @@
 <div class="flex justify-end mb-4">
     <div class="space-x-2">
         {% if navigationPreviousWallet %}
-            <twig:Cta
+            <twig:cva:CtaComponent
                 color="quaternary"
                 size="xs"
                 fullWidth="false"
@@ -16,18 +16,18 @@
                 label="Previous"
             />
         {% else %}
-            <twig:Cta
-                    color="quaternary"
-                    size="xs"
-                    fullWidth="false"
-                    icon="fa-chevron-left"
-                    label="Previous"
-                    disabled="true"
+            <twig:cva:CtaComponent
+                color="quaternary"
+                size="xs"
+                fullWidth="false"
+                icon="fa-chevron-left"
+                label="Previous"
+                disabled="true"
             />
         {% endif %}
 
         {% if navigationNextWallet %}
-            <twig:Cta
+            <twig:cva:CtaComponent
                 color="quaternary"
                 size="xs"
                 fullWidth="false"
@@ -43,16 +43,15 @@
                 label="Next"
             />
         {% else %}
-            <twig:Cta
-                    color="quaternary"
-                    size="xs"
-                    fullWidth="false"
-                    iconPosition="right"
-                    icon="fa-chevron-right"
-                    label="Next"
-                    disabled="true"
+            <twig:cva:CtaComponent
+                color="quaternary"
+                size="xs"
+                fullWidth="false"
+                iconPosition="right"
+                icon="fa-chevron-right"
+                label="Next"
+                disabled="true"
             />
-        </span>
         {% endif %}
     </div>
 </div>
