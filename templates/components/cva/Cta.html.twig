@@ -47,31 +47,26 @@
     {% endif %}
 {% endmacro %}
 
+{% macro renderContent(icon, label, iconPosition) %}
+    {% if iconPosition == 'left' %}
+        {{ _self.renderIcon(icon, label, 'left') }}{{ label }}
+    {% else %}
+        {{ label }}{{ _self.renderIcon(icon, label, 'right') }}
+    {% endif %}
+{% endmacro %}
+
 {% if disabled %}
     <span id="{{ id }}" class="{{ buttonClasses.apply({color, size, fullWidth, borderStyle, disabled}) }} {{ extraClasses }}" title="{{ title }}" {{ _self.renderAlpineAttributes(alpineAttributes) }} {{ attributes|raw }}>
-        {% if iconPosition == 'left' %}
-            {{ _self.renderIcon(icon, label, 'left') }}{{ label }}
-        {% else %}
-            {{ label }}{{ _self.renderIcon(icon, label, 'right') }}
-        {% endif %}
+        {{ _self.renderContent(icon, label, iconPosition) }}
     </span>
 {% else %}
     {% if dataActionUrl %}
         <button id="{{ id }}" type="button" class="{{ buttonClasses.apply({color, size, fullWidth, borderStyle}) }} {{ extraClasses }}" title="{{ title }}" data-action-url="{{ actionUrl }}" {{ _self.renderAlpineAttributes(alpineAttributes) }} {{ attributes|raw }}>
-            {% if iconPosition == 'left' %}
-                {{ _self.renderIcon(icon, label, 'left') }}{{ label }}
-            {% else %}
-                {{ label }}{{ _self.renderIcon(icon, label, 'right') }}
-            {% endif %}
+            {{ _self.renderContent(icon, label, iconPosition) }}
         </button>
     {% else %}
         <a href="{{ actionUrl }}" id="{{ id }}" class="{{ buttonClasses.apply({color, size, fullWidth, borderStyle}) }} {{ extraClasses }}" title="{{ title }}" {{ _self.renderAlpineAttributes(alpineAttributes) }} {{ attributes|raw }}>
-            {% if iconPosition == 'left' %}
-                {{ _self.renderIcon(icon, label, 'left') }}{{ label }}
-            {% else %}
-                {{ label }}{{ _self.renderIcon(icon, label, 'right') }}
-            {% endif %}
+            {{ _self.renderContent(icon, label, iconPosition) }}
         </a>
     {% endif %}
 {% endif %}
-
