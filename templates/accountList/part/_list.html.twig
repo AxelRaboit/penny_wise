@@ -64,18 +64,17 @@
                                                         label="{{ month.getMonthName() }}"
                                                     />
                                                     <twig:Cta
-                                                            color="quaternary"
-                                                            size="xs"
-                                                            fullWidth="false"
-                                                            dataActionUrl="true"
-                                                            :routeParams="{ account: account.getId(), year: year.getYear(), month: month.getMonthNumber(), wallet: month.getWalletId(), redirectTo: 'account_list' }"
-                                                            icon="fa-trash-can"
-                                                            iconPosition="left"
-                                                            extraClasses="js-delete-wallet-button absolute -top-2 -right-2 w-6 h-6 flex items-center justify-center z-10"
-                                                            title="Delete wallet"
-                                                            :alpineAttributes="{ 'x-show': 'hover', 'x-transition.opacity': '' }"
+                                                        color="quaternary"
+                                                        size="xs"
+                                                        fullWidth="false"
+                                                        dataActionUrl="true"
+                                                        :routeParams="{ account: account.getId(), year: year.getYear(), month: month.getMonthNumber(), wallet: month.getWalletId(), redirectTo: 'account_list' }"
+                                                        icon="fa-trash-can"
+                                                        iconPosition="left"
+                                                        extraClasses="js-delete-wallet-button absolute -top-2 -right-2 w-6 h-6 flex items-center justify-center z-10"
+                                                        title="Delete wallet"
+                                                        :alpineAttributes="{ 'x-show': 'hover', 'x-transition.opacity': '' }"
                                                     />
-
                                                 </div>
                                             {% endif %}
                                         {% endfor %}

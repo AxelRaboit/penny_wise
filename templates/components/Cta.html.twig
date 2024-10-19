@@ -31,11 +31,7 @@
     }
 }) %}
 
-{% if route %}
-    {% set actionUrl = path(route, routeParams) %}
-{% else %}
-    {% set actionUrl = null %}
-{% endif %}
+{% set actionUrl = route ? path(route, routeParams) : null %}
 
 {% macro renderAlpineAttributes(attributes) %}
     {% for key, value in attributes %}
@@ -43,36 +39,29 @@
     {% endfor %}
 {% endmacro %}
 
+{% macro renderIcon(icon, label, position) %}
+    {% if icon and position == 'left' %}
+        <i class="fa-solid {{ icon }} {% if label is not empty %}mr-1{% endif %}"></i>
+    {% elseif icon and position == 'right' %}
+        <i class="fa-solid {{ icon }} {% if label is not empty %}ml-1{% endif %}"></i>
+    {% endif %}
+{% endmacro %}
+
 {% if disabled %}
     <span id="{{ id }}" class="{{ buttonClasses.apply({color, size, fullWidth, borderStyle, disabled}) }} {{ extraClasses }}" title="{{ title }}" {{ _self.renderAlpineAttributes(alpineAttributes) }} {{ attributes|raw }}>
-        {% if icon and iconPosition == 'left' %}
-            <i class="fa-solid {{ icon }} mr-1"></i>
-        {% endif %}
+        {{ _self.renderIcon(icon, label, iconPosition) }}
         {{ label }}
-        {% if icon and iconPosition == 'right' %}
-            <i class="fa-solid {{ icon }} ml-1"></i>
-        {% endif %}
     </span>
 {% else %}
     {% if dataActionUrl %}
         <button id="{{ id }}" type="button" class="{{ buttonClasses.apply({color, size, fullWidth, borderStyle}) }} {{ extraClasses }}" title="{{ title }}" data-action-url="{{ actionUrl }}" {{ _self.renderAlpineAttributes(alpineAttributes) }} {{ attributes|raw }}>
-            {% if icon and iconPosition == 'left' %}
-                <i class="fa-solid {{ icon }} mr-1"></i>
-            {% endif %}
+            {{ _self.renderIcon(icon, label, iconPosition) }}
             {{ label }}
-            {% if icon and iconPosition == 'right' %}
-                <i class="fa-solid {{ icon }} ml-1"></i>
-            {% endif %}
         </button>
     {% else %}
         <a href="{{ actionUrl }}" id="{{ id }}" class="{{ buttonClasses.apply({color, size, fullWidth, borderStyle}) }} {{ extraClasses }}" title="{{ title }}" {{ _self.renderAlpineAttributes(alpineAttributes) }} {{ attributes|raw }}>
-            {% if icon and iconPosition == 'left' %}
-                <i class="fa-solid {{ icon }} mr-1"></i>
-            {% endif %}
+            {{ _self.renderIcon(icon, label, iconPosition) }}
             {{ label }}
-            {% if icon and iconPosition == 'right' %}
-                <i class="fa-solid {{ icon }} ml-1"></i>
-            {% endif %}
         </a>
     {% endif %}
 {% endif %}
