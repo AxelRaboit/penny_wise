@@ -1,6 +1,6 @@
 <div class="flex flex-wrap rounded-md">
     <div class="flex justify-end w-full mb-2">
-        <twig:cva:CtaComponent
+        <twig:cva:Cta
             color="accent-primary"
             size="sm"
             fullWidth="false"
@@ -55,7 +55,7 @@
                                         {% for month in months %}
                                             {% if month.getMonthNumber() == i %}
                                                 <div class="relative" x-data="{ hover: false }" @mouseenter="hover = true" @mouseleave="hover = false">
-                                                    <twig:cva:CtaComponent
+                                                    <twig:cva:Cta
                                                         color="quaternary"
                                                         size="md"
                                                         fullWidth="true"
@@ -63,7 +63,7 @@
                                                         :routeParams="{ year: year.getYear(), month: month.getMonthNumber(), account: account.getId(), wallet: month.getWalletId() }"
                                                         label="{{ month.getMonthName() }}"
                                                     />
-                                                    <twig:cva:CtaComponent
+                                                    <twig:cva:Cta
                                                         color="quaternary"
                                                         size="xs"
                                                         fullWidth="false"
@@ -80,7 +80,7 @@
                                         {% endfor %}
                                     {% else %}
                                         <div class="relative">
-                                            <twig:cva:CtaComponent
+                                            <twig:cva:Cta
                                                 color="secondary"
                                                 size="md"
                                                 fullWidth="true"

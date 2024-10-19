@@ -1,6 +1,9 @@
 twig:
     file_name_pattern: '*.twig'
 
+    components:
+        auto_import_namespace: App\Twig\Component
+
 when@test:
     twig:
         strict_variables: true
