@@ -1,5 +1,6 @@
 PHP = php
 SYMFONY = $(PHP) bin/console
+SYMFONY_BIN  = symfony
 COMPOSER = composer
 PNPM = pnpm
 BIN = bin/console
@@ -42,6 +43,11 @@ watch-tailwind:
 watch-webpack:
 	$(WEBPACK_WATCH)
 
+install:
+	$(COMPOSER) install
+	$(PNPM) install
+	make init-tailwind
+
 # === Cache and Debug Commands ===
 cc:
 	$(SYMFONY) cache:clear
@@ -73,6 +79,12 @@ migration-clean:
 
 migrate-all:
 	$(SYMFONY) doctrine:migrations:migrate --no-interaction
+
+migrate-f:
+	$(SYMFONY) doctrine:migrations:migrate --no-interaction
+
+migrate-prev:
+	$(SYMFONY) doctrine:migrations:migrate prev
 
 controller:
 	$(SYMFONY) make:controller
@@ -131,12 +143,19 @@ help:
 	@echo "  make cc-prod              - Clear Symfony production cache"
 	@echo "  make run                  - Start Symfony server"
 	@echo "  make stop                 - Stop Symfony server"
-	@echo "  make migration            - Create new migration"
+	@echo "  make migration            - Create a new migration"
 	@echo "  make migrate              - Run migrations"
-	@echo "  make controller           - Generate new controller"
-	@echo "  make entity               - Generate new entity"
-	@echo "  make form                 - Generate new form"
-	@echo "  make test                 - Run unit tests"
+	@echo "  make migrate-all          - Run all migrations without interaction"
+	@echo "  make migrate-f            - Force migrations to run without interaction"
+	@echo "  make migrate-prev         - Rollback to the previous migration"
+	@echo "  make controller           - Generate a new controller"
+	@echo "  make entity               - Generate a new entity"
+	@echo "  make form                 - Generate a new form"
+	@echo "  make test                 - Run unit tests with testdox output"
+	@echo "  make fix                  - Fix code style issues and run tests"
 	@echo "  make fix-php              - Fix PHP code style"
 	@echo "  make fix-twig             - Fix Twig templates"
 	@echo "  make rector-fix           - Fix code with Rector"
+	@echo "  make lint-php             - Lint PHP code using PHP CS Fixer (dry-run)"
+	@echo "  make lint-twig            - Lint Twig templates"
+	@echo "  make debug-twig-component - Debug Twig components"
