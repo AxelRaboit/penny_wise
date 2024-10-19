@@ -44,6 +44,9 @@ install:
 	$(COMPOSER) install
 	$(PNPM) install
 
+debug-twig-component:
+	$(PHP) $(TWIG_COMPONENT_DEBUG)
+
 # === Cache and Debug Commands ===
 cc:
 	$(PHP_BIN) cache:clear
