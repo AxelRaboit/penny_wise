@@ -1,6 +1,6 @@
 PHP = php
-SYMFONY = $(PHP) bin/console
-SYMFONY_BIN  = symfony
+PHP_BIN = $(PHP) bin/console
+SYMFONY  = symfony
 COMPOSER = composer
 PNPM = pnpm
 BIN = bin/console
@@ -23,9 +23,6 @@ TWIG_COMPONENT_DEBUG = $(BIN) debug:twig-component
 # === Build Commands ===
 all: help
 
-init-tailwind:
-	$(TAILWIND_INITIALIZE)
-
 build-assets: build-tailwind build-webpack
 
 build-tailwind:
@@ -46,17 +43,16 @@ watch-webpack:
 install:
 	$(COMPOSER) install
 	$(PNPM) install
-	make init-tailwind
 
 # === Cache and Debug Commands ===
 cc:
-	$(SYMFONY) cache:clear
+	$(PHP_BIN) cache:clear
 
 cc-prod:
-	$(SYMFONY) cache:clear --env=prod
+	$(PHP_BIN) cache:clear --env=prod
 
 debug-twig-component:
-	$(SYMFONY) debug:twig-component
+	$(PHP_BIN) debug:twig-component
 
 # === Symfony Commands ===
 run:
@@ -66,34 +62,34 @@ stop:
 	$(SYMFONY) server:stop
 
 routes:
-	$(SYMFONY) debug:router --show-controllers
+	$(PHP_BIN) debug:router --show-controllers
 
 migration:
-	$(SYMFONY) make:migration
+	$(PHP_BIN) make:migration
 
 migrate:
-	$(SYMFONY) doctrine:migrations:migrate
+	$(PHP_BIN) doctrine:migrations:migrate
 
 migration-clean:
-	$(SYMFONY) doctrine:migrations:diff
+	$(PHP_BIN) doctrine:migrations:diff
 
 migrate-all:
-	$(SYMFONY) doctrine:migrations:migrate --no-interaction
+	$(PHP_BIN) doctrine:migrations:migrate --no-interaction
 
 migrate-f:
-	$(SYMFONY) doctrine:migrations:migrate --no-interaction
+	$(PHP_BIN) doctrine:migrations:migrate --no-interaction
 
 migrate-prev:
-	$(SYMFONY) doctrine:migrations:migrate prev
+	$(PHP_BIN) doctrine:migrations:migrate prev
 
 controller:
-	$(SYMFONY) make:controller
+	$(PHP_BIN) make:controller
 
 entity:
-	$(SYMFONY) make:entity
+	$(PHP_BIN) make:entity
 
 form:
-	$(SYMFONY) make:form
+	$(PHP_BIN) make:form
 
 # === Test and Lint Commands ===
 test:
@@ -136,7 +132,6 @@ rector-fix:
 .PHONY: help
 help:
 	@echo "Available targets:"
-	@echo "  make init-tailwind        - Initialize Tailwind"
 	@echo "  make build-assets         - Build assets using Webpack and Tailwind"
 	@echo "  make watch-assets         - Watch assets with Webpack and Tailwind"
 	@echo "  make cc                   - Clear Symfony cache"
