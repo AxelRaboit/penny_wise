@@ -38,7 +38,7 @@ module.exports = {
         quinary: {
           DEFAULT: '#31363F',   // Intermediate color between gray and midnight blue
           hover: '#4A4F58',     // Lighter gray for hover
-          ring: '#555B66'       // Lighter ring for focus
+          ring: '#4A515E'       // Dark gray focus ring
         },
         senary: {
           DEFAULT: '#9198A0',   // Soft gray for passive elements
@@ -59,6 +59,11 @@ module.exports = {
           DEFAULT: '#1877F2',   // Facebook blue as default
           hover: '#165EAB',     // Darker Facebook blue for hover
           ring: '#144F8C'       // Facebook blue for focus
+        },
+        'accent-tertiary': {
+          DEFAULT: '#6e5494',   // GitHub violet
+          hover: '#5b4378',     // Darker violet for hover
+          ring: '#4d3766'       // Violet ring for focus
         },
         success: {
           DEFAULT: '#4CAF50',   // Subtle green for success

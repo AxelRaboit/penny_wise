@@ -1,8 +1,14 @@
 <div class="flex flex-wrap rounded-md">
     <div class="flex justify-end w-full mb-2">
-        <a href="{{ path('account_new') }}" class="text-center bg-accent-primary hover:bg-accent-primary-hover border border-accent-primary-ring text-white py-1.5 px-3 rounded-md text-sm">
-            <i class="fa-solid fa-plus mr-1"></i>New Account
-        </a>
+        <twig:Cta
+                color="accent-primary"
+                size="sm"
+                fullWidth="false"
+                route="account_new"
+                label="New Account"
+                icon="fa-plus"
+        />
+
     </div>
     {% for account in accounts %}
         <div class="w-full p-1 rounded-md bg-secondary mb-2">
@@ -49,10 +55,14 @@
                                         {% for month in months %}
                                             {% if month.getMonthNumber() == i %}
                                                 <div class="relative" x-data="{ hover: false }" @mouseenter="hover = true" @mouseleave="hover = false">
-                                                    <a href="{{ path('account_wallet_dashboard', {year: year.getYear(), month: month.getMonthNumber(), account: account.getId(), wallet: month.getWalletId()}) }}"
-                                                       class="block text-sm font-bold py-2 px-4 rounded-md bg-quaternary hover:bg-quaternary-hover text-white text-center mb-1 border-solid border border-quaternary-ring">
-                                                        {{ month.getMonthName() }}
-                                                    </a>
+                                                    <twig:Cta
+                                                            color="quaternary"
+                                                            size="md"
+                                                            fullWidth="false"
+                                                            route="account_wallet_dashboard"
+                                                            :routeParams="{ year: year.getYear(), month: month.getMonthNumber(), account: account.getId(), wallet: month.getWalletId() }"
+                                                            label="{{ month.getMonthName() }}"
+                                                    />
                                                     <button type="button"
                                                             data-action-url="{{ path('account_list_wallet_delete_month', {account: account.getId(), year: year.getYear(), month: month.getMonthNumber(), wallet: month.getWalletId(), redirectTo: 'account_list'}) }}"
                                                             class="js-delete-wallet-button absolute -top-2 -right-2 w-6 h-6 bg-quaternary hover:bg-quaternary-hover border border-solid border-quaternary-ring text-white rounded-md flex items-center justify-center text-xs z-10"
@@ -64,10 +74,15 @@
                                         {% endfor %}
                                     {% else %}
                                         <div class="relative">
-                                            <a href="{{ path('account_wallet_add_quick_month', {account: account.getId(), yearId: year.getYear(), monthId: i}) }}"
-                                               class="block text-sm font-bold py-2 px-4 rounded-md text-white text-center mb-1 border-dashed border border-quaternary hover:bg-primary-hover">
-                                                {{ i|month_name }}
-                                            </a>
+                                            <twig:Cta
+                                                    color="secondary"
+                                                    size="md"
+                                                    fullWidth="false"
+                                                    borderStyle="dashed"
+                                                    route="account_wallet_add_quick_month"
+                                                    :routeParams="{ account: account.getId(), yearId: year.getYear(), monthId: i }"
+                                                    label="{{ i|month_name }}"
+                                            />
                                         </div>
                                     {% endif %}
                                 {% endfor %}

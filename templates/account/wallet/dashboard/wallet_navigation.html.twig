@@ -1,34 +1,57 @@
 <div class="flex justify-end mb-4">
-    <div>
+    <div class="space-x-2">
         {% if navigationPreviousWallet %}
-            <a href="{{ path('account_wallet_dashboard', {
-                year: currentYear,
-                month: navigationPreviousWallet.getMonthNumber(),
-                accountId: account.id,
-                walletId: navigationPreviousWallet.getWalletId()
-            }) }}" class="bg-quaternary hover:bg-quaternary-hover text-white border-solid border border-quaternary-ring py-2 px-4 rounded-md font-bold mr-2 text-xs">
-                <i class="fa-solid fa-chevron-left"></i> Previous
-            </a>
+            <twig:Cta
+                color="quaternary"
+                size="xs"
+                fullWidth="false"
+                route="account_wallet_dashboard"
+                :routeParams="{
+                    year: currentYear,
+                    month: navigationPreviousWallet.getMonthNumber(),
+                    account: account.id,
+                    wallet: navigationPreviousWallet.getWalletId()
+                }"
+                icon="fa-chevron-left"
+                label="Previous"
+            />
         {% else %}
-            <span class="bg-quaternary hover:bg-quaternary-hover text-senary border-solid border border-quaternary-ring py-2 px-4 rounded-md font-bold cursor-not-allowed mr-2 text-xs">
-            <i class="fa-solid fa-chevron-left"></i> Previous
-        </span>
+            <twig:Cta
+                    color="quaternary"
+                    size="xs"
+                    fullWidth="false"
+                    icon="fa-chevron-left"
+                    label="Previous"
+                    disabled="true"
+            />
         {% endif %}
 
-        <span class="bg-quaternary border-solid border border-quaternary-ring text-xs text-white text-center font-bold rounded-md py-2 px-4">{{ wallet.getMonth()|month_name }} {{ wallet.getYear() }}</span>
-
         {% if navigationNextWallet %}
-            <a href="{{ path('account_wallet_dashboard', {
-                year: currentYear,
-                month: navigationNextWallet.getMonthNumber(),
-                account: account.id,
-                wallet: navigationNextWallet.getWalletId()
-            }) }}" class="bg-quaternary hover:bg-quaternary-hover text-white border-solid border border-quaternary-ring py-2 px-4 rounded-md font-bold text-xs">
-                Next <i class="fa-solid fa-chevron-right"></i>
-            </a>
+            <twig:Cta
+                color="quaternary"
+                size="xs"
+                fullWidth="false"
+                iconPosition="right"
+                route="account_wallet_dashboard"
+                :routeParams="{
+                    year: currentYear,
+                    month: navigationNextWallet.getMonthNumber(),
+                    account: account.id,
+                    wallet: navigationNextWallet.getWalletId()
+                }"
+                icon="fa-chevron-right"
+                label="Next"
+            />
         {% else %}
-            <span class="bg-quaternary hover:bg-quaternary-hover text-senary border-solid border border-quaternary-ring py-2 px-4 rounded-md font-bold cursor-not-allowed text-xs">
-            Next <i class="fa-solid fa-chevron-right"></i>
+            <twig:Cta
+                    color="quaternary"
+                    size="xs"
+                    fullWidth="false"
+                    iconPosition="right"
+                    icon="fa-chevron-right"
+                    label="Next"
+                    disabled="true"
+            />
         </span>
         {% endif %}
     </div>

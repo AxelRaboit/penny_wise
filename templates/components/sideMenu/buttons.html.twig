@@ -1,8 +1,12 @@
 {% for button in buttons %}
-    <button id="{{ button.id }}" class="bg-quaternary border border-solid border-quaternary-ring hover:bg-quaternary-hover text-white py-1 px-2 rounded-md mb-2" title="{{ button.title }}">
-        <i class="fa-solid {{ button.icon }} text-sm mr-2 text-senary"></i>
-        {% if button.text is defined %}
-            <span class="text-sm text-white" x-show="expanded">{{ button.text }}</span>
-        {% endif %}
-    </button>
+    <twig:Cta
+            id="{{ button.id }}"
+            color="quaternary"
+            size="md"
+            fullWidth="false"
+            extraClasses="mb-2"
+            icon="{{ button.icon }}"
+            label="{{ button.text is defined ? button.text : '' }}"
+            title="{{ button.title }}"
+    />
 {% endfor %}

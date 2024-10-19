@@ -1,0 +1,84 @@
+{% props color = 'quaternary', size = 'md', fullWidth = false, borderStyle = 'solid', route = null, routeParams = {}, label = '', icon = '', iconPosition = 'left', id = '', title = '', disabled = false, extraClasses = '', dataActionUrl = false, attributes = {} %}
+
+{% set buttonClasses = cva({
+    base: 'font-bold rounded-md text-center border',
+    variants: {
+        color: {
+            secondary: 'bg-secondary hover:bg-secondary-hover text-white border-secondary-ring',
+            quaternary: 'bg-quaternary hover:bg-quaternary-hover text-white border-quaternary-ring',
+            quinary: 'bg-quinary hover:bg-quinary-hover text-white border-quinary-ring',
+            'accent-primary': 'bg-accent-primary hover:bg-accent-primary-hover text-white border-accent-primary-ring',
+            danger: 'bg-danger hover:bg-danger-hover text-white border-danger-ring',
+        },
+        size: {
+            xs: 'text-xs py-1.5 px-2',
+            sm: 'text-xs py-1.5 px-2',
+            md: 'text-sm py-2 px-4',
+            lg: 'text-lg py-3 px-5',
+        },
+        fullWidth: {
+            true: 'w-full',
+            false: '',
+        },
+        borderStyle: {
+            solid: 'border-solid',
+            dashed: 'border-dashed',
+        },
+        disabled: {
+            true: 'cursor-not-allowed opacity-50',
+            false: '',
+        }
+    }
+}) %}
+
+{% if route %}
+    {% set actionUrl = path(route, routeParams) %}
+{% else %}
+    {% set actionUrl = null %}
+{% endif %}
+
+{% if disabled %}
+    <span id="{{ id }}" class="{{ buttonClasses.apply({color, size, fullWidth, borderStyle, disabled}) }} {{ extraClasses }}" title="{{ title }}">
+        {% if icon and iconPosition == 'left' %}
+            <i class="fa-solid {{ icon }} mr-1"></i>
+        {% endif %}
+        {{ label }}
+        {% if icon and iconPosition == 'right' %}
+            <i class="fa-solid {{ icon }} ml-1"></i>
+        {% endif %}
+    </span>
+{% else %}
+    {% if dataActionUrl %}
+        <button id="{{ id }}" type="button" class="{{ buttonClasses.apply({color, size, fullWidth, borderStyle}) }} {{ extraClasses }}" title="{{ title }}" data-action-url="{{ actionUrl }}">
+            {% if icon and iconPosition == 'left' %}
+                <i class="fa-solid {{ icon }} mr-1"></i>
+            {% endif %}
+            {{ label }}
+            {% if icon and iconPosition == 'right' %}
+                <i class="fa-solid {{ icon }} ml-1"></i>
+            {% endif %}
+        </button>
+    {% else %}
+        {% if route %}
+            <a href="{{ actionUrl }}" id="{{ id }}" class="{{ buttonClasses.apply({color, size, fullWidth, borderStyle}) }} {{ extraClasses }}" title="{{ title }}">
+                {% if icon and iconPosition == 'left' %}
+                    <i class="fa-solid {{ icon }} mr-1"></i>
+                {% endif %}
+                {{ label }}
+                {% if icon and iconPosition == 'right' %}
+                    <i class="fa-solid {{ icon }} ml-1"></i>
+                {% endif %}
+            </a>
+        {% else %}
+            <button id="{{ id }}" type="button" class="{{ buttonClasses.apply({color, size, fullWidth, borderStyle}) }} {{ extraClasses }}" title="{{ title }}">
+                {% if icon and iconPosition == 'left' %}
+                    <i class="fa-solid {{ icon }} mr-1"></i>
+                {% endif %}
+                {{ label }}
+                {% if icon and iconPosition == 'right' %}
+                    <i class="fa-solid {{ icon }} ml-1"></i>
+                {% endif %}
+            </button>
+        {% endif %}
+    {% endif %}
+{% endif %}

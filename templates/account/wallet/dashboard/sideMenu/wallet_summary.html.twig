@@ -196,9 +196,14 @@
                         </span>
                         {% endif %}
                     {% else %}
-                        <span class="bg-success text-white text-xs rounded-md p-1 ml-2">
-                        Unlimited
-                    </span>
+                        <twig:BadgeNeon
+                            color="accent-primary"
+                            size="sm"
+                            borderStyle="solid"
+                            label="Unlimited"
+                            title="Unlimited"
+                            extraClasses="ml-1"
+                        />
                     {% endif %}
                 </h2>
             </div>

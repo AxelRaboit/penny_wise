@@ -5,11 +5,17 @@
                 <h3 class="text-md font-bold mb-1 text-white">Transaction</h3>
             </div>
             <div class="grid grid-cols-2 sm:grid-cols-3 gap-1 p-2">
-                <a href="{{ path('new_transaction_wallet', {wallet: wallet.id, account: account.id}) }}"
-                   class="text-center bg-quinary hover:bg-quinary-hover border-solid border border-quaternary-ring text-white text-xs p-2 cursor-pointer rounded-md">
-                    <i class="fa-solid fa-plus mr-1"></i>
-                    Transaction
-                </a>
+                <twig:Cta
+                    color="quinary"
+                    size="sm"
+                    fullWidth="false"
+                    route="new_transaction_wallet"
+                    :routeParams="{ wallet: wallet.id, account: account.id }"
+                    icon="fa-plus"
+                    iconPosition="left"
+                    label="Transaction"
+                    extraClasses="cursor-pointer"
+                />
             </div>
         </div>
 
@@ -18,22 +24,40 @@
                 <h3 class="text-md font-bold mb-1 text-white">Wallet</h3>
             </div>
             <div class="grid grid-cols-2 sm:grid-cols-3 gap-1 p-2">
-                <a href="{{ path('account_wallet_new', {year: currentYear, account: account.id, wallet: wallet.id}) }}"
-                   class="text-center font-bold bg-quinary hover:bg-quinary-hover border-solid border border-quaternary-ring text-white text-xs p-2 cursor-pointer rounded-md">
-                    <i class="fa-solid fa-plus mr-1"></i>
-                    Wallet
-                </a>
-                <a href="{{ path('account_wallet_edit', {account: account.id, wallet: wallet.id}) }}"
-                   class="text-center font-bold bg-quinary hover:bg-quinary-hover border-solid border border-quaternary-ring text-white text-xs p-2 cursor-pointer rounded-md">
-                    <i class="fa-solid fa-pen-to-square mr-1"></i>
-                    Wallet
-                </a>
-                <button type="button"
-                        data-action-url="{{ path('account_wallet_delete_month', {year: currentYear, month: currentMonth, account: account.id, wallet: wallet.id}) }}"
-                        class="js-delete-wallet-button text-center font-bold bg-danger hover:bg-danger-hover border-solid border border-danger-ring text-white text-xs p-2 cursor-pointer rounded-md">
-                    <i class="fa-solid fa-trash-can mr-1"></i>
-                    Delete wallet
-                </button>
+                <twig:Cta
+                    color="quinary"
+                    size="sm"
+                    fullWidth="false"
+                    route="account_wallet_new"
+                    :routeParams="{ year: currentYear, account: account.id, wallet: wallet.id }"
+                    icon="fa-plus"
+                    iconPosition="left"
+                    label="Wallet"
+                    extraClasses="cursor-pointer"
+                />
+                <twig:Cta
+                    color="quinary"
+                    size="sm"
+                    fullWidth="false"
+                    route="account_wallet_edit"
+                    :routeParams="{ account: account.id, wallet: wallet.id }"
+                    icon="fa-pen-to-square"
+                    iconPosition="left"
+                    label="Wallet"
+                    extraClasses="cursor-pointer"
+                />
+                <twig:Cta
+                    color="danger"
+                    size="sm"
+                    fullWidth="false"
+                    route="account_wallet_delete_month"
+                    :routeParams="{ year: currentYear, month: currentMonth, account: account.id, wallet: wallet.id }"
+                    icon="fa-trash-can"
+                    iconPosition="left"
+                    label="Delete wallet"
+                    extraClasses="js-delete-wallet-button"
+                    dataActionUrl="true"
+                />
             </div>
         </div>
 
@@ -42,19 +66,30 @@
                 <h3 class="text-md font-bold mb-1 text-white">Wallet - Balance</h3>
             </div>
             <div class="grid grid-cols-2 sm:grid-cols-2 gap-1 p-2">
-                {% dump (wallet) %}
-                <button type="button"
-                        data-action-url="{{ path('account_wallet_copy_left_to_spend', {year: currentYear, month: currentMonth, account: account.id, wallet: wallet.id}) }}"
-                        class="js-copy-left-to-spend-button text-center font-bold bg-quinary hover:bg-quinary-hover border-solid border border-quaternary-ring text-white text-xs p-2 cursor-pointer rounded-md">
-                    <i class="fa-solid fa-forward mr-1"></i>
-                    Initialize starting balance
-                </button>
-                <button type="button"
-                        data-action-url="{{ path('account_wallet_reset_balance', {year: currentYear, month: currentMonth, account: account.id, wallet: wallet.id}) }}"
-                        class="js-reset-start-balance-button text-center font-bold bg-quinary hover:bg-quinary-hover border-solid border border-quaternary-ring text-white text-xs p-2 cursor-pointer rounded-md">
-                    <i class="fa-solid fa-backward mr-1"></i>
-                    Reset starting balance
-                </button>
+                <twig:Cta
+                    color="quinary"
+                    size="sm"
+                    fullWidth="false"
+                    route="account_wallet_copy_left_to_spend"
+                    :routeParams="{ year: currentYear, month: currentMonth, account: account.id, wallet: wallet.id }"
+                    icon="fa-forward"
+                    iconPosition="left"
+                    label="Initialize starting balance"
+                    extraClasses="js-copy-left-to-spend-button"
+                    dataActionUrl="true"
+                />
+                <twig:Cta
+                    color="quinary"
+                    size="sm"
+                    fullWidth="false"
+                    route="account_wallet_reset_balance"
+                    :routeParams="{ year: currentYear, month: currentMonth, account: account.id, wallet: wallet.id }"
+                    icon="fa-backward"
+                    iconPosition="left"
+                    label="Reset starting balance"
+                    extraClasses="js-reset-start-balance-button"
+                    dataActionUrl="true"
+                />
             </div>
         </div>
 
@@ -63,18 +98,30 @@
                 <h3 class="text-md font-bold mb-1 text-white">Wallet - Create</h3>
             </div>
             <div class="grid grid-cols-2 sm:grid-cols-2 gap-1 p-2">
-                <button type="button"
-                        data-action-url="{{ path('account_wallet_create_previous_month', {year: currentYear, month: currentMonth, account: account.id, wallet: wallet.id}) }}"
-                        class="js-create-previous-wallet-button text-center font-bold bg-quinary hover:bg-quinary-hover border-solid border border-quaternary-ring text-white text-xs p-2 cursor-pointer rounded-md">
-                    <i class="fa-solid fa-plus mr-1"></i>
-                    Create previous month's wallet
-                </button>
-                <button type="button"
-                        data-action-url="{{ path('account_wallet_create_next_month', {year: currentYear, month: currentMonth, account: account.id, wallet: wallet.id}) }}"
-                        class="js-create-next-wallet-button text-center font-bold bg-quinary hover:bg-quinary-hover border-solid border border-quaternary-ring text-white text-xs p-2 cursor-pointer rounded-md">
-                    <i class="fa-solid fa-plus mr-1"></i>
-                    Create next month's wallet
-                </button>
+                <twig:Cta
+                    color="quinary"
+                    size="sm"
+                    fullWidth="false"
+                    route="account_wallet_create_previous_month"
+                    :routeParams="{ year: currentYear, month: currentMonth, account: account.id, wallet: wallet.id }"
+                    icon="fa-plus"
+                    iconPosition="left"
+                    label="Create previous month's wallet"
+                    extraClasses="js-create-previous-wallet-button"
+                    dataActionUrl="true"
+                />
+                <twig:Cta
+                    color="quinary"
+                    size="sm"
+                    fullWidth="false"
+                    route="account_wallet_create_next_month"
+                    :routeParams="{ year: currentYear, month: currentMonth, account: account.id, wallet: wallet.id }"
+                    icon="fa-plus"
+                    iconPosition="left"
+                    label="Create next month's wallet"
+                    extraClasses="js-create-next-wallet-button"
+                    dataActionUrl="true"
+                />
             </div>
         </div>
 
@@ -83,30 +130,54 @@
                 <h3 class="text-md font-bold mb-1 text-white">Wallet - Copy</h3>
             </div>
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-1 p-2">
-                <button type="button"
-                        data-action-url="{{ path('account_wallet_copy_previous_month_incomes', {year: currentYear, month: currentMonth, account: account.id, wallet: wallet.id}) }}"
-                        class="js-copy-incomes-button text-center font-bold bg-quinary hover:bg-quinary-hover border-solid border border-quaternary-ring text-white text-xs p-2 cursor-pointer rounded-md">
-                    <i class="fa-solid fa-copy mr-1"></i>
-                    Copy previous transaction incomes
-                </button>
-                <button type="button"
-                        data-action-url="{{ path('account_wallet_copy_previous_month_bills', {year: currentYear, month: currentMonth, account: account.id, wallet: wallet.id}) }}"
-                        class="js-copy-bills-button text-center font-bold bg-quinary hover:bg-quinary-hover border-solid border border-quaternary-ring text-white text-xs p-2 cursor-pointer rounded-md">
-                    <i class="fa-solid fa-copy mr-1"></i>
-                    Copy previous transaction bills
-                </button>
-                <button type="button"
-                        data-action-url="{{ path('account_wallet_copy_previous_month_expenses', {year: currentYear, month: currentMonth, account: account.id, wallet: wallet.id}) }}"
-                        class="js-copy-expenses-button text-center font-bold bg-quinary hover:bg-quinary-hover border-solid border border-quaternary-ring text-white text-xs p-2 cursor-pointer rounded-md">
-                    <i class="fa-solid fa-copy mr-1"></i>
-                    Copy previous transaction expenses
-                </button>
-                <button type="button"
-                        data-action-url="{{ path('account_wallet_copy_previous_month_debts', {year: currentYear, month: currentMonth, account: account.id, wallet: wallet.id}) }}"
-                        class="js-copy-debts-button text-center font-bold bg-quinary hover:bg-quinary-hover border-solid border border-quaternary-ring text-white text-xs p-2 cursor-pointer rounded-md">
-                    <i class="fa-solid fa-copy mr-1"></i>
-                    Copy previous transaction debts
-                </button>
+                <twig:Cta
+                    color="quinary"
+                    size="sm"
+                    fullWidth="false"
+                    route="account_wallet_copy_previous_month_incomes"
+                    :routeParams="{ year: currentYear, month: currentMonth, account: account.id, wallet: wallet.id }"
+                    icon="fa-copy"
+                    iconPosition="left"
+                    label="Copy previous transaction incomes"
+                    extraClasses="js-copy-incomes-button"
+                    dataActionUrl="true"
+                />
+                <twig:Cta
+                    color="quinary"
+                    size="sm"
+                    fullWidth="false"
+                    route="account_wallet_copy_previous_month_bills"
+                    :routeParams="{ year: currentYear, month: currentMonth, account: account.id, wallet: wallet.id }"
+                    icon="fa-copy"
+                    iconPosition="left"
+                    label="Copy previous transaction bills"
+                    extraClasses="js-copy-bills-button"
+                    dataActionUrl="true"
+                />
+                <twig:Cta
+                    color="quinary"
+                    size="sm"
+                    fullWidth="false"
+                    route="account_wallet_copy_previous_month_expenses"
+                    :routeParams="{ year: currentYear, month: currentMonth, account: account.id, wallet: wallet.id }"
+                    icon="fa-copy"
+                    iconPosition="left"
+                    label="Copy previous transaction expenses"
+                    extraClasses="js-copy-expenses-button"
+                    dataActionUrl="true"
+                />
+                <twig:Cta
+                    color="quinary"
+                    size="sm"
+                    fullWidth="false"
+                    route="account_wallet_copy_previous_month_debts"
+                    :routeParams="{ year: currentYear, month: currentMonth, account: account.id, wallet: wallet.id }"
+                    icon="fa-copy"
+                    iconPosition="left"
+                    label="Copy previous transaction debts"
+                    extraClasses="js-copy-debts-button"
+                    dataActionUrl="true"
+                />
             </div>
         </div>
     </div>

@@ -1,0 +1,36 @@
+{% props color = 'quaternary', size = 'xs', borderStyle = 'solid', rounded = 'md', background = null, label = '', title = '', extraClasses = '', attributes = {} %}
+
+{% set badgeClasses = cva({
+    base: 'text-center border font-bold',
+    variants: {
+        color: {
+            primary: 'text-primary border-primary-ring',
+            secondary: 'text-secondary border-secondary-ring',
+            quaternary: 'text-white border-quaternary-ring',
+        },
+        size: {
+            xs: 'text-xs py-1 px-2',
+            sm: 'text-sm py-1 px-2',
+            md: 'text-md py-2 px-3',
+            lg: 'text-lg py-3 px-4',
+        },
+        borderStyle: {
+            solid: 'border-solid',
+            dashed: 'border-dashed',
+        },
+        rounded: {
+            md: 'rounded-md',
+            none: '',
+        }
+    }
+}) %}
+
+{% if background %}
+    {% set backgroundClass = 'bg-' ~ background %}
+{% else %}
+    {% set backgroundClass = '' %}
+{% endif %}
+
+<span class="{{ badgeClasses.apply({color, size, borderStyle, rounded}) }} {{ backgroundClass }} {{ extraClasses }}" title="{{ title }}">
+    {{ label }}
+</span>
