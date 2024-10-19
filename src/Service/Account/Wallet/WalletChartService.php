@@ -74,7 +74,7 @@ final readonly class WalletChartService
             $totals[] = $totalData['total'];
         }
 
-        $isDataPresent = count($totals) > 0 && array_sum($totals) > self::DEFAULT_BALANCE;
+        $isDataPresent = [] !== $totals && array_sum($totals) > self::DEFAULT_BALANCE;
 
         $chart = $this->chartBuilder->createChart($chartType);
 
@@ -116,7 +116,7 @@ final readonly class WalletChartService
             $totals[] = $yearData['total'];
         }
 
-        $isDataPresent = count($totals) > 0 && array_sum($totals) > self::DEFAULT_BALANCE;
+        $isDataPresent = [] !== $totals && array_sum($totals) > self::DEFAULT_BALANCE;
 
         $chart = $this->chartBuilder->createChart($chartType);
         $chart->setData([
