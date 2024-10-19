@@ -317,7 +317,7 @@ final class WalletAccountController extends AbstractController
     #[Route('/account/{account}/wallet/{wallet}/chart/data', name: 'account_wallet_chart_data', methods: ['GET'])]
     #[IsGranted('ACCESS_ACCOUNT', subject: 'account')]
     #[IsGranted('ACCESS_WALLET', subject: 'wallet')]
-    public function getChartData(Request $request, Account $account): JsonResponse
+    public function getChartData(Request $request, Account $account, Wallet $wallet): JsonResponse
     {
         $accountId = $account->getId();
         if (null === $accountId) {

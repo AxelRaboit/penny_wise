@@ -9,7 +9,7 @@ export function initializeChartButtons() {
             const account = this.getAttribute('data-account-id');
             const wallet = this.getAttribute('data-wallet-id');
 
-            if (!accountId) {
+            if (!account) {
                 console.error('Account ID is missing for chart request');
                 return;
             }
