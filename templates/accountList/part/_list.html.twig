@@ -56,32 +56,39 @@
                                             {% if month.getMonthNumber() == i %}
                                                 <div class="relative" x-data="{ hover: false }" @mouseenter="hover = true" @mouseleave="hover = false">
                                                     <twig:Cta
-                                                            color="quaternary"
-                                                            size="md"
-                                                            fullWidth="false"
-                                                            route="account_wallet_dashboard"
-                                                            :routeParams="{ year: year.getYear(), month: month.getMonthNumber(), account: account.getId(), wallet: month.getWalletId() }"
-                                                            label="{{ month.getMonthName() }}"
+                                                        color="quaternary"
+                                                        size="md"
+                                                        fullWidth="true"
+                                                        route="account_wallet_dashboard"
+                                                        :routeParams="{ year: year.getYear(), month: month.getMonthNumber(), account: account.getId(), wallet: month.getWalletId() }"
+                                                        label="{{ month.getMonthName() }}"
                                                     />
-                                                    <button type="button"
-                                                            data-action-url="{{ path('account_list_wallet_delete_month', {account: account.getId(), year: year.getYear(), month: month.getMonthNumber(), wallet: month.getWalletId(), redirectTo: 'account_list'}) }}"
-                                                            class="js-delete-wallet-button absolute -top-2 -right-2 w-6 h-6 bg-quaternary hover:bg-quaternary-hover border border-solid border-quaternary-ring text-white rounded-md flex items-center justify-center text-xs z-10"
-                                                            x-show="hover" x-transition.opacity>
-                                                        <i class="fa-solid fa-trash-can"></i>
-                                                    </button>
+                                                    <twig:Cta
+                                                            color="quaternary"
+                                                            size="xs"
+                                                            fullWidth="false"
+                                                            dataActionUrl="true"
+                                                            :routeParams="{ account: account.getId(), year: year.getYear(), month: month.getMonthNumber(), wallet: month.getWalletId(), redirectTo: 'account_list' }"
+                                                            icon="fa-trash-can"
+                                                            iconPosition="left"
+                                                            extraClasses="js-delete-wallet-button absolute -top-2 -right-2 w-6 h-6 flex items-center justify-center z-10"
+                                                            title="Delete wallet"
+                                                            :alpineAttributes="{ 'x-show': 'hover', 'x-transition.opacity': '' }"
+                                                    />
+
                                                 </div>
                                             {% endif %}
                                         {% endfor %}
                                     {% else %}
                                         <div class="relative">
                                             <twig:Cta
-                                                    color="secondary"
-                                                    size="md"
-                                                    fullWidth="false"
-                                                    borderStyle="dashed"
-                                                    route="account_wallet_add_quick_month"
-                                                    :routeParams="{ account: account.getId(), yearId: year.getYear(), monthId: i }"
-                                                    label="{{ i|month_name }}"
+                                                color="secondary"
+                                                size="md"
+                                                fullWidth="true"
+                                                borderStyle="dashed"
+                                                route="account_wallet_add_quick_month"
+                                                :routeParams="{ account: account.getId(), yearId: year.getYear(), monthId: i }"
+                                                label="{{ i|month_name }}"
                                             />
                                         </div>
                                     {% endif %}

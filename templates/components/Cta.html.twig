@@ -1,4 +1,4 @@
-{% props color = 'quaternary', size = 'md', fullWidth = false, borderStyle = 'solid', route = null, routeParams = {}, label = '', icon = '', iconPosition = 'left', id = '', title = '', disabled = false, extraClasses = '', dataActionUrl = false, attributes = {} %}
+{% props color = 'quaternary', size = 'md', fullWidth = false, borderStyle = 'solid', route = null, routeParams = {}, label = '', icon = '', iconPosition = 'left', id = '', title = '', disabled = false, extraClasses = '', dataActionUrl = false, alpineAttributes = {}, attributes = {} %}
 
 {% set buttonClasses = cva({
     base: 'font-bold rounded-md text-center border',
@@ -17,7 +17,7 @@
             lg: 'text-lg py-3 px-5',
         },
         fullWidth: {
-            true: 'w-full',
+            true: 'w-full block',
             false: '',
         },
         borderStyle: {
@@ -37,8 +37,14 @@
     {% set actionUrl = null %}
 {% endif %}
 
+{% macro renderAlpineAttributes(attributes) %}
+    {% for key, value in attributes %}
+        {{ key }}="{{ value }}"
+    {% endfor %}
+{% endmacro %}
+
 {% if disabled %}
-    <span id="{{ id }}" class="{{ buttonClasses.apply({color, size, fullWidth, borderStyle, disabled}) }} {{ extraClasses }}" title="{{ title }}">
+    <span id="{{ id }}" class="{{ buttonClasses.apply({color, size, fullWidth, borderStyle, disabled}) }} {{ extraClasses }}" title="{{ title }}" {{ _self.renderAlpineAttributes(alpineAttributes) }} {{ attributes|raw }}>
         {% if icon and iconPosition == 'left' %}
             <i class="fa-solid {{ icon }} mr-1"></i>
         {% endif %}
@@ -49,7 +55,7 @@
     </span>
 {% else %}
     {% if dataActionUrl %}
-        <button id="{{ id }}" type="button" class="{{ buttonClasses.apply({color, size, fullWidth, borderStyle}) }} {{ extraClasses }}" title="{{ title }}" data-action-url="{{ actionUrl }}">
+        <button id="{{ id }}" type="button" class="{{ buttonClasses.apply({color, size, fullWidth, borderStyle}) }} {{ extraClasses }}" title="{{ title }}" data-action-url="{{ actionUrl }}" {{ _self.renderAlpineAttributes(alpineAttributes) }} {{ attributes|raw }}>
             {% if icon and iconPosition == 'left' %}
                 <i class="fa-solid {{ icon }} mr-1"></i>
             {% endif %}
@@ -59,26 +65,14 @@
             {% endif %}
         </button>
     {% else %}
-        {% if route %}
-            <a href="{{ actionUrl }}" id="{{ id }}" class="{{ buttonClasses.apply({color, size, fullWidth, borderStyle}) }} {{ extraClasses }}" title="{{ title }}">
-                {% if icon and iconPosition == 'left' %}
-                    <i class="fa-solid {{ icon }} mr-1"></i>
-                {% endif %}
-                {{ label }}
-                {% if icon and iconPosition == 'right' %}
-                    <i class="fa-solid {{ icon }} ml-1"></i>
-                {% endif %}
-            </a>
-        {% else %}
-            <button id="{{ id }}" type="button" class="{{ buttonClasses.apply({color, size, fullWidth, borderStyle}) }} {{ extraClasses }}" title="{{ title }}">
-                {% if icon and iconPosition == 'left' %}
-                    <i class="fa-solid {{ icon }} mr-1"></i>
-                {% endif %}
-                {{ label }}
-                {% if icon and iconPosition == 'right' %}
-                    <i class="fa-solid {{ icon }} ml-1"></i>
-                {% endif %}
-            </button>
-        {% endif %}
+        <a href="{{ actionUrl }}" id="{{ id }}" class="{{ buttonClasses.apply({color, size, fullWidth, borderStyle}) }} {{ extraClasses }}" title="{{ title }}" {{ _self.renderAlpineAttributes(alpineAttributes) }} {{ attributes|raw }}>
+            {% if icon and iconPosition == 'left' %}
+                <i class="fa-solid {{ icon }} mr-1"></i>
+            {% endif %}
+            {{ label }}
+            {% if icon and iconPosition == 'right' %}
+                <i class="fa-solid {{ icon }} ml-1"></i>
+            {% endif %}
+        </a>
     {% endif %}
 {% endif %}
