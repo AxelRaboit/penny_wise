@@ -2,7 +2,10 @@
 
 {% block title %}Transaction Details - {{ parent() }}{% endblock %}
 
-{% set page_requires_account_wallet_dashboard_transaction_show = true %}
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('account_wallet_dashboard_transaction_show') }}
+{% endblock %}
 
 {% block body %}
     <div id="account-wallet-dashboard-transaction-show-page" class="hidden max-w-screen-xxl mx-auto">
@@ -65,4 +68,9 @@
 
 {% block loadingSpinner %}
     {{ include('components/spinner/page-spinner.html.twig', {spinnerId: 'loadingPageSpinner'}) }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('account_wallet_dashboard_transaction_show') }}
 {% endblock %}
