@@ -1,6 +1,5 @@
 PHP = php
 SYMFONY = $(PHP) bin/console
-SYMFONY_BIN  = symfony
 COMPOSER = composer
 PNPM = pnpm
 BIN = bin/console
@@ -11,64 +10,54 @@ PHP_CS_FIXER = $(PHP) ./tools/php-cs-fixer/vendor/bin/php-cs-fixer
 TWIG_CS_FIXER = $(PHP) vendor/bin/twig-cs-fixer
 RECTOR = $(PHP) vendor/bin/rector
 
-ASSET_MAP_COMPILE = $(BIN) asset-map:compile
+WEBPACK_BUILD = pnpm run build
+WEBPACK_WATCH = pnpm run dev --watch
 
 TAILWIND_INITIALIZE = $(BIN) tailwind:init
 TAILWIND_BUILD = $(BIN) tailwind:build
-TAILWIND_DEVELOPMENT = $(TAILWIND_BUILD)
-TAILWIND_WATCH_DEVELOPMENT = $(TAILWIND_BUILD) --watch
+TAILWIND_WATCH = $(BIN) tailwind:build --watch
 
 TWIG_COMPONENT_DEBUG = $(BIN) debug:twig-component
 
+# === Build Commands ===
 all: help
 
 init-tailwind:
-	$(PHP) $(TAILWIND_INITIALIZE)
+	$(TAILWIND_INITIALIZE)
 
-compile-assets:
-	$(PHP) $(ASSET_MAP_COMPILE)
+build-assets: build-tailwind build-webpack
 
 build-tailwind:
-	$(PHP) $(TAILWIND_BUILD)
+	$(TAILWIND_BUILD)
 
-dev-tailwind:
-	$(PHP) $(TAILWIND_DEVELOPMENT)
+build-webpack:
+	$(WEBPACK_BUILD)
+
+# === Development Commands ===
+watch-assets: watch-tailwind watch-webpack
 
 watch-tailwind:
-	$(PHP) $(TAILWIND_WATCH_DEVELOPMENT)
+	$(TAILWIND_WATCH)
 
-watch-all-assets:
-	$(PHP) $(ASSET_MAP_COMPILE)
-	$(PHP) $(TAILWIND_WATCH_DEVELOPMENT)
+watch-webpack:
+	$(WEBPACK_WATCH)
 
-assets-build:
-	$(PHP) $(ASSET_MAP_COMPILE)
-	$(PHP) $(TAILWIND_BUILD)
-
-prod-build:
-	$(PNPM) install --frozen-lockfile
-	$(PHP) $(ASSET_MAP_COMPILE)
-	$(PHP) $(TAILWIND_BUILD)
-
-install:
-	$(COMPOSER) install
-	$(PNPM) install
-	make init-tailwind
-
-debug-twig-component:
-	$(PHP) $(TWIG_COMPONENT_DEBUG)
-
+# === Cache and Debug Commands ===
 cc:
 	$(SYMFONY) cache:clear
 
 cc-prod:
 	$(SYMFONY) cache:clear --env=prod
 
+debug-twig-component:
+	$(SYMFONY) debug:twig-component
+
+# === Symfony Commands ===
 run:
-	$(SYMFONY_BIN) server:start
+	$(SYMFONY) server:start
 
 stop:
-	$(SYMFONY_BIN) server:stop
+	$(SYMFONY) server:stop
 
 routes:
 	$(SYMFONY) debug:router --show-controllers
@@ -85,12 +74,6 @@ migration-clean:
 migrate-all:
 	$(SYMFONY) doctrine:migrations:migrate --no-interaction
 
-migrate-f:
-	$(SYMFONY) doctrine:migrations:migrate --no-interaction
-
-migrate-prev:
-	$(SYMFONY) doctrine:migrations:migrate prev
-
 controller:
 	$(SYMFONY) make:controller
 
@@ -100,6 +83,7 @@ entity:
 form:
 	$(SYMFONY) make:form
 
+# === Test and Lint Commands ===
 test:
 	$(PHP) $(BIN_UNIT) --testdox --debug
 
@@ -131,43 +115,28 @@ fix-twig:
 	$(TWIG_CS_FIXER) --fix
 
 rector:
-	${RECTOR} process --dry-run -c ./rector.php
+	$(RECTOR) process --dry-run -c ./rector.php
 
 rector-fix:
-	${RECTOR} process -c ./rector.php
+	$(RECTOR) process -c ./rector.php
 
+# === Help Command ===
 .PHONY: help
 help:
 	@echo "Available targets:"
-	@echo "  make init-tailwind        - Initialize the Tailwind build"
-	@echo "  make compile-assets       - Compile AssetMapper assets"
-	@echo "  make build-tailwind       - Execute the Tailwind build for production"
-	@echo "  make watch-tailwind       - Execute the Tailwind build in watch mode"
-	@echo "  make watch-all-assets     - Compile assets and execute the Tailwind build in watch mode"
-	@echo "  make assets-build         - Compile AssetMapper assets and Tailwind build"
-	@echo "  make prod-build           - Install dependencies and execute the build for production"
-	@echo "  make install              - Install project dependencies using pnpm"
-	@echo "  make debug-twig-component - Debug the Twig component"
-	@echo "  make cc                   - Clear the cache"
-	@echo "  make cc-prod              - Clear the production cache"
-	@echo "  make run                  - Start the development server"
-	@echo "  make stop                 - Stop the development server"
-	@echo "  make routes               - Display routes with controllers"
-	@echo "  make migration            - Generate a new migration"
-	@echo "  make migrate              - Execute migrations"
-	@echo "  make migrate-all          - Execute all migrations without interaction"
-	@echo "  make migrate-f            - Execute migrations without interaction"
-	@echo "  make migrate-prev         - Execute previous migration"
-	@echo "  make controller           - Generate a new controller"
-	@echo "  make entity               - Generate a new entity"
-	@echo "  make form                 - Generate a new form"
-	@echo "  make test                 - Execute unit tests with testdox output"
-	@echo "  make fix                  - Fix code quality issues and run tests"
-	@echo "  make prepare              - Run fix and unit tests"
-	@echo "  make stan                 - Execute PHPStan analysis"
-	@echo "  make lint-php             - Lint PHP code using PHP CS Fixer (dry-run)"
-	@echo "  make fix-php              - Fix PHP code using PHP CS Fixer"
-	@echo "  make lint-twig            - Lint Twig templates"
+	@echo "  make init-tailwind        - Initialize Tailwind"
+	@echo "  make build-assets         - Build assets using Webpack and Tailwind"
+	@echo "  make watch-assets         - Watch assets with Webpack and Tailwind"
+	@echo "  make cc                   - Clear Symfony cache"
+	@echo "  make cc-prod              - Clear Symfony production cache"
+	@echo "  make run                  - Start Symfony server"
+	@echo "  make stop                 - Stop Symfony server"
+	@echo "  make migration            - Create new migration"
+	@echo "  make migrate              - Run migrations"
+	@echo "  make controller           - Generate new controller"
+	@echo "  make entity               - Generate new entity"
+	@echo "  make form                 - Generate new form"
+	@echo "  make test                 - Run unit tests"
+	@echo "  make fix-php              - Fix PHP code style"
 	@echo "  make fix-twig             - Fix Twig templates"
-	@echo "  make rector               - Execute Rector (dry-run)"
-	@echo "  make rector-fix           - Execute Rector and fix code"
+	@echo "  make rector-fix           - Fix code with Rector"

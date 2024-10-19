@@ -2,7 +2,10 @@
 
 {% block title %}New Transaction Tag - {{ parent() }}{% endblock %}
 
-{% set page_requires_transaction_tag_new = true %}
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('transaction_tag_new') }}
+{% endblock %}
 
 {% block body %}
     <div id="transaction-tag-new-page" class="hidden max-w-screen-xxl mx-auto">
@@ -57,4 +60,9 @@
 
 {% block loadingSpinner %}
     {{ include('components/spinner/page-spinner.html.twig', {spinnerId: 'loadingPageSpinner'}) }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('transaction_tag_new') }}
 {% endblock %}

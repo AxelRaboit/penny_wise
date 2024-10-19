@@ -19,7 +19,7 @@ use Symfony\UX\StimulusBundle\StimulusBundle;
 use Symfony\UX\TogglePassword\TogglePasswordBundle;
 use Symfony\UX\Turbo\TurboBundle;
 use Symfony\UX\TwigComponent\TwigComponentBundle;
-use Symfonycasts\TailwindBundle\SymfonycastsTailwindBundle;
+use Symfony\WebpackEncoreBundle\WebpackEncoreBundle;
 use TalesFromADev\Twig\Extra\Tailwind\Bridge\Symfony\Bundle\TalesFromADevTwigExtraTailwindBundle;
 use Twig\Extra\TwigExtraBundle\TwigExtraBundle;
 use Vich\UploaderBundle\VichUploaderBundle;
@@ -32,18 +32,18 @@ return [
     TwigBundle::class => ['all' => true],
     WebProfilerBundle::class => ['dev' => true, 'test' => true],
     StimulusBundle::class => ['all' => true],
-    TurboBundle::class => ['all' => true],
     TwigExtraBundle::class => ['all' => true],
     SecurityBundle::class => ['all' => true],
     MonologBundle::class => ['all' => true],
     MakerBundle::class => ['dev' => true],
-    SymfonycastsTailwindBundle::class => ['all' => true],
     TwigComponentBundle::class => ['all' => true],
     TalesFromADevTwigExtraTailwindBundle::class => ['all' => true],
-    ChartjsBundle::class => ['all' => true],
-    LiveComponentBundle::class => ['all' => true],
     VichUploaderBundle::class => ['all' => true],
-    AutocompleteBundle::class => ['all' => true],
     DoctrineFixturesBundle::class => ['dev' => true, 'test' => true],
+    WebpackEncoreBundle::class => ['all' => true],
+    TurboBundle::class => ['all' => true],
     TogglePasswordBundle::class => ['all' => true],
+    LiveComponentBundle::class => ['all' => true],
+    ChartjsBundle::class => ['all' => true],
+    AutocompleteBundle::class => ['all' => true],
 ];

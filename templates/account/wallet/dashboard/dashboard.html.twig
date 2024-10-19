@@ -2,8 +2,11 @@
 
 {% block title %}{{ wallet.month|month_name }} {{ wallet.year }} - {{ parent() }}{% endblock %}
 
-{% set page_requires_account_wallet_dashboard = true %}
-{% set page_account_wallet_dashboard_transaction_list = true %}
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('account_wallet_dashboard') }}
+    {{ encore_entry_link_tags('account_wallet_dashboard_transaction_list') }}
+{% endblock %}
 
 {% block body %}
     <div id="account-wallet-dashboard-page" class="max-w-screen-xxl mx-auto hidden">
@@ -49,4 +52,10 @@
             {id: 'openWalletSideMenuNoteModal', icon: 'fa-book', title: 'Notes', text: 'Notes'}
         ]
     }) }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('account_wallet_dashboard') }}
+    {{ encore_entry_script_tags('account_wallet_dashboard_transaction_list') }}
 {% endblock %}

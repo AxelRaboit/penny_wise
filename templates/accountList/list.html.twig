@@ -2,7 +2,10 @@
 
 {% block title %}Account list - {{ parent() }}{% endblock %}
 
-{% set page_requires_account_list = true %}
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('account_list') }}
+{% endblock %}
 
 {% block body %}
     <div id="account-list-page" class="hidden max-w-screen-xxl mx-auto">
@@ -30,4 +33,9 @@
             {id: 'openAccountListSideMenuTestModal', icon: 'fa-book', title: 'Test', text: 'Test'}
         ]
     }) }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('account_list') }}
 {% endblock %}

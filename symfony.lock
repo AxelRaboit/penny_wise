@@ -64,21 +64,6 @@
             "tests/bootstrap.php"
         ]
     },
-    "symfony/asset-mapper": {
-        "version": "7.1",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "main",
-            "version": "6.4",
-            "ref": "6c28c471640cc2c6e60812ebcb961c526ef8997f"
-        },
-        "files": [
-            "assets/app.js",
-            "assets/styles/app.css",
-            "config/packages/asset_mapper.yaml",
-            "importmap.php"
-        ]
-    },
     "symfony/console": {
         "version": "7.1",
         "recipe": {
@@ -273,7 +258,7 @@
         ]
     },
     "symfony/ux-autocomplete": {
-        "version": "2.19",
+        "version": "2.20",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "main",
@@ -285,10 +270,10 @@
         ]
     },
     "symfony/ux-chartjs": {
-        "version": "v2.18.0"
+        "version": "v2.20.0"
     },
     "symfony/ux-live-component": {
-        "version": "2.19",
+        "version": "2.20",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "main",
@@ -303,7 +288,7 @@
         "version": "v2.20.0"
     },
     "symfony/ux-turbo": {
-        "version": "v2.18.0"
+        "version": "v2.20.0"
     },
     "symfony/ux-twig-component": {
         "version": "2.18",
@@ -342,8 +327,21 @@
             "config/routes/web_profiler.yaml"
         ]
     },
-    "symfonycasts/tailwind-bundle": {
-        "version": "v0.5.3"
+    "symfony/webpack-encore-bundle": {
+        "version": "2.2",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "2.0",
+            "ref": "35ee1edee91a1a7137095f53db7ed0c20884b745"
+        },
+        "files": [
+            "assets/app.js",
+            "assets/styles/app.css",
+            "config/packages/webpack_encore.yaml",
+            "package.json",
+            "webpack.config.js"
+        ]
     },
     "tales-from-a-dev/twig-tailwind-extra": {
         "version": "0.2",

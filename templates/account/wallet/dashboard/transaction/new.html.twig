@@ -2,8 +2,11 @@
 
 {% block title %}New transaction - {{ parent() }}{% endblock %}
 
-{% set page_requires_transaction_fields = true %}
-{% set page_requires_account_wallet_dashboard_transaction_new = true %}
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('account_wallet_dashboard_transaction_new') }}
+    {{ encore_entry_link_tags('transaction_fields') }}
+{% endblock %}
 
 {% block body %}
     <div id="account-wallet-dashboard-transaction-new-page" class="hidden max-w-screen-xxl mx-auto">
@@ -30,4 +33,10 @@
 
 {% block loadingSpinner %}
     {{ include('components/spinner/page-spinner.html.twig', {spinnerId: 'loadingPageSpinner'}) }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('account_wallet_dashboard_transaction_new') }}
+    {{ encore_entry_script_tags('transaction_fields') }}
 {% endblock %}

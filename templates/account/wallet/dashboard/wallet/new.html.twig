@@ -2,7 +2,10 @@
 
 {% block title %}New Wallet for {{ wallet.year }}{% endblock %}
 
-{% set page_requires_account_wallet_dashboard_wallet_new = true %}
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('account_wallet_dashboard_wallet_new') }}
+{% endblock %}
 
 {% block body %}
     <div id="account-wallet-dashboard-wallet-new-page" class="hidden max-w-screen-xxl mx-auto">
@@ -73,4 +76,9 @@
 
 {% block loadingSpinner %}
     {{ include('components/spinner/page-spinner.html.twig', {spinnerId: 'loadingPageSpinner'}) }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('account_wallet_dashboard_wallet_new') }}
 {% endblock %}
