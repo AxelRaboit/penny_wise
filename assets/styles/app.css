@@ -1,4 +1,5 @@
 @import './component/spinner.css';
+@import './component/ux-autocomplete-field.css';
 
 @tailwind base;
 @tailwind components;
@@ -9,6 +10,8 @@
     --color-secondary: theme('colors.secondary.DEFAULT');
     --color-tertiary: theme('colors.tertiary.DEFAULT');
     --color-quaternary: theme('colors.quaternary.DEFAULT');
+    --color-quinary: theme('colors.quinary.DEFAULT');
+    --color-senary: theme('colors.senary.DEFAULT');
 }
 
 body {

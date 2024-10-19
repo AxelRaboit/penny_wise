@@ -4,8 +4,8 @@
 
 {% block body %}
     <div>
-        <div class="bg-senary shadow-lg rounded-md max-w-lg mx-auto">
-            <div class="bg-secondary text-white text-center p-2 rounded-t-md">
+        <div class="bg-secondary rounded-md max-w-lg mx-auto border-quaternary border-solid border">
+            <div class="bg-tertiary text-white text-center p-2 rounded-t-md border-b border-quaternary border-solid">
                 <h1 class="text-md font-bold text-white">Add a New Wallet</h1>
             </div>
 
@@ -13,54 +13,66 @@
                 {{ form_start(form) }}
 
                 {% if form_errors(form) %}
-                    <div class="mb-4 p-4 bg-red-100 text-danger rounded-md">
+                    <div class="mb-4 p-4 bg-danger text-white rounded-md">
                         {{ form_errors(form) }}
                     </div>
                 {% endif %}
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-1">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
                     <div class="flex flex-col mb-2">
-                        {{ form_label(form.account, null, {label_attr: {class: 'text-gray-700 font-semibold'}}) }}
-                        {{ form_widget(form.account, {attr: {class: 'rounded-md shadow-sm'}}) }}
-                        {{ form_errors(form.account) }}
+                        {{ form_label(form.account, null, {label_attr: {class: 'text-white'}}) }}
+                        {{ form_widget(form.account) }}
+                        <div class="text-danger text-sm mt-1">
+                            {{ form_errors(form.account) }}
+                        </div>
                     </div>
 
                     <div class="flex flex-col mb-2">
-                        {{ form_label(form.year, null, {label_attr: {class: 'text-gray-700 font-semibold'}}) }}
-                        {{ form_widget(form.year, {attr: {class: 'rounded-md shadow-sm p-2'}}) }}
-                        {{ form_errors(form.year) }}
+                        {{ form_label(form.year, null, {label_attr: {class: 'text-white'}}) }}
+                        {{ form_widget(form.year, {attr: {class: 'rounded-md p-2 bg-secondary border-quaternary border-solid border'}}) }}
+                        <div class="text-danger text-sm mt-1">
+                            {{ form_errors(form.year) }}
+                        </div>
                     </div>
 
                     <div class="flex flex-col mb-2">
-                        {{ form_label(form.month, null, {label_attr: {class: 'text-gray-700 font-semibold'}}) }}
+                        {{ form_label(form.month, null, {label_attr: {class: 'text-white'}}) }}
                         {{ form_widget(form.month) }}
-                        {{ form_errors(form.month) }}
+                        <div class="text-danger text-sm mt-1">
+                            {{ form_errors(form.month) }}
+                        </div>
                     </div>
 
                     <div class="flex flex-col mb-2">
-                        {{ form_label(form.currency, null, {label_attr: {class: 'text-gray-700 font-semibold'}}) }}
-                        {{ form_widget(form.currency, {attr: {class: 'rounded-md shadow-sm bg-senary'}}) }}
-                        {{ form_errors(form.currency) }}
+                        {{ form_label(form.currency, null, {label_attr: {class: 'text-white'}}) }}
+                        {{ form_widget(form.currency) }}
+                        <div class="text-danger text-sm mt-1">
+                            {{ form_errors(form.currency) }}
+                        </div>
                     </div>
 
                     <div class="flex flex-col mb-2">
-                        {{ form_label(form.start_balance, null, {label_attr: {class: 'text-gray-700 font-semibold'}}) }}
-                        {{ form_widget(form.start_balance, {attr: {class: 'rounded-md shadow-sm p-2'}}) }}
-                        {{ form_errors(form.start_balance) }}
+                        {{ form_label(form.start_balance, null, {label_attr: {class: 'text-white'}}) }}
+                        {{ form_widget(form.start_balance, {attr: {class: 'rounded-md p-2 bg-secondary border-quaternary border-solid border'}}) }}
+                        <div class="text-danger text-sm mt-1">
+                            {{ form_errors(form.start_balance) }}
+                        </div>
                     </div>
 
                     <div class="flex flex-col mb-2">
-                        {{ form_label(form.spending_limit, null, {label_attr: {class: 'text-gray-700 font-semibold'}}) }}
-                        {{ form_widget(form.spending_limit, {attr: {class: 'rounded-md shadow-sm p-2'}}) }}
-                        {{ form_errors(form.spending_limit) }}
+                        {{ form_label(form.spending_limit, null, {label_attr: {class: 'text-white'}}) }}
+                        {{ form_widget(form.spending_limit, {attr: {class: 'rounded-md p-2 bg-secondary border-quaternary border-solid border'}}) }}
+                        <div class="text-danger text-sm mt-1">
+                            {{ form_errors(form.spending_limit) }}
+                        </div>
                     </div>
                 </div>
 
                 <div class="mt-4 flex justify-between">
-                    <a href="{{ app.request.headers.get('referer') ?: path('account_list') }}" class="bg-primary hover:bg-primary-hover text-white font-bold py-2 px-4 rounded-md">
+                    <a href="{{ app.request.headers.get('referer') ?: path('account_list') }}" class="bg-quaternary hover:bg-quaternary-hover border-solid border border-quaternary-ring text-white font-bold py-2 px-4 rounded-md">
                         <i class="fa-solid fa-arrow-left mr-1"></i> Back
                     </a>
-                    <button type="submit" class="text-center font-bold bg-accent-primary hover:bg-accent-primary-hover border border-solid border-accent-primary-ring text-white py-2 px-4 rounded-md">
+                    <button type="submit" class="bg-accent-primary hover:bg-accent-primary-hover border-solid border border-accent-primary-ring text-center font-bold text-white py-2 px-4 rounded-md">
                         Add Wallet
                     </button>
                 </div>

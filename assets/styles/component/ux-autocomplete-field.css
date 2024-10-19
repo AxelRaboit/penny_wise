@@ -1,0 +1,48 @@
+.ts-wrapper {
+    background-color: #2a2a38;
+    border: 1px solid #3b3b47;
+    border-radius: 0.375rem;
+}
+
+.ts-control {
+    border: none;
+    padding: 0.7160rem !important;
+    background: var(--color-secondary) !important;
+    color: white;
+    font-size: 1rem;
+    border-radius: 0.375rem;
+}
+
+.ts-wrapper.single .ts-control {
+    box-shadow: unset !important;
+}
+
+.ts-control input {
+    background-color: var(--color-secondary) !important;
+    color: white;
+    border-color: #3b3b47;
+    font-size: 1rem;
+}
+
+.ts-dropdown {
+    background-color: var(--color-secondary);
+    border: 1px solid var(--color-quaternary) !important;
+    border-radius: 0.375rem;
+}
+
+.ts-dropdown-content {
+    color: white;
+}
+
+.clear-button {
+    color: white;
+    cursor: pointer;
+}
+
+.ts-control input::placeholder {
+    color: var(--color-senary);
+}
+
+.ts-control, .ts-wrapper.single.input-active .ts-control {
+    background: var(--color-secondary) !important;
+}

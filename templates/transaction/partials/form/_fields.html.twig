@@ -1,26 +1,26 @@
 <div class="grid grid-cols-1 sm:grid-cols-2 gap-1">
-    <div class="flex flex-col mb-2">
+    <div class="flex flex-col">
         {{ form_label(form.nature, 'Nature', {label_attr: {class: 'text-white'}}) }}
         {{ form_widget(form.nature, {attr: {class: 'rounded-md p-2 bg-secondary border-quaternary border-solid border'}}) }}
         <div class="text-danger text-sm">{{ form_errors(form.nature) }}</div>
     </div>
 
-    <div class="flex flex-col mb-2">
+    <div class="flex flex-col">
         {{ form_label(form.date, 'Day', {label_attr: {class: 'text-white'}}) }}
         {{ form_widget(form.date) }}
         <div class="text-danger text-sm">{{ form_errors(form.date) }}</div>
     </div>
 
-    <div class="flex flex-col mb-2">
+    <div class="flex flex-col">
         {{ form_label(form.amount, 'Amount', {label_attr: {class: 'text-white'}}) }}
         {{ form_widget(form.amount, {attr: {class: 'rounded-md p-2 bg-secondary border-quaternary border-solid border'}}) }}
         <div class="text-danger text-sm mt-1">{{ form_errors(form.amount) }}</div>
     </div>
 
-    <div id="js-container-budget-and-checkbox" class="flex flex-col mb-2 space-y-2 justify-center">
+    <div id="js-container-budget-and-checkbox" class="flex flex-col space-y-2 justify-center">
         <div id="js-container-budget" class="flex flex-col mb-2">
             {{ form_label(form.budget, 'Budgeted Amount', {label_attr: {class: 'text-white'}}) }}
-            {{ form_widget(form.budget, {attr: {class: 'rounded-md shadow-sm p-2'}}) }}
+            {{ form_widget(form.budget, {attr: {class: 'rounded-md p-2'}}) }}
             <div class="text-danger text-sm mt-1">{{ form_errors(form.budget) }}</div>
         </div>
 
