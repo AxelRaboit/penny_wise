@@ -14,7 +14,7 @@ use function Symfony\Component\String\u;
 #[AsEventListener(event: FormEvents::POST_SUBMIT, method: 'onPostSubmit')]
 final class TransactionTagListener
 {
-    private const string DEFAULT_COLOR = '#8064E7';
+    private const string DEFAULT_COLOR = '#1877F2';
 
     public function onPostSubmit(FormEvent $event): void
     {
