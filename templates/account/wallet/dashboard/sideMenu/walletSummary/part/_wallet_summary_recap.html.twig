@@ -45,7 +45,7 @@
             <div class="bg-tertiary border-b border-solid border-quaternary">
                 <h2 class="text-md font-bold p-1 text-white text-center">Spend limit</h2>
             </div>
-            <div class="flex items-center justify-center space-x-2 p-2">
+            <div class="flex items-center justify-center space-x-2 p-1">
                 {% if wallet.spendingLimit is not null %}
                     <span class="font-bold text-white text-sm">{{ wallet.currency.value|currency_symbol }}</span>
                     <span class="font-bold text-white text-sm">{{ wallet.spendingLimit|number_format(2, '.', ' ') }}</span>
