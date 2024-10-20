@@ -14,18 +14,23 @@
                             <img src="{{ asset('media/logo.png') }}" alt="Default Avatar" class="w-full h-full rounded-full">
                         {% endif %}
                     </a>
-
                     <a href="{{ path('profile_settings_edit') }}" class="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-200">
                         <i class="fa-solid fa-pencil text-white text-2xl"></i>
                     </a>
                 </div>
-                <div class="ml-6">
+                <div class="ml-6 flex flex-col justify-start">
                     {% if app.user.userInformation and app.user.userInformation.firstname and app.user.userInformation.lastname %}
-                        <h1 class="font-semibold">{{ app.user.userInformation.firstname }} {{ app.user.userInformation.lastname }}</h1>
+                        <h1 class="font-semibold text-white text-sm mb-1">{{ app.user.userInformation.firstname }} {{ app.user.userInformation.lastname }}</h1>
                     {% else %}
-                        <h1 class="font-semibold text-white text-sm">User</h1>
+                        <h1 class="font-semibold text-white text-sm mb-1">User</h1>
                     {% endif %}
-                    <p class="text-white text-sm">@{{ app.user.username }}</p>
+                    <twig:BadgeNeon
+                        color="accent-primary"
+                        size="xs"
+                        borderStyle="solid"
+                        label="@{{ app.user.username }}"
+                        title="Username"
+                    />
                 </div>
             </div>
 
@@ -83,7 +88,6 @@
                     route="app_logout"
                 />
             </div>
-
         </div>
     </div>
 {% endblock %}

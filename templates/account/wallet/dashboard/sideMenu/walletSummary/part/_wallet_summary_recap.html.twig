@@ -3,7 +3,7 @@
     <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-2 xxl:grid-cols-2 gap-4">
         <div class="bg-secondary rounded-md border border-solid border-quaternary">
             <div class="bg-tertiary border-b border-solid border-quaternary">
-                <h2 class="text-md font-bold p-1 text-white text-center">Start balance</h2>
+                <h2 class="text-sm font-bold p-1 text-white text-center">Start balance</h2>
             </div>
             <div class="flex items-center justify-center space-x-2 p-2">
                 <span class="font-bold text-white text-sm">{{ wallet.currency.value|currency_symbol }}</span>
@@ -13,7 +13,7 @@
 
         <div class="bg-secondary rounded-md border border-solid border-quaternary">
             <div class="bg-tertiary border-b border-solid border-quaternary">
-                <h2 class="text-md font-bold p-1 text-white text-center">Saving</h2>
+                <h2 class="text-sm font-bold p-1 text-white text-center">Saving</h2>
             </div>
             <div class="flex items-center justify-center space-x-2 p-2">
                 <span class="font-bold text-white text-sm">{{ wallet.currency.value|currency_symbol }}</span>
@@ -23,7 +23,7 @@
 
         <div class="bg-secondary rounded-md border border-solid border-quaternary">
             <div class="bg-tertiary border-b border-solid border-quaternary">
-                <h2 class="text-md font-bold p-1 text-white text-center">Budget</h2>
+                <h2 class="text-sm font-bold p-1 text-white text-center">Budget</h2>
             </div>
             <div class="flex items-center justify-center space-x-2 p-2">
                 <span class="font-bold text-white text-sm">{{ wallet.currency.value|currency_symbol }}</span>
@@ -33,7 +33,7 @@
 
         <div class="bg-secondary rounded-md border border-solid border-quaternary">
             <div class="bg-tertiary border-b border-solid border-quaternary">
-                <h2 class="text-md font-bold p-1 text-white text-center">Left</h2>
+                <h2 class="text-sm font-bold p-1 text-white text-center">Left</h2>
             </div>
             <div class="flex items-center justify-center space-x-2 p-2">
                 <span class="font-bold text-white text-sm">{{ wallet.currency.value|currency_symbol }}</span>
@@ -43,7 +43,7 @@
 
         <div class="bg-secondary rounded-md border border-solid border-quaternary">
             <div class="bg-tertiary border-b border-solid border-quaternary">
-                <h2 class="text-md font-bold p-1 text-white text-center">Spend limit</h2>
+                <h2 class="text-sm font-bold p-1 text-white text-center">Spend limit</h2>
             </div>
             <div class="flex items-center justify-center space-x-2 p-1">
                 {% if wallet.spendingLimit is not null %}
@@ -64,7 +64,7 @@
 
         <div class="bg-secondary rounded-md border border-solid border-quaternary">
             <div class="bg-tertiary border-b border-solid border-quaternary">
-                <h2 class="text-md font-bold p-1 text-white text-center">Spending</h2>
+                <h2 class="text-sm font-bold p-1 text-white text-center">Spending</h2>
             </div>
             <div class="flex items-center justify-center space-x-2 p-2">
                 <span class="font-bold text-white text-sm">{{ wallet.currency.value|currency_symbol }}</span>

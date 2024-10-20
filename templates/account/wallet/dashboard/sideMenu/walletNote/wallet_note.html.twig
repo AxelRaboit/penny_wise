@@ -4,7 +4,7 @@
             <div class="flex flex-col bg-senary border border-gray-300 mb-4 p-2 rounded-md shadow">
                 <div class="w-full">
                     <div class="flex justify-between items-center mb-2">
-                        <p class="font-bold">{{ note.title }}</p>
+                        <p class="font-bold text-sm">{{ note.title }}</p>
                         <div class="flex space-x-2">
                             <a href="#" class="bg-secondary hover:bg-secondary-hover text-white py-2 px-3 rounded-md">
                                 <i class="fa-solid fa-pencil"></i>
@@ -14,13 +14,13 @@
                             </a>
                         </div>
                     </div>
-                    <p>{{ note.message }}</p>
+                    <p class="text-sm">{{ note.message }}</p>
                 </div>
             </div>
         {% endfor %}
     {% else %}
         <div class="text-center p-4 bg-tertiary border border-solid border-quaternary rounded-md">
-            <span class="font-bold text-white">No notes</span>
+            <span class="font-bold text-white text-sm">No notes</span>
         </div>
     {% endif %}
 {% endset %}
