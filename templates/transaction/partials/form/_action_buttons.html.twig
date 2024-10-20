@@ -5,7 +5,7 @@
         icon="fa-arrow-left"
         label="{{ cancel_label }}"
         route="account_wallet_dashboard"
-        routeParams="{year: transaction.wallet.year, month: transaction.wallet.month, account: accountId, wallet: transaction.wallet.id}"
+        :routeParams="{year: transaction.wallet.year, month: transaction.wallet.month, account: accountId, wallet: transaction.wallet.id }"
     />
     <twig:Cta
         color="accent-primary"

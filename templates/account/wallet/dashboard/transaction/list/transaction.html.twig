@@ -7,15 +7,15 @@
                 </div>
 
                 <div class="flex space-x-1">
-                    <a href="{{ path('new_transaction_wallet_with_category', {account: account.id, wallet: wallet.id, category: transactionCategory.type}) }}" class="text-senary hover:bg-tertiary-hover text-white px-2.5 py-1.5 rounded-md flex items-center justify-center">
+                    <a href="{{ path('new_transaction_wallet_with_category', {account: account.id, wallet: wallet.id, category: transactionCategory.type}) }}" class="hover:bg-tertiary-hover text-white px-2.5 py-1.5 rounded-md flex items-center justify-center">
                         <i class="fa-solid fa-plus text-white text-xs"></i>
                     </a>
                     <button type="button"
-                            data-action-url="{{ path('delete_all_transactions_from_specific_category', {account: account.id, wallet: wallet.id, category: transactionCategory.type}) }}"
-                            class="js-delete-transactions-from-category-button text-senary hover:bg-tertiary-hover text-sm px-2.5 py-1.5 rounded-md flex items-center justify-center">
+                        data-action-url="{{ path('delete_all_transactions_from_specific_category', {account: account.id, wallet: wallet.id, category: transactionCategory.type}) }}"
+                        class="js-delete-transactions-from-category-button text-white hover:bg-tertiary-hover text-sm px-2.5 py-1.5 rounded-md flex items-center justify-center">
                         <i class="fa-solid fa-trash text-white text-xs"></i>
                     </button>
-                    <button @click="open = !open" class="text-senary hover:bg-tertiary-hover text-white px-2.5 py-1.5 rounded-md flex items-center justify-center">
+                    <button @click="open = !open" class="hover:bg-tertiary-hover text-white px-2.5 py-1.5 rounded-md flex items-center justify-center">
                         <span x-show="!open" class="text-white text-xs"><i class="fa-solid fa-chevron-up"></i></span>
                         <span x-show="open" class="text-white text-xs"><i class="fa-solid fa-chevron-down"></i></span>
                     </button>
@@ -79,7 +79,7 @@
                                         {{ transaction.budgetInfo.remaining|number_format(2, '.', ' ') }}
                                     </span>
                                 {% else %}
-                                    <span>-</span>
+                                    <span class="text-white">-</span>
                                 {% endif %}
                             </div>
                             <div class="md:col-span-1 text-center flex items-center justify-center space-x-2 md:pl-4 md:pr-4">
