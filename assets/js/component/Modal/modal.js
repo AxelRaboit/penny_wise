@@ -1,13 +1,22 @@
+const attachOutsideClickListener = (modal) => {
+    modal.addEventListener('click', function (e) {
+        const content = modal.querySelector('.modal-content');
+        if (!content.contains(e.target)) {
+            closeModal(modal);
+        }
+    });
+};
+
 const createModal = ({
-    modalId,
-    modalTitle,
-    modalMessageHeader,
-    modalMessage = '',
-    confirmButtonId,
-    cancelButtonId,
-    confirmLabel = 'Yes',
-    cancelLabel = 'No',
-    isDeleteAction = false,
+     modalId,
+     modalTitle,
+     modalMessageHeader,
+     modalMessage = '',
+     confirmButtonId,
+     cancelButtonId,
+     confirmLabel = 'Yes',
+     cancelLabel = 'No',
+     isDeleteAction = false,
 }) => {
     let existingModal = document.getElementById(modalId);
     if (existingModal) {
@@ -20,7 +29,7 @@ const createModal = ({
     modal.classList.add('fixed', 'inset-0', 'hidden', 'bg-gray-900', 'bg-opacity-50', 'flex', 'justify-center', 'items-center');
 
     modal.innerHTML = `
-        <div class="bg-tertiary rounded-md shadow-lg p-4 w-1/3 border-solid border border-quaternary-ring">
+        <div class="bg-tertiary rounded-md shadow-lg p-4 w-1/3 border-solid border border-quaternary-ring modal-content">
             <h3 class="text-lg text-white font-bold mb-4">${modalTitle}</h3>
             <p class="mb-4 text-white">${modalMessageHeader}</p>
             ${modalMessage ? `<p class="mb-4 text-sm text-white">${modalMessage}</p>` : ''}
@@ -32,6 +41,9 @@ const createModal = ({
     `;
 
     document.body.appendChild(modal);
+
+    attachOutsideClickListener(modal);
+
     return modal;
 };
 
@@ -44,15 +56,15 @@ const closeModal = (modal) => {
 };
 
 const attachModalEvents = function({
-   modalId,
-   modalTitle,
-   modalMessageHeader,
-   modalMessage = '',
-   triggerButtonSelector,
-   confirmButtonId,
-   cancelButtonId,
-   confirmLabel,
-   cancelLabel,
+    modalId,
+    modalTitle,
+    modalMessageHeader,
+    modalMessage = '',
+    triggerButtonSelector,
+    confirmButtonId,
+    cancelButtonId,
+    confirmLabel,
+    cancelLabel,
     isDeleteAction = false,
 }) {
     const modal = createModal({
