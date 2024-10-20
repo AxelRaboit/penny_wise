@@ -20,7 +20,7 @@
     <div id="js-container-budget-and-checkbox" class="flex flex-col space-y-2 justify-center">
         <div id="js-container-budget" class="flex flex-col mb-2">
             {{ form_label(form.budget, 'Budgeted Amount', {label_attr: {class: 'text-white'}}) }}
-            {{ form_widget(form.budget, {attr: {class: 'rounded-md p-2'}}) }}
+            {{ form_widget(form.budget, {attr: {class: 'rounded-md p-2 bg-secondary border-quaternary border-solid border'}}) }}
             <div class="text-danger text-sm mt-1">{{ form_errors(form.budget) }}</div>
         </div>
 
