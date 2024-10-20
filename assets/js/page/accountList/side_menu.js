@@ -1,4 +1,4 @@
-import { initializeModals } from '../../component/Modal/side_menu_modal.js';
+import { initializeModals } from '@component/Modal/side_menu_modal.js';
 
 export function initializeAccountListSideMenu() {
     const modalConfig = [

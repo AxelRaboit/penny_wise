@@ -1,3 +1,4 @@
+const path = require('path');
 const Encore = require('@symfony/webpack-encore');
 
 // Manually configure the runtime environment if not already configured yet by the "encore" command.
@@ -76,14 +77,17 @@ Encore
 ;
 
 Encore
-    .enablePostCssLoader(options => {
-        options.postcssOptions = {
-            plugins: {
-                tailwindcss: {},
-                autoprefixer: {},
-            },
-        };
-    });
+.enablePostCssLoader(options => {
+    options.postcssOptions = {
+        plugins: {
+            tailwindcss: {},
+            autoprefixer: {},
+        },
+    };
+})
+.addAliases({
+    '@component': path.resolve(__dirname, 'assets/js/component')
+});
 
 
 module.exports = Encore.getWebpackConfig();
