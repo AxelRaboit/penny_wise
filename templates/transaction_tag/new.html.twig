@@ -44,12 +44,19 @@
                 </div>
 
                 <div class="mt-4 flex justify-between">
-                    <a href="{{ path('transaction_tag_list') }}" class="bg-quaternary hover:bg-quaternary-hover border-solid border border-quaternary-ring text-white font-bold py-2 px-4 rounded-md">
-                        <i class="fa-solid fa-arrow-left mr-1"></i> Back
-                    </a>
-                    <button type="submit" class="bg-accent-primary hover:bg-accent-primary-hover border-accent-primary-ring border border-solid text-white font-bold py-2 px-4 rounded-md">
-                        Add Tag
-                    </button>
+                    <twig:Cta
+                        color="quaternary"
+                        size="sm"
+                        icon="fa-arrow-left"
+                        label="Back"
+                        route="transaction_tag_list"
+                    />
+                    <twig:Cta
+                        color="accent-primary"
+                        size="sm"
+                        label="Create tag"
+                        buttonType="submit"
+                    />
                 </div>
 
                 {{ form_end(form) }}

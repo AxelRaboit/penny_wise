@@ -69,12 +69,19 @@
                 </div>
 
                 <div class="mt-4 flex justify-between">
-                    <a href="{{ app.request.headers.get('referer') ?: path('account_list') }}" class="bg-quaternary hover:bg-quaternary-hover border-solid border border-quaternary-ring text-white font-bold py-2 px-4 rounded-md">
-                        <i class="fa-solid fa-arrow-left mr-1"></i> Back
-                    </a>
-                    <button type="submit" class="bg-accent-primary hover:bg-accent-primary-hover border-solid border border-accent-primary-ring text-center font-bold text-white py-2 px-4 rounded-md">
-                        Add Wallet
-                    </button>
+                    <twig:Cta
+                        color="quaternary"
+                        size="sm"
+                        icon="fa-arrow-left"
+                        label="Back"
+                        route="account_list"
+                    />
+                    <twig:Cta
+                        color="accent-primary"
+                        size="sm"
+                        label="Create wallet"
+                        buttonType="submit"
+                    />
                 </div>
 
                 {{ form_end(form) }}

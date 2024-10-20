@@ -14,6 +14,7 @@
     title = '',
     disabled = false,
     extraClasses = '',
+    buttonType = 'button',
     dataActionUrl = false,
     alpineAttributes = {},
     attributes = {}
@@ -74,7 +75,11 @@
         {{ buttonMacros.renderContent(icon, label, iconPosition, textClasses.apply({color}), expandedAlpineState) }}
     </span>
 {% else %}
-    {% if dataActionUrl %}
+    {% if buttonType == 'submit' %}
+        <button id="{{ id }}" type="{{ buttonType }}" class="{{ buttonClasses.apply({color, size, fullWidth, borderStyle}) }} {{ extraClasses }} group" title="{{ title }}" {{ buttonMacros.renderAlpineAttributes(alpineAttributes) }} {{ attributes|raw }}>
+            {{ buttonMacros.renderContent(icon, label, iconPosition, textClasses.apply({color}), expandedAlpineState) }}
+        </button>
+    {% elseif dataActionUrl %}
         <button id="{{ id }}" type="button" class="{{ buttonClasses.apply({color, size, fullWidth, borderStyle}) }} {{ extraClasses }} group" title="{{ title }}" data-action-url="{{ actionUrl }}" {{ buttonMacros.renderAlpineAttributes(alpineAttributes) }} {{ attributes|raw }}>
             {{ buttonMacros.renderContent(icon, label, iconPosition, textClasses.apply({color}), expandedAlpineState) }}
         </button>

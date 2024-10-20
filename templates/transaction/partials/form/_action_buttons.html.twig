@@ -1,7 +1,16 @@
 <div class="mt-4 flex justify-between">
-    <a href="{{ path('account_wallet_dashboard', {year: transaction.wallet.year, month: transaction.wallet.month, account: accountId, wallet: transaction.wallet.id}) }}"
-       class="bg-quaternary hover:bg-quaternary-hover text-white font-bold py-2 px-4 rounded-md border-solid border border-quaternary-ring">
-        <i class="fa-solid fa-arrow-left mr-1"></i> {{ cancel_label }}
-    </a>
-    <button type="submit" class="bg-accent-primary hover:bg-accent-primary-hover text-white font-bold py-2 px-4 rounded-md border-solid border border-accent-primary-ring">{{ submit_label }}</button>
+    <twig:Cta
+        color="quaternary"
+        size="sm"
+        icon="fa-arrow-left"
+        label="{{ cancel_label }}"
+        route="account_wallet_dashboard"
+        routeParams="{year: transaction.wallet.year, month: transaction.wallet.month, account: accountId, wallet: transaction.wallet.id}"
+    />
+    <twig:Cta
+        color="accent-primary"
+        size="sm"
+        label="{{ submit_label }}"
+        buttonType="submit"
+    />
 </div>

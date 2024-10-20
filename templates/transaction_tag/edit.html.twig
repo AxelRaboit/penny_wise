@@ -50,12 +50,19 @@
                 </div>
 
                 <div class="mt-4 flex justify-between">
-                    <a href="{{ path('transaction_tag_list') }}" class="bg-primary hover:bg-primary-hover text-white font-bold py-2 px-4 rounded-md">
-                        <i class="fa-solid fa-arrow-left mr-1"></i> Back
-                    </a>
-                    <button type="submit" class="bg-accent-primary hover:bg-accent-primary-hover border border-solid border-accent-primary-ring text-white font-bold py-2 px-4 rounded-md">
-                        Save Changes
-                    </button>
+                    <twig:Cta
+                        color="primary"
+                        size="sm"
+                        icon="fa-arrow-left"
+                        label="Back"
+                        route="transaction_tag_list"
+                    />
+                    <twig:Cta
+                        color="accent-primary"
+                        size="sm"
+                        label="Save changes"
+                        buttonType="submit"
+                    />
                 </div>
 
                 {{ form_end(form) }}
