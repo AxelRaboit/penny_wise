@@ -11,6 +11,7 @@ export function initializeWalletListModals() {
         confirmLabel: 'Delete',
         cancelButtonId: 'cancelDeleteAccount',
         cancelLabel: 'Cancel',
+        isDeleteAction: true,
     });
 
     attachModalEvents({
@@ -23,6 +24,7 @@ export function initializeWalletListModals() {
         confirmLabel: 'Delete',
         cancelButtonId: 'cancelDeleteWallet',
         cancelLabel: 'Cancel',
+        isDeleteAction: true,
     });
 
     attachModalEvents({
@@ -35,5 +37,6 @@ export function initializeWalletListModals() {
         confirmLabel: 'Delete',
         cancelButtonId: 'cancelDeleteYear',
         cancelLabel: 'Cancel',
+        isDeleteAction: true,
     });
 }

@@ -1,9 +1,20 @@
-const createModal = ({modalId, modalTitle, modalMessageHeader, modalMessage = '', confirmButtonId, cancelButtonId, confirmLabel = 'Yes', cancelLabel = 'No'}) => {
+const createModal = ({
+    modalId,
+    modalTitle,
+    modalMessageHeader,
+    modalMessage = '',
+    confirmButtonId,
+    cancelButtonId,
+    confirmLabel = 'Yes',
+    cancelLabel = 'No',
+    isDeleteAction = false,
+}) => {
     let existingModal = document.getElementById(modalId);
     if (existingModal) {
         return existingModal;
     }
 
+    const dangerOutlineClasses = 'bg-transparent text-danger border-danger-ring hover:bg-danger hover:text-white p-2 rounded-md border-solid border';
     const modal = document.createElement('div');
     modal.id = modalId;
     modal.classList.add('fixed', 'inset-0', 'hidden', 'bg-gray-900', 'bg-opacity-50', 'flex', 'justify-center', 'items-center');
@@ -15,7 +26,7 @@ const createModal = ({modalId, modalTitle, modalMessageHeader, modalMessage = ''
             ${modalMessage ? `<p class="mb-4 text-sm text-white">${modalMessage}</p>` : ''}
             <div class="flex justify-end">
                 <button id="${cancelButtonId}" class="bg-quaternary hover:bg-quaternary-hover text-white p-2 rounded-md mr-2 border-solid border border-quaternary-ring">${cancelLabel}</button>
-                <button id="${confirmButtonId}" class="bg-quinary hover:bg-quinary-hover text-white p-2 rounded-md border-solid border border-quaternary-ring">${confirmLabel}</button>
+                <button id="${confirmButtonId}" class="${isDeleteAction ? dangerOutlineClasses : 'bg-quinary hover:bg-quinary-hover text-white p-2 rounded-md border-solid border border-quaternary-ring'}">${confirmLabel}</button>
             </div>
         </div>
     `;
@@ -42,6 +53,7 @@ const attachModalEvents = function({
    cancelButtonId,
    confirmLabel,
    cancelLabel,
+    isDeleteAction = false,
 }) {
     const modal = createModal({
         modalId,
@@ -51,7 +63,8 @@ const attachModalEvents = function({
         confirmButtonId,
         cancelButtonId,
         confirmLabel,
-        cancelLabel
+        cancelLabel,
+        isDeleteAction,
     });
     const confirmButton = document.getElementById(confirmButtonId);
     const cancelButton = document.getElementById(cancelButtonId);
