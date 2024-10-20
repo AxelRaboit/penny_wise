@@ -66,7 +66,7 @@
                                 <span class="text-white">{{ transaction.transaction.nature ?? '-' }}</span>
                             </div>
                             <div class="md:col-span-1 text-center md:pr-2">
-                                <span class="{{ transaction.budgetInfo.overBudget ? 'text-danger' : 'text-success' }}">
+                                <span class="{{ transaction.budgetInfo.overBudget ? 'text-danger' : (transaction.budgetInfo.budget ? 'text-success' : 'text-white') }}">
                                     {{ transaction.budgetInfo.budget ? transaction.budgetInfo.budget|number_format(2, '.', ' ') : '-' }}
                                 </span>
                             </div>
