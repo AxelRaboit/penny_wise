@@ -6,7 +6,7 @@
     <div>
         <div class="bg-secondary rounded-md max-w-lg mx-auto border-quaternary border-solid border">
             <div class="bg-tertiary text-white text-center p-2 rounded-t-md border-b border-quaternary border-solid">
-                <h1 class="text-md font-bold text-white">Add a New Account</h1>
+                <h1 class="text-sm font-bold text-white">Add a new account</h1>
             </div>
             <div class="p-4">
                 {{ form_start(form) }}
@@ -19,24 +19,24 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
                     <div class="flex flex-col mb-2">
-                        {{ form_label(form.name, null, {label_attr: {class: 'text-white'}}) }}
-                        {{ form_widget(form.name, {attr: {class: 'rounded-md p-2 bg-secondary border-quaternary border-solid border'}}) }}
+                        {{ form_label(form.name, null, {label_attr: {class: 'text-white text-sm'}}) }}
+                        {{ form_widget(form.name, {attr: {class: 'rounded-md p-2 bg-secondary border-quaternary border-solid border text-sm'}}) }}
                         <div class="text-danger text-sm mt-1">
                             {{ form_errors(form.name) }}
                         </div>
                     </div>
 
                     <div class="flex flex-col mb-2">
-                        {{ form_label(form.identifier, null, {label_attr: {class: 'text-white'}}) }}
-                        {{ form_widget(form.identifier, {attr: {class: 'rounded-md p-2 bg-secondary border-quaternary border-solid border'}}) }}
+                        {{ form_label(form.identifier, null, {label_attr: {class: 'text-white text-sm'}}) }}
+                        {{ form_widget(form.identifier, {attr: {class: 'rounded-md p-2 bg-secondary border-quaternary border-solid border text-sm'}}) }}
                         <div class="text-danger text-sm mt-1">
                             {{ form_errors(form.identifier) }}
                         </div>
                     </div>
                 </div>
                 <div class="flex flex-col mb-2">
-                    {{ form_label(form.priority, null, {label_attr: {class: 'text-white'}}) }}
-                    {{ form_widget(form.priority, {attr: {class: 'rounded-md p-2 bg-secondary border-quaternary border-solid border'}}) }}
+                    {{ form_label(form.priority, null, {label_attr: {class: 'text-white text-sm'}}) }}
+                    {{ form_widget(form.priority, {attr: {class: 'rounded-md p-2 bg-secondary border-quaternary border-solid border text-sm'}}) }}
                     <div class="text-danger text-sm mt-1">
                         {{ form_errors(form.priority) }}
                     </div>
@@ -44,14 +44,14 @@
                 <div class="mt-4 flex justify-between">
                     <twig:Cta
                         color="quaternary"
-                        size="sm"
+                        size="xs"
                         icon="fa-arrow-left"
                         label="Back"
                         route="account_list"
                     />
                     <twig:Cta
                         color="accent-primary"
-                        size="sm"
+                        size="xs"
                         label="Create account"
                         buttonType="submit"
                     />

@@ -11,7 +11,7 @@
     <div id="transaction-tag-list-page" class="hidden max-w-screen-xxl mx-auto">
         <div class="bg-secondary shadow-md rounded-md max-w-lg mx-auto mt-6 border border-quaternary border-solid">
             <div class="bg-tertiary text-center py-2 rounded-t-md border-b border-quaternary border-solid">
-                <h1 class="text-md font-bold text-white">Transaction Tags</h1>
+                <h1 class="text-sm font-bold text-white">Transaction Tags</h1>
             </div>
             <div class="p-4">
                 <div>
@@ -24,14 +24,14 @@
                                 <div class="space-x-2">
                                     <twig:Cta
                                         color="transparent"
-                                        size="sm"
+                                        size="xs"
                                         icon="fa-pen-to-square"
                                         route="transaction_tag_edit"
                                         :routeParams="{id: tag.id}"
                                     />
                                     <twig:Cta
                                         color="transparent"
-                                        size="sm"
+                                        size="xs"
                                         icon="fa-trash"
                                         dataActionUrl="true"
                                         route="transaction_tag_delete"
@@ -50,14 +50,14 @@
                 <div class="mt-4 flex justify-between">
                     <twig:Cta
                         color="quaternary"
-                        size="sm"
+                        size="xs"
                         icon="fa-arrow-left"
                         label="Back"
                         route="account_list"
                     />
                     <twig:Cta
                         color="accent-primary"
-                        size="sm"
+                        size="xs"
                         label="Create tag"
                         route="transaction_tag_new"
                     />

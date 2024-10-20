@@ -11,7 +11,7 @@
     <div id="transaction-tag-new-page" class="hidden max-w-screen-xxl mx-auto">
         <div class="bg-secondary shadow-md rounded-md max-w-lg mx-auto mt-6 border border-quaternary border-solid">
             <div class="bg-tertiary text-center py-2 rounded-t-md border-b border-quaternary border-solid">
-                <h1 class="text-md font-bold text-white">Add a New Transaction Tag</h1>
+                <h1 class="text-sm font-bold text-white">Add a New Transaction Tag</h1>
             </div>
 
             <div class="p-6">
@@ -25,32 +25,32 @@
 
                 <div class="grid grid-cols-1 gap-1">
                     <div class="flex flex-col mb-2">
-                        {{ form_label(form.name, null, {label_attr: {class: 'text-white font-semibold'}}) }}
-                        {{ form_widget(form.name, {attr: {class: 'rounded-md p-2 border border-solid border-quaternary bg-secondary'}}) }}
+                        {{ form_label(form.name, null, {label_attr: {class: 'text-white font-semibold text-sm'}}) }}
+                        {{ form_widget(form.name, {attr: {class: 'rounded-md p-2 border border-solid border-quaternary bg-secondary text-sm'}}) }}
                         {{ form_errors(form.name) }}
                     </div>
                     <div class="flex mb-2">
-                        {{ form_widget(form.useDefaultColor, {attr: {class: 'h-4 w-4 rounded-md js-transaction-tag-use-default-color'}}) }}
-                        {{ form_label(form.useDefaultColor, null, {label_attr: {class: 'ml-2 block text-sm text-white'}}) }}
+                        {{ form_widget(form.useDefaultColor, {attr: {class: 'h-4 w-4 rounded-md js-transaction-tag-use-default-color text-sm'}}) }}
+                        {{ form_label(form.useDefaultColor, null, {label_attr: {class: 'ml-2 block text-sm text-white text-sm'}}) }}
                         {{ form_errors(form.useDefaultColor) }}
                     </div>
                     <div id="js-transaction-tag-color-field" class="flex flex-col mb-2">
-                        {{ form_label(form.color, null, {label_attr: {class: 'text-gray-700 font-semibold'}}) }}
-                        {{ form_widget(form.color, {attr: {class: 'rounded-md p-0.5'}}) }}
+                        {{ form_label(form.color, null, {label_attr: {class: 'text-white font-semibold text-sm'}}) }}
+                        {{ form_widget(form.color, {attr: {class: 'rounded-md p-0.5 text-sm'}}) }}
                         {{ form_errors(form.color) }}
                     </div>
                 </div>
                 <div class="mt-4 flex justify-between">
                     <twig:Cta
                         color="quaternary"
-                        size="sm"
+                        size="xs"
                         icon="fa-arrow-left"
                         label="Back"
                         route="transaction_tag_list"
                     />
                     <twig:Cta
                         color="accent-primary"
-                        size="sm"
+                        size="xs"
                         label="Create tag"
                         buttonType="submit"
                     />

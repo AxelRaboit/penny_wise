@@ -1,19 +1,19 @@
 <div class="grid grid-cols-1 sm:grid-cols-2 gap-1">
     <div class="flex flex-col">
-        {{ form_label(form.nature, 'Nature', {label_attr: {class: 'text-white'}}) }}
-        {{ form_widget(form.nature, {attr: {class: 'rounded-md p-2 bg-secondary border-quaternary border-solid border'}}) }}
+        {{ form_label(form.nature, 'Nature', {label_attr: {class: 'text-white text-sm'}}) }}
+        {{ form_widget(form.nature, {attr: {class: 'rounded-md p-2 bg-secondary border-quaternary border-solid border text-sm'}}) }}
         <div class="text-danger text-sm">{{ form_errors(form.nature) }}</div>
     </div>
 
     <div class="flex flex-col">
-        {{ form_label(form.date, 'Day', {label_attr: {class: 'text-white'}}) }}
-        {{ form_widget(form.date) }}
+        {{ form_label(form.date, 'Day', {label_attr: {class: 'text-white text-sm'}}) }}
+        {{ form_widget(form.date, {attr: {class: 'text-sm'}}) }}
         <div class="text-danger text-sm">{{ form_errors(form.date) }}</div>
     </div>
 
     <div class="flex flex-col">
-        {{ form_label(form.amount, 'Amount', {label_attr: {class: 'text-white'}}) }}
-        {{ form_widget(form.amount, {attr: {class: 'rounded-md p-2 bg-secondary border-quaternary border-solid border'}}) }}
+        {{ form_label(form.amount, 'Amount', {label_attr: {class: 'text-white text-sm'}}) }}
+        {{ form_widget(form.amount, {attr: {class: 'rounded-md p-2 bg-secondary border-quaternary border-solid border text-sm'}}) }}
         <div class="text-danger text-sm mt-1">{{ form_errors(form.amount) }}</div>
     </div>
 
@@ -34,26 +34,26 @@
     </div>
 
     <div class="flex flex-col mb-2">
-        {{ form_label(form.transactionCategory, 'Transaction Category', {label_attr: {class: 'text-white'}}) }}
+        {{ form_label(form.transactionCategory, 'Transaction Category', {label_attr: {class: 'text-white text-sm'}}) }}
         {{ form_widget(form.transactionCategory, {attr: {id: 'transaction_for_wallet_transactionCategory'}}) }}
         <div class="text-danger text-sm mt-1">{{ form_errors(form.transactionCategory) }}</div>
     </div>
 
     <div class="flex flex-col mb-2">
-        {{ form_label(form.tag, 'Tags', {label_attr: {class: 'text-white'}}) }}
+        {{ form_label(form.tag, 'Tags', {label_attr: {class: 'text-white text-sm'}}) }}
         {{ form_widget(form.tag) }}
         <div class="text-danger text-sm mt-1">{{ form_errors(form.tag) }}</div>
     </div>
 
     <div class="flex items-center mb-2">
         {{ form_widget(form.highlight, {attr: {class: 'mr-2'}}) }}
-        {{ form_label(form.highlight, null, {label_attr: {class: 'text-white'}}) }}
+        {{ form_label(form.highlight, null, {label_attr: {class: 'text-white text-sm'}}) }}
         <div class="text-danger text-sm mt-1">{{ form_errors(form.highlight) }}</div>
     </div>
 </div>
 
 <div class="flex flex-col mb-2">
-    {{ form_label(form.comment, 'Comment', {label_attr: {class: 'text-white'}}) }}
-    {{ form_widget(form.comment, {attr: {class: 'rounded-md p-2 bg-secondary border-quaternary border-solid border'}}) }}
+    {{ form_label(form.comment, 'Comment', {label_attr: {class: 'text-white text-sm'}}) }}
+    {{ form_widget(form.comment, {attr: {class: 'rounded-md p-2 bg-secondary border-quaternary border-solid border text-sm'}}) }}
     <div class="text-danger text-sm mt-1">{{ form_errors(form.comment) }}</div>
 </div>

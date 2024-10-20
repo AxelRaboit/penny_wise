@@ -23,55 +23,67 @@
                     {% if app.user.userInformation and app.user.userInformation.firstname and app.user.userInformation.lastname %}
                         <h1 class="font-semibold">{{ app.user.userInformation.firstname }} {{ app.user.userInformation.lastname }}</h1>
                     {% else %}
-                        <h1 class="font-semibold text-white">User</h1>
+                        <h1 class="font-semibold text-white text-sm">User</h1>
                     {% endif %}
-                    <p class="text-white">@{{ app.user.username }}</p>
+                    <p class="text-white text-sm">@{{ app.user.username }}</p>
                 </div>
             </div>
 
             <div class="mt-6">
-                <h2 class="font-semibold text-white">Profile Information</h2>
+                <h2 class="font-semibold text-white text-sm">Profile Information</h2>
                 <div class="mt-4">
                     <div class="grid grid-cols-1 md:grid-cols-1 gap-2 mb-2">
                         <div class="bg-secondary p-2 rounded-md border border-quaternary border-solid border">
-                            <h3 class="font-semibold text-white">Bio</h3>
-                            <p class="text-white">{{ app.user.userInformation.bio ?? '-' }}</p>
+                            <h3 class="font-semibold text-white text-sm">Bio</h3>
+                            <p class="text-white text-sm">{{ app.user.userInformation.bio ?? '-' }}</p>
                         </div>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
                         <div class="bg-secondary p-2 rounded-md border border-quaternary border-solid border">
-                            <h3 class="font-semibold text-white">First Name</h3>
-                            <p class="text-white">{{ app.user.userInformation.firstname ?? '-' }}</p>
+                            <h3 class="font-semibold text-white text-sm">First Name</h3>
+                            <p class="text-white text-sm">{{ app.user.userInformation.firstname ?? '-' }}</p>
                         </div>
                         <div class="bg-secondary p-2 rounded-md border border-quaternary border-solid border">
-                            <h3 class="font-semibold text-white">Last Name</h3>
-                            <p class="text-white">{{ app.user.userInformation.lastname ?? '-' }}</p>
+                            <h3 class="font-semibold text-white text-sm">Last Name</h3>
+                            <p class="text-white text-sm">{{ app.user.userInformation.lastname ?? '-' }}</p>
                         </div>
                         <div class="bg-secondary p-2 rounded-md border border-quaternary border-solid border">
-                            <h3 class="font-semibold text-white">Email</h3>
-                            <p class="text-white">{{ app.user.email }}</p>
+                            <h3 class="font-semibold text-white text-sm">Email</h3>
+                            <p class="text-white text-sm">{{ app.user.email }}</p>
                         </div>
                         <div class="bg-secondary p-2 rounded-md border border-quaternary border-solid border">
-                            <h3 class="font-semibold text-white">Username</h3>
-                            <p class="text-white">{{ app.user.username }}</p>
+                            <h3 class="font-semibold text-white text-sm">Username</h3>
+                            <p class="text-white text-sm">{{ app.user.username }}</p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="mt-6 flex justify-between">
-                <div>
-                    <a href="#" class="bg-accent-primary hover:bg-accent-primary-hover border border-accent-primary-ring text-white font-bold py-2 px-4 rounded-md opacity-50 cursor-not-allowed" aria-disabled="true" title="Feature not available">
-                        <i class="fa-solid fa-key mr-1"></i>Edit password
-                    </a>
-                    <a href="{{ path('profile_settings_edit') }}" class="bg-accent-primary hover:bg-accent-primary-hover border-solid border border-accent-primary-ring text-white font-bold py-2 px-4 rounded-md ml-2">
-                        <i class="fa-solid fa-pen mr-1"></i>Edit profile
-                    </a>
-                    <a href="{{ path('app_logout') }}" class="bg-danger hover:bg-danger-hover border border-danger-ring text-white font-bold py-2 px-4 rounded-md ml-2">
-                        <i class="fa-solid fa-right-from-bracket mr-1"></i>Logout
-                    </a>
-                </div>
+            <div class="mt-6 flex space-x-2">
+                <twig:Cta
+                    color="accent-primary"
+                    size="xs"
+                    icon="fa-key"
+                    label="Edit password"
+                    title="Feature not available"
+                    disabled="true"
+                />
+                <twig:Cta
+                    color="accent-primary"
+                    size="xs"
+                    icon="fa-pen"
+                    label="Edit profile"
+                    route="profile_settings_edit"
+                />
+                <twig:Cta
+                    color="danger"
+                    size="xs"
+                    icon="fa-right-from-bracket"
+                    label="Logout"
+                    route="app_logout"
+                />
             </div>
+
         </div>
     </div>
 {% endblock %}

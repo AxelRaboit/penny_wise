@@ -32,11 +32,11 @@ const createModal = ({
     modal.innerHTML = `
         <div class="bg-tertiary rounded-md shadow-lg p-4 w-1/3 border-solid border border-quaternary-ring modal-content">
             <h3 class="text-lg text-white font-bold mb-4">${modalTitle}</h3>
-            <p class="mb-4 text-white">${modalMessageHeader}</p>
-            ${modalMessage ? `<p class="mb-4 text-sm text-white">${modalMessage}</p>` : ''}
+            <p class="mb-4 text-white text-sm">${modalMessageHeader}</p>
+            ${modalMessage ? `<p class="mb-4 text-white text-sm">${modalMessage}</p>` : ''}
             <div class="flex justify-end">
-                <button id="${cancelButtonId}" class="bg-quaternary hover:bg-quaternary-hover text-white p-2 rounded-md mr-2 border-solid border border-quaternary-ring">${cancelLabel}</button>
-                <button id="${confirmButtonId}" class="${isDeleteAction ? deleteActionButtonClasses : validateActionButtonClasses}">${confirmLabel}</button>
+                <button id="${cancelButtonId}" class="bg-quaternary hover:bg-quaternary-hover text-white p-2 rounded-md mr-2 border-solid border border-quaternary-ring text-sm">${cancelLabel}</button>
+                <button id="${confirmButtonId}" class="${isDeleteAction ? deleteActionButtonClasses : validateActionButtonClasses} text-sm">${confirmLabel}</button>
             </div>
         </div>
     `;

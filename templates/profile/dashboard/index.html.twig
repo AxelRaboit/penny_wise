@@ -4,57 +4,83 @@
 
 {% block body %}
     <div class="container mx-auto">
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 max-w-4xl mx-auto">
-            <div class="bg-secondary rounded-md p-6 flex flex-col justify-center items-center border border-quaternary border-solid border">
-                <i class="fa-solid fa-piggy-bank text-white text-4xl mb-4"></i>
-                <h2 class="text-lg font-bold text-white mb-4">New Account</h2>
-                <a href="{{ path('account_new') }}" class="bg-accent-primary hover:bg-accent-primary-hover text-white font-bold py-2 px-4 rounded-md">
-                    <i class="fa-solid fa-plus mr-1"></i> New Account
-                </a>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 max-w-4xl mx-auto">
+            <div class="bg-secondary rounded-md p-4 flex flex-col justify-center items-center border-quaternary border-solid border">
+                <i class="fa-solid fa-piggy-bank text-white text-2xl mb-2"></i>
+                <h2 class="text-sm font-bold text-white mb-2">New Account</h2>
+                <twig:Cta
+                    color="accent-primary"
+                    size="xs"
+                    icon="fa-plus"
+                    label="New Account"
+                    route="account_new"
+                />
             </div>
 
-            <div class="bg-secondary rounded-md p-6 flex flex-col justify-center items-center border border-quaternary border-solid border">
-                <i class="fa-solid fa-wallet text-white text-4xl mb-4"></i>
-                <h2 class="text-lg font-bold text-white mb-4">New wallet</h2>
-                <a href="{{ path('wallet_new') }}" class="bg-accent-primary hover:bg-accent-primary-hover text-white font-bold py-2 px-4 rounded-md">
-                    <i class="fa-solid fa-plus mr-1"></i> New Wallet
-                </a>
+            <div class="bg-secondary rounded-md p-4 flex flex-col justify-center items-center border-quaternary border-solid border">
+                <i class="fa-solid fa-wallet text-white text-2xl mb-2"></i>
+                <h2 class="text-sm font-bold text-white mb-2">New wallet</h2>
+                <twig:Cta
+                    color="accent-primary"
+                    size="xs"
+                    icon="fa-plus"
+                    label="New Wallet"
+                    route="wallet_new"
+                />
             </div>
 
-            <div class="bg-secondary rounded-md p-6 flex flex-col justify-center items-center border border-quaternary border-solid border">
-                <i class="fa-solid fa-money-bill-transfer text-white text-4xl mb-4"></i>
-                <h2 class="text-lg font-bold text-white mb-4">Transfer money</h2>
-                <a href="#" class="bg-accent-primary hover:bg-accent-primary-hover text-white font-bold py-2 px-4 rounded-md">
-                    <i class="fa-solid fa-money-bill-transfer mr-1"></i> Tansfer money
-                </a>
+            <div class="bg-secondary rounded-md p-4 flex flex-col justify-center items-center border-quaternary border-solid border">
+                <i class="fa-solid fa-money-bill-transfer text-white text-2xl mb-2"></i>
+                <h2 class="text-sm font-bold text-white mb-2">Transfer money</h2>
+                <twig:Cta
+                    color="accent-primary"
+                    size="xs"
+                    icon="fa-money-bill-transfer"
+                    label="Transfer money"
+                    title="Feature not available"
+                    disabled="true"
+                />
             </div>
 
-            <div class="bg-secondary rounded-md p-6 flex flex-col justify-center items-center border border-quaternary border-solid border">
-                <i class="fa-solid fa-money-bill text-white text-4xl mb-4"></i>
-                <h2 class="text-lg font-bold text-white mb-4">New transaction</h2>
+            <div class="bg-secondary rounded-md p-4 flex flex-col justify-center items-center border-quaternary border-solid border">
+                <i class="fa-solid fa-money-bill text-white text-2xl mb-2"></i>
+                <h2 class="text-sm font-bold text-white mb-2">New transaction</h2>
                 {% if hasWallet %}
-                    <a href="{{ path('new_transaction') }}" class="bg-accent-primary hover:bg-accent-primary-hover text-white font-bold py-2 px-4 rounded-md">
-                        <i class="fa-solid fa-plus mr-1"></i> New Transaction
-                    </a>
+                    <twig:Cta
+                        color="accent-primary"
+                        size="xs"
+                        icon="fa-plus"
+                        label="New Transaction"
+                        route="new_transaction"
+                    />
                 {% else %}
                     <span>You need to create a wallet first</span>
                 {% endif %}
             </div>
 
-            <div class="bg-secondary shadow-md rounded-md p-6 flex flex-col justify-center items-center border border-quaternary border-solid border">
-                <i class="fa-solid fa-tag text-white text-4xl mb-4"></i>
-                <h2 class="text-lg font-bold text-white mb-4">Transaction tag list</h2>
-                <a href="{{ path('transaction_tag_list') }}" class="bg-accent-primary hover:bg-accent-primary-hover text-white font-bold py-2 px-4 rounded-md">
-                    <i class="fa-solid fa-list mr-1"></i> Transaction Tags
-                </a>
+            <div class="bg-secondary rounded-md p-4 flex flex-col justify-center items-center border-quaternary border-solid border">
+                <i class="fa-solid fa-tag text-white text-2xl mb-2"></i>
+                <h2 class="text-sm font-bold text-white mb-2">Transaction tag list</h2>
+                <twig:Cta
+                    color="accent-primary"
+                    size="xs"
+                    icon="fa-list"
+                    label="Transaction Tags"
+                    route="transaction_tag_list"
+                />
             </div>
 
-            <div class="bg-secondary shadow-md rounded-md p-6 flex flex-col justify-center items-center border border-quaternary border-solid border">
-                <i class="fa-solid fa-tag text-white text-4xl mb-4"></i>
-                <h2 class="text-lg font-bold text-white mb-4">Messenger</h2>
-                <a href="{{ path('transaction_tag_list') }}" class="bg-accent-primary hover:bg-accent-primary-hover text-white font-bold py-2 px-4 rounded-md">
-                    <i class="fa-solid fa-message mr-1"></i> Messenger
-                </a>
+            <div class="bg-secondary rounded-md p-4 flex flex-col justify-center items-center border-quaternary border-solid border">
+                <i class="fa-solid fa-tag text-white text-2xl mb-2"></i>
+                <h2 class="text-sm font-bold text-white mb-2">Messenger</h2>
+                <twig:Cta
+                    color="accent-primary"
+                    size="xs"
+                    icon="fa-message"
+                    label="Messenger"
+                    title="Feature not available"
+                    disabled="true"
+                />
             </div>
         </div>
     </div>

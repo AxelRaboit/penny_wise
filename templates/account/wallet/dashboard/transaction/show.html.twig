@@ -11,30 +11,30 @@
     <div id="account-wallet-dashboard-transaction-show-page" class="hidden max-w-screen-xxl mx-auto">
         <div class="bg-secondary shadow-lg rounded-md max-w-lg mx-auto border border-quaternary border-solid">
             <div class="bg-tertiary text-white text-center py-2 rounded-t-md border-b border-quaternary border-solid">
-                <h1 class="text-md font-bold text-white">Transaction Details</h1>
+                <h1 class="text-sm font-bold text-white">Transaction Details</h1>
             </div>
             <div class="bg-secondary rounded-b-md p-2 max-w-4xl mx-auto">
                 <div class="p-4">
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-2 mb-2">
                         <div class="bg-secondary p-2 rounded-md border border-quaternary border-solid">
-                            <h3 class="font-semibold text-white">Date</h3>
-                            <p class="text-white">{{ transaction.date ? transaction.date|date('d M Y') : 'No Date' }}</p>
+                            <h3 class="font-semibold text-white text-sm">Date</h3>
+                            <p class="text-white text-sm">{{ transaction.date ? transaction.date|date('d M Y') : 'No Date' }}</p>
                         </div>
                         <div class="bg-secondary p-2 rounded-md border border-quaternary border-solid">
-                            <h3 class="font-semibold text-white">Amount</h3>
-                            <p class="text-white">{{ transaction.amount|number_format(2, '.', ' ') }} {{ wallet.currency.value|currency_symbol }}</p>
+                            <h3 class="font-semibold text-white text-sm">Amount</h3>
+                            <p class="text-white text-sm">{{ transaction.amount|number_format(2, '.', ' ') }} {{ wallet.currency.value|currency_symbol }}</p>
                         </div>
                         <div class="bg-secondary p-2 rounded-md border border-quaternary border-solid">
-                            <h3 class="font-semibold text-white">Nature</h3>
-                            <p class="text-white">{{ transaction.nature ?? 'Not specified' }}</p>
+                            <h3 class="font-semibold text-white text-sm">Nature</h3>
+                            <p class="text-white text-sm">{{ transaction.nature ?? 'Not specified' }}</p>
                         </div>
                     </div>
                     <div class="bg-secondary p-2 rounded-md border border-quaternary border-solid mb-2">
-                        <h3 class="font-semibold text-white">Comment</h3>
-                        <p class="text-white">{{ transaction.comment ?? '-' }}</p>
+                        <h3 class="font-semibold text-white text-sm">Comment</h3>
+                        <p class="text-white text-sm">{{ transaction.comment ?? '-' }}</p>
                     </div>
                     <div class="mb-4 bg-secondary rounded-md p-2 border border-quaternary border-solid">
-                        <h3 class="font-semibold text-white">Tags</h3>
+                        <h3 class="font-semibold text-white text-sm">Tags</h3>
                         <div>
                             {% if transaction.tag|length > 0 %}
                                 <div class="flex flex-wrap gap-2">
@@ -53,7 +53,7 @@
                     <div class="mt-4 flex justify-between">
                         <twig:Cta
                             color="quaternary"
-                            size="sm"
+                            size="xs"
                             icon="fa-arrow-left"
                             label="Back"
                             route="account_wallet_dashboard"
@@ -61,7 +61,7 @@
                         />
                         <twig:Cta
                             color="accent-primary"
-                            size="sm"
+                            size="xs"
                             label="Edit transaction"
                             route="edit_transaction_from_wallet"
                             :routeParams="{account: account.id, wallet: wallet.id, transaction: transaction.id}"
