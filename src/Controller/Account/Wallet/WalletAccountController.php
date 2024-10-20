@@ -116,8 +116,8 @@ final class WalletAccountController extends AbstractController
             $this->accountWalletCreationManager->endWalletCreation($wallet);
 
             return $this->redirectToRoute('account_wallet_dashboard', [
-                'walletId' => $wallet->getId(),
-                'accountId' => $wallet->getAccount()->getId(),
+                'wallet' => $wallet->getId(),
+                'account' => $wallet->getAccount()->getId(),
                 'year' => $wallet->getYear(),
                 'month' => $wallet->getMonth(),
             ]);
@@ -142,8 +142,8 @@ final class WalletAccountController extends AbstractController
             $this->entityManager->flush();
 
             return $this->redirectToRoute('account_wallet_dashboard', [
-                'walletId' => $wallet->getId(),
-                'accountId' => $wallet->getAccount()->getId(),
+                'wallet' => $wallet->getId(),
+                'account' => $wallet->getAccount()->getId(),
                 'year' => $wallet->getYear(),
                 'month' => $wallet->getMonth(),
             ]);
@@ -426,8 +426,8 @@ final class WalletAccountController extends AbstractController
             $this->addFlash('error', sprintf('An error occurred while creating the wallet: %s', $exception->getMessage()));
 
             return $this->redirectToRoute('account_wallet_dashboard', [
-                'walletId' => $wallet->getId(),
-                'accountId' => $accountId,
+                'wallet' => $wallet->getId(),
+                'account' => $accountId,
                 'year' => $year,
                 'month' => $month,
             ]);

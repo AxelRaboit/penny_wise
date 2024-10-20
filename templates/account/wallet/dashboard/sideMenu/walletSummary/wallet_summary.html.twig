@@ -1,5 +1,7 @@
 {% set summaryModalContent %}
-    <div id="monthly-overview" class="border border-solid border-quaternary rounded-md mb-2">
+    {% include 'account/wallet/dashboard/sideMenu/walletSummary/part/_wallet_summary_recap.html.twig' %}
+
+    <div id="monthly-summary" class="border border-solid border-quaternary rounded-md mb-2">
         <div class="border-b border-solid border-quaternary">
             <h2 class="rounded-t-md text-center text-md font-bold p-2 bg-tertiary text-white">Overview</h2>
         </div>
@@ -35,15 +37,15 @@
                 <span class="text-xs text-white">{{ wallet.endDate|date('d M Y') }}</span>
             </div>
         </div>
-        <div class="flex flex-col md:flex-row bg-secondary hover:bg-secondary-hover border-b border-solid border-quaternary">
+        <div class="flex flex-col md:flex-row bg-secondary rounded-md">
             <div class="w-full text-center p-2">
                 <span class="font-bold text-xs text-white">Start Balance</span>
             </div>
             <div class="w-full text-center p-2">
-        <span class="text-xs">
-            <span class="font-bold text-xs text-white">{{ wallet.currency.value|currency_symbol }}</span>
-            <span class="text-xs text-white">{{ wallet.startBalance|number_format(2, '.', ' ') }}</span>
-        </span>
+                <span class="text-xs">
+                    <span class="font-bold text-xs text-white">{{ wallet.currency.value|currency_symbol }}</span>
+                    <span class="text-xs text-white">{{ wallet.startBalance|number_format(2, '.', ' ') }}</span>
+                </span>
             </div>
         </div>
 
@@ -124,7 +126,7 @@
                 </div>
             </div>
         </div>
-        <div class="flex flex-col md:flex-row rounded-b-md border-b border-solid border-quaternary {{ totalLeftToSpend < 0 ? 'bg-danger hover:bg-danger-hover' : 'bg-secondary hover:bg-secondary-hover' }}">
+        <div class="flex flex-col md:flex-row rounded-md {{ totalLeftToSpend < 0 ? 'bg-danger hover:bg-danger-hover' : 'bg-secondary hover:bg-secondary-hover' }}">
             <div class="rounded-bl-md w-full text-center p-2">
                 <span class="font-bold text-white text-xs">Total left to spend</span>
             </div>
@@ -133,93 +135,6 @@
                     <span class="font-bold text-xs text-white">{{ wallet.currency.value|currency_symbol }}</span>
                     <span class="text-white text-xs">{{ totalLeftToSpend|number_format(2, '.', ' ') }}</span>
                 </div>
-            </div>
-        </div>
-    </div>
-    <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-2 xxl:grid-cols-2 gap-4">
-        <div class="bg-secondary rounded-md border border-solid border-quaternary">
-            <div class="bg-tertiary border-b border-solid border-quaternary">
-                <h2 class="text-md font-bold p-1 text-white text-center">Start balance</h2>
-            </div>
-            <div class="flex items-center justify-center space-x-2">
-                <span class="font-bold text-lg text-white">{{ wallet.currency.value|currency_symbol }}</span>
-                <span class="font-bold text-lg text-white">{{ wallet.startBalance|number_format(2, '.', ' ') }}</span>
-            </div>
-        </div>
-
-        <div class="bg-secondary rounded-md border border-solid border-quaternary">
-            <div class="bg-tertiary border-b border-solid border-quaternary">
-                <h2 class="text-md font-bold p-1 text-white text-center">Saving</h2>
-            </div>
-            <div class="flex items-center justify-center space-x-2">
-                <span class="font-bold text-lg text-white">{{ wallet.currency.value|currency_symbol }}</span>
-                <span class="font-bold text-lg text-white {{ totalSaving < 0 ? 'text-danger' : 'text-white' }}">{{ totalSaving|number_format(2, '.', ' ') }}</span>
-            </div>
-        </div>
-
-        <div class="bg-secondary rounded-md border border-solid border-quaternary">
-            <div class="bg-tertiary border-b border-solid border-quaternary">
-                <h2 class="text-md font-bold p-1 text-white text-center">Budget</h2>
-            </div>
-            <div class="flex items-center justify-center space-x-2">
-                <span class="font-bold text-lg text-white">{{ wallet.currency.value|currency_symbol }}</span>
-                <span class="font-bold text-lg text-white {{ totalBudget < 0 ? 'text-danger' : 'text-white' }}">{{ totalBudget|number_format(2, '.', ' ') }}</span>
-            </div>
-        </div>
-
-        <div class="bg-secondary rounded-md border border-solid border-quaternary">
-            <div class="bg-tertiary border-b border-solid border-quaternary">
-                <h2 class="text-md font-bold p-1 text-white text-center">Left</h2>
-            </div>
-            <div class="flex items-center justify-center space-x-2">
-                <span class="font-bold text-lg text-white">{{ wallet.currency.value|currency_symbol }}</span>
-                <span class="font-bold text-lg text-white {{ totalLeftToSpend < 0 ? 'text-danger' : 'text-white' }}">{{ totalLeftToSpend|number_format(2, '.', ' ') }}</span>
-            </div>
-        </div>
-
-        <div class="bg-secondary rounded-md border border-solid border-quaternary">
-            <div class="bg-tertiary border-b border-solid border-quaternary">
-                <h2 class="text-md font-bold p-1 text-white text-center">
-                    Spend limit
-                    {% if wallet.spendingLimit is not null %}
-                        {% if totalSpending > wallet.spendingLimit %}
-                            <span class="bg-danger text-white text-xs rounded-md p-1 ml-2">
-                            Exceeded ({{ wallet.currency.value|currency_symbol }} {{ (totalSpending - wallet.spendingLimit)|number_format(2, '.', ' ') }})
-                        </span>
-                        {% elseif totalSpending < wallet.spendingLimit %}
-                            <span class="bg-success text-white text-xs rounded-md p-1 ml-2">
-                            Left ({{ wallet.currency.value|currency_symbol }} {{ (wallet.spendingLimit - totalSpending)|number_format(2, '.', ' ') }})
-                        </span>
-                        {% else %}
-                            <span class="bg-warning text-white text-xs rounded-md p-1 ml-2">
-                            Exactly on the limit ({{ wallet.currency.value|currency_symbol }} {{ wallet.spendingLimit|number_format(2, '.', ' ') }})
-                        </span>
-                        {% endif %}
-                    {% else %}
-                        <twig:BadgeNeon
-                            color="accent-primary"
-                            size="sm"
-                            borderStyle="solid"
-                            label="Unlimited"
-                            title="Unlimited"
-                            extraClasses="ml-1"
-                        />
-                    {% endif %}
-                </h2>
-            </div>
-            <div class="flex items-center justify-center space-x-2">
-                <span class="font-bold text-lg text-white">{{ wallet.currency.value|currency_symbol }}</span>
-                <span class="font-bold text-lg text-white">{{ wallet.spendingLimit is not null ? wallet.spendingLimit|number_format(2, '.', ' ') : '<i class="fa-solid fa-infinity"></i>'|raw }}</span>
-            </div>
-        </div>
-
-        <div class="bg-secondary rounded-md border border-solid border-quaternary">
-            <div class="bg-tertiary border-b border-solid border-quaternary">
-                <h2 class="text-md font-bold p-1 text-white text-center">Spending</h2>
-            </div>
-            <div class="flex items-center justify-center space-x-2">
-                <span class="font-bold text-lg text-white">{{ wallet.currency.value|currency_symbol }}</span>
-                <span class="font-bold text-lg text-white">{{ totalSpending|number_format(2, '.', ' ') }}</span>
             </div>
         </div>
     </div>
