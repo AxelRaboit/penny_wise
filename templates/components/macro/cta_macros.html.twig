@@ -12,15 +12,15 @@
     {% endif %}
 {% endmacro %}
 
-{% macro renderContent(icon, label, iconPosition, expanded = null) %}
+{% macro renderContent(icon, label, iconPosition, textClasses = '', expanded = null) %}
     {% if iconPosition == 'left' %}
         {{ _self.renderIcon(icon, label, 'left') }}
         {% if label is not empty %}
-            <span class="text-white" {% if expanded is not null %}x-show="{{ expanded }}" x-transition{% endif %}>{{ label }}</span>
+            <span class="{{ textClasses }}" {% if expanded is not null %}x-show="{{ expanded }}" x-transition{% endif %}>{{ label }}</span>
         {% endif %}
     {% else %}
         {% if label is not empty %}
-            <span class="text-white" {% if expanded is not null %}x-show="{{ expanded }}" x-transition{% endif %}>{{ label }}</span>
+            <span class="{{ textClasses }}" {% if expanded is not null %}x-show="{{ expanded }}" x-transition{% endif %}>{{ label }}</span>
         {% endif %}
         {{ _self.renderIcon(icon, label, 'right') }}
     {% endif %}
