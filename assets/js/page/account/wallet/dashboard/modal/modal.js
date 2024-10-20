@@ -54,6 +54,7 @@ export function initializeModals() {
         confirmLabel: 'Delete',
         cancelButtonId: 'cancelDeleteWallet',
         cancelLabel: 'Cancel',
+        isDeleteAction: true,
     });
 
     attachModalEvents({
@@ -76,6 +77,7 @@ export function initializeModals() {
         confirmLabel: 'Reset',
         cancelButtonId: 'cancelResetStartBalance',
         cancelLabel: 'Cancel',
+        isDeleteAction: true,
     });
 
     attachModalEvents({
@@ -109,5 +111,6 @@ export function initializeModals() {
         confirmLabel: 'Delete',
         cancelButtonId: 'cancelDeleteTransactionsFromCategory',
         cancelLabel: 'Cancel',
+        isDeleteAction: true,
     });
 }

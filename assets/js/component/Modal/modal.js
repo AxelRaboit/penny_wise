@@ -23,7 +23,8 @@ const createModal = ({
         return existingModal;
     }
 
-    const dangerOutlineClasses = 'bg-transparent text-danger border-danger-ring hover:bg-danger hover:text-white p-2 rounded-md border-solid border';
+    const deleteActionButtonClasses = 'bg-transparent text-danger border-danger-ring hover:bg-danger hover:text-white rounded-md border border-solid p-2';
+    const validateActionButtonClasses = 'bg-accent-primary text-white border-accent-primary-ring hover:bg-accent-primary-hover rounded-md border border-solid p-2';
     const modal = document.createElement('div');
     modal.id = modalId;
     modal.classList.add('fixed', 'inset-0', 'hidden', 'bg-gray-900', 'bg-opacity-50', 'flex', 'justify-center', 'items-center');
@@ -35,7 +36,7 @@ const createModal = ({
             ${modalMessage ? `<p class="mb-4 text-sm text-white">${modalMessage}</p>` : ''}
             <div class="flex justify-end">
                 <button id="${cancelButtonId}" class="bg-quaternary hover:bg-quaternary-hover text-white p-2 rounded-md mr-2 border-solid border border-quaternary-ring">${cancelLabel}</button>
-                <button id="${confirmButtonId}" class="${isDeleteAction ? dangerOutlineClasses : 'bg-quinary hover:bg-quinary-hover text-white p-2 rounded-md border-solid border border-quaternary-ring'}">${confirmLabel}</button>
+                <button id="${confirmButtonId}" class="${isDeleteAction ? deleteActionButtonClasses : validateActionButtonClasses}">${confirmLabel}</button>
             </div>
         </div>
     `;
