@@ -20,17 +20,18 @@
     attributes = {}
 %}
 
-{% set baseClasses = 'font-bold rounded-md text-center border group' %}
+{% set baseClasses = 'font-bold rounded-md text-center group' %}
 {% set buttonClasses = cva({
     base: baseClasses,
     variants: {
         color: {
-            secondary: 'bg-secondary hover:bg-secondary-hover text-white border-secondary-ring',
-            quaternary: 'bg-quaternary hover:bg-quaternary-hover text-white border-quaternary-ring',
-            quinary: 'bg-quinary hover:bg-quinary-hover text-white border-quinary-ring',
-            'accent-primary': 'bg-accent-primary hover:bg-accent-primary-hover text-white border-accent-primary-ring',
-            danger: 'bg-danger hover:bg-danger-hover text-white border-danger-ring',
-            'danger-outline': 'bg-transparent text-danger border-danger-ring hover:bg-danger hover:text-white',
+            secondary: 'border bg-secondary hover:bg-secondary-hover text-white border-secondary-ring',
+            quaternary: 'border bg-quaternary hover:bg-quaternary-hover text-white border-quaternary-ring',
+            quinary: 'border bg-quinary hover:bg-quinary-hover text-white border-quinary-ring',
+            'accent-primary': 'border bg-accent-primary hover:bg-accent-primary-hover text-white border-accent-primary-ring',
+            danger: 'border bg-danger hover:bg-danger-hover text-white border-danger-ring',
+            'danger-outline': 'border bg-transparent text-danger border-danger-ring hover:bg-danger hover:text-white',
+            transparent: 'text-senary hover:text-white',
         },
         size: {
             xs: 'text-xs py-1.5 px-2',

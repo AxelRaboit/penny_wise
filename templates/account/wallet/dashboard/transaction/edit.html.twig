@@ -10,7 +10,7 @@
 
 {% block body %}
     <div id="account-wallet-dashboard-transaction-edit-page" class="hidden max-w-screen-xxl mx-auto">
-        <div class="bg-senary shadow-md rounded-md max-w-lg mx-auto">
+        <div class="bg-secondary shadow-lg rounded-md max-w-lg mx-auto border border-quaternary border-solid">
             {{ include('transaction/partials/form/_title.html.twig', {
                 title: 'Edit Transaction',
             }) }}
@@ -21,7 +21,7 @@
                 {{ include('transaction/partials/form/_fields.html.twig') }}
 
                 {{ include('transaction/partials/form/_action_buttons.html.twig', {
-                    submit_label: 'Save Changes',
+                    submit_label: 'Save changes',
                     cancel_label: 'Cancel',
                 }) }}
 

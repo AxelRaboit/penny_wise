@@ -8,7 +8,6 @@
             <div class="bg-secondary text-white text-center py-2 rounded-t-md border-b border-quaternary border-solid">
                 <h1 class="text-md font-bold text-white">Edit profile</h1>
             </div>
-
             <div class="p-4 bg-tertiary rounded-b-md">
                 {{ form_start(form) }}
 
@@ -21,7 +20,6 @@
                                 {{ form_errors(form.email) }}
                             </div>
                         </div>
-
                         <div class="flex flex-col mb-2">
                             {{ form_label(form.username, null, {label_attr: {class: 'text-white font-semibold'}}) }}
                             {{ form_widget(form.username, {attr: {class: 'rounded-md p-2 border border-solid border-quaternary bg-secondary'}}) }}
@@ -30,7 +28,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
                         <div class="flex flex-col mb-2">
                             {{ form_label(form.userInformation.firstname, null, {label_attr: {class: 'text-white font-semibold'}}) }}
@@ -39,7 +36,6 @@
                                 {{ form_errors(form.userInformation.firstname) }}
                             </div>
                         </div>
-
                         <div class="flex flex-col mb-2">
                             {{ form_label(form.userInformation.lastname, null, {label_attr: {class: 'text-white font-semibold'}}) }}
                             {{ form_widget(form.userInformation.lastname, {attr: {class: 'rounded-md p-2 border border-solid border-quaternary bg-secondary'}}) }}
@@ -48,7 +44,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="flex flex-col mb-2">
                         {{ form_label(form.userInformation.bio, null, {label_attr: {class: 'text-white font-semibold'}}) }}
                         {{ form_widget(form.userInformation.bio, {attr: {class: 'rounded-md p-2 border border-solid border-quaternary bg-secondary'}}) }}
@@ -56,7 +51,6 @@
                             {{ form_errors(form.userInformation.bio) }}
                         </div>
                     </div>
-
                     <div class="flex flex-col mb-2">
                         {{ form_label(form.userInformation.avatarFile, 'Upload New Avatar', {label_attr: {class: 'text-white font-semibold'}}) }}
                         {{ form_widget(form.userInformation.avatarFile, {attr: {class: 'rounded-md p-2 border border-solid border-quaternary bg-secondary'}}) }}
@@ -75,7 +69,6 @@
                         {% endif %}
                     </div>
                 </div>
-
                 <div class="mt-4 flex justify-between">
                     <twig:Cta
                         color="quaternary"

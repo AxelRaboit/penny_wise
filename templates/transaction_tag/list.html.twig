@@ -13,24 +13,31 @@
             <div class="bg-tertiary text-center py-2 rounded-t-md border-b border-quaternary border-solid">
                 <h1 class="text-md font-bold text-white">Transaction Tags</h1>
             </div>
-
             <div class="p-4">
                 <div>
                     {% for tag in transactionTags %}
-                        <div class="p-4 rounded-md {{ loop.index is odd ? 'bg-senary' : 'bg-tertiary' }}">
+                        <div class="p-4 rounded-md mb-2 bg-quaternary">
                             <div class="flex justify-between items-center">
-                                <div class="font-semibold text-white rounded-md py-1 px-2" style="background-color: {{ tag.color }};">
-                                    #{{ tag.name }}
+                                <div class="rounded-md py-1 px-2" style="background-color: {{ tag.color }};">
+                                    <span class="font-semibold text-white text-sm">#{{ tag.name }}</span>
                                 </div>
                                 <div class="space-x-2">
-                                    <a href="{{ path('transaction_tag_edit', {id: tag.id}) }}" class="bg-primary hover:bg-primary-hover text-white font-bold py-2 px-3 rounded-md">
-                                        <i class="fa-solid fa-pen-to-square"></i>
-                                    </a>
-                                    <button type="button"
-                                            data-action-url="{{ path('transaction_tag_delete', {id: tag.id}) }}"
-                                            class="js-delete-transaction-tag-button font-bold bg-danger hover:bg-danger-hover text-white py-2 px-3 rounded-md">
-                                        <i class="fa-solid fa-trash"></i>
-                                    </button>
+                                    <twig:Cta
+                                        color="transparent"
+                                        size="sm"
+                                        icon="fa-pen-to-square"
+                                        route="transaction_tag_edit"
+                                        :routeParams="{id: tag.id}"
+                                    />
+                                    <twig:Cta
+                                        color="transparent"
+                                        size="sm"
+                                        icon="fa-trash"
+                                        dataActionUrl="true"
+                                        route="transaction_tag_delete"
+                                        :routeParams="{id: tag.id}"
+                                        extraClasses="js-delete-transaction-tag-button"
+                                    />
                                 </div>
                             </div>
                         </div>
@@ -40,15 +47,20 @@
                         </div>
                     {% endfor %}
                 </div>
-
-                <div class="flex justify-between mt-4">
-                    <a href="{{ app.request.headers.get('referer') ?: path('account_list') }}" class="bg-quaternary hover:bg-quaternary-hover border-solid border border-quaternary-ring text-white font-bold py-2 px-4 rounded-md">
-                        <i class="fa-solid fa-arrow-left"></i> Back
-                    </a>
-
-                    <a href="{{ path('transaction_tag_new') }}" class="bg-accent-primary hover:bg-accent-primary-hover text-white font-bold py-2 px-4 rounded-md">
-                        <i class="fa-solid fa-plus"></i> Add Tag
-                    </a>
+                <div class="mt-4 flex justify-between">
+                    <twig:Cta
+                        color="quaternary"
+                        size="sm"
+                        icon="fa-arrow-left"
+                        label="Back"
+                        route="account_list"
+                    />
+                    <twig:Cta
+                        color="accent-primary"
+                        size="sm"
+                        label="Create tag"
+                        route="transaction_tag_new"
+                    />
                 </div>
             </div>
         </div>

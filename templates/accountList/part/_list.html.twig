@@ -8,7 +8,6 @@
             label="New Account"
             icon="fa-plus"
         />
-
     </div>
     {% for account in accounts %}
         <div class="w-full p-1 rounded-md bg-secondary mb-2">
@@ -20,18 +19,24 @@
                     {% endif %}
                 </div>
                 <div class="flex items-center space-x-1">
-                    <a href="{{ path('account_edit', {account: account.getId()}) }}"
-                       class="rounded-md text-senary hover:bg-secondary-hover py-1 px-2">
-                        <i class="fa-solid fa-pen text-sm"></i>
-                    </a>
-                    <button type="button"
-                            data-action-url="{{ path('account_delete', {account: account.getId()}) }}"
-                            class="js-delete-account-button rounded-md text-senary hover:bg-secondary-hover text-sm py-1 px-2">
-                        <i class="fa-solid fa-trash-can text-sm"></i>
-                    </button>
+                    <twig:Cta
+                        color="transparent"
+                        size="sm"
+                        icon="fa-pen-to-square"
+                        route="account_edit"
+                        :routeParams="{account: account.getId()}"
+                    />
+                    <twig:Cta
+                        color="transparent"
+                        size="sm"
+                        icon="fa-trash"
+                        dataActionUrl="true"
+                        route="account_delete"
+                        :routeParams="{account: account.getId()}"
+                        extraClasses="js-delete-account-button"
+                    />
                 </div>
             </div>
-
             <div class="flex flex-wrap">
                 {% for year in account.getYears() %}
                     <div class="flex-2 lg:flex-1 w-full rounded-md border-quaternary border-solid border m-1">
@@ -44,7 +49,6 @@
                                 <i class="fa-solid fa-trash-can"></i>
                             </button>
                         </div>
-
                         <div class="w-full rounded-b-md p-2 bg-secondary min-h-[188px]">
                             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-1 relative">
                                 {% set months = year.getMonths() %}

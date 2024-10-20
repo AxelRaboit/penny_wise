@@ -13,7 +13,6 @@
             <div class="bg-tertiary text-white text-center py-2 rounded-t-md border-b border-quaternary border-solid">
                 <h1 class="text-md font-bold text-white">Add a New Wallet</h1>
             </div>
-
             <div class="p-4">
                 {{ form_start(form) }}
 
@@ -41,7 +40,6 @@
                             {{ form_errors(form.currency) }}
                         </div>
                     </div>
-
                     <div class="flex flex-col mb-2">
                         {{ form_label(form.start_balance, null, {label_attr: {class: 'text-white'}}) }}
                         {{ form_widget(form.start_balance, {attr: {class: 'rounded-md p-2 bg-secondary border-quaternary border-solid border'}}) }}
@@ -49,7 +47,6 @@
                             {{ form_errors(form.start_balance) }}
                         </div>
                     </div>
-
                     <div class="flex flex-col mb-2">
                         {{ form_label(form.spending_limit, null, {label_attr: {class: 'text-white'}}) }}
                         {{ form_widget(form.spending_limit, {attr: {class: 'rounded-md p-2 bg-secondary border-quaternary border-solid border'}}) }}
@@ -58,7 +55,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="mt-4 flex justify-between">
                     <twig:Cta
                         color="quaternary"
