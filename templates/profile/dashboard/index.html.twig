@@ -5,34 +5,48 @@
 {% block body %}
     <div class="container mx-auto">
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 max-w-4xl mx-auto">
-            <div class="bg-secondary rounded-md p-4 flex flex-col justify-center items-center border-quaternary border-solid border">
+            <div class="bg-secondary rounded-md p-4 flex flex-col justify-center items-center border-quaternary border-solid border h-full">
                 <i class="fa-solid fa-piggy-bank text-white text-2xl mb-2"></i>
-                <h2 class="text-sm font-bold text-white mb-2">New Account</h2>
+                <h2 class="text-sm font-bold text-white mb-1">New Account</h2>
+                <div class="flex-grow mb-2">
+                    <p class="text-xs text-senary">Create a new account to store all your wallets related to it.</p>
+                </div>
                 <twig:Cta
+                    class="mt-auto"
                     color="accent-primary"
                     size="xs"
                     icon="fa-plus"
                     label="New Account"
+                    title="Create a new account"
                     route="account_new"
                 />
             </div>
 
-            <div class="bg-secondary rounded-md p-4 flex flex-col justify-center items-center border-quaternary border-solid border">
+            <div class="bg-secondary rounded-md p-4 flex flex-col justify-center items-center border-quaternary border-solid border h-full">
                 <i class="fa-solid fa-wallet text-white text-2xl mb-2"></i>
                 <h2 class="text-sm font-bold text-white mb-2">New wallet</h2>
+                <div class="flex-grow mb-2">
+                    <p class="text-xs text-senary">Create a new wallet to store all your transactions related to it.</p>
+                </div>
                 <twig:Cta
+                    class="mt-auto"
                     color="accent-primary"
                     size="xs"
                     icon="fa-plus"
                     label="New Wallet"
+                    title="Create a new wallet"
                     route="wallet_new"
                 />
             </div>
 
-            <div class="bg-secondary rounded-md p-4 flex flex-col justify-center items-center border-quaternary border-solid border">
+            <div class="bg-secondary rounded-md p-4 flex flex-col justify-center items-center border-quaternary border-solid border h-full">
                 <i class="fa-solid fa-money-bill-transfer text-white text-2xl mb-2"></i>
                 <h2 class="text-sm font-bold text-white mb-2">Transfer money</h2>
+                <div class="flex-grow mb-2">
+                    <p class="text-xs text-senary">Transfer transaction from your own wallet to another wallet. You can also transfer your transactions to a beneficiary.</p>
+                </div>
                 <twig:Cta
+                    class="mt-auto"
                     color="accent-primary"
                     size="xs"
                     icon="fa-money-bill-transfer"
@@ -42,15 +56,20 @@
                 />
             </div>
 
-            <div class="bg-secondary rounded-md p-4 flex flex-col justify-center items-center border-quaternary border-solid border">
+            <div class="bg-secondary rounded-md p-4 flex flex-col justify-center items-center border-quaternary border-solid border h-full">
                 <i class="fa-solid fa-money-bill text-white text-2xl mb-2"></i>
                 <h2 class="text-sm font-bold text-white mb-2">New transaction</h2>
+                <div class="flex-grow mb-2">
+                    <p class="text-xs text-senary">Create a new transaction. Each transaction is linked to a wallet, which in turn is linked to an account.</p>
+                </div>
                 {% if hasWallet %}
                     <twig:Cta
+                        class="mt-auto"
                         color="accent-primary"
                         size="xs"
                         icon="fa-plus"
                         label="New Transaction"
+                        title="Create a new transaction"
                         route="new_transaction"
                     />
                 {% else %}
@@ -58,22 +77,31 @@
                 {% endif %}
             </div>
 
-            <div class="bg-secondary rounded-md p-4 flex flex-col justify-center items-center border-quaternary border-solid border">
+            <div class="bg-secondary rounded-md p-4 flex flex-col justify-center items-center border-quaternary border-solid border h-full">
                 <i class="fa-solid fa-tag text-white text-2xl mb-2"></i>
                 <h2 class="text-sm font-bold text-white mb-2">Transaction tag list</h2>
+                <div class="flex-grow mb-2">
+                    <p class="text-xs text-senary">List all transaction tags you have created. Tags are used to categorize your transactions.</p>
+                </div>
                 <twig:Cta
+                    class="mt-auto"
                     color="accent-primary"
                     size="xs"
                     icon="fa-list"
                     label="Transaction Tags"
+                    title="List all transaction tags"
                     route="transaction_tag_list"
                 />
             </div>
 
-            <div class="bg-secondary rounded-md p-4 flex flex-col justify-center items-center border-quaternary border-solid border">
+            <div class="bg-secondary rounded-md p-4 flex flex-col justify-center items-center border-quaternary border-solid border h-full">
                 <i class="fa-solid fa-tag text-white text-2xl mb-2"></i>
                 <h2 class="text-sm font-bold text-white mb-2">Messenger</h2>
+                <div class="flex-grow mb-2">
+                    <p class="text-xs text-senary">Communicate with your friends that are using the app.</p>
+                </div>
                 <twig:Cta
+                    class="mt-auto"
                     color="accent-primary"
                     size="xs"
                     icon="fa-message"
@@ -84,4 +112,5 @@
             </div>
         </div>
     </div>
+
 {% endblock %}

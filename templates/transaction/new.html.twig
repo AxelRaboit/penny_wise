@@ -15,6 +15,7 @@
                     <div class="flex flex-col mb-2">
                         {{ form_label(form.nature, null, {label_attr: {class: 'text-white font-semibold text-sm'}}) }}
                         {{ form_widget(form.nature, {attr: {class: 'rounded-md p-2 bg-secondary border-quaternary border-solid border text-sm'}}) }}
+                        <p class="text-xs text-senary">Set the nature of the transaction. This is the type of transaction, e.g. electricity, gas, etc.</p>
                         <div class="text-danger text-sm mt-1">
                             {{ form_errors(form.nature) }}
                         </div>
@@ -22,6 +23,7 @@
                     <div class="flex flex-col mb-2">
                         {{ form_label(form.date, null, {label_attr: {class: 'text-white font-semibold text-sm'}}) }}
                         {{ form_widget(form.date, {attr: {class: 'rounded-md p-2 bg-secondary border-quaternary border-solid border text-sm'}}) }}
+                        <p class="text-xs text-senary">Select the day for the transaction to be created. The month will be the one you select through the selected wallet.</p>
                         <div class="text-danger text-sm mt-1">
                             {{ form_errors(form.date) }}
                         </div>
@@ -29,6 +31,7 @@
                     <div class="flex flex-col mb-2">
                         {{ form_label(form.amount, null, {label_attr: {class: 'text-white font-semibold text-sm'}}) }}
                         {{ form_widget(form.amount, {attr: {class: 'rounded-md p-2 bg-secondary border-quaternary border-solid border text-sm'}}) }}
+                        <p class="text-xs text-senary">Set the amount for the transaction.</p>
                         <div class="text-danger text-sm mt-1">
                             {{ form_errors(form.amount) }}
                         </div>
@@ -36,6 +39,7 @@
                     <div class="flex flex-col mb-2">
                         {{ form_label(form.transactionCategory, null, {label_attr: {class: 'text-white font-semibold text-sm'}}) }}
                         {{ form_widget(form.transactionCategory) }}
+                        <p class="text-xs text-senary">Select the category for the transaction.</p>
                         <div class="text-danger text-sm mt-1">
                             {{ form_errors(form.transactionCategory) }}
                         </div>
@@ -43,6 +47,7 @@
                     <div class="flex flex-col mb-2">
                         {{ form_label(form.wallet, null, {label_attr: {class: 'text-white font-semibold text-sm'}}) }}
                         {{ form_widget(form.wallet) }}
+                        <p class="text-xs text-senary">Select the wallet for the transaction. The wallet is a combination of year and month.</p>
                         <div class="text-danger text-sm mt-1">
                             {{ form_errors(form.wallet) }}
                         </div>
@@ -50,6 +55,9 @@
                     <div class="flex flex-col mb-2">
                         {{ form_label(form.tag, null, {label_attr: {class: 'text-white font-semibold text-sm'}}) }}
                         {{ form_widget(form.tag) }}
+                        <p class="text-xs text-senary">Set tags you want to add to the transaction. You can add multiple tags through your tags you've already created.</p>
+                        <p class="text-xs text-senary">To create a new tag, click on <a href="{{ path('transaction_tag_new') }}" class="text-link hover:underline font-semibold">Create a new tag</a> or you can
+                        see the list of all your tags on the <a href="{{ path('transaction_tag_list') }}" class="text-link hover:underline font-semibold">Transaction tag list</a>.</p>
                         <div class="text-danger text-sm mt-1">
                             {{ form_errors(form.tag) }}
                         </div>

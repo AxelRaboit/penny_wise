@@ -101,7 +101,13 @@ module.exports = {
           hover: '#7F7F7F',
           ring: '#616161',
           dark: 'rgba(158, 158, 158, 0.1)',
-        }
+        },
+        link: {
+          DEFAULT: '#009688',
+          hover: '#00786A',
+          ring: '#00574F',
+          dark: 'rgba(0, 150, 136, 0.1)',
+        },
       }
     }
   },

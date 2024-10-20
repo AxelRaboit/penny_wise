@@ -37,6 +37,7 @@
                 <div class="flex flex-col mb-2">
                     {{ form_label(form.priority, null, {label_attr: {class: 'text-white text-sm'}}) }}
                     {{ form_widget(form.priority, {attr: {class: 'rounded-md p-2 bg-secondary border-quaternary border-solid border text-sm'}}) }}
+                    <p class="text-xs text-senary">Set priority for the account to be displayed first in the list. Higher the priority is, higher the account will be displayed first.</p>
                     <div class="text-danger text-sm mt-1">
                         {{ form_errors(form.priority) }}
                     </div>
@@ -47,7 +48,7 @@
                         size="xs"
                         icon="fa-arrow-left"
                         label="Back"
-                        route="account_list"
+                        route="dashboard"
                     />
                     <twig:Cta
                         color="accent-primary"
