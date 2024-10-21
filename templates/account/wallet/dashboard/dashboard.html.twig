@@ -10,12 +10,9 @@
 
 {% block body %}
     <div id="account-wallet-dashboard-page" class="max-w-screen-xxl mx-auto hidden">
-        <div class="w-full p-4">
-            {{ include('account/wallet/dashboard/wallet_navigation.html.twig') }}
-            <div class="mb-1">
-                {{ include('account/wallet/dashboard/transaction/list/transactions.html.twig') }}
-            </div>
-        </div>
+        {{ include('account/wallet/dashboard/part/_wallet_recap.html.twig') }}
+        {{ include('account/wallet/dashboard/wallet_navigation.html.twig') }}
+        {{ include('account/wallet/dashboard/transaction/list/transactions.html.twig') }}
     </div>
 {% endblock %}
 

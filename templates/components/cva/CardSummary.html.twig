@@ -1,0 +1,24 @@
+{% props color = 'success', size = 'sm', label = '', extraClasses = '', attributes = {} %}
+
+{% set cardClasses = cva({
+    base: 'flex flex-col items-center justify-center border rounded-md',
+    variants: {
+        color: {
+            success: 'border-success-ring bg-success-dark',
+            danger: 'border-danger-ring bg-danger-dark',
+            'no-color': 'border-transparent bg-tertiary',
+        },
+        size: {
+            sm: 'text-sm p-1',
+            md: 'text-md p-2',
+            lg: 'text-lg p-3',
+        }
+    }
+}) %}
+
+<div class="{{ cardClasses.apply({color, size}) }} {{ extraClasses }}">
+    <span class="font-medium text-white">{{ label }}</span>
+
+    {% block content %}
+    {% endblock %}
+</div>

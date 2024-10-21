@@ -9,15 +9,11 @@
 
 {% block body %}
     <div id="account-list-page" class="hidden max-w-screen-xxl mx-auto">
-        <div>
-            <div class="{{ accounts is not empty ? '' : 'flex justify-center items-center' }}">
-                {% if accounts is not empty %}
-                    {{ include('accountList/part/_list.html.twig', {accounts: accounts}) }}
-                {% else %}
-                    {{ include('accountList/part/_welcome.html.twig') }}
-                {% endif %}
-            </div>
-        </div>
+        {% if accounts is not empty %}
+            {{ include('accountList/part/_list.html.twig', {accounts: accounts}) }}
+        {% else %}
+            {{ include('accountList/part/_welcome.html.twig') }}
+        {% endif %}
     </div>
 {% endblock %}
 
