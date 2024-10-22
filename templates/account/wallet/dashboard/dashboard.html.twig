@@ -21,34 +21,7 @@
 {% endblock %}
 
 {% block sidemenu %}
-    <div class="flex items-center flex-col text-white mb-2 w-full">
-        <span class="w-full text-sm text-white font-bold mb-2 text-center">Wallet</span>
-        <twig:BadgeNeon
-            color="accent-primary"
-            size="xs"
-            borderStyle="solid"
-            label="{{ wallet.getMonth()|month_abbreviation }} {{ wallet.getYear() }}"
-            title="{{ wallet.getMonth()|month_name }} {{ wallet.getYear() }}"
-        />
-    </div>
-
-    <div class="border-b border-solid border-quaternary mb-2"></div>
-
-    {{ include('account/wallet/dashboard/sideMenu/walletGraphic/wallet_graphs.html.twig') }}
-    {{ include('account/wallet/dashboard/sideMenu/walletSummary/wallet_summary.html.twig') }}
-    {{ include('account/wallet/dashboard/sideMenu/walletCalendar/wallet_calendar.html.twig') }}
-    {{ include('account/wallet/dashboard/sideMenu/walletAction/wallet_actions.html.twig') }}
-    {{ include('account/wallet/dashboard/sideMenu/walletNote/wallet_note.html.twig') }}
-
-    {{ include('components/sideMenu/buttons.html.twig', {
-        buttons: [
-            {id: 'openWalletSideMenuSummaryModal', icon: 'fa-gauge', title: 'Summary information about the wallet', text: 'Summary'},
-            {id: 'openWalletSideMenuGraphsModal', icon: 'fa-chart-simple', title: 'Graphic representation of the wallet', text: 'Graphics'},
-            {id: 'openWalletSideMenuCalendarModal', icon: 'fa-calendar', title: 'Monthly calendar', text: 'Calendar'},
-            {id: 'openWalletSideMenuActionsModal', icon: 'fa-screwdriver-wrench', title: 'Interact through actions on the wallet', text: 'Actions'},
-            {id: 'openWalletSideMenuNoteModal', icon: 'fa-book', title: 'Notes', text: 'Notes'}
-        ]
-    }) }}
+    {{ include('account/wallet/dashboard/sideMenu/index.html.twig') }}
 {% endblock %}
 
 {% block javascripts %}

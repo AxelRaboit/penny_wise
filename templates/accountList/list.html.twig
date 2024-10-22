@@ -22,13 +22,7 @@
 {% endblock %}
 
 {% block sidemenu %}
-    {{ include('accountList/sideMenu/test.html.twig') }}
-
-    {{ include('components/sideMenu/buttons.html.twig', {
-        buttons: [
-            {id: 'openAccountListSideMenuTestModal', icon: 'fa-book', title: 'Test', text: 'Test'}
-        ]
-    }) }}
+    {{ include('accountList/sideMenu/index.html.twig') }}
 {% endblock %}
 
 {% block javascripts %}
