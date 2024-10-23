@@ -145,7 +145,7 @@ final class TransactionWalletController extends AbstractController
     #[Route('/account/{account}/wallet/{wallet}/transaction/delete-category/{category}', name: 'delete_all_transactions_from_specific_category')]
     #[IsGranted('ACCESS_ACCOUNT', subject: 'account')]
     #[IsGranted('ACCESS_WALLET', subject: 'wallet')]
-    public function deleteTransactionCategory(Account $account, Wallet $wallet, Transaction $transaction, string $category): RedirectResponse
+    public function deleteTransactionCategory(Account $account, Wallet $wallet, string $category): RedirectResponse
     {
         $this->deleteTransactionsByCategory($wallet, $category);
 
@@ -172,9 +172,9 @@ final class TransactionWalletController extends AbstractController
     {
         $isDeleted = $this->walletTransactionDeleteManager->deleteTransactionsByCategory($wallet, $category);
         if (!$isDeleted) {
-            $this->addFlash('warning', sprintf('No transactions found for the category %s.', $category));
+            $this->addFlash('warning', sprintf('No transactions found for the category "%s".', $category));
         } else {
-            $this->addFlash('success', sprintf('All transactions in category %s deleted successfully.', ucfirst($category)));
+            $this->addFlash('success', sprintf('All transactions in the category "%s" deleted successfully.', ucfirst($category)));
         }
     }
 }

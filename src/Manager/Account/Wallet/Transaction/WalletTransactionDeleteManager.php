@@ -33,15 +33,15 @@ final readonly class WalletTransactionDeleteManager
     /**
      * Deletes transactions from a given wallet that match the specified category.
      *
-     * @param Wallet $wallet   the wallet from which transactions will be deleted
-     * @param string $category the category of transactions to delete
+     * @param Wallet $wallet   The wallet from which transactions will be deleted.
+     * @param string $category The category of transactions to delete.
      *
-     * @return bool returns true if transactions were found and deleted, false otherwise
+     * @return bool Returns true if transactions were found and deleted, false otherwise.
      */
     public function deleteTransactionsByCategory(Wallet $wallet, string $category): bool
     {
         $transactions = $this->transactionRepository->findTransactionsByCategory($wallet, $category);
-        if ([] === $transactions) {
+        if (empty($transactions)) {
             return false;
         }
 
