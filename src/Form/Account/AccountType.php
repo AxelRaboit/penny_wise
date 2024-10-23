@@ -26,11 +26,6 @@ class AccountType extends AbstractType
                 'attr' => ['placeholder' => 'Name'],
                 'label' => 'Name',
             ])
-            ->add('identifier', TextType::class, [
-                'attr' => ['placeholder' => 'Identifier'],
-                'label' => 'Identifier',
-                'required' => false,
-            ])
             ->add('priority', IntegerType::class, [
                 'attr' => ['placeholder' => 'Priority'],
                 'label' => 'Priority',

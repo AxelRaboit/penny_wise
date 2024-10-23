@@ -14,8 +14,10 @@ use App\Manager\Account\Wallet\AccountWalletManager;
 use App\Manager\AccountList\AccountListWalletManager;
 use App\Manager\AccountList\Wallet\AccountListWalletCreationManager;
 use App\Service\Account\Wallet\WalletService;
+use App\Service\AccountList\AccountListService;
 use App\Service\User\UserCheckerService;
 use Exception;
+use Random\RandomException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,6 +34,7 @@ final class AccountListController extends AbstractController
         private readonly AccountListWalletManager $accountListWalletManager,
         private readonly AccountListWalletCreationManager $accountListWalletCreationManager,
         private readonly AccountWalletManager $accountWalletManager,
+        private readonly AccountListService $accountListService,
     ) {}
 
     #[Route('/', name: 'account_list')]
@@ -45,14 +48,15 @@ final class AccountListController extends AbstractController
         ]);
     }
 
+    /**
+     * @throws RandomException
+     */
     #[Route('/account/new', name: 'account_new')]
     #[IsGranted('CREATE_ACCOUNT')]
     public function newAccount(Request $request): Response
     {
-        $account = new Account();
-        $user = $this->userCheckerService->getUserOrThrow();
-        $account->setUser($user);
-        // TODO AXEL: set the account identifier with a random and unique value
+        $account = $this->accountListService->beginAccountCreation();
+
         $form = $this->createForm(AccountType::class, $account);
 
         $form->handleRequest($request);

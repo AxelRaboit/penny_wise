@@ -29,18 +29,11 @@
                         {% endif %}
                     </div>
                     <div class="flex flex-col mb-2">
-                        {{ form_label(form.identifier, null, {label_attr: {class: 'text-white text-sm'}}) }}
-                        {{ form_widget(form.identifier, {attr: {class: 'rounded-md p-2 bg-secondary border-quaternary border-solid border text-sm'}}) }}
+                        {{ form_label(form.priority, null, {label_attr: {class: 'text-white text-sm'}}) }}
+                        {{ form_widget(form.priority, {attr: {class: 'rounded-md p-2 bg-secondary border-quaternary border-solid border text-sm'}}) }}
                         <div class="text-danger text-sm mt-1">
-                            {{ form_errors(form.identifier) }}
+                            {{ form_errors(form.priority) }}
                         </div>
-                    </div>
-                </div>
-                <div class="flex flex-col mb-2">
-                    {{ form_label(form.priority, null, {label_attr: {class: 'text-white text-sm'}}) }}
-                    {{ form_widget(form.priority, {attr: {class: 'rounded-md p-2 bg-secondary border-quaternary border-solid border text-sm'}}) }}
-                    <div class="text-danger text-sm mt-1">
-                        {{ form_errors(form.priority) }}
                     </div>
                 </div>
                 <div class="mt-4 flex justify-between">
