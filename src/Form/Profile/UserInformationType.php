@@ -14,6 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\UX\Dropzone\Form\DropzoneType;
 
 class UserInformationType extends AbstractType
 {
@@ -38,7 +39,7 @@ class UserInformationType extends AbstractType
                     'rows' => 5,
                 ],
             ])
-            ->add('avatarFile', FileType::class, [
+            ->add('avatarFile', DropzoneType::class, [
                 'label' => 'Upload Avatar',
                 'constraints' => [
                     new File([
@@ -46,6 +47,9 @@ class UserInformationType extends AbstractType
                         'mimeTypes' => ['image/jpeg', 'image/png', 'image/webp'],
                         'mimeTypesMessage' => 'Please upload a valid image (JPEG, PNG, or WEBP).',
                     ]),
+                ],
+                'attr' => [
+                    'data-controller' => 'dropzone',
                 ],
             ]);
         if ($hasAvatar) {

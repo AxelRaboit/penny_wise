@@ -39,6 +39,7 @@
         "symfony/twig-bundle": "7.1.*",
         "symfony/ux-autocomplete": "^2.20",
         "symfony/ux-chartjs": "^2.20",
+        "symfony/ux-dropzone": "^2.21",
         "symfony/ux-live-component": "*",
         "symfony/ux-toggle-password": "*",
         "symfony/ux-turbo": "*",

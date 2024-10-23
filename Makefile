@@ -54,9 +54,6 @@ cc:
 cc-prod:
 	$(PHP_BIN) cache:clear --env=prod
 
-debug-twig-component:
-	$(PHP_BIN) debug:twig-component
-
 # === Symfony Commands ===
 run:
 	$(SYMFONY) server:start
