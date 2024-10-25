@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block body %}
-    <div id="account-list-page" class="hidden max-w-screen-xxl mx-auto">
+    <div id="account-list-page" class="hidden max-w-screen-xxl mx-auto {{ accounts is empty ? 'flex justify-center' }}">
         {% if accounts is not empty %}
             {{ include('accountList/part/_list.html.twig', {accounts: accounts}) }}
         {% else %}
