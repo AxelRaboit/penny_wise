@@ -2,7 +2,13 @@
     <img src="{{ asset('media/logo.png') }}" alt="logo" class="w-full rounded-md mb-4">
     <h2 class="text-xl font-bold mb-4 text-white">Welcome!</h2>
     <p class="mb-4 text-white">It looks like you don't have any accounts yet. Please create an account to start managing your wallets.</p>
-    <a href="{{ path('account_new') }}" class="text-center font-bold bg-accent-primary hover:bg-accent-primary-hover text-white py-2 px-4 rounded-md">
-        Create your first account
-    </a>
+
+    <twig:Cta
+        color="accent-primary"
+        size="xs"
+        icon="fa-plus"
+        label="Create your first account"
+        title="Create your first account"
+        route="account_new"
+    />
 </div>
