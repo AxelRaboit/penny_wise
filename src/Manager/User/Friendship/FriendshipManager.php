@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Service\User\Friendship;
+namespace App\Manager\User\Friendship;
 
 use App\Entity\Friendship;
 use App\Entity\User;
 use App\Repository\User\Friendship\FriendshipRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
-final readonly class FriendshipService
+final readonly class FriendshipManager
 {
     public function __construct(
         private EntityManagerInterface $entityManager,
@@ -70,11 +70,15 @@ final readonly class FriendshipService
 
     public function areFriends(User $user, User $otherUser): bool
     {
-        return (bool) $this->friendshipRepository->findOneBy([
+        if (null !== $this->friendshipRepository->findOneBy([
             'requester' => $user,
             'friend' => $otherUser,
             'accepted' => true,
-        ]) || (bool) $this->friendshipRepository->findOneBy([
+        ])) {
+            return true;
+        }
+
+        return (bool) $this->friendshipRepository->findOneBy([
             'requester' => $otherUser,
             'friend' => $user,
             'accepted' => true,

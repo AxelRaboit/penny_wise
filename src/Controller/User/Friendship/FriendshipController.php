@@ -7,8 +7,8 @@ namespace App\Controller\User\Friendship;
 use App\Entity\Friendship;
 use App\Entity\User;
 use App\Form\User\FriendShip\AddFriendType;
+use App\Manager\User\Friendship\FriendshipManager;
 use App\Repository\User\Friendship\FriendshipRepository;
-use App\Service\User\Friendship\FriendshipService;
 use App\Service\User\UserCheckerService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -21,7 +21,7 @@ final class FriendshipController extends AbstractController
 {
     public function __construct(
         private readonly FriendshipRepository $friendshipRepository,
-        private readonly FriendshipService $friendshipService,
+        private readonly FriendshipManager $friendshipService,
         private readonly UserCheckerService $userCheckerService
     ) {}
 
