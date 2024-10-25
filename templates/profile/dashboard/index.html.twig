@@ -7,7 +7,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 max-w-4xl mx-auto">
             <div class="bg-secondary rounded-md p-4 flex flex-col justify-center items-center border-quaternary border-solid border h-full">
                 <i class="fa-solid fa-piggy-bank text-white text-2xl mb-2"></i>
-                <h2 class="text-sm font-bold text-white mb-1">New Account</h2>
+                <h2 class="text-sm font-bold text-white mb-2 text-center">New Account</h2>
                 <div class="flex-grow mb-2">
                     <p class="text-xs text-senary">Create a new account to store all your wallets related to it.</p>
                 </div>
@@ -24,7 +24,7 @@
 
             <div class="bg-secondary rounded-md p-4 flex flex-col justify-center items-center border-quaternary border-solid border h-full">
                 <i class="fa-solid fa-wallet text-white text-2xl mb-2"></i>
-                <h2 class="text-sm font-bold text-white mb-2">New wallet</h2>
+                <h2 class="text-sm font-bold text-white mb-2 text-center">New wallet</h2>
                 <div class="flex-grow mb-2">
                     <p class="text-xs text-senary">Create a new wallet to store all your transactions related to it.</p>
                 </div>
@@ -41,7 +41,7 @@
 
             <div class="bg-secondary rounded-md p-4 flex flex-col justify-center items-center border-quaternary border-solid border h-full">
                 <i class="fa-solid fa-money-bill-transfer text-white text-2xl mb-2"></i>
-                <h2 class="text-sm font-bold text-white mb-2">Transfer money</h2>
+                <h2 class="text-sm font-bold text-white mb-2 text-center">Transfer money</h2>
                 <div class="flex-grow mb-2">
                     <p class="text-xs text-senary">Transfer transaction from your own wallet to another wallet. You can also transfer your transactions to a beneficiary.</p>
                 </div>
@@ -58,7 +58,7 @@
 
             <div class="bg-secondary rounded-md p-4 flex flex-col justify-center items-center border-quaternary border-solid border h-full">
                 <i class="fa-solid fa-money-bill text-white text-2xl mb-2"></i>
-                <h2 class="text-sm font-bold text-white mb-2">New transaction</h2>
+                <h2 class="text-sm font-bold text-white mb-2 text-center">New transaction</h2>
                 <div class="flex-grow mb-2">
                     <p class="text-xs text-senary">Create a new transaction. Each transaction is linked to a wallet, which in turn is linked to an account.</p>
                 </div>
@@ -73,13 +73,13 @@
                         route="new_transaction"
                     />
                 {% else %}
-                    <span>You need to create a wallet first</span>
+                    <span class="text-warning text-xs">You need to create a wallet first</span>
                 {% endif %}
             </div>
 
             <div class="bg-secondary rounded-md p-4 flex flex-col justify-center items-center border-quaternary border-solid border h-full">
                 <i class="fa-solid fa-tag text-white text-2xl mb-2"></i>
-                <h2 class="text-sm font-bold text-white mb-2">Transaction tag list</h2>
+                <h2 class="text-sm font-bold text-white mb-2 text-center">Transaction tag list</h2>
                 <div class="flex-grow mb-2">
                     <p class="text-xs text-senary">List all transaction tags you have created. Tags are used to categorize your transactions.</p>
                 </div>
@@ -96,7 +96,7 @@
 
             <div class="bg-secondary rounded-md p-4 flex flex-col justify-center items-center border-quaternary border-solid border h-full">
                 <i class="fa-solid fa-tag text-white text-2xl mb-2"></i>
-                <h2 class="text-sm font-bold text-white mb-2">Messenger</h2>
+                <h2 class="text-sm font-bold text-white mb-2 text-center">Messenger</h2>
                 <div class="flex-grow mb-2">
                     <p class="text-xs text-senary">Communicate with your friends that are using the app.</p>
                 </div>
@@ -113,9 +113,9 @@
 
             <div class="bg-secondary rounded-md p-4 flex flex-col justify-center items-center border-quaternary border-solid border h-full">
                 <i class="fa-solid fa-users text-white text-2xl mb-2"></i>
-                <h2 class="text-sm font-bold text-white mb-2">Friends</h2>
+                <h2 class="text-sm font-bold text-white mb-2 text-center">Friends</h2>
                 <div class="flex-grow mb-2">
-                    <p class="text-xs text-senary">Connect with your friends to share your finances.</p>
+                    <p class="text-xs text-senary">Connect with your friends to chat with them and share your finances.</p>
                 </div>
                 <twig:Cta
                     class="mt-auto"
@@ -125,6 +125,23 @@
                     label="Friends"
                     title="Friends"
                     route="profile_friends"
+                />
+            </div>
+
+            <div class="bg-secondary rounded-md p-4 flex flex-col justify-center items-center border-quaternary border-solid border h-full">
+                <i class="fa-solid fa-calendar text-white text-2xl mb-2"></i>
+                <h2 class="text-sm font-bold text-white mb-2 text-center">Transport costs management</h2>
+                <div class="flex-grow mb-2">
+                    <p class="text-xs text-senary">Manage your transport costs. Add each transport you have done and calculate the total cost for annual taxes.</p>
+                </div>
+                <twig:Cta
+                    class="mt-auto"
+                    color="accent-primary"
+                    size="xs"
+                    icon="fa-calendar"
+                    label="Manage transport costs"
+                    title="Feature not available"
+                    disabled="true"
                 />
             </div>
         </div>
