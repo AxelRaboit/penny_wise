@@ -39,7 +39,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     }
 
     /**
-     * Returns a QueryBuilder that excludes the current user and their friends.
+     * Returns a QueryBuilder that excludes the current user and their friendship.
      */
     public function getUsersExcludingCurrentUser(User $currentUser): QueryBuilder
     {

@@ -25,7 +25,7 @@ final class FriendshipController extends AbstractController
         private readonly UserCheckerService $userCheckerService
     ) {}
 
-    #[Route('/profile/friends', name: 'profile_friends')]
+    #[Route('/profile/friendship', name: 'profile_friendship')]
     #[IsGranted('ROLE_USER')]
     public function index(Request $request): Response
     {
@@ -44,21 +44,28 @@ final class FriendshipController extends AbstractController
                 $this->addFlash('warning', 'You are already friends or request already sent.');
             }
 
-            return $this->redirectToRoute('profile_friends');
+            return $this->redirectToRoute('profile_friendship');
         }
 
         $pendingRequests = $this->friendshipRepository->findPendingFriendRequests($user);
+        $sentPendingRequests = $this->friendshipRepository->findSentPendingRequests($user);
         $pendingRequestsCount = count($pendingRequests);
 
-        return $this->render('friends/index.html.twig', [
-            'friends' => $user->getAcceptedFriends(),
+        $sentRequests = $this->friendshipRepository->findSentFriendRequests($user);
+        $sentRequestsCount = count($sentRequests);
+
+        return $this->render('friendship/index.html.twig', [
+            'friendship' => $user->getAcceptedFriends(),
             'addFriendForm' => $form->createView(),
             'pendingRequests' => $pendingRequests,
+            'sentPendingRequests' => $sentPendingRequests,
             'pendingRequestsCount' => $pendingRequestsCount,
+            'sentRequests' => $sentRequests,
+            'sentRequestsCount' => $sentRequestsCount,
         ]);
     }
 
-    #[Route('/profile/friends/accept/{id}', name: 'accept_friend_request', methods: ['POST'])]
+    #[Route('/profile/friendship/accept/{id}', name: 'accept_friend_request', methods: ['POST'])]
     #[IsGranted('ROLE_USER')]
     public function acceptFriendRequest(Friendship $friendship): RedirectResponse
     {
@@ -70,10 +77,10 @@ final class FriendshipController extends AbstractController
 
         $this->addFlash('success', 'Friend request accepted.');
 
-        return $this->redirectToRoute('profile_friends');
+        return $this->redirectToRoute('profile_friendship');
     }
 
-    #[Route('/profile/friends/decline/{id}', name: 'decline_friend_request', methods: ['POST'])]
+    #[Route('/profile/friendship/decline/{id}', name: 'decline_friend_request', methods: ['POST'])]
     #[IsGranted('ROLE_USER')]
     public function declineFriendRequest(Friendship $friendship): RedirectResponse
     {
@@ -85,10 +92,10 @@ final class FriendshipController extends AbstractController
 
         $this->addFlash('info', 'Friend request declined.');
 
-        return $this->redirectToRoute('profile_friends');
+        return $this->redirectToRoute('profile_friendship');
     }
 
-    #[Route('/profile/friends/unfriend/{id}', name: 'unfriend', methods: ['POST'])]
+    #[Route('/profile/friendship/unfriend/{id}', name: 'unfriend')]
     #[IsGranted('ROLE_USER')]
     public function unfriend(Friendship $friendship): RedirectResponse
     {
@@ -102,6 +109,44 @@ final class FriendshipController extends AbstractController
 
         $this->addFlash('success', 'Friendship removed successfully.');
 
-        return $this->redirectToRoute('profile_friends');
+        return $this->redirectToRoute('profile_friendship');
+    }
+
+    /* TODO AXEl: When the user is not friend with another, he can't access to the user's profile */
+
+    #[Route('/profile/friendship/view/{id}', name: 'profile_view')]
+    #[IsGranted('ROLE_USER')]
+    public function viewProfile(User $user): Response
+    {
+        /** @var User $currentUser */
+        $currentUser = $this->getUser();
+
+        // TODO AXEL: refacto by using voter
+        if (!$this->friendshipService->areFriends($currentUser, $user)) {
+            $this->addFlash('error', 'You are not allowed to view this profile.');
+
+            return $this->redirectToRoute('profile_friendship');
+        }
+
+        return $this->render('friendship/view.html.twig', [
+            'user' => $user,
+        ]);
+    }
+
+    #[Route('/profile/friendship/cancel/{id}', name: 'cancel_friend_request')]
+    #[IsGranted('ROLE_USER')]
+    public function cancelFriendRequest(Friendship $friendship): RedirectResponse
+    {
+        $user = $this->getUser();
+
+        if ($friendship->getRequester() !== $user) {
+            throw $this->createAccessDeniedException("You're not authorized to cancel this friend request.");
+        }
+
+        $this->friendshipService->cancelFriendRequest($friendship);
+
+        $this->addFlash('info', 'Friend request cancelled.');
+
+        return $this->redirectToRoute('profile_friendship');
     }
 }

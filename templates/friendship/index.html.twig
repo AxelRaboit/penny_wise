@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Friendship - {{ parent() }}{% endblock %}
+
+{% block body %}
+    <div x-data="{ activeTab: 'friends' }" class="container max-w-4xl mx-auto">
+        <div class="bg-tertiary shadow-md rounded-md p-2 border border-quaternary border-solid">
+            <h1 class="font-semibold text-white text-lg mb-4">Friendship</h1>
+
+            <div class="flex space-x-4 border-b border-quaternary mb-2">
+                {{ include('friendship/part/friendList/_friend_list_tab.html.twig') }}
+                {{ include('friendship/part/addFriend/_add_friend_tab.html.twig') }}
+                {{ include('friendship/part/friendRequest/received/_friend_request_tab.html.twig') }}
+                {{ include('friendship/part/friendRequest/sent/_sent_request_tab.html.twig') }}
+            </div>
+
+            {{ include('friendship/part/friendList/_friend_list_tab_content.html.twig') }}
+            {{ include('friendship/part/addFriend/_add_friend_tab_content.html.twig') }}
+            {{ include('friendship/part/friendRequest/received/_friend_request_tab_content.html.twig') }}
+            {{ include('friendship/part/friendRequest/sent/_sent_request_tab_content.html.twig') }}
+        </div>
+    </div>
+{% endblock %}

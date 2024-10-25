@@ -48,4 +48,36 @@ class FriendshipRepository extends ServiceEntityRepository
 
         return $result;
     }
+
+    /**
+     * @return array<int, Friendship>
+     */
+    public function findSentPendingRequests(User $user): array
+    {
+        /** @var array<int, Friendship> $result */
+        $result = $this->createQueryBuilder('f')
+            ->where('f.requester = :user')
+            ->andWhere('f.accepted = false')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getResult();
+
+        return $result;
+    }
+
+    /**
+     * @return array<int, Friendship>
+     */
+    public function findSentFriendRequests(User $user): array
+    {
+        /** @var array<int, Friendship> $result */
+        $result = $this->createQueryBuilder('f')
+            ->where('f.requester = :user')
+            ->andWhere('f.accepted = false')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getResult();
+
+        return $result;
+    }
 }

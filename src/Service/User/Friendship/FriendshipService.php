@@ -67,4 +67,23 @@ final readonly class FriendshipService
 
         $this->entityManager->flush();
     }
+
+    public function areFriends(User $user, User $otherUser): bool
+    {
+        return (bool) $this->friendshipRepository->findOneBy([
+            'requester' => $user,
+            'friend' => $otherUser,
+            'accepted' => true,
+        ]) || (bool) $this->friendshipRepository->findOneBy([
+            'requester' => $otherUser,
+            'friend' => $user,
+            'accepted' => true,
+        ]);
+    }
+
+    public function cancelFriendRequest(Friendship $friendship): void
+    {
+        $this->entityManager->remove($friendship);
+        $this->entityManager->flush();
+    }
 }

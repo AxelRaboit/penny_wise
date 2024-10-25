@@ -1,0 +1,12 @@
+<button
+        @click="activeTab = 'sent_requests'"
+        :class="{ 'border-b-2 border-accent-primary': activeTab === 'sent_requests' }"
+        class="relative text-white font-semibold px-3 py-2"
+>
+    Sent Requests
+    {% if sentRequestsCount > 0 %}
+        <span class="absolute top-0 right-0 transform translate-x-2 -translate-y-2 bg-blue-600 text-white text-xs font-bold rounded-full px-2 py-0.5">
+            {{ sentRequestsCount }}
+        </span>
+    {% endif %}
+</button>
