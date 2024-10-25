@@ -1,0 +1,41 @@
+<div x-show="activeTab === 'friends'" class="mt-2">
+    <ul>
+        {% for friendship in friends %}
+            <li class="bg-secondary p-2 rounded-md border border-quaternary text-white text-sm flex items-center justify-between mb-2">
+                <div class="flex items-center space-x-2">
+                    {% if friendship.friend.userInformation and friendship.friend.userInformation.avatarName %}
+                        <img src="{{ asset('uploads/avatars/' ~ friendship.friend.userInformation.avatarName) }}" alt="{{ friendship.friend.username }}'s avatar" class="w-8 h-8 rounded-full">
+                    {% else %}
+                        <img src="{{ asset('media/logo.png') }}" alt="Default Avatar" class="w-8 h-8 rounded-full">
+                    {% endif %}
+                    <span class="text-white">{{ friendship.friend.username }} <span class="text-senary">({{ friendship.friend.email }})</span></span>
+                </div>
+
+                <div class="flex items-center space-x-2">
+                    <twig:Cta
+                        color="accent-primary"
+                        size="xs"
+                        icon="fa-message"
+                        label="Send message"
+                        title="Send message"
+                    />
+
+                    <form action="{{ path('unfriend', {id: friendship.id}) }}" method="post">
+                        <twig:Cta
+                            color="danger-outline"
+                            size="xs"
+                            icon="fa-user-xmark"
+                            label="Unfriend"
+                            title="Unfriend"
+                            buttonType="submit"
+                            route="profile_friends"
+                            :routeParams="{ id: friendship.id }"
+                        />
+                    </form>
+                </div>
+            </li>
+        {% else %}
+            <li class="text-white text-sm">You have no friends yet.</li>
+        {% endfor %}
+    </ul>
+</div>

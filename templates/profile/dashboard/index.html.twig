@@ -110,7 +110,23 @@
                     disabled="true"
                 />
             </div>
+
+            <div class="bg-secondary rounded-md p-4 flex flex-col justify-center items-center border-quaternary border-solid border h-full">
+                <i class="fa-solid fa-users text-white text-2xl mb-2"></i>
+                <h2 class="text-sm font-bold text-white mb-2">Friends</h2>
+                <div class="flex-grow mb-2">
+                    <p class="text-xs text-senary">Connect with your friends to share your finances.</p>
+                </div>
+                <twig:Cta
+                    class="mt-auto"
+                    color="accent-primary"
+                    size="xs"
+                    icon="fa-users"
+                    label="Friends"
+                    title="Friends"
+                    route="profile_friends"
+                />
+            </div>
         </div>
     </div>
-
 {% endblock %}

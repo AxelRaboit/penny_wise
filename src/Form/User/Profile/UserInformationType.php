@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Form\Profile;
+namespace App\Form\User\Profile;
 
 use App\Entity\UserInformation;
 use Override;

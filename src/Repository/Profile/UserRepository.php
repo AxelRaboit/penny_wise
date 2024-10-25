@@ -6,6 +6,7 @@ namespace App\Repository\Profile;
 
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Override;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
@@ -37,28 +38,18 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->getEntityManager()->flush();
     }
 
-    //    /**
-    //     * @return User[] Returns an array of User objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('u')
-    //            ->andWhere('u.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('u.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?User
-    //    {
-    //        return $this->createQueryBuilder('u')
-    //            ->andWhere('u.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    /**
+     * Returns a QueryBuilder that excludes the current user and their friends.
+     */
+    public function getUsersExcludingCurrentUser(User $currentUser): QueryBuilder
+    {
+        return $this->createQueryBuilder('u')
+            ->where('u != :currentUser')
+            ->andWhere('u.id NOT IN (
+                SELECT friend.id FROM App\Entity\Friendship f
+                JOIN f.friend friend
+                WHERE f.requester = :currentUser AND f.accepted = true
+            )')
+            ->setParameter('currentUser', $currentUser);
+    }
 }

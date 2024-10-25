@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\User\Profile;
 
-use App\Form\Profile\ProfileType;
+use App\Form\User\Profile\ProfileType;
 use App\Manager\User\Profile\Settings\UserInformationUpdateManager;
 use App\Service\Profile\Settings\ProfilePictureService;
 use App\Service\User\UserCheckerService;

@@ -47,6 +47,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private string $password;
 
+    #[ORM\Column(length: 255, unique: true)]
+    #[Assert\NotBlank(message: 'The username cannot be blank.')]
+    private ?string $username = null;
+
+    #[ORM\Column]
+    private ?bool $active = null;
+
     /**
      * @var Collection<int, Wallet>
      */
@@ -56,18 +63,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToOne(targetEntity: UserInformation::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
     private ?UserInformation $userInformation = null;
 
-    #[ORM\Column]
-    private ?bool $active = null;
-
     /**
      * @var Collection<int, TransactionTag>
      */
     #[ORM\OneToMany(targetEntity: TransactionTag::class, mappedBy: 'user')]
     private Collection $transactionTags;
-
-    #[ORM\Column(length: 255, unique: true)]
-    #[Assert\NotBlank(message: 'The username cannot be blank.')]
-    private ?string $username = null;
 
     /**
      * @var Collection<int, Transaction>
@@ -83,6 +83,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
     private ?UserSettings $userSettings = null;
+
+    /*
+     * @var Collection<int, Friendship>
+     */
+    /**
+     * @var Collection<int, Friendship>
+     */
+    #[ORM\OneToMany(targetEntity: Friendship::class, mappedBy: 'requester', cascade: ['persist', 'remove'])]
+    private Collection $friendships;
 
     #[ORM\PrePersist]
     public function onPrePersist(): void
@@ -103,6 +112,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->transactionTags = new ArrayCollection();
         $this->transactions = new ArrayCollection();
         $this->accounts = new ArrayCollection();
+        $this->friendships = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -142,7 +152,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getRoles(): array
     {
         $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
@@ -180,24 +189,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Override]
     public function eraseCredentials(): void
     {
-        // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
+        // Clear sensitive data here
     }
 
-    /**
-     * @return Collection<int, Wallet>
-     */
-    public function getWallets(): Collection
+    public function getUsername(): ?string
     {
-        return $this->wallets;
+        return $this->username;
     }
 
-    public function addWallet(Wallet $wallet): static
+    public function setUsername(string $username): static
     {
-        if (!$this->wallets->contains($wallet)) {
-            $this->wallets->add($wallet);
-            $wallet->setUser($this);
-        }
+        $this->username = $username;
+
+        return $this;
+    }
+
+    public function isActive(): ?bool
+    {
+        return $this->active;
+    }
+
+    public function setActive(bool $active): static
+    {
+        $this->active = $active;
 
         return $this;
     }
@@ -240,14 +254,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->password = isset($data['password']) && is_string($data['password']) ? $data['password'] : '';
     }
 
-    public function isActive(): ?bool
+    /**
+     * @return Collection<int, Wallet>
+     */
+    public function getWallets(): Collection
     {
-        return $this->active;
+        return $this->wallets;
     }
 
-    public function setActive(bool $active): static
+    public function addWallet(Wallet $wallet): static
     {
-        $this->active = $active;
+        if (!$this->wallets->contains($wallet)) {
+            $this->wallets->add($wallet);
+            $wallet->setUser($this);
+        }
 
         return $this;
     }
@@ -279,18 +299,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getUsername(): ?string
-    {
-        return $this->username;
-    }
-
-    public function setUsername(string $username): static
-    {
-        $this->username = $username;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Transaction>
      */
@@ -311,7 +319,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function removeTransaction(Transaction $transaction): static
     {
-        // set the owning side to null (unless already changed)
         if ($this->transactions->removeElement($transaction) && $transaction->getUser() === $this) {
             $transaction->setUser(null);
         }
@@ -344,7 +351,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function setUserSettings(UserSettings $userSettings): static
     {
-        // set the owning side of the relation if necessary
         if ($userSettings->getUser() !== $this) {
             $userSettings->setUser($this);
         }
@@ -352,5 +358,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->userSettings = $userSettings;
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, Friendship>
+     */
+    public function getAcceptedFriends(): Collection
+    {
+        return $this->friendships->filter(fn (Friendship $friendship): bool => $friendship->isAccepted());
     }
 }

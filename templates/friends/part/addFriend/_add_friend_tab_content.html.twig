@@ -1,0 +1,21 @@
+<div x-show="activeTab === 'add'" class="mt-2">
+    <h2 class="font-semibold text-white text-sm mb-2">Add a Friend</h2>
+    <div class="mt-2">
+        {{ form_start(addFriendForm) }}
+            <div class="flex flex-col md:flex-row items-center md:space-x-2 space-y-2 md:space-y-0">
+                <div class="w-full">
+                    {{ form_widget(addFriendForm.username) }}
+                </div>
+
+                <twig:Cta
+                    color="accent-primary"
+                    size="xs"
+                    label="Send"
+                    icon="fa-paper-plane"
+                    buttonType="submit"
+                    extraClasses="w-full md:w-auto"
+                />
+            </div>
+        {{ form_end(addFriendForm) }}
+    </div>
+</div>

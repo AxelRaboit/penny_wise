@@ -14,7 +14,7 @@
     --color-senary: theme('colors.senary.DEFAULT');
 }
 
-body {
+html, body {
     background-color: var(--color-secondary);
     color: white;
 }

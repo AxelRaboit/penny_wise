@@ -1,0 +1,12 @@
+<button
+        @click="activeTab = 'requests'"
+        :class="{ 'border-b-2 border-accent-primary': activeTab === 'requests' }"
+        class="relative text-white font-semibold px-3 py-2"
+>
+    Pending Requests
+    {% if pendingRequestsCount > 0 %}
+        <span class="absolute top-0 right-0 transform translate-x-2 -translate-y-2 bg-red-600 text-white text-xs font-bold rounded-full px-2 py-0.5">
+            {{ pendingRequestsCount }}
+        </span>
+    {% endif %}
+</button>
