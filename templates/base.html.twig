@@ -23,7 +23,7 @@
 <body id="base-page" class="min-h-screen hidden">
     {{ include('components/topbar/topbar.html.twig') }}
 
-    <div class="flex flex-1" x-data="{ expanded: true }">
+    <div class="flex flex-1">
         <aside x-data="{ expanded: {{ app.user and app.user.getUserSettings() and app.user.getUserSettings().isSideMenuCollapse() ? 'false' : 'true' }} }"
                :class="expanded ? 'w-64' : 'w-24'"
                class="sticky top-[48px] flex flex-col z-40 p-2 bg-tertiary h-[calc(100vh-100px)] overflow-y-auto transition-all duration-300 ease-in-out border-r border-solid border-quaternary-ring">
