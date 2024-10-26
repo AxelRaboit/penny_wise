@@ -71,9 +71,9 @@ final readonly class AddFriendUsernameListener
         /** @var User $currentUser */
         $currentUser = $this->security->getUser();
 
-        !$this->isSelfRequest($user, $currentUser, $form)
-        && !$this->isAlreadyFriend($currentUser, $user, $form)
-        && !$this->isRequestPending($currentUser, $user, $form);
+        if (!$this->isSelfRequest($user, $currentUser, $form) && !$this->isAlreadyFriend($currentUser, $user, $form)) {
+            $this->isRequestPending($currentUser, $user, $form);
+        }
     }
 
     private function findUserByUsernameOrEmail(string $usernameOrEmail): ?User
