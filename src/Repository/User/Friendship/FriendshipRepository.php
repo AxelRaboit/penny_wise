@@ -113,19 +113,11 @@ class FriendshipRepository extends ServiceEntityRepository
         return null;
     }
 
-    /**
-     * Finds a reciprocal friendship between two users.
-     */
-    public function findReciprocalFriendship(User $userA, User $userB): ?Friendship
+    public function findReciprocalFriendship(Friendship $friendship): ?Friendship
     {
-        /** @var Friendship|null $result */
-        $result = $this->createQueryBuilder('f')
-            ->where('(f.requester = :userA AND f.friend = :userB) OR (f.requester = :userB AND f.friend = :userA)')
-            ->setParameter('userA', $userA)
-            ->setParameter('userB', $userB)
-            ->getQuery()
-            ->getOneOrNullResult();
-
-        return $result;
+        return $this->findOneBy([
+            'requester' => $friendship->getFriend(),
+            'friend' => $friendship->getRequester(),
+        ]);
     }
 }
