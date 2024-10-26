@@ -99,7 +99,7 @@ final class FriendshipController extends AbstractController
         return $this->redirectToRoute('profile_friendship');
     }
 
-    #[Route('/profile/friendship/unfriend/{id}', name: 'unfriend')]
+    #[Route('/profile/friendship/unfriend/{id}', name: 'profile_friendship_unfriend')]
     #[IsGranted('ROLE_USER')]
     #[IsGranted('UNFRIEND', subject: 'friendship')]
     public function unfriend(Friendship $friendship): RedirectResponse
