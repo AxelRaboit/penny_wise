@@ -1,5 +1,4 @@
 <div x-show="activeTab === 'add'" class="mt-2">
-    <h2 class="font-semibold text-white text-sm mb-2">Add a friend</h2>
     <div class="mt-2">
         {{ form_start(addFriendForm) }}
         <input type="hidden" x-ref="addFriendError" value="{{ form_errors(addFriendForm.username) ? 'true' : 'false' }}">
