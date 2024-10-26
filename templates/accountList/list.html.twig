@@ -21,8 +21,12 @@
     {{ include('components/spinner/page-spinner.html.twig', {spinnerId: 'loadingPageSpinner'}) }}
 {% endblock %}
 
-{% block sidemenu %}
-    {{ include('accountList/sideMenu/index.html.twig') }}
+{% block sidemenuAction %}
+    {{ include('accountList/sideMenu/action/index.html.twig') }}
+{% endblock %}
+
+{% block sidemenuContent %}
+    {{ include('accountList/sideMenu/content/index.html.twig') }}
 {% endblock %}
 
 {% block javascripts %}

@@ -20,8 +20,12 @@
     {{ include('components/spinner/page-spinner.html.twig', {spinnerId: 'loadingPageSpinner'}) }}
 {% endblock %}
 
-{% block sidemenu %}
-    {{ include('account/wallet/dashboard/sideMenu/index.html.twig') }}
+{% block sidemenuAction %}
+    {{ include('account/wallet/dashboard/sideMenu/action/index.html.twig') }}
+{% endblock %}
+
+{% block sidemenuContent %}
+    {{ include('account/wallet/dashboard/sideMenu/content/index.html.twig') }}
 {% endblock %}
 
 {% block javascripts %}

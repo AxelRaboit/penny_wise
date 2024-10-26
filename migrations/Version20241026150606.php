@@ -1,0 +1,37 @@
+<?php
+
+declare(strict_types=1);
+
+namespace DoctrineMigrations;
+
+use Doctrine\DBAL\Schema\Schema;
+use Doctrine\Migrations\AbstractMigration;
+
+/**
+ * Auto-generated Migration: Please modify to your needs!
+ */
+final class Version20241026150606 extends AbstractMigration
+{
+    public function getDescription(): string
+    {
+        return '';
+    }
+
+    public function up(Schema $schema): void
+    {
+        // this up() migration is auto-generated, please modify it to your needs
+        $this->addSql('DROP SEQUENCE user_settings_id_seq CASCADE');
+        $this->addSql('ALTER TABLE user_settings DROP CONSTRAINT fk_5c844c5a76ed395');
+        $this->addSql('DROP TABLE user_settings');
+    }
+
+    public function down(Schema $schema): void
+    {
+        // this down() migration is auto-generated, please modify it to your needs
+        $this->addSql('CREATE SCHEMA public');
+        $this->addSql('CREATE SEQUENCE user_settings_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
+        $this->addSql('CREATE TABLE user_settings (id INT NOT NULL, user_id INT NOT NULL, is_side_menu_collapse BOOLEAN DEFAULT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE UNIQUE INDEX uniq_5c844c5a76ed395 ON user_settings (user_id)');
+        $this->addSql('ALTER TABLE user_settings ADD CONSTRAINT fk_5c844c5a76ed395 FOREIGN KEY (user_id) REFERENCES "user" (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+    }
+}

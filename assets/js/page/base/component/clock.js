@@ -19,8 +19,6 @@ const clock = () => {
     const date = `${day}/${month}/${year}`;
 
     currentTimeElement.textContent = `${date} ${time}`;
-
-    // Hide the spinner and show the clock
     spinnerElement.classList.add('hidden');
     currentTimeElement.classList.remove('hidden');
 }

@@ -81,9 +81,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Account::class, mappedBy: 'user')]
     private Collection $accounts;
 
-    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
-    private ?UserSettings $userSettings = null;
-
     /*
      * @var Collection<int, Friendship>
      */
@@ -340,22 +337,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             $this->accounts->add($account);
             $account->setUser($this);
         }
-
-        return $this;
-    }
-
-    public function getUserSettings(): ?UserSettings
-    {
-        return $this->userSettings;
-    }
-
-    public function setUserSettings(UserSettings $userSettings): static
-    {
-        if ($userSettings->getUser() !== $this) {
-            $userSettings->setUser($this);
-        }
-
-        $this->userSettings = $userSettings;
 
         return $this;
     }

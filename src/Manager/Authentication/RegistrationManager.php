@@ -6,7 +6,6 @@ namespace App\Manager\Authentication;
 
 use App\Entity\User;
 use App\Entity\UserInformation;
-use App\Entity\UserSettings;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -36,9 +35,6 @@ final readonly class RegistrationManager
         $userInformation = $this->createUserInformation($user);
         $user->setUserInformation($userInformation);
 
-        $userSettings = $this->createUserSettings($user);
-        $user->setUserSettings($userSettings);
-
         $this->entityManager->persist($user);
         $this->entityManager->flush();
     }
@@ -49,13 +45,5 @@ final readonly class RegistrationManager
         $userInformation->setUser($user);
 
         return $userInformation;
-    }
-
-    private function createUserSettings(User $user): UserSettings
-    {
-        $userSettings = new UserSettings();
-        $userSettings->setUser($user);
-
-        return $userSettings;
     }
 }

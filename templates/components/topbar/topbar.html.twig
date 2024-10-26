@@ -1,6 +1,7 @@
-<div class="bg-primary px-5 border-b border-solid border-quaternary">
-    <div class="flex items-center justify-between">
+<div class="bg-primary p-4 flex items-center justify-between">
+    <div class="flex items-center space-x-4">
+        {{ include('components/topbar/burgerMenu/_burger_menu.html.twig') }}
         {{ include('components/topbar/logo/_logo.html.twig') }}
-        {{ include('components/topbar/userProfile/_user_profile.html.twig') }}
     </div>
+    {{ include('components/topbar/userProfile/_user_profile.html.twig') }}
 </div>
