@@ -21,7 +21,7 @@ class AddFriendType extends AbstractType
     {
         $builder
             ->add('friend_search', TextType::class, [
-                'attr' => ['placeholder' => 'Enter username...'],
+                'attr' => ['placeholder' => 'Enter username or an email'],
                 'label' => 'Username',
                 'required' => true,
             ])
