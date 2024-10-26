@@ -1,25 +1,27 @@
-<div class="mt-2">
-    {{ form_start(addFriendForm) }}
-    <input type="hidden" x-ref="addFriendError" value="{{ form_errors(addFriendForm.username) ? 'true' : 'false' }}">
+<div x-show="activeTab === 'add'" class="mt-2">
+    <div class="mt-2">
+        {{ form_start(addFriendForm) }}
+        <input type="hidden" x-ref="addFriendError" value="{{ form_errors(addFriendForm.username) ? 'true' : 'false' }}">
 
-    <div class="flex flex-col w-full">
-        <div class="flex flex-col w-full md:flex-row md:space-y-0 md:items-center space-y-2 md:space-x-2">
-            {{ form_widget(addFriendForm.username, {attr: {
-                class: 'rounded-md p-1 border border-quaternary border-r-0 bg-secondary text-sm md:w-auto'
-            }}) }}
-            <twig:Cta
-                color="accent-primary"
-                size="xs"
-                label="Send"
-                icon="fa-paper-plane"
-                buttonType="submit"
-                extraClasses="md:w-auto w-full"
-            />
+        <div class="flex flex-col w-full">
+            <div class="flex flex-col w-full md:flex-row md:space-y-0 md:items-center space-y-2 md:space-x-2">
+                {{ form_widget(addFriendForm.username, {attr: {
+                    class: 'rounded-md p-1 border border-quaternary border-r-0 bg-secondary text-sm md:w-auto'
+                }}) }}
+                <twig:Cta
+                    color="accent-primary"
+                    size="xs"
+                    label="Send"
+                    icon="fa-paper-plane"
+                    buttonType="submit"
+                    extraClasses="md:w-auto w-full"
+                />
+            </div>
+            <div class="text-danger text-sm">
+                {{ form_errors(addFriendForm.username) }}
+            </div>
         </div>
-        <div class="text-danger text-sm">
-            {{ form_errors(addFriendForm.username) }}
-        </div>
+
+        {{ form_end(addFriendForm) }}
     </div>
-
-    {{ form_end(addFriendForm) }}
 </div>
