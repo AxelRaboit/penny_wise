@@ -57,6 +57,7 @@ final class FriendshipController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function acceptFriendRequest(Friendship $friendship): RedirectResponse
     {
+        // TODO AXEL: condition below must be in a voter
         if ($friendship->getFriend() !== $this->getUser()) {
             throw $this->createAccessDeniedException("You're not authorized to accept this friend request.");
         }
