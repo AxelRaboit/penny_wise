@@ -6,6 +6,7 @@ namespace App\Security\Voter\Friendship;
 
 use App\Entity\Friendship;
 use App\Entity\User;
+use Override;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
@@ -16,11 +17,13 @@ final class FriendshipVoter extends Voter
 {
     public const string UNFRIEND = 'UNFRIEND';
 
+    #[Override]
     protected function supports(string $attribute, mixed $subject): bool
     {
-        return $attribute === self::UNFRIEND && $subject instanceof Friendship;
+        return self::UNFRIEND === $attribute && $subject instanceof Friendship;
     }
 
+    #[Override]
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
         $user = $token->getUser();
@@ -36,7 +39,11 @@ final class FriendshipVoter extends Voter
 
     private function isUserInvolvedInFriendship(User $user, Friendship $friendship): bool
     {
-        return $this->isRequester($user, $friendship) || $this->isFriend($user, $friendship);
+        if ($this->isRequester($user, $friendship)) {
+            return true;
+        }
+
+        return $this->isFriend($user, $friendship);
     }
 
     private function isRequester(User $user, Friendship $friendship): bool
@@ -48,5 +55,4 @@ final class FriendshipVoter extends Voter
     {
         return $friendship->getFriend() === $user;
     }
-
 }
