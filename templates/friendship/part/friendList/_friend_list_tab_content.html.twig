@@ -12,37 +12,49 @@
                     <span class="text-white">{{ friend.friend.username }} <span class="text-senary">({{ friend.friend.email }})</span></span>
                 </div>
 
-                <div class="flex items-center space-x-2">
-                    <twig:Cta
-                        color="accent-primary"
-                        size="xs"
-                        icon="fa-user"
-                        label="Profile"
-                        title="See profile"
-                        route="profile_view"
-                        :routeParams="{ username: friend.friend.username }"
-                    />
-
-                    <twig:Cta
-                        class="mt-auto"
-                        color="accent-primary"
-                        size="xs"
-                        icon="fa-message"
-                        label="Send message"
-                        title="Feature not available"
-                        disabled="true"
-                    />
-
-                    {# TODO AXEL: add confirmation modal #}
-                    <twig:Cta
-                        color="danger-outline"
-                        size="xs"
-                        icon="fa-user-xmark"
-                        label="Unfriend"
-                        title="Unfriend"
-                        route="unfriend"
-                        :routeParams="{ id: friend.id }"
-                    />
+                <div class="relative" x-data="{ open: false }">
+                    <button @click="open = !open" class="bg-secondary text-white px-4 py-2 rounded-md flex items-center space-x-1">
+                        <i class="fa-solid fa-ellipsis-vertical"></i>
+                    </button>
+                    <div x-show="open" @click.away="open = false" class="absolute right-0 mt-2 w-56 bg-secondary text-white rounded-md z-10">
+                        <ul class="text-sm divide-y divide-quaternary border border-quaternary rounded-md">
+                            <li class="p-2">
+                                <twig:Cta
+                                    color="accent-primary"
+                                    fullWidth="true"
+                                    size="xs"
+                                    icon="fa-user"
+                                    label="Profile"
+                                    title="See profile"
+                                    route="profile_view"
+                                    :routeParams="{ username: friend.friend.username }"
+                                />
+                            </li>
+                            <li class="p-2">
+                                <twig:Cta
+                                    color="accent-primary"
+                                    fullWidth="true"
+                                    size="xs"
+                                    icon="fa-message"
+                                    label="Send message"
+                                    title="Feature not available"
+                                    disabled="true"
+                                />
+                            </li>
+                            <li class="p-2">
+                                <twig:Cta
+                                    color="danger-outline"
+                                    fullWidth="true"
+                                    size="xs"
+                                    icon="fa-user-xmark"
+                                    label="Unfriend"
+                                    title="Unfriend"
+                                    route="unfriend"
+                                    :routeParams="{ id: friend.id }"
+                                />
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </li>
         {% else %}
