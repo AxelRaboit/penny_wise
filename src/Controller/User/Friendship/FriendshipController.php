@@ -8,8 +8,10 @@ use App\Entity\Friendship;
 use App\Entity\User;
 use App\Form\User\FriendShip\AddFriendType;
 use App\Manager\User\Friendship\FriendshipManager;
+use App\Repository\Profile\UserRepository;
 use App\Repository\User\Friendship\FriendshipRepository;
 use App\Service\User\UserCheckerService;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,7 +24,9 @@ final class FriendshipController extends AbstractController
     public function __construct(
         private readonly FriendshipRepository $friendshipRepository,
         private readonly FriendshipManager $friendshipService,
-        private readonly UserCheckerService $userCheckerService
+        private readonly UserCheckerService $userCheckerService,
+        private readonly UserRepository $userRepository,
+        private readonly LoggerInterface $logger
     ) {}
 
     #[Route('/profile/friendship', name: 'profile_friendship')]
@@ -112,24 +116,27 @@ final class FriendshipController extends AbstractController
         return $this->redirectToRoute('profile_friendship');
     }
 
-    /* TODO AXEl: When the user is not friend with another, he can't access to the user's profile */
-
-    #[Route('/profile/friendship/view/{id}', name: 'profile_view')]
+    #[Route('/profile/friendship/view/{username}', name: 'profile_view')]
     #[IsGranted('ROLE_USER')]
-    public function viewProfile(User $user): Response
+    public function viewProfile(string $username): Response
     {
-        /** @var User $currentUser */
-        $currentUser = $this->getUser();
-
-        // TODO AXEL: refacto by using voter
-        if (!$this->friendshipService->areFriends($currentUser, $user)) {
-            $this->addFlash('error', 'You are not allowed to view this profile.');
+        $userProfile = $this->userRepository->findOneBy(['username' => $username]);
+        if (null === $userProfile) {
+            $this->logger->error('User not found.', [
+                'username' => $username,
+            ]);
 
             return $this->redirectToRoute('profile_friendship');
         }
 
+        $this->denyAccessUnlessGranted('VIEW_PROFILE', $userProfile);
+
+        $user = $this->userCheckerService->getUserOrThrow();
+        $friendship = $this->friendshipRepository->findFriendshipDtoBetweenUsers($user, $userProfile);
+
         return $this->render('friendship/view.html.twig', [
-            'user' => $user,
+            'userProfile' => $userProfile,
+            'friendship' => $friendship,
         ]);
     }
 

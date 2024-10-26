@@ -1,30 +1,30 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ user.username }}'s Profile - {{ parent() }}{% endblock %}
+{% block title %}{{ userProfile.username }}'s Profile - {{ parent() }}{% endblock %}
 
 {% block body %}
     <div>
-        <div class="bg-tertiary shadow-md rounded-md p-6 max-w-4xl mx-auto border border-quaternary border-solid border">
+        <div class="bg-tertiary shadow-md rounded-md p-6 max-w-4xl mx-auto border border-quaternary border-solid">
             <div class="flex items-center relative">
                 <div class="w-24 h-24 rounded-full overflow-hidden relative">
-                    {% if user.userInformation and user.userInformation.avatarName %}
-                        <img src="{{ asset('uploads/avatars/' ~ user.userInformation.avatarName) }}" alt="Avatar" class="w-full h-full rounded-full">
+                    {% if userProfile.userInformation and userProfile.userInformation.avatarName %}
+                        <img src="{{ asset('uploads/avatars/' ~ userProfile.userInformation.avatarName) }}" alt="Avatar" class="w-full h-full rounded-full">
                     {% else %}
                         <img src="{{ asset('media/logo.png') }}" alt="Default Avatar" class="w-full h-full rounded-full">
                     {% endif %}
                 </div>
                 <div class="ml-6 flex flex-col justify-start">
-                    {% if user.userInformation and user.userInformation.firstname and user.userInformation.lastname %}
-                        <h1 class="font-semibold text-white text-sm mb-1">{{ user.userInformation.firstname }} {{ user.userInformation.lastname }}</h1>
+                    {% if userProfile.userInformation and userProfile.userInformation.firstname and userProfile.userInformation.lastname %}
+                        <h1 class="font-semibold text-white text-sm mb-1">{{ userProfile.userInformation.firstname }} {{ userProfile.userInformation.lastname }}</h1>
                     {% else %}
                         <h1 class="font-semibold text-white text-sm mb-1">User</h1>
                     {% endif %}
                     <twig:BadgeNeon
-                        color="accent-primary"
-                        size="xs"
-                        borderStyle="solid"
-                        label="@{{ user.username }}"
-                        title="Username"
+                            color="accent-primary"
+                            size="xs"
+                            borderStyle="solid"
+                            label="@{{ userProfile.username }}"
+                            title="Username"
                     />
                 </div>
             </div>
@@ -33,31 +33,55 @@
                 <h2 class="font-semibold text-white text-sm">Profile Information</h2>
                 <div class="mt-4">
                     <div class="grid grid-cols-1 md:grid-cols-1 gap-2 mb-2">
-                        <div class="bg-secondary p-2 rounded-md border border-quaternary border-solid border">
+                        <div class="bg-secondary p-2 rounded-md border border-quaternary border-solid">
                             <h3 class="font-semibold text-white text-sm">Bio</h3>
                             <p class="text-white text-sm">{{ user.userInformation.bio ?? '-' }}</p>
                         </div>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
-                        <div class="bg-secondary p-2 rounded-md border border-quaternary border-solid border">
+                        <div class="bg-secondary p-2 rounded-md border border-quaternary border-solid">
                             <h3 class="font-semibold text-white text-sm">First Name</h3>
-                            <p class="text-white text-sm">{{ user.userInformation.firstname ?? '-' }}</p>
+                            <p class="text-white text-sm">{{ userProfile.userInformation.firstname ?? '-' }}</p>
                         </div>
-                        <div class="bg-secondary p-2 rounded-md border border-quaternary border-solid border">
+                        <div class="bg-secondary p-2 rounded-md border border-quaternary border-solid">
                             <h3 class="font-semibold text-white text-sm">Last Name</h3>
-                            <p class="text-white text-sm">{{ user.userInformation.lastname ?? '-' }}</p>
+                            <p class="text-white text-sm">{{ userProfile.userInformation.lastname ?? '-' }}</p>
                         </div>
-                        <div class="bg-secondary p-2 rounded-md border border-quaternary border-solid border">
+                        <div class="bg-secondary p-2 rounded-md border border-quaternary border-solid">
                             <h3 class="font-semibold text-white text-sm">Email</h3>
-                            <p class="text-white text-sm">{{ user.email }}</p>
+                            <p class="text-white text-sm">{{ userProfile.email }}</p>
                         </div>
-                        <div class="bg-secondary p-2 rounded-md border border-quaternary border-solid border">
+                        <div class="bg-secondary p-2 rounded-md border border-quaternary border-solid">
                             <h3 class="font-semibold text-white text-sm">Username</h3>
-                            <p class="text-white text-sm">{{ user.username }}</p>
+                            <p class="text-white text-sm">{{ userProfile.username }}</p>
                         </div>
                     </div>
                 </div>
             </div>
+
+            {% if userProfile.id != app.user.id and friendship %}
+                <div class="mt-6 flex justify-end space-x-2">
+                    <twig:Cta
+                        class="mt-auto"
+                        color="accent-primary"
+                        size="xs"
+                        icon="fa-message"
+                        label="Send message"
+                        title="Feature not available"
+                        disabled="true"
+                    />
+                    <twig:Cta
+                        class="mt-auto"
+                        color="danger-outline"
+                        size="xs"
+                        icon="fa-user-xmark"
+                        label="Unfriend"
+                        title="Unfriend"
+                        route="unfriend"
+                        :routeParams="{ id: friendship.id }"
+                    />
+                </div>
+            {% endif %}
         </div>
     </div>
 {% endblock %}

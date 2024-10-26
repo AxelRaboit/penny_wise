@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repository\User\Friendship;
 
+use App\Dto\Friendship\FriendshipDto;
 use App\Entity\Friendship;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -79,5 +80,36 @@ class FriendshipRepository extends ServiceEntityRepository
             ->getResult();
 
         return $result;
+    }
+
+    /**
+     * Find a FriendshipDto between two users.
+     *
+     * @return FriendshipDto|null Returns a data transfer object with friendship information by user for a given user
+     */
+    public function findFriendshipDtoBetweenUsers(User $currentUser, User $profileUser): ?FriendshipDto
+    {
+        $friendship = $this->createQueryBuilder('f')
+            ->where('(f.requester = :currentUser AND f.friend = :profileUser) OR (f.requester = :profileUser AND f.friend = :currentUser)')
+            ->andWhere('f.requester < f.friend')
+            ->setParameter('currentUser', $currentUser)
+            ->setParameter('profileUser', $profileUser)
+            ->getQuery()
+            ->getOneOrNullResult();
+
+        /** @var Friendship|null $friendship */
+        if ($friendship && null !== $friendship->getId()) {
+            $friend = $friendship->getFriend() === $currentUser ? $friendship->getRequester() : $friendship->getFriend();
+
+            if ($friend instanceof User) {
+                return FriendshipDto::createFrom([
+                    'id' => $friendship->getId(),
+                    'friend' => $friend,
+                    'isAccepted' => $friendship->isAccepted(),
+                ]);
+            }
+        }
+
+        return null;
     }
 }

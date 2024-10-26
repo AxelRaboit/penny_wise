@@ -39,6 +39,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     }
 
     /**
+     * TODO AXEL: move this method in FriendshipRepository
      * Returns a QueryBuilder that excludes the current user and their friendship.
      */
     public function getUsersExcludingCurrentUser(User $currentUser): QueryBuilder
@@ -51,5 +52,20 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
                 WHERE f.requester = :currentUser AND f.accepted = true
             )')
             ->setParameter('currentUser', $currentUser);
+    }
+
+    public function findFriendByUsername(User $currentUser, string $username): ?User
+    {
+        $result = $this->createQueryBuilder('u')
+            ->innerJoin('u.friendships', 'f')
+            ->where('f.requester = :currentUser OR f.friend = :currentUser')
+            ->andWhere('u.username = :username')
+            ->andWhere('f.accepted = true')
+            ->setParameter('currentUser', $currentUser)
+            ->setParameter('username', $username)
+            ->getQuery()
+            ->getOneOrNullResult();
+
+        return $result instanceof User ? $result : null;
     }
 }

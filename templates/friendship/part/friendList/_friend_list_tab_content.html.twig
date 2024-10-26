@@ -13,6 +13,7 @@
                 </div>
 
                 <div class="flex items-center space-x-2">
+
                     <twig:Cta
                         color="accent-primary"
                         size="xs"
@@ -20,7 +21,7 @@
                         label="Profile"
                         title="See profile"
                         route="profile_view"
-                        :routeParams="{ id: friend.friend.id }"
+                        :routeParams="{ username: friend.friend.username }"
                     />
 
                     <twig:Cta
