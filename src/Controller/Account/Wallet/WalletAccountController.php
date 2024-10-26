@@ -410,7 +410,7 @@ final class WalletAccountController extends AbstractController
                 );
 
                 return $this->redirectToRoute('account_wallet_dashboard', [
-                    'wallet' => $walletId,
+                    'wallet' => $existingWallet->getId(),
                     'account' => $accountId,
                     'year' => $adjacentYear,
                     'month' => $adjacentMonthEnum->value,
@@ -419,7 +419,7 @@ final class WalletAccountController extends AbstractController
 
             $user = $wallet->getUser();
 
-            $this->accountWalletManager->createWalletForMonth($user, $adjacentYear, $adjacentMonthEnum, $wallet, $account);
+            $newWallet = $this->accountWalletManager->createWalletForMonth($user, $adjacentYear, $adjacentMonthEnum, $wallet, $account);
 
             $this->addFlash('success', sprintf('Wallet for %s %d created successfully.', $adjacentMonthEnum->getName(), $adjacentYear));
         } catch (Exception $exception) {
@@ -434,7 +434,7 @@ final class WalletAccountController extends AbstractController
         }
 
         return $this->redirectToRoute('account_wallet_dashboard', [
-            'wallet' => $wallet->getId(),
+            'wallet' => $newWallet->getId(),
             'account' => $accountId,
             'year' => $adjacentYear,
             'month' => $adjacentMonthEnum->value,

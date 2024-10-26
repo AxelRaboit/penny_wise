@@ -40,10 +40,12 @@ class AccountWalletManager
      * @param Wallet    $currentWallet the existing wallet to use as a reference for setting attributes like currency
      * @param Account   $account       the account to link the new wallet to
      *
+     * @return Wallet The newly created wallet
+     *
      * @throws DateMalformedStringException if the provided date string is not correctly formatted
      * @throws LogicException               if a wallet for the given account, year, and month already exists
      */
-    public function createWalletForMonth(User $user, int $year, MonthEnum $monthEnum, Wallet $currentWallet, Account $account): void
+    public function createWalletForMonth(User $user, int $year, MonthEnum $monthEnum, Wallet $currentWallet, Account $account): Wallet
     {
         $accountId = $account->getId();
         if (null === $accountId) {
@@ -69,6 +71,8 @@ class AccountWalletManager
 
         $this->entityManager->persist($newWallet);
         $this->entityManager->flush();
+
+        return $newWallet;
     }
 
     /**
