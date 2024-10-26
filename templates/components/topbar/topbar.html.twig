@@ -3,5 +3,8 @@
         {{ include('components/topbar/burgerMenu/_burger_menu.html.twig') }}
         {{ include('components/topbar/logo/_logo.html.twig') }}
     </div>
-    {{ include('components/topbar/userProfile/_user_profile.html.twig') }}
+    <div class="flex items-center space-x-4">
+        {{ include('components/topbar/notifications/_notifications.html.twig') }}
+        {{ include('components/topbar/userProfile/_user_profile.html.twig') }}
+    </div>
 </div>
