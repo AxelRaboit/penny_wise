@@ -120,4 +120,28 @@ class FriendshipRepository extends ServiceEntityRepository
             'friend' => $friendship->getRequester(),
         ]);
     }
+
+    public function isFriend(User $userA, User $userB): bool
+    {
+        return null !== $this->createQueryBuilder('f')
+                ->where('(f.requester = :userA AND f.friend = :userB) OR (f.requester = :userB AND f.friend = :userA)')
+                ->andWhere('f.accepted = true')
+                ->andWhere('f.requester < f.friend')
+                ->setParameter('userA', $userA)
+                ->setParameter('userB', $userB)
+                ->getQuery()
+                ->getOneOrNullResult();
+    }
+
+    public function isFriendRequestPending(User $userA, User $userB): bool
+    {
+        return null !== $this->createQueryBuilder('f')
+                ->where('(f.requester = :userA AND f.friend = :userB) OR (f.requester = :userB AND f.friend = :userA)')
+                ->andWhere('f.accepted = false')
+                ->andWhere('f.requester < f.friend')
+                ->setParameter('userA', $userA)
+                ->setParameter('userB', $userB)
+                ->getQuery()
+                ->getOneOrNullResult();
+    }
 }

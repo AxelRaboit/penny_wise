@@ -20,7 +20,7 @@ class AddFriendType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('username', TextType::class, [
+            ->add('friend_search', TextType::class, [
                 'attr' => ['placeholder' => 'Enter username...'],
                 'label' => 'Username',
                 'required' => true,

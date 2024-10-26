@@ -6,6 +6,7 @@ namespace App\Manager\User\Friendship;
 
 use App\Entity\Friendship;
 use App\Entity\User;
+use App\Repository\Profile\UserRepository;
 use App\Repository\User\Friendship\FriendshipRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -13,7 +14,8 @@ final readonly class FriendshipManager
 {
     public function __construct(
         private EntityManagerInterface $entityManager,
-        private FriendshipRepository $friendshipRepository
+        private FriendshipRepository $friendshipRepository,
+        private UserRepository $userRepository
     ) {}
 
     public function sendFriendRequest(User $user, User $friend): void
@@ -86,5 +88,19 @@ final readonly class FriendshipManager
     {
         $this->entityManager->remove($friendship);
         $this->entityManager->flush();
+    }
+
+    public function findFriendByUsernameOrEmail(string $usernameOrEmail): ?User
+    {
+        $isEmail = false !== filter_var($usernameOrEmail, FILTER_VALIDATE_EMAIL);
+
+        return $isEmail
+            ? $this->userRepository->findOneBy(['email' => $usernameOrEmail])
+            : $this->userRepository->findOneBy(['username' => $usernameOrEmail]);
+    }
+
+    public function processFriendRequest(User $user, User $friend): void
+    {
+        $this->sendFriendRequest($user, $friend);
     }
 }

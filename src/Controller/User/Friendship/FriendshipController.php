@@ -44,7 +44,7 @@ final class FriendshipController extends AbstractController
 
         return $this->render('friendship/index.html.twig', [
             'friendship' => $user->getAcceptedFriends(),
-            'addFriendForm' => $form->createView(),
+            'form' => $form->createView(),
             'pendingRequests' => $pendingRequests = $this->friendshipRepository->findPendingFriendRequests($user),
             'sentPendingRequests' => $sentPendingRequests = $this->friendshipRepository->findSentPendingRequests($user),
             'pendingRequestsCount' => count($pendingRequests),
@@ -140,21 +140,17 @@ final class FriendshipController extends AbstractController
 
     private function handleFriendRequestForm(FormInterface $form, User $user): RedirectResponse
     {
-        $username = $form->get('username')->getData();
-        $friend = $this->userRepository->findOneBy(['username' => $username]);
+        /** @var string $usernameOrEmail */
+        $usernameOrEmail = $form->get('friend_search')->getData();
+        $friend = $this->friendshipManager->findFriendByUsernameOrEmail($usernameOrEmail);
 
-        if ($friend && $this->hasNoPendingRequest($friend)) {
-            $this->friendshipManager->sendFriendRequest($user, $friend);
+        if ($friend instanceof User) {
+            $this->friendshipManager->processFriendRequest($user, $friend);
             $this->addFlash('success', 'Friend request sent.');
         } else {
-            $this->addFlash('warning', 'You are already friends or request already sent.');
+            $this->addFlash('warning', 'User not found.');
         }
 
         return $this->redirectToRoute('profile_friendship');
-    }
-
-    private function hasNoPendingRequest(User $friend): bool
-    {
-        return [] === $this->friendshipRepository->findPendingFriendRequests($friend);
     }
 }
