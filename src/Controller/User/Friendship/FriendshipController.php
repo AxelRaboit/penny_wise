@@ -69,7 +69,7 @@ final class FriendshipController extends AbstractController
         ]);
     }
 
-    #[Route('/profile/friendship/accept/{id}', name: 'accept_friend_request', methods: ['POST'])]
+    #[Route('/profile/friendship/accept/{id}', name: 'accept_friend_request')]
     #[IsGranted('ROLE_USER')]
     public function acceptFriendRequest(Friendship $friendship): RedirectResponse
     {
@@ -84,7 +84,7 @@ final class FriendshipController extends AbstractController
         return $this->redirectToRoute('profile_friendship');
     }
 
-    #[Route('/profile/friendship/decline/{id}', name: 'decline_friend_request', methods: ['POST'])]
+    #[Route('/profile/friendship/decline/{id}', name: 'decline_friend_request')]
     #[IsGranted('ROLE_USER')]
     public function declineFriendRequest(Friendship $friendship): RedirectResponse
     {
