@@ -8,6 +8,7 @@ use App\Entity\Friendship;
 use App\Entity\User;
 use App\Repository\User\Friendship\FriendshipRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use LogicException;
 
 final readonly class FriendshipManager
 {

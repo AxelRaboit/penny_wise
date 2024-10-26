@@ -101,14 +101,9 @@ final class FriendshipController extends AbstractController
 
     #[Route('/profile/friendship/unfriend/{id}', name: 'unfriend')]
     #[IsGranted('ROLE_USER')]
+    #[IsGranted('UNFRIEND', subject: 'friendship')]
     public function unfriend(Friendship $friendship): RedirectResponse
     {
-        $user = $this->getUser();
-
-        if ($friendship->getRequester() !== $user && $friendship->getFriend() !== $user) {
-            throw $this->createAccessDeniedException('You are not authorized to unfriend this user.');
-        }
-
         $this->friendshipService->unfriend($friendship);
 
         $this->addFlash('success', 'Friendship removed successfully.');
