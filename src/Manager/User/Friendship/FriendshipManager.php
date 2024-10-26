@@ -8,12 +8,16 @@ use App\Entity\Friendship;
 use App\Entity\User;
 use App\Repository\User\Friendship\FriendshipRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
+use Psr\Log\LoggerInterface;
+use RuntimeException;
 
 final readonly class FriendshipManager
 {
     public function __construct(
         private EntityManagerInterface $entityManager,
-        private FriendshipRepository $friendshipRepository
+        private FriendshipRepository $friendshipRepository,
+        private LoggerInterface $logger
     ) {}
 
     public function sendFriendRequest(User $user, User $friend): void
@@ -54,18 +58,27 @@ final readonly class FriendshipManager
 
     public function unfriend(Friendship $friendship): void
     {
-        $this->entityManager->remove($friendship);
+        try {
+            $this->entityManager->remove($friendship);
 
-        $reciprocalFriendship = $this->friendshipRepository->findOneBy([
-            'requester' => $friendship->getFriend(),
-            'friend' => $friendship->getRequester(),
-        ]);
+            $reciprocalFriendship = $this->friendshipRepository->findOneBy([
+                'requester' => $friendship->getFriend(),
+                'friend' => $friendship->getRequester(),
+            ]);
 
-        if (null !== $reciprocalFriendship) {
-            $this->entityManager->remove($reciprocalFriendship);
+            if (null !== $reciprocalFriendship) {
+                $this->entityManager->remove($reciprocalFriendship);
+            }
+
+            $this->entityManager->flush();
+        } catch (Exception $exception) {
+            $this->logger->error('Failed to unfriend users.', [
+                'friendship_id' => $friendship->getId(),
+                'error' => $exception->getMessage(),
+            ]);
+
+            throw new RuntimeException('An error occurred while trying to unfriend.', $exception->getCode(), $exception);
         }
-
-        $this->entityManager->flush();
     }
 
     public function areFriends(User $user, User $otherUser): bool
