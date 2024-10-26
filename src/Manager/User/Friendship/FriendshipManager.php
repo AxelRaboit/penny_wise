@@ -61,12 +61,14 @@ final readonly class FriendshipManager
         try {
             $this->entityManager->remove($friendship);
 
-            $reciprocalFriendship = $this->friendshipRepository->findOneBy([
-                'requester' => $friendship->getFriend(),
-                'friend' => $friendship->getRequester(),
-            ]);
+            /** @var User $requester */
+            $requester = $friendship->getRequester();
+            /** @var User $friend */
+            $friend = $friendship->getFriend();
 
-            if (null !== $reciprocalFriendship) {
+            $reciprocalFriendship = $this->friendshipRepository->findReciprocalFriendship($requester, $friend);
+
+            if ($reciprocalFriendship instanceof Friendship) {
                 $this->entityManager->remove($reciprocalFriendship);
             }
 
