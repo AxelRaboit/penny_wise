@@ -1,4 +1,4 @@
-const addFlash = () => {
+const add_flash = () => {
     const flashMessages = document.querySelectorAll('.alert-flash');
     flashMessages.forEach(flashMessage => {
         setTimeout(() => {
@@ -11,6 +11,6 @@ const addFlash = () => {
 };
 
 export const initializeAddFlash = () => {
-    addFlash();
+    add_flash();
 };
 

@@ -20,7 +20,7 @@
             {{ encore_entry_script_tags('side_menu_modal') }}
         {% endblock %}
     </head>
-    <body id="base-page" class="min-h-screen flex flex-col">
+    <body id="base-page" class="min-h-screen flex-col hidden">
         <div x-data="{ expanded: false }" class="flex flex-1 flex-col h-full">
             {{ include('components/topbar/topbar.html.twig') }}
             <div class="flex flex-1">

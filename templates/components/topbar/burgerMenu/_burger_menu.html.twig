@@ -1,3 +1,6 @@
-<button @click="expanded = !expanded" class="py-2 px-3 rounded-md bg-quaternary text-senary hover:bg-quaternary-hover">
-    <i class="fa-solid" :class="expanded ? 'fa-xmark' : 'fa-bars'"></i>
-</button>
+<div id="topbar-burger-menu-container">
+    {{ include('components/spinner/spinner.html.twig', {width: 'w-6', height: 'h-6'}) }}
+    <button id="topbar-burger-menu" @click="expanded = !expanded" class="py-2 px-3 rounded-md bg-quaternary text-senary hover:bg-quaternary-hover hidden">
+        <i class="fa-solid" :class="expanded ? 'fa-xmark' : 'fa-bars'"></i>
+    </button>
+</div>

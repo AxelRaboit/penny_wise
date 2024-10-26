@@ -1,5 +1,5 @@
 import { attachModalEvents } from '@component/Modal/modal.js';
-import {handlePageSpinner} from "@component/Spinner/page-spinner.js";
+import {handlePageSpinner} from "@component/Spinner/page_spinner.js";
 
 document.addEventListener('DOMContentLoaded', function () {
     handlePageSpinner('transaction-tag-list-page', 'loadingPageSpinner');

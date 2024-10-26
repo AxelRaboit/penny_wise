@@ -1,6 +1,6 @@
 const clock = () => {
-    const currentTimeElement = document.getElementById('clock');
-    const spinnerElement = document.querySelector('#clockContainer .spinner');
+    const currentTimeElement = document.getElementById('sidemenu-clock');
+    const spinnerElement = document.querySelector('#sidemenu-clock-container .spinner');
     if (!currentTimeElement || !spinnerElement) {
         console.error('currentTimeElement or spinnerElement is null');
         return;
