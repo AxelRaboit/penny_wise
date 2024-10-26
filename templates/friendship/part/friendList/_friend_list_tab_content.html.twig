@@ -1,64 +1,62 @@
-<div x-show="activeTab === 'friends'" class="mt-2">
-    <ul>
-        {% for friend in friendship %}
-            {% dump (friend) %}
-            <li class="bg-secondary p-2 rounded-md border border-quaternary text-white text-sm flex items-center justify-between mb-2">
-                <div class="flex items-center space-x-2">
-                    {% if friend.friend.userInformation and friend.friend.userInformation.avatarName %}
-                        <img src="{{ asset('uploads/avatars/' ~ friend.friend.userInformation.avatarName) }}" alt="{{ friend.friend.username }}'s avatar" class="w-8 h-8 rounded-full">
-                    {% else %}
-                        <img src="{{ asset('media/logo.png') }}" alt="Default Avatar" class="w-8 h-8 rounded-full">
-                    {% endif %}
-                    <span class="text-white">{{ friend.friend.username }} <span class="text-senary">({{ friend.friend.email }})</span></span>
-                </div>
+<ul>
+    {% for friend in friendship %}
+        {% dump (friend) %}
+        <li class="bg-secondary p-2 rounded-md border border-quaternary text-white text-sm flex items-center justify-between mb-2">
+            <div class="flex items-center space-x-2">
+                {% if friend.friend.userInformation and friend.friend.userInformation.avatarName %}
+                    <img src="{{ asset('uploads/avatars/' ~ friend.friend.userInformation.avatarName) }}" alt="{{ friend.friend.username }}'s avatar" class="w-8 h-8 rounded-full">
+                {% else %}
+                    <img src="{{ asset('media/logo.png') }}" alt="Default Avatar" class="w-8 h-8 rounded-full">
+                {% endif %}
+                <span class="text-white">{{ friend.friend.username }} <span class="text-senary">({{ friend.friend.email }})</span></span>
+            </div>
 
-                <div class="relative" x-data="{ open: false }">
-                    <button @click="open = !open" class="bg-secondary text-white px-4 py-2 rounded-md flex items-center space-x-1">
-                        <i class="fa-solid fa-ellipsis-vertical"></i>
-                    </button>
-                    <div x-show="open" @click.away="open = false" class="absolute right-0 mt-2 w-56 bg-secondary text-white rounded-md z-10">
-                        <ul class="text-sm divide-y divide-quaternary border border-quaternary rounded-md">
-                            <li class="p-2">
-                                <twig:Cta
-                                    color="accent-primary"
-                                    fullWidth="true"
-                                    size="xs"
-                                    icon="fa-user"
-                                    label="Profile"
-                                    title="See profile"
-                                    route="profile_view"
-                                    :routeParams="{ username: friend.friend.username }"
-                                />
-                            </li>
-                            <li class="p-2">
-                                <twig:Cta
-                                    color="accent-primary"
-                                    fullWidth="true"
-                                    size="xs"
-                                    icon="fa-message"
-                                    label="Send message"
-                                    title="Feature not available"
-                                    disabled="true"
-                                />
-                            </li>
-                            <li class="p-2">
-                                <twig:Cta
-                                    color="danger-outline"
-                                    fullWidth="true"
-                                    size="xs"
-                                    icon="fa-user-xmark"
-                                    label="Unfriend"
-                                    title="Unfriend"
-                                    route="profile_friendship_unfriend"
-                                    :routeParams="{ id: friend.id }"
-                                />
-                            </li>
-                        </ul>
-                    </div>
+            <div class="relative" x-data="{ open: false }">
+                <button @click="open = !open" class="bg-secondary text-white px-4 py-2 rounded-md flex items-center space-x-1">
+                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                </button>
+                <div x-show="open" @click.away="open = false" class="absolute right-0 mt-2 w-56 bg-secondary text-white rounded-md z-10">
+                    <ul class="text-sm divide-y divide-quaternary border border-quaternary rounded-md">
+                        <li class="p-2">
+                            <twig:Cta
+                                color="accent-primary"
+                                fullWidth="true"
+                                size="xs"
+                                icon="fa-user"
+                                label="Profile"
+                                title="See profile"
+                                route="profile_view"
+                                :routeParams="{ username: friend.friend.username }"
+                            />
+                        </li>
+                        <li class="p-2">
+                            <twig:Cta
+                                color="accent-primary"
+                                fullWidth="true"
+                                size="xs"
+                                icon="fa-message"
+                                label="Send message"
+                                title="Feature not available"
+                                disabled="true"
+                            />
+                        </li>
+                        <li class="p-2">
+                            <twig:Cta
+                                color="danger-outline"
+                                fullWidth="true"
+                                size="xs"
+                                icon="fa-user-xmark"
+                                label="Unfriend"
+                                title="Unfriend"
+                                route="profile_friendship_unfriend"
+                                :routeParams="{ id: friend.id }"
+                            />
+                        </li>
+                    </ul>
                 </div>
-            </li>
-        {% else %}
-            <li class="text-white text-sm">You have no friends yet.</li>
-        {% endfor %}
-    </ul>
-</div>
+            </div>
+        </li>
+    {% else %}
+        <li class="text-white text-sm">You have no friends yet.</li>
+    {% endfor %}
+</ul>

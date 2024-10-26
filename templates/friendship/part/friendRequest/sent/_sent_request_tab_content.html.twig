@@ -1,17 +1,16 @@
-<div x-show="activeTab === 'sent_requests'" class="mt-2">
-    <ul class="space-y-2">
-        {% for request in sentRequests %}
-            <li class="flex items-center justify-between bg-secondary p-2 rounded-md border border-quaternary text-white text-sm">
-                <div class="flex items-center">
-                    {% if request.friend.userInformation and request.friend.userInformation.avatarName %}
-                        <img src="{{ asset('uploads/avatars/' ~ request.friend.userInformation.avatarName) }}" alt="{{ request.friend.username }}'s avatar" class="w-8 h-8 rounded-full mr-2">
-                    {% else %}
-                        <img src="{{ asset('media/logo.png') }}" alt="Default Avatar" class="w-8 h-8 rounded-full mr-2">
-                    {% endif %}
-                    <span class="text-white">{{ request.friend.username }} <span class="text-senary">({{ request.friend.email }})</span></span>
-                </div>
-                <div class="flex space-x-2">
-                    <twig:Cta
+<ul class="space-y-2">
+    {% for request in sentRequests %}
+        <li class="bg-secondary p-2 rounded-md border border-quaternary text-white text-sm flex flex-col md:flex-row md:items-center md:justify-between">
+            <div class="flex items-center mb-2 md:mb-0">
+                {% if request.friend.userInformation and request.friend.userInformation.avatarName %}
+                    <img src="{{ asset('uploads/avatars/' ~ request.friend.userInformation.avatarName) }}" alt="{{ request.friend.username }}'s avatar" class="w-10 h-10 rounded-full mr-2">
+                {% else %}
+                    <img src="{{ asset('media/logo.png') }}" alt="Default Avatar" class="w-10 h-10 rounded-full mr-2">
+                {% endif %}
+                <span class="text-white">{{ request.friend.username }} <span class="text-senary">({{ request.friend.email }})</span></span>
+            </div>
+            <div class="flex flex-col space-y-2 md:flex-row md:items-center md:space-y-0 md:space-x-2">
+                <twig:Cta
                         color="danger-outline"
                         size="xs"
                         icon="fa-user-xmark"
@@ -19,18 +18,19 @@
                         title="Cancel"
                         route="cancel_friend_request"
                         :routeParams="{ id: request.id }"
-                    />
-                    <twig:BadgeNeon
+                        extraClasses="w-full md:w-auto"
+                />
+                <twig:BadgeNeon
                         color="accent-secondary"
                         size="xs"
                         borderStyle="solid"
                         label="Pending"
                         title="Request Pending"
-                    />
-                </div>
-            </li>
-        {% else %}
-            <li class="text-white text-sm">No sent friend requests.</li>
-        {% endfor %}
-    </ul>
-</div>
+                        extraClasses="w-full md:w-auto text-center"
+                />
+            </div>
+        </li>
+    {% else %}
+        <li class="text-white text-sm text-center">No sent friend requests.</li>
+    {% endfor %}
+</ul>
