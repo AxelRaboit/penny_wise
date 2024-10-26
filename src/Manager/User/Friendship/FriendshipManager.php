@@ -58,7 +58,7 @@ final readonly class FriendshipManager
 
         $reciprocalFriendship = $this->friendshipRepository->findReciprocalFriendship($friendship);
 
-        if (null !== $reciprocalFriendship) {
+        if ($reciprocalFriendship instanceof Friendship) {
             $this->entityManager->remove($reciprocalFriendship);
         }
 
