@@ -23,7 +23,7 @@ final class FriendshipController extends AbstractController
 {
     public function __construct(
         private readonly FriendshipRepository $friendshipRepository,
-        private readonly FriendshipManager $friendshipService,
+        private readonly FriendshipManager $friendshipManager,
         private readonly UserCheckerService $userCheckerService,
         private readonly UserRepository $userRepository,
         private readonly LoggerInterface $logger
@@ -42,7 +42,7 @@ final class FriendshipController extends AbstractController
             $friend = $form->get('username')->getData();
 
             if ([] === $this->friendshipRepository->findPendingFriendRequests($friend)) {
-                $this->friendshipService->sendFriendRequest($user, $friend);
+                $this->friendshipManager->sendFriendRequest($user, $friend);
                 $this->addFlash('success', 'Friend request sent.');
             } else {
                 $this->addFlash('warning', 'You are already friends or request already sent.');
@@ -77,7 +77,7 @@ final class FriendshipController extends AbstractController
             throw $this->createAccessDeniedException("You're not authorized to accept this friend request.");
         }
 
-        $this->friendshipService->acceptFriendRequest($friendship);
+        $this->friendshipManager->acceptFriendRequest($friendship);
 
         $this->addFlash('success', 'Friend request accepted.');
 
@@ -92,7 +92,7 @@ final class FriendshipController extends AbstractController
             throw $this->createAccessDeniedException("You're not authorized to decline this friend request.");
         }
 
-        $this->friendshipService->declineFriendRequest($friendship);
+        $this->friendshipManager->declineFriendRequest($friendship);
 
         $this->addFlash('info', 'Friend request declined.');
 
@@ -104,7 +104,7 @@ final class FriendshipController extends AbstractController
     #[IsGranted('UNFRIEND', subject: 'friendship')]
     public function unfriend(Friendship $friendship): RedirectResponse
     {
-        $this->friendshipService->unfriend($friendship);
+        $this->friendshipManager->unfriend($friendship);
 
         $this->addFlash('success', 'Friendship removed successfully.');
 
@@ -145,7 +145,7 @@ final class FriendshipController extends AbstractController
             throw $this->createAccessDeniedException("You're not authorized to cancel this friend request.");
         }
 
-        $this->friendshipService->cancelFriendRequest($friendship);
+        $this->friendshipManager->cancelFriendRequest($friendship);
 
         $this->addFlash('info', 'Friend request cancelled.');
 
