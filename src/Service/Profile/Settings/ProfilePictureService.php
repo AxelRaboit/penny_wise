@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Service\Profile\Settings;
 
 use App\Entity\UserInformation;
+use App\Util\StringHelper;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\Filesystem\Filesystem;
@@ -26,7 +27,7 @@ final readonly class ProfilePictureService
         $filesystem = new Filesystem();
         $oldAvatarName = $userInformation->getAvatarName();
 
-        if (null !== $oldAvatarName && '' !== $oldAvatarName && '0' !== $oldAvatarName) {
+        if (StringHelper::isNotEmpty($oldAvatarName)) {
             $avatarPath = sprintf('%s/%s', $this->avatarsDirectory, $oldAvatarName);
 
             if ($filesystem->exists($avatarPath)) {

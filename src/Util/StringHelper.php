@@ -9,8 +9,13 @@ final readonly class StringHelper
     /**
      * Check if the given string is empty.
      */
-    public static function isEmpty(string $string): bool
+    public static function isEmpty(?string $string): bool
     {
-        return '' === $string || '0' === $string;
+        return '' === $string || '0' === $string || null === $string;
+    }
+
+    public static function isNotEmpty(?string $string): bool
+    {
+        return !self::isEmpty($string);
     }
 }
