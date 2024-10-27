@@ -91,7 +91,8 @@ Encore
     };
 })
 .addAliases({
-    '@component': path.resolve(__dirname, 'assets/js/component')
+    '@component': path.resolve(__dirname, 'assets/js/component'),
+    '@page': path.resolve(__dirname, 'assets/js/page'),
 });
 
 
