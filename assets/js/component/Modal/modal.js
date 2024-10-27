@@ -1,6 +1,6 @@
 const attachOutsideClickListener = (modal) => {
     modal.addEventListener('click', function (e) {
-        const content = modal.querySelector('.modal-content');
+        const content = modal.querySelector('.js-modal-content');
         if (!content.contains(e.target)) {
             closeModal(modal);
         }
@@ -27,10 +27,10 @@ const createModal = ({
     const validateActionButtonClasses = 'bg-accent-primary text-white border-accent-primary-ring hover:bg-accent-primary-hover rounded-md border border-solid p-2';
     const modal = document.createElement('div');
     modal.id = modalId;
-    modal.classList.add('fixed', 'inset-0', 'hidden', 'bg-gray-900', 'bg-opacity-50', 'flex', 'justify-center', 'items-center');
+    modal.classList.add('fixed', 'inset-0', 'hidden', 'bg-gray-900', 'bg-opacity-50', 'flex', 'justify-center', 'items-center', 'p-4');
 
     modal.innerHTML = `
-        <div class="bg-tertiary rounded-md shadow-lg p-4 w-1/3 border-solid border border-quaternary-ring modal-content">
+        <div class="bg-tertiary rounded-md shadow-lg p-4 w-full md:w-1/3 max-w-lg border-solid border border-quaternary-ring js-modal-content">
             <h3 class="text-lg text-white font-bold mb-4">${modalTitle}</h3>
             <p class="mb-4 text-white text-sm">${modalMessageHeader}</p>
             ${modalMessage ? `<p class="mb-4 text-white text-sm">${modalMessage}</p>` : ''}

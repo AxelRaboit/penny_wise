@@ -1,13 +1,15 @@
-{% for button in buttons %}
-    <twig:SideMenuCta
-        id="{{ button.id }}"
-        color="quaternary"
-        size="md"
-        fullWidth="true"
-        extraClasses="mb-2"
-        icon="{{ button.icon }}"
-        label="{{ button.text is defined ? button.text : '' }}"
-        title="{{ button.title }}"
-        dataActionUrl="true"
-    />
-{% endfor %}
+<div class="m-2">
+    {% for button in buttons %}
+        <twig:SideMenuCta
+            id="{{ button.id }}"
+            color="quaternary"
+            size="md"
+            fullWidth="true"
+            extraClasses="mb-2"
+            icon="{{ button.icon }}"
+            label="{{ button.text is defined ? button.text : '' }}"
+            title="{{ button.title }}"
+            dataActionUrl="true"
+        />
+    {% endfor %}
+</div>
