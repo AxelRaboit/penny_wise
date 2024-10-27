@@ -26,4 +26,14 @@ final class NotificationController extends AbstractController
 
         return new JsonResponse(['success' => true]);
     }
+
+    #[Route('/notifications/mark-all-as-read', name: 'notification_mark_all_as_read', methods: ['POST'])]
+    #[IsGranted('ROLE_USER')]
+    public function markAllAsRead(): JsonResponse
+    {
+        $this->notificationManager->markAllAsRead();
+
+        return new JsonResponse(['success' => true]);
+    }
+
 }

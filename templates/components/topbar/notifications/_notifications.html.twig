@@ -1,12 +1,12 @@
 <div x-data="{ open: false }" @click.outside="open = false">
     <div class="relative">
         <twig:Cta
-            color="secondary"
-            size="sm"
-            icon="fa-bell"
-            title="Notifications"
-            dataActionUrl="true"
-            @click="open = !open"
+                color="secondary"
+                size="sm"
+                icon="fa-bell"
+                title="Notifications"
+                dataActionUrl="true"
+                @click="open = !open"
         >
             {% if unreadCount > 0 %}
                 <span id="unread-count" class="absolute top-0 right-0 -mt-1 -mr-1 bg-red-500 text-white text-xs font-semibold rounded-full px-2 py-0.5">
@@ -20,9 +20,14 @@
          class="absolute right-4 mt-2 w-64 rounded-md overflow-hidden z-50 bg-secondary border border-quaternary-ring">
         <ul id="notifications-dropdown-content">
             {% if notifications is not empty %}
+                <div class="p-2 text-right">
+                    <button id="js-topbar-clear-all-notifications" class="text-xs text-white hover:underline">
+                        Clear All
+                    </button>
+                </div>
                 {% for notification in notifications %}
                     <li class="bg-secondary" id="topbar-notification-{{ notification.id }}">
-                        <div class="bg-tertiary p-2 rounded-md px-4 py-3">
+                        <div class="bg-tertiary p-2 rounded-b-md px-4 py-3">
                             <div class="text-sm text-white">
                                 {{ notification.message }}
                             </div>
@@ -31,7 +36,7 @@
                             </div>
                             {% if not notification.isRead %}
                                 <div class="text-center mt-2">
-                                    <button class="js-mark-as-read py-1 px-2 rounded-md bg-accent-primary text-white text-xs w-full" data-notification-id="{{ notification.id }}">
+                                    <button class="js-topbar-mark-as-read py-1 px-2 rounded-md bg-accent-primary hover:bg-accent-primary-hover text-white text-xs w-full" data-notification-id="{{ notification.id }}">
                                         Mark as Read
                                     </button>
                                 </div>
