@@ -1,7 +1,7 @@
 {% set calendarModalContent %}
-    <div id="monthly-month">
+    <div>
         <div class="w-full rounded-b-md p-2">
-            <div class="mb-2 p-2 rounded-md border-quaternary border-solid border border-quaternary-ring">
+            <div class="mb-2 p-2 rounded-md border-solid border border-quaternary-ring">
                 <div class="grid grid-cols-2 sm:grid-cols-3 gap-1">
                     {% set allMonths = 1..12 %}
                     {% for yearDto in walletsAndTransactionsFromYear %}
@@ -36,9 +36,9 @@
     </div>
 {% endset %}
 
-{{ include('components/sideMenu/modal.html.twig', {
-    modalId: 'walletSideMenuCalendarModal',
+{{ include('components/rightSideMenu/rightSideMenu.html.twig', {
+    modalId: 'js-wallet-side-menu-calendar',
     modalTitle: 'Calendar',
     modalContent: calendarModalContent,
-    closeModalId: 'closeWalletSideMenuCalendarModal'
+    closeModalId: 'js-right-side-menu-wallet-calendar-close-button'
 }) }}

@@ -28,7 +28,7 @@ Encore
     .addEntry('base_no_topbar', './assets/js/page/base/base_no_topbar.js')
 
     // Components
-    .addEntry('side_menu_modal', './assets/js/component/Modal/side_menu_modal.js')
+    .addEntry('right_side_menu', './assets/js/component/SideMenu/right_side_menu.js')
     .addEntry('topbar', './assets/js/component/topbar.js')
     .addEntry('notification', './assets/js/component/Notification/notification.js')
 

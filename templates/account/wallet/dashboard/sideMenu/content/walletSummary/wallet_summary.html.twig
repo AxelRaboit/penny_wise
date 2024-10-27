@@ -1,7 +1,7 @@
 {% set summaryModalContent %}
     {{ include('account/wallet/dashboard/sideMenu/content/walletSummary/part/_wallet_summary_recap.html.twig') }}
 
-    <div id="monthly-summary" class="border border-solid border-quaternary rounded-md mb-2">
+    <div class="border border-solid border-quaternary-ring rounded-md mb-2">
         <div class="border-b border-solid border-quaternary">
             <h2 class="rounded-t-md text-center text-sm font-bold p-2 bg-tertiary text-white">Overview</h2>
         </div>
@@ -139,9 +139,9 @@
     </div>
 {% endset %}
 
-{{ include('components/sideMenu/modal.html.twig', {
-    modalId: 'walletSideMenuSummaryModal',
+{{ include('components/rightSideMenu/rightSideMenu.html.twig', {
+    modalId: 'js-wallet-side-menu-summary',
     modalTitle: 'Wallet Summary',
     modalContent: summaryModalContent,
-    closeModalId: 'closeWalletSideMenuSummaryModal'
+    closeModalId: 'js-right-side-menu-wallet-summary-close-button'
 }) }}

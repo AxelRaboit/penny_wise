@@ -25,9 +25,9 @@
     {% endif %}
 {% endset %}
 
-{{ include('components/sideMenu/modal.html.twig', {
-    modalId: 'walletSideMenuNoteModal',
+{{ include('components/rightSideMenu/rightSideMenu.html.twig', {
+    modalId: 'js-wallet-side-menu-note',
     modalTitle: 'Notes',
     modalContent: notesModalContent,
-    closeModalId: 'closeWalletSideMenuNoteModal'
+    closeModalId: 'js-right-side-menu-wallet-note-close-button'
 }) }}

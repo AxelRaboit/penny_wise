@@ -26,9 +26,9 @@
     }) }}
 {% endset %}
 
-{{ include('components/sideMenu/modal.html.twig', {
-    modalId: 'walletSideMenuGraphsModal',
+{{ include('components/rightSideMenu/rightSideMenu.html.twig', {
+    modalId: 'js-wallet-side-menu-graphs',
     modalTitle: 'Graphs',
     modalContent: graphsModalContent,
-    closeModalId: 'closeWalletSideMenuGraphsModal'
+    closeModalId: 'js-right-side-menu-wallet-graphs-close-button'
 }) }}

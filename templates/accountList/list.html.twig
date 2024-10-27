@@ -21,11 +21,11 @@
     {{ include('components/spinner/page-spinner.html.twig', {spinnerId: 'loadingPageSpinner'}) }}
 {% endblock %}
 
-{% block sidemenuAction %}
+{% block leftSideMenuContent %}
     {{ include('accountList/sideMenu/action/index.html.twig') }}
 {% endblock %}
 
-{% block sidemenuContent %}
+{% block rightSideMenuContent %}
     {{ include('accountList/sideMenu/content/index.html.twig') }}
 {% endblock %}
 

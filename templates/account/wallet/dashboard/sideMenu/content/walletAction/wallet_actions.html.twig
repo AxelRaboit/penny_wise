@@ -179,9 +179,9 @@
     </div>
 {% endset %}
 
-{{ include('components/sideMenu/modal.html.twig', {
-    modalId: 'walletSideMenuActionsModal',
+{{ include('components/rightSideMenu/rightSideMenu.html.twig', {
+    modalId: 'js-wallet-side-menu-actions',
     modalTitle: 'Actions',
     modalContent: actionsModalContent,
-    closeModalId: 'closeWalletSideMenuActionsModal'
+    closeModalId: 'js-right-side-menu-wallet-actions-close-button'
 }) }}
