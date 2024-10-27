@@ -5,31 +5,58 @@
 {% block body %}
     <div>
         <div class="bg-tertiary shadow-md rounded-md p-6 max-w-4xl mx-auto border border-quaternary border-solid">
-            <div class="flex items-center relative">
-                <div class="w-24 h-24 rounded-full overflow-hidden relative">
-                    {% if userProfile.userInformation and userProfile.userInformation.avatarName %}
-                        <img src="{{ asset('uploads/avatars/' ~ userProfile.userInformation.avatarName) }}" alt="Avatar" class="w-full h-full rounded-full">
-                    {% else %}
-                        <img src="{{ asset('media/logo.png') }}" alt="Default Avatar" class="w-full h-full rounded-full">
-                    {% endif %}
-                </div>
-                <div class="ml-6 flex flex-col justify-start">
-                    <div class="space-y-1 mb-2">
-                        {% if userProfile.userInformation and userProfile.userInformation.firstname and userProfile.userInformation.lastname %}
-                            <h1 class="font-semibold text-white text-sm">{{ userProfile.userInformation.firstname }} {{ userProfile.userInformation.lastname }}</h1>
+            <div class="flex flex-col sm:flex-row justify-between">
+                <div class="flex items-center relative">
+                    <div class="w-24 h-24 rounded-full overflow-hidden relative">
+                        {% if userProfile.userInformation and userProfile.userInformation.avatarName %}
+                            <img src="{{ asset('uploads/avatars/' ~ userProfile.userInformation.avatarName) }}" alt="Avatar" class="w-full h-full rounded-full">
                         {% else %}
-                            <h1 class="font-semibold text-white text-sm">User</h1>
+                            <img src="{{ asset('media/logo.png') }}" alt="Default Avatar" class="w-full h-full rounded-full">
                         {% endif %}
-                        <p class="text-white text-xs">{{ userProfile.email }}</p>
                     </div>
+                    <div class="ml-6 flex flex-col justify-start">
+                        <div class="space-y-1 mb-2">
+                            {% if userProfile.userInformation and userProfile.userInformation.firstname and userProfile.userInformation.lastname %}
+                                <h1 class="font-semibold text-white text-sm">{{ userProfile.userInformation.firstname }} {{ userProfile.userInformation.lastname }}</h1>
+                            {% else %}
+                                <h1 class="font-semibold text-white text-sm">User</h1>
+                            {% endif %}
+                            <p class="text-white text-xs">{{ userProfile.email }}</p>
+                        </div>
 
-                    <twig:BadgeNeon
+                        <twig:BadgeNeon
                             color="accent-primary"
                             size="xs"
                             borderStyle="solid"
                             label="@{{ userProfile.username }}"
                             title="Username"
-                    />
+                        />
+                    </div>
+                </div>
+                <div>
+                    {% if userProfile.id != app.user.id and friendship %}
+                        <div class="mt-4 flex justify-center space-x-2">
+                            <twig:Cta
+                                    class="mt-auto"
+                                    color="accent-primary"
+                                    size="xs"
+                                    icon="fa-message"
+                                    label="Send message"
+                                    title="Feature not available"
+                                    disabled="true"
+                            />
+                            <twig:Cta
+                                    class="mt-auto"
+                                    color="danger-outline"
+                                    size="xs"
+                                    icon="fa-user-xmark"
+                                    label="Unfriend"
+                                    title="Unfriend"
+                                    route="profile_friendship_unfriend"
+                                    :routeParams="{ id: friendship.id }"
+                            />
+                        </div>
+                    {% endif %}
                 </div>
             </div>
 
@@ -63,29 +90,16 @@
                 </div>
             </div>
 
-            {% if userProfile.id != app.user.id and friendship %}
-                <div class="mt-6 flex justify-end space-x-2">
-                    <twig:Cta
-                        class="mt-auto"
-                        color="accent-primary"
-                        size="xs"
-                        icon="fa-message"
-                        label="Send message"
-                        title="Feature not available"
-                        disabled="true"
-                    />
-                    <twig:Cta
-                        class="mt-auto"
-                        color="danger-outline"
-                        size="xs"
-                        icon="fa-user-xmark"
-                        label="Unfriend"
-                        title="Unfriend"
-                        route="profile_friendship_unfriend"
-                        :routeParams="{ id: friendship.id }"
-                    />
-                </div>
-            {% endif %}
+            <div class="mt-2">
+                <twig:Cta
+                    color="quaternary"
+                    size="xs"
+                    icon="fa-arrow-left"
+                    label="Back"
+                    route="profile_friendship"
+                    :routeParams="{ tab: 'friends' }"
+                />
+            </div>
         </div>
     </div>
 {% endblock %}
