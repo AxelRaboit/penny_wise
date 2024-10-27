@@ -30,6 +30,7 @@ Encore
     // Components
     .addEntry('side_menu_modal', './assets/js/component/Modal/side_menu_modal.js')
     .addEntry('topbar', './assets/js/component/topbar.js')
+    .addEntry('notification', './assets/js/component/Notification/notification.js')
 
     // Account - Wallet - Dashboard
     .addEntry('account_wallet_dashboard', './assets/js/page/account/wallet/dashboard/index.js')

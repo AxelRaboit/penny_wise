@@ -137,8 +137,6 @@ final class FriendshipController extends AbstractController
         return $this->redirectToRoute('profile_friendship');
     }
 
-    // PRIVATE METHODS
-
     private function handleFriendRequestForm(FormInterface $form, User $user): RedirectResponse
     {
         /** @var string $usernameOrEmail */

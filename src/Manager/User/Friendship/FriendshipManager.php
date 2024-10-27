@@ -8,6 +8,7 @@ use App\Entity\Friendship;
 use App\Entity\User;
 use App\Repository\Profile\UserRepository;
 use App\Repository\User\Friendship\FriendshipRepository;
+use App\Service\Notification\Friendship\NotificationFriendshipService;
 use Doctrine\ORM\EntityManagerInterface;
 
 final readonly class FriendshipManager
@@ -15,7 +16,8 @@ final readonly class FriendshipManager
     public function __construct(
         private EntityManagerInterface $entityManager,
         private FriendshipRepository $friendshipRepository,
-        private UserRepository $userRepository
+        private UserRepository $userRepository,
+        private NotificationFriendshipService $notificationFriendshipService
     ) {}
 
     public function sendFriendRequest(User $user, User $friend): void
@@ -27,6 +29,8 @@ final readonly class FriendshipManager
 
         $this->entityManager->persist($friendship);
         $this->entityManager->flush();
+
+        $this->notificationFriendshipService->createFriendRequestNotification($friend, $user);
     }
 
     public function acceptFriendRequest(Friendship $friendship): void
