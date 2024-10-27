@@ -6,18 +6,26 @@
     <div x-data="{
         activeTab: 'friends',
         checkForErrors() {
-                if (this.$refs.addFriendError && this.$refs.addFriendError.value === 'true') {
-                    this.activeTab = 'add';
-                } else if (this.$refs.receivedRequestError && this.$refs.receivedRequestError.value === 'true') {
-                    this.activeTab = 'requests';
-                } else if (this.$refs.sentRequestError && this.$refs.sentRequestError.value === 'true') {
-                    this.activeTab = 'sent_requests';
-                }
+            if (this.$refs.addFriendError && this.$refs.addFriendError.value === 'true') {
+                this.activeTab = 'add';
+            } else if (this.$refs.receivedRequestError && this.$refs.receivedRequestError.value === 'true') {
+                this.activeTab = 'requests';
+            } else if (this.$refs.sentRequestError && this.$refs.sentRequestError.value === 'true') {
+                this.activeTab = 'sent_requests';
             }
-        }"
-         x-init="checkForErrors()"
-         class="container max-w-4xl mx-auto">
-        <div class="bg-tertiary shadow-md rounded-md p-2 border border-quaternary border-solid">
+        },
+        setActiveTabFromUrl() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const tabParam = urlParams.get('tab');
+            if (tabParam && ['friends', 'add', 'requests', 'sent_requests'].includes(tabParam)) {
+                this.activeTab = tabParam;
+            }
+        }
+    }"
+    x-init="setActiveTabFromUrl(); checkForErrors()"
+    class="container max-w-4xl mx-auto">
+
+    <div class="bg-tertiary shadow-md rounded-md p-2 border border-quaternary border-solid">
             <div class="flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-4 border-b border-quaternary mb-2 text-center">
                 {{ include('friendship/part/friendList/_friend_list_tab.html.twig') }}
                 {{ include('friendship/part/addFriend/_add_friend_tab.html.twig') }}
