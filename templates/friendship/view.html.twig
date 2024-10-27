@@ -14,11 +14,15 @@
                     {% endif %}
                 </div>
                 <div class="ml-6 flex flex-col justify-start">
-                    {% if userProfile.userInformation and userProfile.userInformation.firstname and userProfile.userInformation.lastname %}
-                        <h1 class="font-semibold text-white text-sm mb-1">{{ userProfile.userInformation.firstname }} {{ userProfile.userInformation.lastname }}</h1>
-                    {% else %}
-                        <h1 class="font-semibold text-white text-sm mb-1">User</h1>
-                    {% endif %}
+                    <div class="space-y-1 mb-2">
+                        {% if userProfile.userInformation and userProfile.userInformation.firstname and userProfile.userInformation.lastname %}
+                            <h1 class="font-semibold text-white text-sm">{{ userProfile.userInformation.firstname }} {{ userProfile.userInformation.lastname }}</h1>
+                        {% else %}
+                            <h1 class="font-semibold text-white text-sm">User</h1>
+                        {% endif %}
+                        <p class="text-white text-xs">{{ userProfile.email }}</p>
+                    </div>
+
                     <twig:BadgeNeon
                             color="accent-primary"
                             size="xs"
