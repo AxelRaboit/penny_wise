@@ -3,7 +3,7 @@
 <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-2 xxl:grid-cols-4 gap-1">
     {% for category in categories %}
         <div class="flex flex-col">
-            {{ include('account/wallet/dashboard/transaction/list/transaction.html.twig', {transactionCategory: attribute(transactionCategories, category)}) }}
+            {{ include('account/wallet/dashboard/transaction/list/_transaction.html.twig', {transactionCategory: attribute(transactionCategories, category)}) }}
         </div>
     {% endfor %}
 </div>

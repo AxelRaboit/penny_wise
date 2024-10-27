@@ -9,11 +9,7 @@
 {% endblock %}
 
 {% block body %}
-    <div id="account-wallet-dashboard-page" class="max-w-screen-xxl mx-auto hidden">
-        {{ include('account/wallet/dashboard/part/_wallet_recap.html.twig') }}
-        {{ include('account/wallet/dashboard/wallet_navigation.html.twig') }}
-        {{ include('account/wallet/dashboard/transaction/list/transactions.html.twig') }}
-    </div>
+    {{ include('account/wallet/dashboard/main/_main.html.twig') }}
 {% endblock %}
 
 {% block loadingSpinner %}
