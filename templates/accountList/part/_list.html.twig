@@ -24,7 +24,7 @@
                         />
                     {% endif %}
                 </div>
-                <div class="flex items-center space-x-1">
+                <div class="flex items-center md:space-x-1">
                     <twig:Cta
                         color="transparent"
                         size="xs"
@@ -43,9 +43,9 @@
                     />
                 </div>
             </div>
-            <div class="flex flex-wrap">
+            <div class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2">
                 {% for year in account.getYears() %}
-                    <div class="flex-2 lg:flex-1 w-full rounded-md border-quaternary border-solid border m-1">
+                    <div class="flex-2 lg:flex-1 w-full rounded-md border-quaternary border-solid border">
                         <div class="text-center bg-tertiary rounded-t-md relative" x-data="{ hover: false }" @mouseenter="hover = true" @mouseleave="hover = false">
                             <h2 class="text-sm font-bold p-2 text-white">{{ year.getYear() }}</h2>
                             <twig:Cta
@@ -114,9 +114,9 @@
                     </div>
                 {% endfor %}
 
-                <div class="w-full flex-2 lg:flex-1 p-1 rounded-md">
+                <div class="flex-2 lg:flex-1 w-full rounded-md my-2">
                     <a href="{{ path('account_new_wallet', {account: account.getId()}) }}"
-                       class="flex items-center justify-center min-h-[240px] text-white text-center rounded-md p-4 border-dashed border border-quaternary hover:bg-primary-hover h-full">
+                       class="flex items-center justify-center min-h-[240px] text-white text-center rounded-md border border-dashed border-quaternary hover:bg-primary-hover h-full">
                         <i class="fa-solid fa-plus text-3xl text-quaternary"></i>
                     </a>
                 </div>

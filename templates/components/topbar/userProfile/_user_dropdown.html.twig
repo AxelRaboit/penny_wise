@@ -1,4 +1,4 @@
-<button id="js-user-dropdown-button" class="flex items-center text-center p-2 cursor-pointer rounded-md">
+<button id="js-user-dropdown-button" class="flex items-center text-center cursor-pointer rounded-md">
     {% if app.user.userInformation and app.user.userInformation.avatarName %}
         <img src="{{ asset('uploads/avatars/' ~ app.user.userInformation.avatarName) }}" alt="Avatar" class="w-8 h-8 rounded-full">
     {% else %}
