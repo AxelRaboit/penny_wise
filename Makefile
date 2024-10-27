@@ -33,6 +33,11 @@ install:
 debug-twig-component:
 	$(PHP) $(TWIG_COMPONENT_DEBUG)
 
+simulate-production:
+	make cc-prod
+	make build-webpack
+	make run
+
 # === Cache and Debug Commands ===
 cc:
 	$(PHP_BIN) cache:clear
@@ -138,3 +143,4 @@ help:
 	@echo "  make lint-php             - Lint PHP code using PHP CS Fixer (dry-run)"
 	@echo "  make lint-twig            - Lint Twig templates"
 	@echo "  make debug-twig-component - Debug Twig components"
+	@echo "  make simulate-production  - Run the application in production mode: Do not forget to set the environment variables to 'prod' before running this command"
