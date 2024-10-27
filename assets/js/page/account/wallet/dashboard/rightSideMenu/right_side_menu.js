@@ -1,6 +1,6 @@
 import { initializeRightSideMenu } from '@component/SideMenu/right_side_menu.js';
 
-export function initializeSideMenu() {
+export function initializeRightSideMenuContent() {
     const rightSideMenuConfig = [
         {
             openRightSideMenuButton: 'js-open-right-side-menu-wallet-note-button',

@@ -1,4 +1,4 @@
-const burger_menu = () => {
+const burgerMenu = () => {
     const burgerMenuElement = document.getElementById('js-topbar-burger-menu');
     const spinnerElement = document.querySelector('#topbar-burger-menu-container .spinner');
     if (!burgerMenuElement || !spinnerElement) {
@@ -11,5 +11,5 @@ const burger_menu = () => {
 }
 
 export const initializeBurgerMenu = () => {
-    burger_menu();
+    burgerMenu();
 }
