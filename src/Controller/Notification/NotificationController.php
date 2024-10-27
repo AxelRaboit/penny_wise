@@ -35,5 +35,4 @@ final class NotificationController extends AbstractController
 
         return new JsonResponse(['success' => true]);
     }
-
 }

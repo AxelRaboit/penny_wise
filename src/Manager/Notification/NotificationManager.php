@@ -51,7 +51,6 @@ final readonly class NotificationManager
         $this->entityManager->flush();
     }
 
-
     /**
      * @return array<Notification>
      */
