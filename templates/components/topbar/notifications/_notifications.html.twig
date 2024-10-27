@@ -33,6 +33,7 @@
                                     {{ notification.createdAt|date('d/m/Y H:i') }}
                                 </div>
 
+                                {# TODO AXEL: improve the enum retrieval with a custom twig method #}
                                 {% if notification.type == constant('App\\Enum\\Notification\\NotificationTypeEnum::FriendshipRequest').value %}
                                     <p class="mb-2 text-white">{{ notification.message }}</p>
 
