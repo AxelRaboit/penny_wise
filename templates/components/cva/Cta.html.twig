@@ -1,4 +1,9 @@
 {% import 'components/macro/cta_macros.html.twig' as buttonMacros %}
+{% from _self import renderContent %}
+
+{% macro renderContent(icon, label, iconPosition, textClasses) %}
+    {{ buttonMacros.renderContent(icon, label, iconPosition, textClasses) }}
+{% endmacro %}
 
 {% props
     color = 'quaternary',
@@ -72,20 +77,24 @@
 
 {% if disabled %}
     <span id="{{ id }}" class="{{ buttonClasses.apply({color, size, fullWidth, borderStyle, disabled}) }} {{ extraClasses }}" title="{{ title }}" {{ buttonMacros.renderAlpineAttributes(alpineAttributes) }} {{ attributes|raw }}>
-        {{ buttonMacros.renderContent(icon, label, iconPosition, textClasses.apply({color})) }}
+        {{ renderContent(icon, label, iconPosition, textClasses.apply({color})) }}
+        {% if block('content') is defined %}{{ block('content') }}{% endif %}
     </span>
 {% else %}
     {% if buttonType == 'submit' %}
         <button id="{{ id }}" type="{{ buttonType }}" class="{{ buttonClasses.apply({color, size, fullWidth, borderStyle}) }} {{ extraClasses }}" title="{{ title }}" {{ buttonMacros.renderAlpineAttributes(alpineAttributes) }} {{ attributes|raw }}>
-            {{ buttonMacros.renderContent(icon, label, iconPosition, textClasses.apply({color})) }}
+            {{ renderContent(icon, label, iconPosition, textClasses.apply({color})) }}
+            {% if block('content') is defined %}{{ block('content') }}{% endif %}
         </button>
     {% elseif dataActionUrl %}
         <button id="{{ id }}" type="button" class="{{ buttonClasses.apply({color, size, fullWidth, borderStyle}) }} {{ extraClasses }}" title="{{ title }}" data-action-url="{{ actionUrl }}" {{ buttonMacros.renderAlpineAttributes(alpineAttributes) }} {{ attributes|raw }}>
-            {{ buttonMacros.renderContent(icon, label, iconPosition, textClasses.apply({color})) }}
+            {{ renderContent(icon, label, iconPosition, textClasses.apply({color})) }}
+            {% if block('content') is defined %}{{ block('content') }}{% endif %}
         </button>
     {% else %}
         <a href="{{ actionUrl }}" id="{{ id }}" class="{{ buttonClasses.apply({color, size, fullWidth, borderStyle}) }} {{ extraClasses }}" title="{{ title }}" {{ buttonMacros.renderAlpineAttributes(alpineAttributes) }} {{ attributes|raw }}>
-            {{ buttonMacros.renderContent(icon, label, iconPosition, textClasses.apply({color})) }}
+            {{ renderContent(icon, label, iconPosition, textClasses.apply({color})) }}
+            {% if block('content') is defined %}{{ block('content') }}{% endif %}
         </a>
     {% endif %}
 {% endif %}
