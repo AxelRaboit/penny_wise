@@ -38,7 +38,7 @@
                                     <p class="mb-2 text-white">{{ notification.message }}</p>
 
                                     {# TODO AXEL: use twig component #}
-                                    <a href="{{ path('profile_friendship', { tab: 'requests' }) }}" class="text-white">
+                                    <a href="{{ path('profile_friendship', {tab: 'requests'}) }}" class="text-white">
                                         <button class="py-1 px-2 rounded-md bg-accent-primary hover:bg-accent-primary-hover text-white text-xs w-full">
                                             View
                                         </button>
@@ -66,7 +66,6 @@
         </ul>
     </div>
 </div>
-
 
 {% block javascripts %}
     {{ encore_entry_script_tags('notification') }}

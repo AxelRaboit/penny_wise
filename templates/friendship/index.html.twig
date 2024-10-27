@@ -3,29 +3,8 @@
 {% block title %}Friendship - {{ parent() }}{% endblock %}
 
 {% block body %}
-    <div x-data="{
-        activeTab: 'friends',
-        checkForErrors() {
-            if (this.$refs.addFriendError && this.$refs.addFriendError.value === 'true') {
-                this.activeTab = 'add';
-            } else if (this.$refs.receivedRequestError && this.$refs.receivedRequestError.value === 'true') {
-                this.activeTab = 'requests';
-            } else if (this.$refs.sentRequestError && this.$refs.sentRequestError.value === 'true') {
-                this.activeTab = 'sent_requests';
-            }
-        },
-        setActiveTabFromUrl() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const tabParam = urlParams.get('tab');
-            if (tabParam && ['friends', 'add', 'requests', 'sent_requests'].includes(tabParam)) {
-                this.activeTab = tabParam;
-            }
-        }
-    }"
-    x-init="setActiveTabFromUrl(); checkForErrors()"
-    class="container max-w-4xl mx-auto">
-
-    <div class="bg-tertiary shadow-md rounded-md p-2 border border-quaternary border-solid">
+    <div id="tabs-container" class="container max-w-4xl mx-auto" data-active-tab="friends">
+        <div class="bg-tertiary shadow-md rounded-md p-2 border border-quaternary border-solid">
             <div class="flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-4 border-b border-quaternary mb-2 text-center">
                 {{ include('friendship/part/friendList/_friend_list_tab.html.twig') }}
                 {{ include('friendship/part/addFriend/_add_friend_tab.html.twig') }}
@@ -33,10 +12,23 @@
                 {{ include('friendship/part/friendRequest/sent/_sent_request_tab.html.twig') }}
             </div>
 
-            {{ include('friendship/part/friendList/_friend_list_tab_content.html.twig') }}
-            {{ include('friendship/part/addFriend/_add_friend_tab_content.html.twig') }}
-            {{ include('friendship/part/friendRequest/received/_friend_request_tab_content.html.twig') }}
-            {{ include('friendship/part/friendRequest/sent/_sent_request_tab_content.html.twig') }}
+            <div data-content="friends" class="tab-content">
+                {{ include('friendship/part/friendList/_friend_list_tab_content.html.twig') }}
+            </div>
+            <div data-content="add" class="tab-content hidden">
+                {{ include('friendship/part/addFriend/_add_friend_tab_content.html.twig') }}
+            </div>
+            <div data-content="requests" class="tab-content hidden">
+                {{ include('friendship/part/friendRequest/received/_friend_request_tab_content.html.twig') }}
+            </div>
+            <div data-content="sent_requests" class="tab-content hidden">
+                {{ include('friendship/part/friendRequest/sent/_sent_request_tab_content.html.twig') }}
+            </div>
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('friendship') }}
 {% endblock %}

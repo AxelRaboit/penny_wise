@@ -66,7 +66,9 @@ final class FriendshipController extends AbstractController
 
         $this->addFlash('success', 'Friend request accepted.');
 
-        return $this->redirectToRoute('profile_friendship');
+        return $this->redirectToRoute('profile_friendship', [
+            'tab' => 'requests',
+        ]);
     }
 
     #[Route('/profile/friendship/decline/{id}', name: 'decline_friend_request')]
@@ -81,7 +83,9 @@ final class FriendshipController extends AbstractController
 
         $this->addFlash('warning', 'Friend request declined.');
 
-        return $this->redirectToRoute('profile_friendship');
+        return $this->redirectToRoute('profile_friendship', [
+            'tab' => 'requests',
+        ]);
     }
 
     #[Route('/profile/friendship/unfriend/{id}', name: 'profile_friendship_unfriend')]
@@ -93,7 +97,9 @@ final class FriendshipController extends AbstractController
 
         $this->addFlash('success', 'Friendship removed successfully.');
 
-        return $this->redirectToRoute('profile_friendship');
+        return $this->redirectToRoute('profile_friendship', [
+            'tab' => 'friends',
+        ]);
     }
 
     #[Route('/profile/friendship/view/{username}', name: 'profile_view')]
@@ -134,7 +140,9 @@ final class FriendshipController extends AbstractController
 
         $this->addFlash('warning', 'Friend request cancelled.');
 
-        return $this->redirectToRoute('profile_friendship');
+        return $this->redirectToRoute('profile_friendship', [
+            'tab' => 'sent_requests',
+        ]);
     }
 
     private function handleFriendRequestForm(FormInterface $form, User $user): RedirectResponse
@@ -150,6 +158,8 @@ final class FriendshipController extends AbstractController
             $this->addFlash('warning', 'User not found.');
         }
 
-        return $this->redirectToRoute('profile_friendship');
+        return $this->redirectToRoute('profile_friendship', [
+            'tab' => 'sent_requests',
+        ]);
     }
 }
