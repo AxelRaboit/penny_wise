@@ -1,5 +1,5 @@
 const burger_menu = () => {
-    const burgerMenuElement = document.getElementById('topbar-burger-menu');
+    const burgerMenuElement = document.getElementById('js-topbar-burger-menu');
     const spinnerElement = document.querySelector('#topbar-burger-menu-container .spinner');
     if (!burgerMenuElement || !spinnerElement) {
         console.error('burgerMenuElement or spinnerElement is null');

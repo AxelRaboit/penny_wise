@@ -29,6 +29,7 @@ Encore
 
     // Components
     .addEntry('right_side_menu', './assets/js/component/SideMenu/right_side_menu.js')
+    .addEntry('left_side_menu', './assets/js/component/SideMenu/left_side_menu.js')
     .addEntry('topbar', './assets/js/component/topbar.js')
     .addEntry('notification', './assets/js/component/Notification/notification.js')
 
