@@ -14,29 +14,15 @@ RECTOR = $(PHP) vendor/bin/rector
 WEBPACK_BUILD = pnpm run build
 WEBPACK_WATCH = pnpm run dev --watch
 
-TAILWIND_INITIALIZE = $(BIN) tailwind:init
-TAILWIND_BUILD = $(BIN) tailwind:build
-TAILWIND_WATCH = $(BIN) tailwind:build --watch
-
 TWIG_COMPONENT_DEBUG = $(BIN) debug:twig-component
 
 # === Build Commands ===
 all: help
 
-build-assets: build-tailwind build-webpack
-
-build-tailwind:
-	$(TAILWIND_BUILD)
-
 build-webpack:
 	$(WEBPACK_BUILD)
 
 # === Development Commands ===
-watch-assets: watch-tailwind watch-webpack
-
-watch-tailwind:
-	$(TAILWIND_WATCH)
-
 watch-webpack:
 	$(WEBPACK_WATCH)
 
@@ -132,8 +118,6 @@ rector-fix:
 .PHONY: help
 help:
 	@echo "Available targets:"
-	@echo "  make build-assets         - Build assets using Webpack and Tailwind"
-	@echo "  make watch-assets         - Watch assets with Webpack and Tailwind"
 	@echo "  make cc                   - Clear Symfony cache"
 	@echo "  make cc-prod              - Clear Symfony production cache"
 	@echo "  make run                  - Start Symfony server"
