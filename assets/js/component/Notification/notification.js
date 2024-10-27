@@ -26,7 +26,7 @@ const markAsRead = (notificationId) => {
 
                 if (currentCount > 1) {
                     currentCount--;
-                    unreadCountElement.textContent = currentCount.toString();
+                    unreadCountElement.textContent = currentCount > 99 ? '99+' : currentCount.toString();
                 } else {
                     unreadCountElement.textContent = '';
                     unreadCountElement.classList.add('hidden');

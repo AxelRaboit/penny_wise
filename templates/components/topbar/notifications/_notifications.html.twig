@@ -19,22 +19,23 @@
         <ul id="notifications-dropdown-content">
             {% if notifications is not empty %}
                 {% for notification in notifications %}
-                    <li class="px-4 py-3 bg-secondary" id="topbar-notification-{{ notification.id }}">
-                        <div class="text-sm text-white">
-                            {{ notification.message }}
+                    <li class="bg-secondary" id="topbar-notification-{{ notification.id }}">
+                        <div class="bg-tertiary p-2 rounded-md px-4 py-3">
+                            <div class="text-sm text-white">
+                                {{ notification.message }}
+                            </div>
+                            <div class="text-xs text-gray-500 mt-1">
+                                {{ notification.createdAt|date('d/m/Y H:i') }}
+                            </div>
+                            {% if not notification.isRead %}
+                                <div class="text-center mt-2">
+                                    <button class="js-mark-as-read py-1 px-2 rounded-md bg-accent-primary text-white text-xs w-full" data-notification-id="{{ notification.id }}">
+                                        Mark as Read
+                                    </button>
+                                </div>
+                            {% endif %}
                         </div>
-                        <div class="text-xs text-gray-500 mt-1">
-                            {{ notification.createdAt|date('d/m/Y H:i') }}
-                        </div>
-                        {% if not notification.isRead %}
-                            <button class="js-mark-as-read text-link text-xs mt-2" data-notification-id="{{ notification.id }}">
-                                Mark as Read
-                            </button>
-                        {% endif %}
                     </li>
-                    {% if not loop.last and notifications|length > 1 %}
-                        <hr class="border-t border-quaternary-ring">
-                    {% endif %}
                 {% endfor %}
             {% else %}
                 <li class="px-4 py-3 text-sm text-senary text-center">
