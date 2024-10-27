@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repository\Notification;
 
 use App\Entity\Notification;
@@ -19,7 +21,6 @@ class NotificationRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param int $userId
      * @return array<Notification>
      */
     public function findUnreadNotificationsByUser(int $userId): array
@@ -37,7 +38,6 @@ class NotificationRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param User $user
      * @return array<Notification>
      */
     public function getUnreadNotificationsByUser(User $user): array

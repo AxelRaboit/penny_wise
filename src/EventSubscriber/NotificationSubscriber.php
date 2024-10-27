@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\EventSubscriber;
 
 use App\Entity\User;
 use App\Repository\Notification\NotificationRepository;
+use Override;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
@@ -18,6 +21,7 @@ final readonly class NotificationSubscriber implements EventSubscriberInterface
         private Environment $twig
     ) {}
 
+    #[Override]
     public static function getSubscribedEvents(): array
     {
         return [

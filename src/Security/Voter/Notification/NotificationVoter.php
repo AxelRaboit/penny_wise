@@ -6,6 +6,7 @@ namespace App\Security\Voter\Notification;
 
 use App\Entity\Notification;
 use App\Entity\User;
+use Override;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
@@ -16,11 +17,13 @@ final class NotificationVoter extends Voter
 {
     public const string MARK_NOTIFICATION_AS_READ = 'MARK_NOTIFICATION_AS_READ';
 
+    #[Override]
     protected function supports(string $attribute, mixed $subject): bool
     {
         return self::MARK_NOTIFICATION_AS_READ === $attribute && $subject instanceof Notification;
     }
 
+    #[Override]
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
         $user = $token->getUser();

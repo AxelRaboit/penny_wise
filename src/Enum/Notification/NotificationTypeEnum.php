@@ -47,6 +47,6 @@ enum NotificationTypeEnum: string
      */
     public static function getAllDetails(): array
     {
-        return array_map(fn($type) => $type->getDetails(), self::cases());
+        return array_map(fn ($type): array => $type->getDetails(), self::cases());
     }
 }
