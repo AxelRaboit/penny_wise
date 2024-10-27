@@ -42,14 +42,19 @@ final class FriendshipController extends AbstractController
             return $this->handleFriendRequestForm($form, $user);
         }
 
+        $pendingRequests = $this->friendshipRepository->findPendingFriendRequests($user);
+        $pendingRequestsCount = count($pendingRequests);
+
+        $sentRequests = $this->friendshipRepository->findSentFriendRequests($user);
+        $sentRequestsCount = count($sentRequests);
+
         return $this->render('friendship/index.html.twig', [
             'friendship' => $user->getAcceptedFriends(),
             'form' => $form->createView(),
-            'pendingRequests' => $pendingRequests = $this->friendshipRepository->findPendingFriendRequests($user),
-            'sentPendingRequests' => $sentPendingRequests = $this->friendshipRepository->findSentPendingRequests($user),
-            'pendingRequestsCount' => count($pendingRequests),
-            'sentRequests' => $sentRequests = $this->friendshipRepository->findSentFriendRequests($user),
-            'sentRequestsCount' => count($sentRequests),
+            'pendingRequests' => $pendingRequests,
+            'pendingRequestsCount' => $pendingRequestsCount,
+            'sentRequests' => $sentRequests,
+            'sentRequestsCount' => $sentRequestsCount,
         ]);
     }
 
