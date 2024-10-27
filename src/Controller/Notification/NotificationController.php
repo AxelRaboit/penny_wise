@@ -22,7 +22,7 @@ final class NotificationController extends AbstractController
     public function markAsRead(
         Notification $notification,
     ): JsonResponse {
-        $this->notificationManager->markAsRead($notification);
+        $this->notificationManager->markAsReadAndDelete($notification);
 
         return new JsonResponse(['success' => true]);
     }
@@ -31,7 +31,7 @@ final class NotificationController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function markAllAsRead(): JsonResponse
     {
-        $this->notificationManager->markAllAsRead();
+        $this->notificationManager->markAllAsReadAndDelete();
 
         return new JsonResponse(['success' => true]);
     }

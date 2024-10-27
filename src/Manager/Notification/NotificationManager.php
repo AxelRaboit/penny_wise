@@ -30,13 +30,14 @@ final readonly class NotificationManager
         $this->entityManager->flush();
     }
 
-    public function markAsRead(Notification $notification): void
+    public function markAsReadAndDelete(Notification $notification): void
     {
         $notification->markAsRead();
+        $this->entityManager->remove($notification);
         $this->entityManager->flush();
     }
 
-    public function markAllAsRead(): void
+    public function markAllAsReadAndDelete(): void
     {
         $user = $this->userCheckerService->getUserOrThrow();
 
@@ -44,10 +45,12 @@ final readonly class NotificationManager
 
         foreach ($notifications as $notification) {
             $notification->markAsRead();
+            $this->entityManager->remove($notification);
         }
 
         $this->entityManager->flush();
     }
+
 
     /**
      * @return array<Notification>
