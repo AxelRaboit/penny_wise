@@ -1,6 +1,50 @@
-<twig:Cta
-    color="secondary"
-    size="sm"
-    icon="fa-bell"
-    title="Notifications"
-/>
+<div x-data="{ open: false }" class="relative" @click.outside="open = false">
+    <twig:Cta
+        color="secondary"
+        size="sm"
+        icon="fa-bell"
+        title="Notifications"
+        dataActionUrl="true"
+        @click="open = !open"
+    >
+        {% if unreadCount > 0 %}
+            <span id="unread-count" class="absolute top-0 right-0 -mt-1 -mr-1 bg-red-500 text-white text-xs font-semibold rounded-full px-2 py-0.5">
+                {{ unreadCount }}
+            </span>
+        {% endif %}
+    </twig:Cta>
+
+    <div x-show="open"
+         class="absolute right-0 mt-2 w-64 rounded-md overflow-hidden z-50 bg-secondary border border-quaternary-ring">
+        <ul id="notifications-dropdown-content">
+            {% if notifications is not empty %}
+                {% for notification in notifications %}
+                    <li class="px-4 py-3 bg-secondary" id="topbar-notification-{{ notification.id }}">
+                        <div class="text-sm text-white">
+                            {{ notification.message }}
+                        </div>
+                        <div class="text-xs text-gray-500 mt-1">
+                            {{ notification.createdAt|date('d/m/Y H:i') }}
+                        </div>
+                        {% if not notification.isRead %}
+                            <button class="js-mark-as-read text-link text-xs mt-2" data-notification-id="{{ notification.id }}">
+                                Mark as Read
+                            </button>
+                        {% endif %}
+                    </li>
+                    {% if not loop.last and notifications|length > 1 %}
+                        <hr class="border-t border-quaternary-ring">
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                <li class="px-4 py-3 text-sm text-senary text-center">
+                    No new notifications
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+</div>
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('notification') }}
+{% endblock %}
