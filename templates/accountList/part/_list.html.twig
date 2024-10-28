@@ -46,7 +46,7 @@
             <div class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2">
                 {% for year in account.getYears() %}
                     <div class="flex-2 lg:flex-1 w-full rounded-md border-quaternary border-solid border">
-                        <div class="text-center bg-tertiary rounded-t-md relative" x-data="{ hover: false }" @mouseenter="hover = true" @mouseleave="hover = false">
+                        <div class="text-center bg-tertiary rounded-t-md relative" x-data="{ displayTrashToDeleteYear: false }" @mouseenter="displayTrashToDeleteYear = true" @mouseleave="displayTrashToDeleteYear = false">
                             <h2 class="text-sm font-bold p-2 text-white">{{ year.getYear() }}</h2>
                             <twig:Cta
                                 color="quaternary"
@@ -59,7 +59,7 @@
                                 iconPosition="left"
                                 extraClasses="js-delete-year-button absolute -top-2 -right-2 w-6 h-6 flex items-center justify-center z-10"
                                 title="Delete year"
-                                :alpineAttributes="{ 'x-show': 'hover', 'x-transition.opacity': '' }"
+                                :alpineAttributes="{ 'x-show': 'displayTrashToDeleteYear', 'x-transition.opacity': '' }"
                             />
                         </div>
                         <div class="w-full rounded-b-md p-2 bg-secondary min-h-[188px]">
@@ -71,7 +71,7 @@
                                     {% if i in monthNumbers %}
                                         {% for month in months %}
                                             {% if month.getMonthNumber() == i %}
-                                                <div class="relative" x-data="{ hover: false }" @mouseenter="hover = true" @mouseleave="hover = false">
+                                                <div class="relative" x-data="{ displayTrashToDeleteWallet: false }" @mouseenter="displayTrashToDeleteWallet = true" @mouseleave="displayTrashToDeleteWallet = false">
                                                     <twig:Cta
                                                         color="quaternary"
                                                         size="sm"
@@ -90,7 +90,7 @@
                                                         iconPosition="left"
                                                         extraClasses="js-delete-wallet-button absolute -top-2 -right-2 w-6 h-6 flex items-center justify-center z-10"
                                                         title="Delete wallet"
-                                                        :alpineAttributes="{ 'x-show': 'hover', 'x-transition.opacity': '' }"
+                                                        :alpineAttributes="{ 'x-show': 'displayTrashToDeleteWallet', 'x-transition.opacity': '' }"
                                                     />
                                                 </div>
                                             {% endif %}
