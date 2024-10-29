@@ -30,12 +30,12 @@
                             <input type="checkbox" name="_remember_me" id="_remember_me" class="h-4 w-4 bg-secondary border-quaternary border-solid border rounded-md">
                             <label for="_remember_me" class="ml-2 block text-sm text-link">Remember me</label>
                         </div>
-                        <a href="#" class="text-sm text-link hover:underline">Forgot password?</a>
+                        <a href="{{ path('app_forgot_password_request') }}" class="text-sm text-link hover:underline">Forgot password?</a>
                     </div>
                     <div class="mt-6">
                         <twig:Cta
                             color="accent-primary"
-                            size="md"
+                            size="xs"
                             label="Login"
                             buttonType="submit"
                             fullWidth="true"

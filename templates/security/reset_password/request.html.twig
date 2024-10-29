@@ -1,0 +1,47 @@
+{% extends 'base_no_topbar.html.twig' %}
+
+{% block title %}Reset your password - {{ parent() }}{% endblock %}
+
+{% block body %}
+    <div class="min-h-screen flex flex-col items-center justify-center">
+        <h1 class="text-sm font-bold text-center text-white mb-4">Reset Your Password</h1>
+        <div class="bg-tertiary p-8 rounded-md shadow-lg w-full max-w-md">
+            {% for flash_error in app.flashes('reset_password_error') %}
+                <div class="bg-danger text-white text-center p-2 mb-4 rounded-md" role="alert">{{ flash_error }}</div>
+            {% endfor %}
+
+            <div class="space-y-2">
+                <div>
+                    <small class="text-white block mb-4 text-sm text-center">
+                        Enter your email address, and we will send you a link to reset your password.
+                    </small>
+                </div>
+
+                {{ form_start(requestForm) }}
+
+                <div class="space-y-2">
+                    <div>
+                        {{ form_label(requestForm.email, null, {label_attr: {class: 'block text-white text-sm'}}) }}
+                        {{ form_widget(requestForm.email, {attr: {class: 'w-full p-3 bg-secondary border-quaternary border-solid border rounded-md text-white text-sm'}}) }}
+                        <div class="text-danger text-sm mt-1">
+                            {{ form_errors(requestForm.email) }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-6">
+                    <twig:Cta
+                        color="accent-primary"
+                        size="xs"
+                        label="Send Password Reset Email"
+                        buttonType="submit"
+                        fullWidth="true"
+                        extraClasses="p-3"
+                    />
+                </div>
+
+                {{ form_end(requestForm) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -21,6 +21,7 @@ use Symfony\UX\TogglePassword\TogglePasswordBundle;
 use Symfony\UX\Turbo\TurboBundle;
 use Symfony\UX\TwigComponent\TwigComponentBundle;
 use Symfony\WebpackEncoreBundle\WebpackEncoreBundle;
+use SymfonyCasts\Bundle\ResetPassword\SymfonyCastsResetPasswordBundle;
 use TalesFromADev\Twig\Extra\Tailwind\Bridge\Symfony\Bundle\TalesFromADevTwigExtraTailwindBundle;
 use Twig\Extra\TwigExtraBundle\TwigExtraBundle;
 use Vich\UploaderBundle\VichUploaderBundle;
@@ -48,4 +49,5 @@ return [
     ChartjsBundle::class => ['all' => true],
     AutocompleteBundle::class => ['all' => true],
     DropzoneBundle::class => ['all' => true],
+    SymfonyCastsResetPasswordBundle::class => ['all' => true],
 ];
