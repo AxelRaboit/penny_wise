@@ -1,8 +1,12 @@
 <div id="wallet-summary-recap" class="mb-2">
     <div class="bg-secondary rounded-md border border-solid border-quaternary max-w-4xl mx-auto">
-        <div class="grid grid-cols-1 lg:grid-cols-6 gap-2 text-white text-sm m-2">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 p-2 text-white text-sm">
             <twig:CardSummary color="no-color" label="Start Balance">
                 <span class="text-white">{{ wallet.currency.value|currency_symbol }} {{ wallet.startBalance|number_format(2, '.', ' ') }}</span>
+            </twig:CardSummary>
+
+            <twig:CardSummary color="no-color" label="Incomes">
+                <span class="text-white">{{ wallet.currency.value|currency_symbol }} {{ totalIncomesAndStartingBalance|number_format(2, '.', ' ') }}</span>
             </twig:CardSummary>
 
             <twig:CardSummary color="no-color" label="Saving">
