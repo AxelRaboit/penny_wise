@@ -6,6 +6,7 @@ namespace App\Entity;
 
 use App\Entity\Trait\TimestampableTrait;
 use App\Repository\Transaction\TransactionRepository;
+use App\Util\StringHelper;
 use DateTimeImmutable;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -142,7 +143,7 @@ class Transaction
 
     public function setNature(?string $nature): static
     {
-        $this->nature = $nature;
+        $this->nature = StringHelper::normalize($nature);
 
         return $this;
     }
