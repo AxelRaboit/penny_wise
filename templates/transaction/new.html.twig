@@ -11,6 +11,12 @@
             <div class="p-6">
                 {{ form_start(form) }}
 
+                {% if form_errors(form) %}
+                    <div class="mb-4 p-4 bg-danger text-white rounded-md">
+                        {{ form_errors(form) }}
+                    </div>
+                {% endif %}
+
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-1">
                     <div class="flex flex-col mb-2">
                         {{ form_label(form.nature, null, {label_attr: {class: 'text-white font-semibold text-sm'}}) }}

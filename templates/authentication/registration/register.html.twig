@@ -9,6 +9,12 @@
 
             {{ form_start(registrationForm) }}
 
+            {% if form_errors(registrationForm) %}
+                <div class="mb-4 p-4 bg-danger text-white rounded-md">
+                    {{ form_errors(registrationForm) }}
+                </div>
+            {% endif %}
+
             <div class="space-y-2">
                 <div class="grid grid-cols-1 gap-2">
                     <div>
