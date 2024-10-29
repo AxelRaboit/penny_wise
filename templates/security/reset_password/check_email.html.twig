@@ -6,7 +6,6 @@
     <div class="min-h-screen flex flex-col items-center justify-center">
         <h1 class="text-sm font-bold text-center text-white mb-4">Password Reset Email Sent</h1>
         <div class="bg-tertiary p-8 rounded-md shadow-lg w-full max-w-md text-white text-sm">
-
             <p class="mb-4 text-white">
                 If an account matching your email exists, an email was sent with a link to reset your password.
                 This link will expire in {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.
