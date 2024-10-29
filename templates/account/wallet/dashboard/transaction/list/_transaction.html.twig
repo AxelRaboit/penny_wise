@@ -63,7 +63,7 @@
 
                 <div>
                     {% for transaction in transactionCategory.transactions %}
-                        <div class="hover:bg-secondary-hover flex flex-col md:grid md:grid-cols-6 items-center bg-secondary p-1 rounded-md mb-1 text-xs md:flex-row" title="{{ transaction.transaction.comment }}">
+                        <div class="hover:bg-secondary-hover flex flex-col md:grid md:grid-cols-6 items-center bg-secondary p-1 m-1 rounded-md text-xs md:flex-row" title="{{ transaction.transaction.comment }}">
                             <div class="md:col-span-1 text-center md:pr-2">
                                 <span class="text-white">{{ transaction.transaction.date ? transaction.transaction.date|date('d') : '-' }}</span>
                             </div>
