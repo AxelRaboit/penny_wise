@@ -12,16 +12,16 @@
             <div class="space-y-2">
                 <div class="grid grid-cols-1 gap-2">
                     <div>
-                        {{ form_label(registrationForm.email, null, {label_attr: {class: 'block text-white'}}) }}
-                        {{ form_widget(registrationForm.email, {attr: {class: 'w-full p-3 bg-secondary border-quaternary border-solid border rounded-md text-white'}}) }}
+                        {{ form_label(registrationForm.email, null, {label_attr: {class: 'block text-white text-sm'}}) }}
+                        {{ form_widget(registrationForm.email, {attr: {class: 'w-full p-3 bg-secondary border-quaternary border-solid border rounded-md text-white text-sm'}}) }}
                         <div class="text-danger text-sm mt-1">
                             {{ form_errors(registrationForm.email) }}
                         </div>
                     </div>
 
                     <div>
-                        {{ form_label(registrationForm.username, null, {label_attr: {class: 'block text-white'}}) }}
-                        {{ form_widget(registrationForm.username, {attr: {class: 'w-full p-3 bg-secondary border-quaternary border-solid border rounded-md text-white'}}) }}
+                        {{ form_label(registrationForm.username, null, {label_attr: {class: 'block text-white text-sm'}}) }}
+                        {{ form_widget(registrationForm.username, {attr: {class: 'w-full p-3 bg-secondary border-quaternary border-solid border rounded-md text-white text-sm'}}) }}
                         <div class="text-danger text-sm mt-1">
                             {{ form_errors(registrationForm.username) }}
                         </div>
@@ -29,23 +29,23 @@
                 </div>
                 <div class="grid grid-cols-1 gap-2">
                     <div>
-                        {{ form_label(registrationForm.plainPassword.first, null, {label_attr: {class: 'block text-white'}}) }}
-                        {{ form_widget(registrationForm.plainPassword.first, {attr: {class: 'w-full p-3 bg-secondary border-quaternary border-solid border rounded-md text-white'}}) }}
+                        {{ form_label(registrationForm.plainPassword.first, null, {label_attr: {class: 'block text-white text-sm'}}) }}
+                        {{ form_widget(registrationForm.plainPassword.first, {attr: {class: 'w-full p-3 bg-secondary border-quaternary border-solid border rounded-md text-white text-sm'}}) }}
                         <div class="text-danger text-sm mt-1">
                             {{ form_errors(registrationForm.plainPassword.first) }}
                         </div>
                     </div>
 
                     <div>
-                        {{ form_label(registrationForm.plainPassword.second, null, {label_attr: {class: 'block text-white'}}) }}
-                        {{ form_widget(registrationForm.plainPassword.second, {attr: {class: 'w-full p-3 bg-secondary border-quaternary border-solid border rounded-md text-white'}}) }}
+                        {{ form_label(registrationForm.plainPassword.second, null, {label_attr: {class: 'block text-white text-sm'}}) }}
+                        {{ form_widget(registrationForm.plainPassword.second, {attr: {class: 'w-full p-3 bg-secondary border-quaternary border-solid border rounded-md text-white text-sm'}}) }}
                         <div class="text-danger text-sm mt-1">
                             {{ form_errors(registrationForm.plainPassword.second) }}
                         </div>
                     </div>
                 </div>
                 <div class="flex items-center">
-                    {{ form_widget(registrationForm.agreeTerms, {attr: {class: 'h-4 w-4 bg-secondary border-quaternary border-solid border rounded-md'}}) }}
+                    {{ form_widget(registrationForm.agreeTerms, {attr: {class: 'h-4 w-4 bg-secondary border-quaternary border-solid border rounded-md text-sm'}}) }}
                     {{ form_label(registrationForm.agreeTerms, null, {label_attr: {class: 'ml-2 block text-sm text-link'}}) }}
                     <div class="text-danger text-sm mt-1">
                         {{ form_errors(registrationForm.agreeTerms) }}
