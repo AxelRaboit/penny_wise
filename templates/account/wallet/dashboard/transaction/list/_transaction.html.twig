@@ -1,7 +1,7 @@
 <div class="rounded-md" x-data="{ open: {{ transactionCategory.transactions|length > 0 ? 'true' : 'false' }} }">
     <div id="monthlyBill">
         <div class="flex flex-col justify-between items-center text-white rounded-md border-quaternary border-solid border bg-secondary">
-            <div class="w-full flex justify-between flex-row mb-2 bg-tertiary p-2 border-b border-solid border-quaternary rounded-t-md">
+            <div class="w-full flex justify-between flex-row bg-tertiary p-2 border-b border-solid border-quaternary rounded-t-md">
                 <div class="flex items-center">
                     <h2 class="text-sm font-bold text-white">{{ transactionCategory.type|capitalize }}</h2>
                 </div>
@@ -27,7 +27,7 @@
                 </div>
             </div>
 
-            <div class="grid {{ transactionCategory.totalBudget ? 'md:grid-cols-2' : 'md:grid-cols-1' }} grid-cols-1 gap-2 rounded-md mb-2 p-2 w-full">
+            <div class="grid {{ transactionCategory.totalBudget ? 'md:grid-cols-2' : 'md:grid-cols-1' }} grid-cols-1 gap-2 rounded-md p-2 w-full">
                 {% if transactionCategory.totalBudget %}
                     <div class="flex items-center justify-center bg-quaternary text-white border-solid border border-quaternary-ring rounded-md p-2 md:rounded-md md:mb-0">
                         <i class="fa-solid fa-wallet text-white text-lg mr-2"></i>
