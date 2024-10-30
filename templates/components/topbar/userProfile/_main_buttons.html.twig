@@ -16,7 +16,8 @@
         icon="fa-user"
         label="Show profile"
         title="Feature not available"
-        disabled="true"
+        route="profile_view"
+        :routeParams="{ username: app.user.username }"
         fullWidth="true"
     />
 </div>

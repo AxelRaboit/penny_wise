@@ -37,23 +37,23 @@
                     {% if userProfile.id != app.user.id and friendship %}
                         <div class="mt-4 flex justify-center space-x-2">
                             <twig:Cta
-                                    class="mt-auto"
-                                    color="accent-primary"
-                                    size="xs"
-                                    icon="fa-message"
-                                    label="Send message"
-                                    title="Feature not available"
-                                    disabled="true"
+                                class="mt-auto"
+                                color="accent-primary"
+                                size="xs"
+                                icon="fa-message"
+                                label="Send message"
+                                title="Feature not available"
+                                disabled="true"
                             />
                             <twig:Cta
-                                    class="mt-auto"
-                                    color="danger-outline"
-                                    size="xs"
-                                    icon="fa-user-xmark"
-                                    label="Unfriend"
-                                    title="Unfriend"
-                                    route="profile_friendship_unfriend"
-                                    :routeParams="{ id: friendship.id }"
+                                class="mt-auto"
+                                color="danger-outline"
+                                size="xs"
+                                icon="fa-user-xmark"
+                                label="Unfriend"
+                                title="Unfriend"
+                                route="profile_friendship_unfriend"
+                                :routeParams="{ id: friendship.id }"
                             />
                         </div>
                     {% endif %}
@@ -91,14 +91,7 @@
             </div>
 
             <div class="mt-2">
-                <twig:Cta
-                    color="quaternary"
-                    size="xs"
-                    icon="fa-arrow-left"
-                    label="Back"
-                    route="profile_friendship"
-                    :routeParams="{ tab: 'friends' }"
-                />
+                <twig:BackButton />
             </div>
         </div>
     </div>
