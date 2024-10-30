@@ -1,0 +1,79 @@
+{% import 'components/macro/cta_macros.html.twig' as buttonMacros %}
+{% from _self import renderContent %}
+
+{% macro renderContent(icon, label, iconPosition, textClasses) %}
+    {{ buttonMacros.renderContent(icon, label, iconPosition, textClasses) }}
+{% endmacro %}
+
+{% props
+    color = 'quaternary',
+    size = 'xs',
+    fullWidth = false,
+    borderStyle = 'solid',
+    label = 'Back',
+    icon = 'fa-arrow-left',
+    iconPosition = 'left',
+    id = '',
+    title = 'Go back',
+    disabled = false,
+    extraClasses = ''
+%}
+
+{% set baseClasses = 'font-bold rounded-md text-center group' %}
+{% set buttonClasses = cva({
+    base: baseClasses,
+    variants: {
+        color: {
+            secondary: 'border bg-secondary hover:bg-secondary-hover text-white border-secondary-ring',
+            quaternary: 'border bg-quaternary hover:bg-quaternary-hover text-white border-quaternary-ring',
+            quinary: 'border bg-quinary hover:bg-quinary-hover text-white border-quinary-ring',
+            'accent-primary': 'border bg-accent-primary hover:bg-accent-primary-hover text-white border-accent-primary-ring',
+            danger: 'border bg-danger hover:bg-danger-hover text-white border-danger-ring',
+            'danger-outline': 'border bg-transparent text-danger border-danger-ring hover:bg-danger hover:text-white',
+            transparent: 'text-senary hover:text-white',
+        },
+        size: {
+            xs: 'text-xs py-1 px-1.5',
+            sm: 'text-sm py-1.5 px-2',
+            md: 'text-sm py-2 px-4',
+            lg: 'text-lg py-3 px-5',
+        },
+        fullWidth: {
+            true: 'w-full block',
+            false: '',
+        },
+        borderStyle: {
+            solid: 'border-solid',
+            dashed: 'border-dashed',
+        },
+        disabled: {
+            true: 'cursor-not-allowed opacity-50',
+            false: '',
+        }
+    }
+}) %}
+
+{% set textClasses = cva({
+    base: 'group-hover:text-white',
+    variants: {
+        color: {
+            secondary: 'text-white',
+            quaternary: 'text-white',
+            quinary: 'text-white',
+            'accent-primary': 'text-white',
+            danger: 'text-white',
+            'danger-outline': 'text-danger hover:text-white',
+        }
+    }
+}) %}
+
+{% set refererUrl = app.request.headers.get('referer') %}
+
+<a
+    id="{{ id }}"
+    href="{{ refererUrl ? refererUrl : '#' }}"
+    class="{{ buttonClasses.apply({color, size, fullWidth, borderStyle, disabled}) }} {{ extraClasses }}"
+    title="{{ title }}"
+>
+    {{ renderContent(icon, label, iconPosition, textClasses.apply({color})) }}
+</a>
