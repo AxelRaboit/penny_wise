@@ -51,14 +51,7 @@
                     </div>
 
                     <div class="mt-4 flex justify-between">
-                        <twig:Cta
-                            color="quaternary"
-                            size="xs"
-                            icon="fa-arrow-left"
-                            label="Back"
-                            route="account_wallet_dashboard"
-                            :routeParams="{wallet: wallet.id, account: account.id, year: transaction.wallet.year, month: transaction.wallet.month}"
-                        />
+                        <twig:BackButton />
                         <twig:Cta
                             color="accent-primary"
                             size="xs"
