@@ -26,8 +26,7 @@ final readonly class AccountWalletCreationManager
 
     public function beginWalletCreation(Account $account): Wallet
     {
-        return (new Wallet())
-            ->setAccount($account);
+        return (new Wallet())->setAccount($account);
     }
 
     public function endWalletCreation(Wallet $wallet): void

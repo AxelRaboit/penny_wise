@@ -56,7 +56,6 @@ final class AccountListController extends AbstractController
     public function newAccount(Request $request): Response
     {
         $account = $this->accountListService->beginAccountCreation();
-
         $form = $this->createForm(AccountType::class, $account);
 
         $form->handleRequest($request);
