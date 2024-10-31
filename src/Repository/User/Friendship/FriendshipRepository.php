@@ -23,6 +23,27 @@ class FriendshipRepository extends ServiceEntityRepository
     /**
      * @return array<int, Friendship>
      */
+    public function searchFriendsByUsernameOrEmail(User $user, string $query): array
+    {
+        /** @var array<int, Friendship> $result */
+        $result = $this->createQueryBuilder('f')
+            ->join('f.friend', 'friend')
+            ->andWhere('(f.requester = :user OR f.friend = :user)')
+            ->andWhere('(friend.username LIKE :query OR friend.email LIKE :query)')
+            ->andWhere('f.accepted = :accepted')
+            ->andWhere('friend != :user')
+            ->setParameter('user', $user)
+            ->setParameter('query', '%'.$query.'%')
+            ->setParameter('accepted', true)
+            ->getQuery()
+            ->getResult();
+
+        return $result;
+    }
+
+    /**
+     * @return array<int, Friendship>
+     */
     public function findAcceptedFriendships(User $user): array
     {
         /** @var array<int, Friendship> $result */

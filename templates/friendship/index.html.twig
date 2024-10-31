@@ -13,7 +13,11 @@
             </div>
 
             <div data-content="friends" class="tab-content">
-                {{ include('friendship/part/friendList/_friend_list_tab_content.html.twig') }}
+                {{ include('friendship/part/friendList/_friend_search.html.twig') }}
+
+                <div id="friends-list">
+                    {{ include('friendship/part/friendList/_friend_list_tab_content.html.twig') }}
+                </div>
             </div>
             <div data-content="add" class="tab-content hidden">
                 {{ include('friendship/part/addFriend/_add_friend_tab_content.html.twig') }}

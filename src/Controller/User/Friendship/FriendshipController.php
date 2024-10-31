@@ -30,6 +30,24 @@ final class FriendshipController extends AbstractController
         private readonly LoggerInterface $logger
     ) {}
 
+    #[Route('/profile/friendship/search', name: 'profile_search_friends', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
+    public function searchFriends(Request $request): Response
+    {
+        /* TODO AXEL: improve the search query by using levenshtein */
+        /** @var string $query */
+        $query = $request->query->get('query', '');
+
+        /** @var User $user */
+        $user = $this->getUser();
+
+        $friends = $this->friendshipRepository->searchFriendsByUsernameOrEmail($user, $query);
+
+        return $this->render('friendship/part/friendList/_friend_list_tab_content.html.twig', [
+            'friendship' => $friends,
+        ]);
+    }
+
     #[Route('/profile/friendship', name: 'profile_friendship')]
     #[IsGranted('ROLE_USER')]
     public function index(Request $request): Response

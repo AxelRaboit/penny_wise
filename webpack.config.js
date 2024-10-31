@@ -55,7 +55,7 @@ Encore
     .addEntry('transaction_tag_new', './assets/js/page/transactionTag/new/new.js')
 
     // Friendship
-    .addEntry('friendship', './assets/js/page/friendship/friendship.js')
+    .addEntry('friendship', './assets/js/page/friendship/index.js')
 
     // Partials
     .addEntry('transaction_fields', './assets/js/partial/form/transaction/fields.js')
