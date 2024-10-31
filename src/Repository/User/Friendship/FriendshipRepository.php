@@ -25,18 +25,26 @@ class FriendshipRepository extends ServiceEntityRepository
      */
     public function searchFriendsByUsernameOrEmail(User $user, string $query): array
     {
-        /** @var array<int, Friendship> $result */
-        $result = $this->createQueryBuilder('f')
-            ->join('f.friend', 'friend')
+        $qb = $this->createQueryBuilder('f');
+        $qb->join('f.friend', 'friend')
+            ->leftJoin('friend.userInformation', 'userInformation')
             ->andWhere('(f.requester = :user OR f.friend = :user)')
-            ->andWhere('(friend.username LIKE :query OR friend.email LIKE :query)')
+            ->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->like('LOWER(friend.username)', ':query'),
+                    $qb->expr()->like('LOWER(friend.email)', ':query'),
+                    $qb->expr()->like('LOWER(userInformation.firstname)', ':query'),
+                    $qb->expr()->like('LOWER(userInformation.lastname)', ':query')
+                )
+            )
             ->andWhere('f.accepted = :accepted')
             ->andWhere('friend != :user')
             ->setParameter('user', $user)
-            ->setParameter('query', '%'.$query.'%')
-            ->setParameter('accepted', true)
-            ->getQuery()
-            ->getResult();
+            ->setParameter('query', '%'.mb_strtolower($query).'%')
+            ->setParameter('accepted', true);
+
+        /** @var array<int, Friendship> $result */
+        $result = $qb->getQuery()->getResult();
 
         return $result;
     }
