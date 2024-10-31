@@ -36,7 +36,7 @@ class UserInformation
     private ?string $avatarName = null;
 
     #[Vich\UploadableField(mapping: 'user_avatars', fileNameProperty: 'avatarName')]
-    #[Ignore] // Ignore lors de la sérialisation
+    #[Ignore] // Ignore when serializing
     private ?File $avatarFile = null;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
