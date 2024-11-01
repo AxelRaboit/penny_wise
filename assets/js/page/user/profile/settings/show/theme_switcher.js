@@ -16,6 +16,7 @@ const activateThemeSwitcher = () => {
                 "forest",
                 "dark",
                 "dimmed",
+                "light",
             );
 
             const newTheme = themeSwitcher.value;

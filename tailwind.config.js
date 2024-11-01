@@ -8,7 +8,8 @@ const themes = [
   require('./themes/mystic'),
   require('./themes/slate'),
   require('./themes/dark'),
-  require('./themes/dimmed')
+  require('./themes/dimmed'),
+  require('./themes/light')
 ];
 
 /** @type {import('tailwindcss').Config} */
