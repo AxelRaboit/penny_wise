@@ -39,7 +39,7 @@
 }
 
 .ts-control input::placeholder {
-    color: hsl(var(--twc-senary));
+    /*color: hsl(var(--twc-dynamic-gray));*/
 }
 
 .ts-control, .ts-wrapper.single.input-active .ts-control {

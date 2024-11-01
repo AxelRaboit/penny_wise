@@ -35,17 +35,17 @@ module.exports = {
         'septenary-ring': '#F0F3F5',
         'septenary-dark': 'rgba(201, 209, 217, 0.1)',
 
-        'accent-primary': '#238636', // Darker green, closer to GitHub's green
+        'accent-primary': '#238636',
         'accent-primary-hover': '#2EA043',
         'accent-primary-ring': '#2C974B',
         'accent-primary-dark': 'rgba(35, 134, 54, 0.1)',
 
-        'accent-secondary': '#1F6FEB', // GitHub's blue for links
+        'accent-secondary': '#1F6FEB',
         'accent-secondary-hover': '#58A6FF',
         'accent-secondary-ring': '#1E60D1',
         'accent-secondary-dark': 'rgba(31, 111, 235, 0.1)',
 
-        'accent-tertiary': '#6E5494', // GitHub's muted purple
+        'accent-tertiary': '#6E5494',
         'accent-tertiary-hover': '#5B4378',
         'accent-tertiary-ring': '#4D3766',
         'accent-tertiary-dark': 'rgba(110, 84, 148, 0.1)',
