@@ -17,11 +17,11 @@
                     <div class="ml-6 flex flex-col justify-start">
                         <div class="space-y-1 mb-2">
                             {% if userProfile.userInformation and userProfile.userInformation.firstname and userProfile.userInformation.lastname %}
-                                <h1 class="font-semibold text-white text-sm">{{ userProfile.userInformation.firstname }} {{ userProfile.userInformation.lastname }}</h1>
+                                <h1 class="font-semibold text-dynamic text-sm">{{ userProfile.userInformation.firstname }} {{ userProfile.userInformation.lastname }}</h1>
                             {% else %}
-                                <h1 class="font-semibold text-white text-sm">User</h1>
+                                <h1 class="font-semibold text-dynamic text-sm">User</h1>
                             {% endif %}
-                            <p class="text-white text-xs">{{ userProfile.email }}</p>
+                            <p class="text-dynamic text-xs">{{ userProfile.email }}</p>
                         </div>
 
                         <twig:BadgeNeon
@@ -61,30 +61,30 @@
             </div>
 
             <div class="mt-6">
-                <h2 class="font-semibold text-white text-sm">Profile Information</h2>
+                <h2 class="font-semibold text-dynamic text-sm">Profile Information</h2>
                 <div class="mt-4">
                     <div class="grid grid-cols-1 md:grid-cols-1 gap-2 mb-2">
                         <div class="bg-secondary p-2 rounded-md border border-quaternary border-solid">
-                            <h3 class="font-semibold text-white text-sm">Bio</h3>
-                            <p class="text-white text-sm">{{ userProfile.userInformation.bio ?? '-' }}</p>
+                            <h3 class="font-semibold text-dynamic text-sm">Bio</h3>
+                            <p class="text-dynamic text-sm">{{ userProfile.userInformation.bio ?? '-' }}</p>
                         </div>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
                         <div class="bg-secondary p-2 rounded-md border border-quaternary border-solid">
-                            <h3 class="font-semibold text-white text-sm">First Name</h3>
-                            <p class="text-white text-sm">{{ userProfile.userInformation.firstname ?? '-' }}</p>
+                            <h3 class="font-semibold text-dynamic text-sm">First Name</h3>
+                            <p class="text-dynamic text-sm">{{ userProfile.userInformation.firstname ?? '-' }}</p>
                         </div>
                         <div class="bg-secondary p-2 rounded-md border border-quaternary border-solid">
-                            <h3 class="font-semibold text-white text-sm">Last Name</h3>
-                            <p class="text-white text-sm">{{ userProfile.userInformation.lastname ?? '-' }}</p>
+                            <h3 class="font-semibold text-dynamic text-sm">Last Name</h3>
+                            <p class="text-dynamic text-sm">{{ userProfile.userInformation.lastname ?? '-' }}</p>
                         </div>
                         <div class="bg-secondary p-2 rounded-md border border-quaternary border-solid">
-                            <h3 class="font-semibold text-white text-sm">Email</h3>
-                            <p class="text-white text-sm">{{ userProfile.email }}</p>
+                            <h3 class="font-semibold text-dynamic text-sm">Email</h3>
+                            <p class="text-dynamic text-sm">{{ userProfile.email }}</p>
                         </div>
                         <div class="bg-secondary p-2 rounded-md border border-quaternary border-solid">
-                            <h3 class="font-semibold text-white text-sm">Username</h3>
-                            <p class="text-white text-sm">{{ userProfile.username }}</p>
+                            <h3 class="font-semibold text-dynamic text-sm">Username</h3>
+                            <p class="text-dynamic text-sm">{{ userProfile.username }}</p>
                         </div>
                     </div>
                 </div>

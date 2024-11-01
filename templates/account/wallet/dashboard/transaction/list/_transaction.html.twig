@@ -1,48 +1,48 @@
 <div class="rounded-md" x-data="{ open: {{ transactionCategory.transactions|length > 0 ? 'true' : 'false' }} }">
     <div id="monthlyBill">
-        <div class="flex flex-col justify-between items-center text-white rounded-md border-quaternary border-solid border bg-secondary">
+        <div class="flex flex-col justify-between items-center text-dynamic rounded-md border-quaternary border-solid border bg-secondary">
             <div class="w-full flex justify-between flex-row bg-tertiary p-2 border-b border-solid border-quaternary rounded-t-md">
                 <div class="flex items-center">
-                    <h2 class="text-sm font-bold text-white">{{ transactionCategory.type|capitalize }}</h2>
+                    <h2 class="text-sm font-bold text-dynamic">{{ transactionCategory.type|capitalize }}</h2>
                 </div>
 
                 <div class="flex space-x-1">
                     <a href="{{ path('new_transaction_wallet_with_category', {account: account.id, wallet: wallet.id, category: transactionCategory.type}) }}"
-                       class="hover:bg-tertiary-hover text-white px-2.5 py-1.5 rounded-md flex items-center justify-center"
+                       class="hover:bg-tertiary-hover text-dynamic px-2.5 py-1.5 rounded-md flex items-center justify-center"
                        title="{{ 'Add a new ' ~ transactionCategory.type ~ ' transaction'|trans }}"
                     >
-                        <i class="fa-solid fa-plus text-white text-xs"></i>
+                        <i class="fa-solid fa-plus text-dynamic text-xs"></i>
                     </a>
                     <button type="button"
                         data-action-url="{{ path('delete_all_transactions_from_specific_category', {account: account.id, wallet: wallet.id, category: transactionCategory.type}) }}"
-                        class="js-delete-transactions-from-category-button text-white hover:bg-tertiary-hover text-sm px-2.5 py-1.5 rounded-md flex items-center justify-center"
+                        class="js-delete-transactions-from-category-button text-dynamic hover:bg-tertiary-hover text-sm px-2.5 py-1.5 rounded-md flex items-center justify-center"
                         title="{{ 'Delete all ' ~ transactionCategory.type ~ ' transactions'|trans }}"
                     >
-                        <i class="fa-solid fa-trash text-white text-xs"></i>
+                        <i class="fa-solid fa-trash text-dynamic text-xs"></i>
                     </button>
-                    <button @click="open = !open" class="hover:bg-tertiary-hover text-white px-2.5 py-1.5 rounded-md flex items-center justify-center">
-                        <span x-show="!open" class="text-white text-xs"><i class="fa-solid fa-chevron-up"></i></span>
-                        <span x-show="open" class="text-white text-xs"><i class="fa-solid fa-chevron-down"></i></span>
+                    <button @click="open = !open" class="hover:bg-tertiary-hover text-dynamic px-2.5 py-1.5 rounded-md flex items-center justify-center">
+                        <span x-show="!open" class="text-dynamic text-xs"><i class="fa-solid fa-chevron-up"></i></span>
+                        <span x-show="open" class="text-dynamic text-xs"><i class="fa-solid fa-chevron-down"></i></span>
                     </button>
                 </div>
             </div>
 
             <div class="grid {{ transactionCategory.totalBudget ? 'md:grid-cols-2' : 'md:grid-cols-1' }} grid-cols-1 gap-2 rounded-md p-2 w-full">
                 {% if transactionCategory.totalBudget %}
-                    <div class="flex items-center justify-center bg-quaternary text-white border-solid border border-quaternary-ring rounded-md p-2 md:rounded-md md:mb-0">
-                        <i class="fa-solid fa-wallet text-white text-lg mr-2"></i>
+                    <div class="flex items-center justify-center bg-quaternary text-dynamic border-solid border border-quaternary-ring rounded-md p-2 md:rounded-md md:mb-0">
+                        <i class="fa-solid fa-wallet text-dynamic text-lg mr-2"></i>
                         <div class="text-center">
-                            <span class="text-white text-sm block">Budget</span>
-                            <span class="text-white text-sm font-bold">{{ wallet.currency.value|currency_symbol }}{{ transactionCategory.totalBudget|number_format(2, '.', ' ') }}</span>
+                            <span class="text-dynamic text-sm block">Budget</span>
+                            <span class="text-dynamic text-sm font-bold">{{ wallet.currency.value|currency_symbol }}{{ transactionCategory.totalBudget|number_format(2, '.', ' ') }}</span>
                         </div>
                     </div>
                 {% endif %}
 
-                <div class="flex items-center justify-center {{ transactionCategory.totalBudget > 0 and transactionCategory.total > transactionCategory.totalBudget ? 'bg-danger border-solid border border-danger-ring' : 'bg-quaternary border-solid border border-quaternary-ring' }} text-white rounded-md p-2 md:rounded-md md:mb-0">
-                    <i class="fa-solid fa-coins text-white text-lg mr-2"></i>
+                <div class="flex items-center justify-center {{ transactionCategory.totalBudget > 0 and transactionCategory.total > transactionCategory.totalBudget ? 'bg-danger border-solid border border-danger-ring' : 'bg-quaternary border-solid border border-quaternary-ring' }} text-dynamic rounded-md p-2 md:rounded-md md:mb-0">
+                    <i class="fa-solid fa-coins text-dynamic text-lg mr-2"></i>
                     <div class="text-center">
-                        <span class="text-white text-sm block">Actual</span>
-                        <span class="text-white text-sm font-bold">{{ wallet.currency.value|currency_symbol }}{{ transactionCategory.total|number_format(2, '.', ' ') }}</span>
+                        <span class="text-dynamic text-sm block">Actual</span>
+                        <span class="text-dynamic text-sm font-bold">{{ wallet.currency.value|currency_symbol }}{{ transactionCategory.total|number_format(2, '.', ' ') }}</span>
                     </div>
                 </div>
             </div>
@@ -52,12 +52,12 @@
 
                 {% if transactionCategory.transactions|length > 0 %}
                     <div class="hidden md:flex bg-secondary rounded-md">
-                        <div class="w-1/6 text-center"><span class="font-bold text-white text-xs">Date</span></div>
-                        <div class="w-1/6 text-center"><span class="font-bold text-white text-xs">Nature</span></div>
-                        <div class="w-1/6 text-center"><span class="font-bold text-white text-xs">Budget</span></div>
-                        <div class="w-1/6 text-center"><span class="font-bold text-white text-xs">Actual</span></div>
-                        <div class="w-1/6 text-center"><span class="font-bold text-white text-xs">Remaining</span></div>
-                        <div class="w-1/6 text-center"><span class="font-bold text-white text-xs">Actions</span></div>
+                        <div class="w-1/6 text-center"><span class="font-bold text-dynamic text-xs">Date</span></div>
+                        <div class="w-1/6 text-center"><span class="font-bold text-dynamic text-xs">Nature</span></div>
+                        <div class="w-1/6 text-center"><span class="font-bold text-dynamic text-xs">Budget</span></div>
+                        <div class="w-1/6 text-center"><span class="font-bold text-dynamic text-xs">Actual</span></div>
+                        <div class="w-1/6 text-center"><span class="font-bold text-dynamic text-xs">Remaining</span></div>
+                        <div class="w-1/6 text-center"><span class="font-bold text-dynamic text-xs">Actions</span></div>
                     </div>
                 {% endif %}
 
@@ -65,18 +65,18 @@
                     {% for transaction in transactionCategory.transactions %}
                         <div class="hover:bg-secondary-hover flex flex-col md:grid md:grid-cols-6 items-center bg-secondary p-1 m-1 rounded-md text-xs md:flex-row" title="{{ transaction.transaction.comment }}">
                             <div class="md:col-span-1 text-center md:pr-2">
-                                <span class="text-white">{{ transaction.transaction.date ? transaction.transaction.date|date('d') : '-' }}</span>
+                                <span class="text-dynamic">{{ transaction.transaction.date ? transaction.transaction.date|date('d') : '-' }}</span>
                             </div>
                             <div class="md:col-span-1 text-center md:pr-2">
-                                <span class="text-white">{{ transaction.transaction.nature ?? '-' }}</span>
+                                <span class="text-dynamic">{{ transaction.transaction.nature ?? '-' }}</span>
                             </div>
                             <div class="md:col-span-1 text-center md:pr-2">
-                                <span class="{{ transaction.budgetInfo.overBudget ? 'text-danger' : (transaction.budgetInfo.budget ? 'text-success' : 'text-white') }}">
+                                <span class="{{ transaction.budgetInfo.overBudget ? 'text-danger' : (transaction.budgetInfo.budget ? 'text-success' : 'text-dynamic') }}">
                                     {{ transaction.budgetInfo.budget ? transaction.budgetInfo.budget|number_format(2, '.', ' ') : '-' }}
                                 </span>
                             </div>
                             <div class="md:col-span-1 text-center md:pr-2">
-                                <span class="text-white">{{ transaction.transaction.amount|number_format(2, '.', ' ') }}</span>
+                                <span class="text-dynamic">{{ transaction.transaction.amount|number_format(2, '.', ' ') }}</span>
                             </div>
                             <div class="md:col-span-1 text-center md:pr-2">
                                 {% if transaction.budgetInfo.budget %}
@@ -84,24 +84,24 @@
                                         {{ transaction.budgetInfo.remaining|number_format(2, '.', ' ') }}
                                     </span>
                                 {% else %}
-                                    <span class="text-white">-</span>
+                                    <span class="text-dynamic">-</span>
                                 {% endif %}
                             </div>
                             <div class="md:col-span-1 text-center flex items-center justify-center space-x-2 md:pl-4 md:pr-4">
                                 <a href="{{ path('edit_transaction_from_wallet', {account: account.id, wallet: wallet.id, transaction: transaction.transaction.id}) }}" title="Edit" class="text-secondary hover:text-secondary-hover">
-                                    <i class="fa-solid fa-pen-to-square cursor-pointer text-senary hover:text-senary-hover text-sm"></i>
+                                    <i class="fa-solid fa-pen-to-square cursor-pointer text-dynamic-gray hover:text-dynamic-gray-hover text-sm"></i>
                                 </a>
                                 <a href=" {{ path('show_transaction_from_wallet', {account: account.id, wallet: wallet.id, transaction: transaction.transaction.id}) }} " title="View" class="text-secondary hover:text-secondary-hover">
-                                    <i class="fa-solid fa-eye cursor-pointer text-senary hover:text-senary-hover text-sm"></i>
+                                    <i class="fa-solid fa-eye cursor-pointer text-dynamic-gray hover:text-dynamic-gray-hover text-sm"></i>
                                 </a>
                                 <button type="button" data-action-url="{{ path('delete_transaction_wallet', {account: account.id, wallet: wallet.id, transaction: transaction.transaction.id}) }}" title="Delete" class="js-delete-button">
-                                    <i class="fa-solid fa-trash-can cursor-pointer text-senary hover:text-senary-hover text-sm"></i>
+                                    <i class="fa-solid fa-trash-can cursor-pointer text-dynamic-gray hover:text-dynamic-gray-hover text-sm"></i>
                                 </button>
                             </div>
                         </div>
                     {% else %}
                         <div class="text-center mb-2">
-                            <span class="font-bold text-xs p-2 rounded-md text-white">No {{ transactionCategory.type }}</span>
+                            <span class="font-bold text-xs p-2 rounded-md text-dynamic">No {{ transactionCategory.type }}</span>
                         </div>
                     {% endfor %}
                 </div>

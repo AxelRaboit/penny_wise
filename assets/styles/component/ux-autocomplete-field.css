@@ -1,14 +1,13 @@
 .ts-wrapper {
-    background-color: #2a2a38;
-    border: 1px solid var(--color-quaternary);
+    border: 1px solid hsl(var(--twc-quaternary));
     border-radius: 0.375rem;
 }
 
 .ts-control {
     border: none;
     padding: 0.5700rem !important;
-    background: var(--color-secondary) !important;
-    color: white;
+    background: hsl(var(--twc-secondary))!important;
+    color: hsl(var(--twc-pearl));
     font-size: 0.875rem;
     border-radius: 0.375rem;
 }
@@ -18,31 +17,31 @@
 }
 
 .ts-control input {
-    background-color: var(--color-secondary) !important;
-    color: white;
-    border-color: var(--color-quaternary);
+    background-color: hsl(var(--twc-secondary)) !important;
+    color: hsl(var(--twc-pearl));
+    border-color: hsl(var(--twc-quaternary));
     font-size: 0.875rem;
 }
 
 .ts-dropdown {
-    background-color: var(--color-secondary);
-    border: 1px solid var(--color-quaternary) !important;
+    background-color: hsl(var(--twc-secondary));
+    border: 1px solid hsl(var(--twc-quaternary)) !important;
     border-radius: 0.375rem;
 }
 
 .ts-dropdown-content {
-    color: white;
+    color: hsl(var(--twc-pearl));
 }
 
 .clear-button {
-    color: white;
+    color: hsl(var(--twc-pearl));
     cursor: pointer;
 }
 
 .ts-control input::placeholder {
-    color: var(--color-senary);
+    color: hsl(var(--twc-senary));
 }
 
 .ts-control, .ts-wrapper.single.input-active .ts-control {
-    background: var(--color-secondary) !important;
+    background: hsl(var(--twc-secondary)) !important;
 }

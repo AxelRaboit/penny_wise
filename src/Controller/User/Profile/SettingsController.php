@@ -28,7 +28,7 @@ final class SettingsController extends AbstractController
     {
         $user = $this->userCheckerService->getUserOrThrow();
 
-        return $this->render('profile/settings/show.html.twig', [
+        return $this->render('profile/settings/show/show.html.twig', [
             'user' => $user,
         ]);
     }
@@ -60,7 +60,7 @@ final class SettingsController extends AbstractController
                 return $this->redirectToRoute('profile_settings');
             }
 
-            return $this->render('profile/settings/edit.html.twig', [
+            return $this->render('profile/settings/edit/edit.html.twig', [
                 'form' => $form->createView(),
             ]);
         } catch (Exception $exception) {

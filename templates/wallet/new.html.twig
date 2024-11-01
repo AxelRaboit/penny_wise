@@ -5,63 +5,63 @@
 {% block body %}
     <div>
         <div class="bg-secondary rounded-md max-w-lg mx-auto border-quaternary border-solid border">
-            <div class="bg-tertiary text-white text-center p-2 rounded-t-md border-b border-quaternary border-solid">
-                <h1 class="text-sm font-bold text-white">Add a New Wallet</h1>
+            <div class="bg-tertiary text-dynamic text-center p-2 rounded-t-md border-b border-quaternary border-solid">
+                <h1 class="text-sm font-bold text-dynamic">Add a New Wallet</h1>
             </div>
             <div class="p-4">
                 {{ form_start(form) }}
 
                 {% if form_errors(form) %}
-                    <div class="mb-4 p-4 bg-danger text-white rounded-md">
+                    <div class="mb-4 p-4 bg-danger text-dynamic rounded-md">
                         {{ form_errors(form) }}
                     </div>
                 {% endif %}
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
                     <div class="flex flex-col mb-2">
-                        {{ form_label(form.account, null, {label_attr: {class: 'text-white text-sm'}}) }}
+                        {{ form_label(form.account, null, {label_attr: {class: 'text-dynamic text-sm'}}) }}
                         {{ form_widget(form.account) }}
-                        <p class="text-xs text-senary">Select the account to create the wallet for.</p>
+                        <twig:InputHelper>Select the account to create the wallet for.</twig:InputHelper>
                         <div class="text-danger text-sm mt-1">
                             {{ form_errors(form.account) }}
                         </div>
                     </div>
                     <div class="flex flex-col mb-2">
-                        {{ form_label(form.year, null, {label_attr: {class: 'text-white text-sm'}}) }}
-                        {{ form_widget(form.year, {attr: {class: 'rounded-md p-2 bg-secondary border-quaternary border-solid border text-sm'}}) }}
-                        <p class="text-xs text-senary">Set the year for the wallet to be created.</p>
+                        {{ form_label(form.year, null, {label_attr: {class: 'text-dynamic text-sm'}}) }}
+                        {{ form_widget(form.year, {attr: {class: 'rounded-md p-2 bg-secondary border-quaternary border-solid border text-sm text-dynamic'}}) }}
+                        <twig:InputHelper>Set the year for the wallet to be created.</twig:InputHelper>
                         <div class="text-danger text-sm mt-1">
                             {{ form_errors(form.year) }}
                         </div>
                     </div>
                     <div class="flex flex-col mb-2">
-                        {{ form_label(form.month, null, {label_attr: {class: 'text-white text-sm'}}) }}
+                        {{ form_label(form.month, null, {label_attr: {class: 'text-dynamic text-sm'}}) }}
                         {{ form_widget(form.month) }}
-                        <p class="text-xs text-senary">Set the month for the wallet to be created.</p>
+                        <twig:InputHelper>Set the month for the wallet to be created.</twig:InputHelper>
                         <div class="text-danger text-sm mt-1">
                             {{ form_errors(form.month) }}
                         </div>
                     </div>
                     <div class="flex flex-col mb-2">
-                        {{ form_label(form.currency, null, {label_attr: {class: 'text-white text-sm'}}) }}
+                        {{ form_label(form.currency, null, {label_attr: {class: 'text-dynamic text-sm'}}) }}
                         {{ form_widget(form.currency) }}
-                        <p class="text-xs text-senary">Select the currency for the wallet to be created.</p>
+                        <twig:InputHelper>Select the currency for the wallet to be created.</twig:InputHelper>
                         <div class="text-danger text-sm mt-1">
                             {{ form_errors(form.currency) }}
                         </div>
                     </div>
                     <div class="flex flex-col mb-2">
-                        {{ form_label(form.start_balance, null, {label_attr: {class: 'text-white text-sm'}}) }}
-                        {{ form_widget(form.start_balance, {attr: {class: 'rounded-md p-2 bg-secondary border-quaternary border-solid border text-sm'}}) }}
-                        <p class="text-xs text-senary">Set the starting balance for the wallet. You can let the wallet start with a balance of zero.</p>
+                        {{ form_label(form.start_balance, null, {label_attr: {class: 'text-dynamic text-sm'}}) }}
+                        {{ form_widget(form.start_balance, {attr: {class: 'rounded-md p-2 bg-secondary border-quaternary border-solid border text-sm text-dynamic'}}) }}
+                        <twig:InputHelper>Set the starting balance for the wallet. You can let the wallet start with a balance of zero.</twig:InputHelper>
                         <div class="text-danger text-sm mt-1">
                             {{ form_errors(form.start_balance) }}
                         </div>
                     </div>
                     <div class="flex flex-col mb-2">
-                        {{ form_label(form.spending_limit, null, {label_attr: {class: 'text-white text-sm'}}) }}
-                        {{ form_widget(form.spending_limit, {attr: {class: 'rounded-md p-2 bg-secondary border-quaternary border-solid border text-sm'}}) }}
-                        <p class="text-xs text-senary">Set the spending limit for the wallet. You can let the wallet have an unlimited spending limit.</p>
+                        {{ form_label(form.spending_limit, null, {label_attr: {class: 'text-dynamic text-sm'}}) }}
+                        {{ form_widget(form.spending_limit, {attr: {class: 'rounded-md p-2 bg-secondary border-quaternary border-solid border text-sm text-dynamic'}}) }}
+                        <twig:InputHelper>Set the spending limit for the wallet. You can let the wallet have an unlimited spending limit.</twig:InputHelper>
                         <div class="text-danger text-sm mt-1">
                             {{ form_errors(form.spending_limit) }}
                         </div>

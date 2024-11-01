@@ -6,10 +6,10 @@
     <div class="container mx-auto">
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 max-w-4xl mx-auto">
             <div class="bg-secondary rounded-md p-4 flex flex-col justify-center items-center border-quaternary border-solid border h-full">
-                <i class="fa-solid fa-piggy-bank text-white text-2xl mb-2"></i>
-                <h2 class="text-sm font-bold text-white mb-2 text-center">New Account</h2>
+                <i class="fa-solid fa-piggy-bank text-dynamic text-2xl mb-2"></i>
+                <h2 class="text-sm font-bold text-dynamic mb-2 text-center">New Account</h2>
                 <div class="flex-grow mb-2">
-                    <p class="text-xs text-senary">Create a new account to store all your wallets related to it.</p>
+                    <twig:InputHelper>Create a new account to store all your wallets related to it.</twig:InputHelper>
                 </div>
                 <twig:Cta
                     class="mt-auto"
@@ -23,10 +23,10 @@
             </div>
 
             <div class="bg-secondary rounded-md p-4 flex flex-col justify-center items-center border-quaternary border-solid border h-full">
-                <i class="fa-solid fa-wallet text-white text-2xl mb-2"></i>
-                <h2 class="text-sm font-bold text-white mb-2 text-center">New wallet</h2>
+                <i class="fa-solid fa-wallet text-dynamic text-2xl mb-2"></i>
+                <h2 class="text-sm font-bold text-dynamic mb-2 text-center">New wallet</h2>
                 <div class="flex-grow mb-2">
-                    <p class="text-xs text-senary">Create a new wallet to store all your transactions related to it.</p>
+                    <twig:InputHelper>Create a new wallet to store all your transactions related to it.</twig:InputHelper>
                 </div>
                 <twig:Cta
                     class="mt-auto"
@@ -40,10 +40,10 @@
             </div>
 
             <div class="bg-secondary rounded-md p-4 flex flex-col justify-center items-center border-quaternary border-solid border h-full">
-                <i class="fa-solid fa-money-bill-transfer text-white text-2xl mb-2"></i>
-                <h2 class="text-sm font-bold text-white mb-2 text-center">Transfer money</h2>
+                <i class="fa-solid fa-money-bill-transfer text-dynamic text-2xl mb-2"></i>
+                <h2 class="text-sm font-bold text-dynamic mb-2 text-center">Transfer money</h2>
                 <div class="flex-grow mb-2">
-                    <p class="text-xs text-senary">Transfer transaction from your own wallet to another wallet. You can also transfer your transactions to a beneficiary.</p>
+                    <twig:InputHelper>Transfer transaction from your own wallet to another wallet. You can also transfer your transactions to a beneficiary.</twig:InputHelper>
                 </div>
                 <twig:Cta
                     class="mt-auto"
@@ -57,10 +57,10 @@
             </div>
 
             <div class="bg-secondary rounded-md p-4 flex flex-col justify-center items-center border-quaternary border-solid border h-full">
-                <i class="fa-solid fa-money-bill text-white text-2xl mb-2"></i>
-                <h2 class="text-sm font-bold text-white mb-2 text-center">New transaction</h2>
+                <i class="fa-solid fa-money-bill text-dynamic text-2xl mb-2"></i>
+                <h2 class="text-sm font-bold text-dynamic mb-2 text-center">New transaction</h2>
                 <div class="flex-grow mb-2">
-                    <p class="text-xs text-senary">Create a new transaction. Each transaction is linked to a wallet, which in turn is linked to an account.</p>
+                    <twig:InputHelper>Create a new transaction. Each transaction is linked to a wallet, which in turn is linked to an account.</twig:InputHelper>
                 </div>
                 {% if hasWallet %}
                     <twig:Cta
@@ -78,10 +78,10 @@
             </div>
 
             <div class="bg-secondary rounded-md p-4 flex flex-col justify-center items-center border-quaternary border-solid border h-full">
-                <i class="fa-solid fa-tag text-white text-2xl mb-2"></i>
-                <h2 class="text-sm font-bold text-white mb-2 text-center">Transaction tag list</h2>
+                <i class="fa-solid fa-tag text-dynamic text-2xl mb-2"></i>
+                <h2 class="text-sm font-bold text-dynamic mb-2 text-center">Transaction tag list</h2>
                 <div class="flex-grow mb-2">
-                    <p class="text-xs text-senary">List all transaction tags you have created. Tags are used to categorize your transactions.</p>
+                    <twig:InputHelper>List all transaction tags you have created. Tags are used to categorize your transactions.</twig:InputHelper>
                 </div>
                 <twig:Cta
                     class="mt-auto"
@@ -95,10 +95,10 @@
             </div>
 
             <div class="bg-secondary rounded-md p-4 flex flex-col justify-center items-center border-quaternary border-solid border h-full">
-                <i class="fa-solid fa-tag text-white text-2xl mb-2"></i>
-                <h2 class="text-sm font-bold text-white mb-2 text-center">Messenger</h2>
+                <i class="fa-solid fa-tag text-dynamic text-2xl mb-2"></i>
+                <h2 class="text-sm font-bold text-dynamic mb-2 text-center">Messenger</h2>
                 <div class="flex-grow mb-2">
-                    <p class="text-xs text-senary">Communicate with your friends that are using the app.</p>
+                    <twig:InputHelper>Communicate with your friends that are using the app.</twig:InputHelper>
                 </div>
                 <twig:Cta
                     class="mt-auto"
@@ -112,10 +112,10 @@
             </div>
 
             <div class="bg-secondary rounded-md p-4 flex flex-col justify-center items-center border-quaternary border-solid border h-full">
-                <i class="fa-solid fa-users text-white text-2xl mb-2"></i>
-                <h2 class="text-sm font-bold text-white mb-2 text-center">Friends</h2>
+                <i class="fa-solid fa-users text-dynamic text-2xl mb-2"></i>
+                <h2 class="text-sm font-bold text-dynamic mb-2 text-center">Friends</h2>
                 <div class="flex-grow mb-2">
-                    <p class="text-xs text-senary">Connect with your friends to chat with them and share your finances.</p>
+                    <twig:InputHelper>Connect with your friends to chat with them and share your finances.</twig:InputHelper>
                 </div>
                 <twig:Cta
                     class="mt-auto"
@@ -129,10 +129,10 @@
             </div>
 
             <div class="bg-secondary rounded-md p-4 flex flex-col justify-center items-center border-quaternary border-solid border h-full">
-                <i class="fa-solid fa-calendar text-white text-2xl mb-2"></i>
-                <h2 class="text-sm font-bold text-white mb-2 text-center">Transport costs management</h2>
+                <i class="fa-solid fa-calendar text-dynamic text-2xl mb-2"></i>
+                <h2 class="text-sm font-bold text-dynamic mb-2 text-center">Transport costs management</h2>
                 <div class="flex-grow mb-2">
-                    <p class="text-xs text-senary">Manage your transport costs. Add each transport you have done and calculate the total cost for annual taxes.</p>
+                    <twig:InputHelper>Manage your transport costs. Add each transport you have done and calculate the total cost for annual taxes.</twig:InputHelper>
                 </div>
                 <twig:Cta
                     class="mt-auto"

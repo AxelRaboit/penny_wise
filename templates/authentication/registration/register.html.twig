@@ -4,13 +4,13 @@
 
 {% block body %}
     <div class="min-h-screen flex flex-col items-center justify-center">
-        <h1 class="text-xl font-bold text-center text-white mb-4">Register to Penny Wise</h1>
+        <h1 class="text-xl font-bold text-center text-dynamic mb-4">Register to Penny Wise</h1>
         <div class="bg-tertiary p-8 rounded-md shadow-lg w-full max-w-md">
 
             {{ form_start(registrationForm) }}
 
             {% if form_errors(registrationForm) %}
-                <div class="mb-4 p-4 bg-danger text-white rounded-md">
+                <div class="mb-4 p-4 bg-danger text-dynamic rounded-md">
                     {{ form_errors(registrationForm) }}
                 </div>
             {% endif %}
@@ -18,16 +18,16 @@
             <div class="space-y-2">
                 <div class="grid grid-cols-1 gap-2">
                     <div>
-                        {{ form_label(registrationForm.email, null, {label_attr: {class: 'block text-white text-sm'}}) }}
-                        {{ form_widget(registrationForm.email, {attr: {class: 'w-full p-3 bg-secondary border-quaternary border-solid border rounded-md text-white text-sm'}}) }}
+                        {{ form_label(registrationForm.email, null, {label_attr: {class: 'block text-dynamic text-sm'}}) }}
+                        {{ form_widget(registrationForm.email, {attr: {class: 'w-full p-3 bg-secondary border-quaternary border-solid border rounded-md text-dynamic text-sm'}}) }}
                         <div class="text-danger text-sm mt-1">
                             {{ form_errors(registrationForm.email) }}
                         </div>
                     </div>
 
                     <div>
-                        {{ form_label(registrationForm.username, null, {label_attr: {class: 'block text-white text-sm'}}) }}
-                        {{ form_widget(registrationForm.username, {attr: {class: 'w-full p-3 bg-secondary border-quaternary border-solid border rounded-md text-white text-sm'}}) }}
+                        {{ form_label(registrationForm.username, null, {label_attr: {class: 'block text-dynamic text-sm'}}) }}
+                        {{ form_widget(registrationForm.username, {attr: {class: 'w-full p-3 bg-secondary border-quaternary border-solid border rounded-md text-dynamic text-sm'}}) }}
                         <div class="text-danger text-sm mt-1">
                             {{ form_errors(registrationForm.username) }}
                         </div>
@@ -35,16 +35,16 @@
                 </div>
                 <div class="grid grid-cols-1 gap-2">
                     <div>
-                        {{ form_label(registrationForm.plainPassword.first, null, {label_attr: {class: 'block text-white text-sm'}}) }}
-                        {{ form_widget(registrationForm.plainPassword.first, {attr: {class: 'w-full p-3 bg-secondary border-quaternary border-solid border rounded-md text-white text-sm'}}) }}
+                        {{ form_label(registrationForm.plainPassword.first, null, {label_attr: {class: 'block text-dynamic text-sm'}}) }}
+                        {{ form_widget(registrationForm.plainPassword.first, {attr: {class: 'w-full p-3 bg-secondary border-quaternary border-solid border rounded-md text-dynamic text-sm'}}) }}
                         <div class="text-danger text-sm mt-1">
                             {{ form_errors(registrationForm.plainPassword.first) }}
                         </div>
                     </div>
 
                     <div>
-                        {{ form_label(registrationForm.plainPassword.second, null, {label_attr: {class: 'block text-white text-sm'}}) }}
-                        {{ form_widget(registrationForm.plainPassword.second, {attr: {class: 'w-full p-3 bg-secondary border-quaternary border-solid border rounded-md text-white text-sm'}}) }}
+                        {{ form_label(registrationForm.plainPassword.second, null, {label_attr: {class: 'block text-dynamic text-sm'}}) }}
+                        {{ form_widget(registrationForm.plainPassword.second, {attr: {class: 'w-full p-3 bg-secondary border-quaternary border-solid border rounded-md text-dynamic text-sm'}}) }}
                         <div class="text-danger text-sm mt-1">
                             {{ form_errors(registrationForm.plainPassword.second) }}
                         </div>
@@ -70,7 +70,7 @@
             </div>
 
             <div class="mt-4 text-right">
-                <span class="text-white text-sm">Already have an account?</span><a href="{{ path('app_login') }}" class="text-sm text-link hover:underline ml-2">Login</a>
+                <span class="text-dynamic text-sm">Already have an account?</span><a href="{{ path('app_login') }}" class="text-sm text-link hover:underline ml-2">Login</a>
             </div>
 
             {{ form_end(registrationForm) }}

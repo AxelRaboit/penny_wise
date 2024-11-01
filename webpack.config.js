@@ -57,6 +57,9 @@ Encore
     // Friendship
     .addEntry('friendship', './assets/js/page/friendship/index.js')
 
+    // User - Profile - Settings
+    .addEntry('user_profile_settings_show', './assets/js/page/user/profile/settings/show/index.js')
+
     // Partials
     .addEntry('transaction_fields', './assets/js/partial/form/transaction/fields.js')
 

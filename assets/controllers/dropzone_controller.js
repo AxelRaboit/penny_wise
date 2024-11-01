@@ -12,7 +12,7 @@ export default class extends Controller {
 
         const textElement = document.createElement('p');
         textElement.textContent = 'Drag and drop files here or click to upload';
-        textElement.classList.add('drag-message', 'text-senary', 'text-sm', 'text-center');
+        textElement.classList.add('drag-message', 'text-dynamic-gray', 'text-sm', 'text-center');
         textElement.style.position = 'absolute';
         this.element.appendChild(textElement);
     }

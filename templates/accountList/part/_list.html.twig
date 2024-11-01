@@ -11,9 +11,9 @@
     </div>
     {% for account in accounts %}
         <div class="w-full p-1 rounded-md bg-secondary mb-2">
-            <div class="flex justify-between items-center text-white p-2 rounded-md">
+            <div class="flex justify-between items-center text-dynamic p-2 rounded-md">
                 <div class="flex-1 text-left">
-                    <span class="text-sm font-bold text-white">{{ account.getName() }}</span>
+                    <span class="text-sm font-bold text-dynamic">{{ account.getName() }}</span>
                 </div>
                 <div class="flex items-center md:space-x-1">
                     <twig:Cta
@@ -38,7 +38,7 @@
                 {% for year in account.getYears() %}
                     <div class="flex-2 lg:flex-1 w-full rounded-md border-quaternary border-solid border">
                         <div class="text-center bg-tertiary rounded-t-md relative" x-data="{ displayTrashToDeleteYear: false }" @mouseenter="displayTrashToDeleteYear = true" @mouseleave="displayTrashToDeleteYear = false">
-                            <h2 class="text-sm font-bold p-2 text-white">{{ year.getYear() }}</h2>
+                            <h2 class="text-sm font-bold p-2 text-dynamic">{{ year.getYear() }}</h2>
                             <twig:Cta
                                 color="quaternary"
                                 size="xs"
@@ -107,7 +107,7 @@
 
                 <div class="flex-2 lg:flex-1 w-full rounded-md my-2">
                     <a href="{{ path('account_new_wallet', {account: account.getId()}) }}"
-                       class="flex items-center justify-center min-h-[240px] text-white text-center rounded-md border border-dashed border-quaternary hover:bg-primary-hover h-full">
+                       class="flex items-center justify-center min-h-[240px] text-dynamic text-center rounded-md border border-dashed border-quaternary hover:bg-primary-hover h-full">
                         <i class="fa-solid fa-plus text-3xl text-quaternary"></i>
                     </a>
                 </div>

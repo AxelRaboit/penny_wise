@@ -9,7 +9,7 @@
                 @click="open = !open"
         >
             {% if unreadCount > 0 %}
-                <span id="unread-count" class="absolute top-0 right-0 -mt-1 -mr-1 bg-accent-primary text-white text-xs font-semibold rounded-full px-2 py-0.5">
+                <span id="unread-count" class="absolute top-0 right-0 -mt-1 -mr-1 bg-accent-primary text-dynamic text-xs font-semibold rounded-full px-2 py-0.5">
                     {{ unreadCount }}
                 </span>
             {% endif %}
@@ -21,25 +21,25 @@
         <ul id="notifications-dropdown-content">
             {% if notifications is not empty %}
                 <div class="p-2 text-right">
-                    <button id="js-topbar-clear-all-notifications" class="text-xs text-white hover:underline">
+                    <button id="js-topbar-clear-all-notifications" class="text-xs text-dynamic hover:underline">
                         Clear All
                     </button>
                 </div>
                 {% for notification in notifications %}
                     <li class="bg-secondary" id="topbar-notification-{{ notification.id }}">
                         <div class="bg-tertiary p-2 rounded-b-md px-4 py-3">
-                            <div class="text-sm text-white">
-                                <div class="text-xs text-senary my-2">
+                            <div class="text-sm text-dynamic">
+                                <div class="text-xs text-dynamic-gray my-2">
                                     {{ notification.createdAt|date('d/m/Y H:i') }}
                                 </div>
 
                                 {# TODO AXEL: improve the enum retrieval with a custom twig method #}
                                 {% if notification.type == constant('App\\Enum\\Notification\\NotificationTypeEnum::FriendshipRequest').value %}
-                                    <p class="mb-2 text-white">{{ notification.message }}</p>
+                                    <p class="mb-2 text-dynamic">{{ notification.message }}</p>
 
                                     {# TODO AXEL: use twig component #}
-                                    <a href="{{ path('profile_friendship', {tab: 'requests'}) }}" class="text-white">
-                                        <button class="py-1 px-2 rounded-md bg-accent-primary hover:bg-accent-primary-hover text-white text-xs w-full">
+                                    <a href="{{ path('profile_friendship', {tab: 'requests'}) }}" class="text-dynamic">
+                                        <button class="py-1 px-2 rounded-md bg-accent-primary hover:bg-accent-primary-hover text-dynamic text-xs w-full">
                                             View
                                         </button>
                                     </a>
@@ -50,7 +50,7 @@
                             {% if not notification.isRead %}
                                 <div class="text-center mt-2">
                                     {# TODO AXEL: use twig component #}
-                                    <button class="js-topbar-mark-as-read py-1 px-2 rounded-md bg-accent-primary hover:bg-accent-primary-hover text-white text-xs w-full" data-notification-id="{{ notification.id }}">
+                                    <button class="js-topbar-mark-as-read py-1 px-2 rounded-md bg-accent-primary hover:bg-accent-primary-hover text-dynamic text-xs w-full" data-notification-id="{{ notification.id }}">
                                         Mark as Read
                                     </button>
                                 </div>
@@ -59,7 +59,7 @@
                     </li>
                 {% endfor %}
             {% else %}
-                <li class="px-4 py-3 text-sm text-senary text-center">
+                <li class="px-4 py-3 text-sm text-dynamic-gray text-center">
                     No new notifications
                 </li>
             {% endif %}

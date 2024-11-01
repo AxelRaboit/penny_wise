@@ -22,14 +22,14 @@
         {{ encore_entry_script_tags('left_side_menu') }}
     {% endblock %}
 </head>
-<body id="base-page" class="min-h-screen flex-col hidden">
+<body id="base-page" class="min-h-screen flex-col hidden bg-secondary">
 <div class="flex flex-1 flex-col h-full">
     {{ include('components/topbar/topbar.html.twig') }}
 
     <div>
         <aside id="js-left-side-menu" class="fixed top-0 left-0 w-full xs:w-1/2 sm:w-1/3 md:max-w-1/3 lg:w-1/4 xl:w-1/6 h-full transform -translate-x-full transition-transform duration-300 ease-in-out z-50 overflow-hidden bg-secondary border-r border-quaternary-ring">
-            <div class="flex justify-end items-center bg-secondary text-white p-4 border-b border-quaternary-ring">
-                <button id="js-left-side-menu-close-button" class="text-white">
+            <div class="flex justify-end items-center bg-secondary text-dynamic p-4 border-b border-quaternary-ring">
+                <button id="js-left-side-menu-close-button" class="text-dynamic">
                     <i class="fa-solid fa-times text-lg"></i>
                 </button>
             </div>
@@ -44,9 +44,9 @@
         <div class="flex flex-col flex-1 min-h-screen">
             <main class="flex-1 p-4">
                 {% for label, messages in app.flashes %}
-                    <div class="alert-flash w-full p-4 mb-4 text-sm text-white text-center rounded-md {{ label == 'success' ? 'bg-success' : label == 'warning' ? 'bg-warning' : 'bg-danger' }}" role="alert">
+                    <div class="alert-flash w-full p-4 mb-4 text-sm text-dynamic text-center rounded-md {{ label == 'success' ? 'bg-success' : label == 'warning' ? 'bg-warning' : 'bg-danger' }}" role="alert">
                         {% for message in messages %}
-                            <span class="font-bold text-white">{{ label|capitalize }}:</span> {{ message }}
+                            <span class="font-bold text-dynamic">{{ label|capitalize }}:</span> {{ message }}
                         {% endfor %}
                     </div>
                 {% endfor %}

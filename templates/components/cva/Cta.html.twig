@@ -30,13 +30,14 @@
     base: baseClasses,
     variants: {
         color: {
-            secondary: 'border bg-secondary hover:bg-secondary-hover text-white border-secondary-ring',
-            quaternary: 'border bg-quaternary hover:bg-quaternary-hover text-white border-quaternary-ring',
-            quinary: 'border bg-quinary hover:bg-quinary-hover text-white border-quinary-ring',
-            'accent-primary': 'border bg-accent-primary hover:bg-accent-primary-hover text-white border-accent-primary-ring',
-            danger: 'border bg-danger hover:bg-danger-hover text-white border-danger-ring',
-            'danger-outline': 'border bg-transparent text-danger border-danger-ring hover:bg-danger hover:text-white',
-            transparent: 'text-senary hover:text-white',
+            primary: 'border bg-primary hover:bg-primary-hover text-dynamic border-primary-ring',
+            secondary: 'border bg-secondary hover:bg-secondary-hover text-dynamic border-secondary-ring',
+            quaternary: 'border bg-quaternary hover:bg-quaternary-hover text-dynamic border-quaternary-ring',
+            quinary: 'border bg-quinary hover:bg-quinary-hover text-dynamic border-quinary-ring',
+            'accent-primary': 'border bg-accent-primary hover:bg-accent-primary-hover text-dynamic border-accent-primary-ring',
+            danger: 'border bg-danger hover:bg-danger-hover text-dynamic border-danger-ring',
+            'danger-outline': 'border bg-transparent text-danger border-danger-ring hover:bg-danger hover:text-dynamic',
+            transparent: 'text-dynamic-gray hover:text-dynamic',
         },
         size: {
             xs: 'text-xs py-1 px-1.5',
@@ -60,15 +61,16 @@
 }) %}
 
 {% set textClasses = cva({
-    base: 'group-hover:text-white',
+    base: 'group-hover:text-dynamic',
     variants: {
         color: {
-            secondary: 'text-white',
-            quaternary: 'text-white',
-            quinary: 'text-white',
-            'accent-primary': 'text-white',
-            danger: 'text-white',
-            'danger-outline': 'text-danger hover:text-white',
+            primary: 'text-dynamic',
+            secondary: 'text-dynamic',
+            quaternary: 'text-dynamic',
+            quinary: 'text-dynamic',
+            'accent-primary': 'text-dynamic',
+            danger: 'text-dynamic',
+            'danger-outline': 'text-danger hover:text-dynamic',
         }
     }
 }) %}

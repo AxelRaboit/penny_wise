@@ -5,49 +5,49 @@
 {% block body %}
     <div>
         <div class="bg-secondary rounded-md max-w-lg mx-auto border border-quaternary border-solid">
-            <div class="bg-tertiary text-white text-center p-2 rounded-t-md border-b border-quaternary border-solid">
-                <h1 class="text-md font-bold text-white">Add a New Wallet</h1>
+            <div class="bg-tertiary text-dynamic text-center p-2 rounded-t-md border-b border-quaternary border-solid">
+                <h1 class="text-md font-bold text-dynamic">Add a New Wallet</h1>
             </div>
             <div class="p-4">
                 {{ form_start(form) }}
 
                 {% if form_errors(form) %}
-                    <div class="mb-4 p-4 bg-danger text-white rounded-md">
+                    <div class="mb-4 p-4 bg-danger text-dynamic rounded-md">
                         {{ form_errors(form) }}
                     </div>
                 {% endif %}
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-1">
                     <div class="flex flex-col mb-2">
-                        {{ form_label(form.year, null, {label_attr: {class: 'text-white'}}) }}
+                        {{ form_label(form.year, null, {label_attr: {class: 'text-dynamic'}}) }}
                         {{ form_widget(form.year, {attr: {class: 'rounded-md p-2 bg-secondary border-quaternary border-solid border'}}) }}
                         <div class="text-danger text-sm mt-1">
                             {{ form_errors(form.year) }}
                         </div>
                     </div>
                     <div class="flex flex-col mb-2">
-                        {{ form_label(form.month, null, {label_attr: {class: 'text-white'}}) }}
+                        {{ form_label(form.month, null, {label_attr: {class: 'text-dynamic'}}) }}
                         {{ form_widget(form.month) }}
                         <div class="text-danger text-sm mt-1">
                             {{ form_errors(form.month) }}
                         </div>
                     </div>
                     <div class="flex flex-col mb-2">
-                        {{ form_label(form.currency, null, {label_attr: {class: 'text-white'}}) }}
+                        {{ form_label(form.currency, null, {label_attr: {class: 'text-dynamic'}}) }}
                         {{ form_widget(form.currency) }}
                         <div class="text-danger text-sm mt-1">
                             {{ form_errors(form.currency) }}
                         </div>
                     </div>
                     <div class="flex flex-col mb-2">
-                        {{ form_label(form.start_balance, null, {label_attr: {class: 'text-white'}}) }}
+                        {{ form_label(form.start_balance, null, {label_attr: {class: 'text-dynamic'}}) }}
                         {{ form_widget(form.start_balance, {attr: {class: 'rounded-md p-2 bg-secondary border-quaternary border-solid border'}}) }}
                         <div class="text-danger text-sm mt-1">
                             {{ form_errors(form.start_balance) }}
                         </div>
                     </div>
                     <div class="flex flex-col mb-2">
-                        {{ form_label(form.spending_limit, null, {label_attr: {class: 'text-white'}}) }}
+                        {{ form_label(form.spending_limit, null, {label_attr: {class: 'text-dynamic'}}) }}
                         {{ form_widget(form.spending_limit, {attr: {class: 'rounded-md p-2 bg-secondary border-quaternary border-solid border'}}) }}
                         <div class="text-danger text-sm mt-1">
                             {{ form_errors(form.spending_limit) }}

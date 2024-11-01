@@ -1,30 +1,30 @@
 <div id="wallet-summary-recap" class="mb-2">
     <div class="bg-secondary rounded-md border border-solid border-quaternary max-w-4xl mx-auto">
         <div class="bg-tertiary rounded-md-t border-b border-solid border-quaternary p-2 text-center">
-            <h2 class="text-sm font-bold text-white">{{ wallet.getMonth()|month_name }} {{ wallet.getYear() }}</h2>
+            <h2 class="text-sm font-bold text-dynamic">{{ wallet.getMonth()|month_name }} {{ wallet.getYear() }}</h2>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 p-2 text-white text-sm">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 p-2 text-dynamic text-sm">
             <twig:CardSummary color="no-color" label="Start Balance">
-                <span class="text-white">{{ wallet.currency.value|currency_symbol }} {{ wallet.startBalance|number_format(2, '.', ' ') }}</span>
+                <span class="text-dynamic">{{ wallet.currency.value|currency_symbol }} {{ wallet.startBalance|number_format(2, '.', ' ') }}</span>
             </twig:CardSummary>
 
             <twig:CardSummary color="no-color" label="Incomes">
-                <span class="text-white">{{ wallet.currency.value|currency_symbol }} {{ totalIncomesAndStartingBalance|number_format(2, '.', ' ') }}</span>
+                <span class="text-dynamic">{{ wallet.currency.value|currency_symbol }} {{ totalIncomesAndStartingBalance|number_format(2, '.', ' ') }}</span>
             </twig:CardSummary>
 
             <twig:CardSummary color="no-color" label="Saving">
-                <span class="text-white">{{ wallet.currency.value|currency_symbol }} {{ totalSaving|number_format(2, '.', ' ') }}</span>
+                <span class="text-dynamic">{{ wallet.currency.value|currency_symbol }} {{ totalSaving|number_format(2, '.', ' ') }}</span>
             </twig:CardSummary>
 
             <twig:CardSummary color="{{ totalBudget < 0 ? 'danger' : 'success' }}" label="Budget">
-                <span class="{{ totalBudget < 0 ? 'text-danger' : 'text-white' }}">
+                <span class="{{ totalBudget < 0 ? 'text-danger' : 'text-dynamic' }}">
                     {{ wallet.currency.value|currency_symbol }} {{ totalBudget|number_format(2, '.', ' ') }}
                 </span>
             </twig:CardSummary>
 
             <twig:CardSummary color="{{ totalLeftToSpend < 0 ? 'danger' : 'success' }}" label="Left To Spend">
-                <span class="{{ totalLeftToSpend < 0 ? 'text-danger' : 'text-white' }}">
+                <span class="{{ totalLeftToSpend < 0 ? 'text-danger' : 'text-dynamic' }}">
                     {{ wallet.currency.value|currency_symbol }} {{ totalLeftToSpend|number_format(2, '.', ' ') }}
                 </span>
             </twig:CardSummary>
@@ -34,10 +34,10 @@
             {% set isOverLimit = wallet.spendingLimit is not null and totalSpending > wallet.spendingLimit %}
             <twig:CardSummary color="{{ isOverLimit ? 'danger' : 'success' }}" label="Spending Limit">
                 {% if wallet.spendingLimit is not null %}
-                    <span class="text-white">{{ wallet.currency.value|currency_symbol }} {{ wallet.spendingLimit|number_format(2, '.', ' ') }}</span>
+                    <span class="text-dynamic">{{ wallet.currency.value|currency_symbol }} {{ wallet.spendingLimit|number_format(2, '.', ' ') }}</span>
                 {% else %}
                     <twig:BadgeNeon
-                        color="accent-primary"
+                        color="success"
                         size="xs"
                         borderStyle="solid"
                         label="Unlimited"
@@ -48,7 +48,7 @@
             </twig:CardSummary>
 
             <twig:CardSummary color="{{ isOverLimit ? 'danger' : 'success' }}" label="Spent">
-                <span class="{{ totalSpending < 0 ? 'text-danger' : 'text-white' }}">
+                <span class="{{ totalSpending < 0 ? 'text-danger' : 'text-dynamic' }}">
                     {{ wallet.currency.value|currency_symbol }} {{ totalSpending|number_format(2, '.', ' ') }}
                 </span>
             </twig:CardSummary>

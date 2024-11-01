@@ -5,73 +5,73 @@
 {% block body %}
     <div>
         <div class="bg-secondary shadow-lg rounded-md max-w-lg mx-auto border border-quaternary border-solid">
-            <div class="bg-tertiary text-white text-center py-2 rounded-t-md border-b border-quaternary border-solid">
-                <h1 class="text-sm font-bold text-white">Add a new transaction</h1>
+            <div class="bg-tertiary text-dynamic text-center py-2 rounded-t-md border-b border-quaternary border-solid">
+                <h1 class="text-sm font-bold text-dynamic">Add a new transaction</h1>
             </div>
             <div class="p-6">
                 {{ form_start(form) }}
 
                 {% if form_errors(form) %}
-                    <div class="mb-4 p-4 bg-danger text-white rounded-md">
+                    <div class="mb-4 p-4 bg-danger text-dynamic rounded-md">
                         {{ form_errors(form) }}
                     </div>
                 {% endif %}
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-1">
                     <div class="flex flex-col mb-2">
-                        {{ form_label(form.nature, null, {label_attr: {class: 'text-white font-semibold text-sm'}}) }}
-                        {{ form_widget(form.nature, {attr: {class: 'rounded-md p-2 bg-secondary border-quaternary border-solid border text-sm'}}) }}
-                        <p class="text-xs text-senary">Set the nature of the transaction. This is the type of transaction, e.g. electricity, gas, etc.</p>
+                        {{ form_label(form.nature, null, {label_attr: {class: 'text-dynamic font-semibold text-sm'}}) }}
+                        {{ form_widget(form.nature, {attr: {class: 'rounded-md p-2 bg-secondary border-quaternary border-solid border text-sm text-dynamic'}}) }}
+                        <twig:InputHelper>Set the nature of the transaction. This is the type of transaction, e.g. electricity, gas, etc.</twig:InputHelper>
                         <div class="text-danger text-sm mt-1">
                             {{ form_errors(form.nature) }}
                         </div>
                     </div>
                     <div class="flex flex-col mb-2">
-                        {{ form_label(form.date, null, {label_attr: {class: 'text-white font-semibold text-sm'}}) }}
-                        {{ form_widget(form.date, {attr: {class: 'rounded-md p-2 bg-secondary border-quaternary border-solid border text-sm'}}) }}
-                        <p class="text-xs text-senary">Select the day for the transaction to be created. The month will be the one you select through the selected wallet.</p>
+                        {{ form_label(form.date, null, {label_attr: {class: 'text-dynamic font-semibold text-sm'}}) }}
+                        {{ form_widget(form.date, {attr: {class: 'rounded-md p-2 bg-secondary border-quaternary border-solid border text-sm text-dynamic'}}) }}
+                        <twig:InputHelper>Select the day for the transaction to be created. The month will be the one you select through the selected wallet.</twig:InputHelper>
                         <div class="text-danger text-sm mt-1">
                             {{ form_errors(form.date) }}
                         </div>
                     </div>
                     <div class="flex flex-col mb-2">
-                        {{ form_label(form.amount, null, {label_attr: {class: 'text-white font-semibold text-sm'}}) }}
-                        {{ form_widget(form.amount, {attr: {class: 'rounded-md p-2 bg-secondary border-quaternary border-solid border text-sm'}}) }}
-                        <p class="text-xs text-senary">Set the amount for the transaction.</p>
+                        {{ form_label(form.amount, null, {label_attr: {class: 'text-dynamic font-semibold text-sm'}}) }}
+                        {{ form_widget(form.amount, {attr: {class: 'rounded-md p-2 bg-secondary border-quaternary border-solid border text-sm text-dynamic'}}) }}
+                        <twig:InputHelper>Set the amount for the transaction.</twig:InputHelper>
                         <div class="text-danger text-sm mt-1">
                             {{ form_errors(form.amount) }}
                         </div>
                     </div>
                     <div class="flex flex-col mb-2">
-                        {{ form_label(form.transactionCategory, null, {label_attr: {class: 'text-white font-semibold text-sm'}}) }}
+                        {{ form_label(form.transactionCategory, null, {label_attr: {class: 'text-dynamic font-semibold text-sm'}}) }}
                         {{ form_widget(form.transactionCategory) }}
-                        <p class="text-xs text-senary">Select the category for the transaction.</p>
+                        <twig:InputHelper>Select the category for the transaction.</twig:InputHelper>
                         <div class="text-danger text-sm mt-1">
                             {{ form_errors(form.transactionCategory) }}
                         </div>
                     </div>
                     <div class="flex flex-col mb-2">
-                        {{ form_label(form.wallet, null, {label_attr: {class: 'text-white font-semibold text-sm'}}) }}
+                        {{ form_label(form.wallet, null, {label_attr: {class: 'text-dynamic font-semibold text-sm'}}) }}
                         {{ form_widget(form.wallet) }}
-                        <p class="text-xs text-senary">Select the wallet for the transaction. The wallet is a combination of year and month.</p>
+                        <twig:InputHelper>Select the wallet for the transaction. The wallet is a combination of year and month.</twig:InputHelper>
                         <div class="text-danger text-sm mt-1">
                             {{ form_errors(form.wallet) }}
                         </div>
                     </div>
                     <div class="flex flex-col mb-2">
-                        {{ form_label(form.tag, null, {label_attr: {class: 'text-white font-semibold text-sm'}}) }}
+                        {{ form_label(form.tag, null, {label_attr: {class: 'text-dynamic font-semibold text-sm'}}) }}
                         {{ form_widget(form.tag) }}
-                        <p class="text-xs text-senary">Set tags you want to add to the transaction. You can add multiple tags through your tags you've already created.</p>
-                        <p class="text-xs text-senary">To create a new tag, click on <a href="{{ path('transaction_tag_new') }}" class="text-link hover:underline font-semibold">Create a new tag</a> or you can
-                        see the list of all your tags on the <a href="{{ path('transaction_tag_list') }}" class="text-link hover:underline font-semibold">Transaction tag list</a>.</p>
+                        <twig:InputHelper>Set tags you want to add to the transaction. You can add multiple tags through your tags you've already created.</twig:InputHelper>
+                        <twig:InputHelper>To create a new tag, click on <a href="{{ path('transaction_tag_new') }}" class="text-link hover:underline font-semibold">Create a new tag</a> or you can
+                        see the list of all your tags on the <a href="{{ path('transaction_tag_list') }}" class="text-link hover:underline font-semibold">Transaction tag list</a>.</twig:InputHelper>
                         <div class="text-danger text-sm mt-1">
                             {{ form_errors(form.tag) }}
                         </div>
                     </div>
                 </div>
                 <div class="flex flex-col mb-2">
-                    {{ form_label(form.comment, 'Comment', {label_attr: {class: 'text-white font-semibold text-sm'}}) }}
-                    {{ form_widget(form.comment, {attr: {class: 'rounded-md p-2 bg-secondary border-quaternary border-solid border text-sm'}}) }}
+                    {{ form_label(form.comment, 'Comment', {label_attr: {class: 'text-dynamic font-semibold text-sm'}}) }}
+                    {{ form_widget(form.comment, {attr: {class: 'rounded-md p-2 bg-secondary border-quaternary border-solid border text-sm text-dynamic'}}) }}
                     <div class="text-danger text-sm mt-1">{{ form_errors(form.comment) }}</div>
                 </div>
                 <div class="mt-4 flex justify-between">

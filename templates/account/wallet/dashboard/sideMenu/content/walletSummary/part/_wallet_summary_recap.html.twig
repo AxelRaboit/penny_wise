@@ -3,65 +3,65 @@
     <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-2 xxl:grid-cols-2 gap-4">
         <div class="bg-secondary rounded-md border border-solid border-quaternary">
             <div class="bg-tertiary border-b border-solid border-quaternary">
-                <h2 class="text-sm font-bold p-1 text-white text-center">Start balance</h2>
+                <h2 class="text-sm font-bold p-1 text-dynamic text-center">Start balance</h2>
             </div>
             <div class="flex items-center justify-center space-x-2 p-2">
-                <span class="font-bold text-white text-sm">{{ wallet.currency.value|currency_symbol }}</span>
-                <span class="font-bold text-white text-sm">{{ wallet.startBalance|number_format(2, '.', ' ') }}</span>
+                <span class="font-bold text-dynamic text-sm">{{ wallet.currency.value|currency_symbol }}</span>
+                <span class="font-bold text-dynamic text-sm">{{ wallet.startBalance|number_format(2, '.', ' ') }}</span>
             </div>
         </div>
 
         <div class="bg-secondary rounded-md border border-solid border-quaternary">
             <div class="bg-tertiary border-b border-solid border-quaternary">
-                <h2 class="text-sm font-bold p-1 text-white text-center">Saving</h2>
+                <h2 class="text-sm font-bold p-1 text-dynamic text-center">Saving</h2>
             </div>
             <div class="flex items-center justify-center space-x-2 p-2">
-                <span class="font-bold text-white text-sm">{{ wallet.currency.value|currency_symbol }}</span>
-                <span class="font-bold text-white text-sm {{ totalSaving < 0 ? 'text-danger' : 'text-white' }}">{{ totalSaving|number_format(2, '.', ' ') }}</span>
+                <span class="font-bold text-dynamic text-sm">{{ wallet.currency.value|currency_symbol }}</span>
+                <span class="font-bold text-dynamic text-sm {{ totalSaving < 0 ? 'text-danger' : 'text-dynamic' }}">{{ totalSaving|number_format(2, '.', ' ') }}</span>
             </div>
         </div>
 
         <div class="bg-secondary rounded-md border border-solid border-quaternary">
             <div class="bg-tertiary border-b border-solid border-quaternary">
-                <h2 class="text-sm font-bold p-1 text-white text-center">Budget</h2>
+                <h2 class="text-sm font-bold p-1 text-dynamic text-center">Budget</h2>
             </div>
             <div class="flex items-center justify-center space-x-2 p-2">
-                <span class="font-bold text-white text-sm">{{ wallet.currency.value|currency_symbol }}</span>
-                <span class="font-bold text-white text-sm {{ totalBudget < 0 ? 'text-danger' : 'text-white' }}">{{ totalBudget|number_format(2, '.', ' ') }}</span>
+                <span class="font-bold text-dynamic text-sm">{{ wallet.currency.value|currency_symbol }}</span>
+                <span class="font-bold text-dynamic text-sm {{ totalBudget < 0 ? 'text-danger' : 'text-dynamic' }}">{{ totalBudget|number_format(2, '.', ' ') }}</span>
             </div>
         </div>
 
         <div class="bg-secondary rounded-md border border-solid border-quaternary">
             <div class="bg-tertiary border-b border-solid border-quaternary">
-                <h2 class="text-sm font-bold p-1 text-white text-center">Left</h2>
+                <h2 class="text-sm font-bold p-1 text-dynamic text-center">Left</h2>
             </div>
             <div class="flex items-center justify-center space-x-2 p-2">
-                <span class="font-bold text-white text-sm">{{ wallet.currency.value|currency_symbol }}</span>
-                <span class="font-bold text-white text-sm {{ totalLeftToSpend < 0 ? 'text-danger' : 'text-white' }}">{{ totalLeftToSpend|number_format(2, '.', ' ') }}</span>
+                <span class="font-bold text-dynamic text-sm">{{ wallet.currency.value|currency_symbol }}</span>
+                <span class="font-bold text-dynamic text-sm {{ totalLeftToSpend < 0 ? 'text-danger' : 'text-dynamic' }}">{{ totalLeftToSpend|number_format(2, '.', ' ') }}</span>
             </div>
         </div>
 
         <div class="bg-secondary rounded-md border border-solid border-quaternary">
             <div class="bg-tertiary border-b border-solid border-quaternary">
-                <h2 class="text-sm font-bold p-1 text-white text-center">Spend limit</h2>
+                <h2 class="text-sm font-bold p-1 text-dynamic text-center">Spend limit</h2>
             </div>
             <div class="flex items-center justify-center space-x-2 p-2">
                 {% if wallet.spendingLimit is not null %}
-                    <span class="font-bold text-white text-sm">{{ wallet.currency.value|currency_symbol }}</span>
-                    <span class="font-bold text-white text-sm">{{ wallet.spendingLimit|number_format(2, '.', ' ') }}</span>
+                    <span class="font-bold text-dynamic text-sm">{{ wallet.currency.value|currency_symbol }}</span>
+                    <span class="font-bold text-dynamic text-sm">{{ wallet.spendingLimit|number_format(2, '.', ' ') }}</span>
                 {% else %}
-                    <span class="font-bold text-white text-sm">Unlimited</span>
+                    <span class="font-bold text-dynamic text-sm">Unlimited</span>
                 {% endif %}
             </div>
         </div>
 
         <div class="bg-secondary rounded-md border border-solid border-quaternary">
             <div class="bg-tertiary border-b border-solid border-quaternary">
-                <h2 class="text-sm font-bold p-1 text-white text-center">Spending</h2>
+                <h2 class="text-sm font-bold p-1 text-dynamic text-center">Spending</h2>
             </div>
             <div class="flex items-center justify-center space-x-2 p-2">
-                <span class="font-bold text-white text-sm">{{ wallet.currency.value|currency_symbol }}</span>
-                <span class="font-bold text-white text-sm">{{ totalSpending|number_format(2, '.', ' ') }}</span>
+                <span class="font-bold text-dynamic text-sm">{{ wallet.currency.value|currency_symbol }}</span>
+                <span class="font-bold text-dynamic text-sm">{{ totalSpending|number_format(2, '.', ' ') }}</span>
             </div>
         </div>
     </div>

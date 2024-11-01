@@ -23,20 +23,20 @@ const createModal = ({
         return existingModal;
     }
 
-    const deleteActionButtonClasses = 'bg-transparent text-danger border-danger-ring hover:bg-danger hover:text-white rounded-md border border-solid p-2';
-    const validateActionButtonClasses = 'bg-accent-primary text-white border-accent-primary-ring hover:bg-accent-primary-hover rounded-md border border-solid p-2';
+    const deleteActionButtonClasses = 'bg-transparent text-danger border-danger-ring hover:bg-danger hover:text-dynamic rounded-md border border-solid p-2';
+    const validateActionButtonClasses = 'bg-accent-primary text-dynamic border-accent-primary-ring hover:bg-accent-primary-hover rounded-md border border-solid p-2';
     const modal = document.createElement('div');
     modal.id = modalId;
     modal.classList.add('fixed', 'inset-0', 'hidden', 'bg-gray-900', 'bg-opacity-50', 'flex', 'justify-center', 'items-center', 'p-4');
 
     modal.innerHTML = `
         <div class="bg-tertiary rounded-md shadow-lg p-4 w-full md:w-1/3 max-w-lg border-solid border border-quaternary-ring js-modal-content">
-            <h3 class="text-lg text-white font-bold mb-4">${modalTitle}</h3>
-            <p class="mb-4 text-white text-sm">${modalMessageHeader}</p>
-            ${modalMessage ? `<p class="mb-4 text-white text-sm">${modalMessage}</p>` : ''}
+            <h3 class="text-lg font-bold mb-4 text-dynamic">${modalTitle}</h3>
+            <p class="mb-4 text-sm text-dynamic">${modalMessageHeader}</p>
+            ${modalMessage ? `<p class="mb-4 text-text text-sm text-dynamic">${modalMessage}</p>` : ''}
             <div class="flex justify-end">
-                <button id="${cancelButtonId}" class="bg-quaternary hover:bg-quaternary-hover text-white p-2 rounded-md mr-2 border-solid border border-quaternary-ring text-sm">${cancelLabel}</button>
-                <button id="${confirmButtonId}" class="${isDeleteAction ? deleteActionButtonClasses : validateActionButtonClasses} text-sm">${confirmLabel}</button>
+                <button id="${cancelButtonId}" class="bg-quaternary hover:bg-quaternary-hover p-2 rounded-md mr-2 border-solid border border-quaternary-ring text-sm text-dynamic">${cancelLabel}</button>
+                <button id="${confirmButtonId}" class="${isDeleteAction ? deleteActionButtonClasses : validateActionButtonClasses} text-sm text-dynamic">${confirmLabel}</button>
             </div>
         </div>
     `;

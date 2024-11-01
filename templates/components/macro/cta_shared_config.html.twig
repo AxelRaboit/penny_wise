@@ -4,12 +4,12 @@
         base: baseClasses,
         variants: {
             color: {
-                secondary: 'bg-secondary hover:bg-secondary-hover text-white border-secondary-ring',
-                quaternary: 'bg-quaternary hover:bg-quaternary-hover text-white border-quaternary-ring',
-                quinary: 'bg-quinary hover:bg-quinary-hover text-white border-quinary-ring',
-                'accent-primary': 'bg-accent-primary hover:bg-accent-primary-hover text-white border-accent-primary-ring',
-                danger: 'bg-danger hover:bg-danger-hover text-white border-danger-ring',
-                'danger-outline': 'bg-transparent text-danger border-danger-ring hover:bg-danger hover:text-white',
+                secondary: 'bg-secondary hover:bg-secondary-hover text-dynamic border-secondary-ring',
+                quaternary: 'bg-quaternary hover:bg-quaternary-hover text-dynamic border-quaternary-ring',
+                quinary: 'bg-quinary hover:bg-quinary-hover text-dynamic border-quinary-ring',
+                'accent-primary': 'bg-accent-primary hover:bg-accent-primary-hover text-dynamic border-accent-primary-ring',
+                danger: 'bg-danger hover:bg-danger-hover text-dynamic border-danger-ring',
+                'danger-outline': 'bg-transparent text-danger border-danger-ring hover:bg-danger hover:text-dynamic',
             },
             size: {
                 xs: 'text-xs py-1.5 px-2',
@@ -33,15 +33,15 @@
     }) %}
 
     {% set buttonShared.textClasses = cva({
-        base: 'group-hover:text-white',
+        base: 'group-hover:text-dynamic',
         variants: {
             color: {
-                secondary: 'text-white',
-                quaternary: 'text-white',
-                quinary: 'text-white',
-                'accent-primary': 'text-white',
-                danger: 'text-white',
-                'danger-outline': 'text-danger hover:text-white',
+                secondary: 'text-dynamic',
+                quaternary: 'text-dynamic',
+                quinary: 'text-dynamic',
+                'accent-primary': 'text-dynamic',
+                danger: 'text-dynamic',
+                'danger-outline': 'text-danger hover:text-dynamic',
             }
         }
     }) %}

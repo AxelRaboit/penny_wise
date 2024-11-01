@@ -5,31 +5,31 @@
 {% block body %}
     <div>
         <div class="bg-secondary rounded-md max-w-lg mx-auto border-quaternary border-solid border">
-            <div class="bg-tertiary text-white text-center p-2 rounded-t-md border-b border-quaternary border-solid">
-                <h1 class="text-sm font-bold text-white">Add a new account</h1>
+            <div class="bg-tertiary text-dynamic text-center p-2 rounded-t-md border-b border-quaternary border-solid">
+                <h1 class="text-sm font-bold text-dynamic">Add a new account</h1>
             </div>
             <div class="p-4">
                 {{ form_start(form) }}
 
                 {% if form_errors(form) %}
-                    <div class="mb-4 p-4 bg-danger text-white rounded-md">
+                    <div class="mb-4 p-4 bg-danger text-dynamic rounded-md">
                         {{ form_errors(form) }}
                     </div>
                 {% endif %}
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
                     <div class="flex flex-col mb-2">
-                        {{ form_label(form.name, null, {label_attr: {class: 'text-white text-sm'}}) }}
-                        {{ form_widget(form.name, {attr: {class: 'rounded-md p-2 bg-secondary border-quaternary border-solid border text-sm'}}) }}
-                        <p class="text-xs text-senary">The name of the account has to be unique.</p>
+                        {{ form_label(form.name, null, {label_attr: {class: 'text-dynamic text-sm'}}) }}
+                        {{ form_widget(form.name, {attr: {class: 'rounded-md p-2 bg-secondary border-quaternary border-solid border text-sm text-dynamic'}}) }}
+                        <twig:InputHelper>The name of the account has to be unique.</twig:InputHelper>
                         <div class="text-danger text-sm mt-1">
                             {{ form_errors(form.name) }}
                         </div>
                     </div>
                     <div class="flex flex-col mb-2">
-                        {{ form_label(form.priority, null, {label_attr: {class: 'text-white text-sm'}}) }}
-                        {{ form_widget(form.priority, {attr: {class: 'rounded-md p-2 bg-secondary border-quaternary border-solid border text-sm'}}) }}
-                        <p class="text-xs text-senary">Set priority for the account to be displayed first in the list. Higher the priority is, higher the account will be displayed first.</p>
+                        {{ form_label(form.priority, null, {label_attr: {class: 'text-dynamic text-sm'}}) }}
+                        {{ form_widget(form.priority, {attr: {class: 'rounded-md p-2 bg-secondary border-quaternary border-solid border text-sm text-dynamic'}}) }}
+                        <twig:InputHelper>Set priority for the account to be displayed first in the list. Higher the priority is, higher the account will be displayed first.</twig:InputHelper>
                         <div class="text-danger text-sm mt-1">
                             {{ form_errors(form.priority) }}
                         </div>

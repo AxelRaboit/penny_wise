@@ -5,14 +5,14 @@
 {% block body %}
     <div>
         <div class="bg-secondary shadow-lg rounded-md max-w-lg mx-auto border border-quaternary border-solid">
-            <div class="bg-tertiary text-white text-center py-2 rounded-t-md border-b border-quaternary border-solid">
-                <h1 class="text-sm font-bold text-white">Add a New Wallet</h1>
+            <div class="bg-tertiary text-dynamic text-center py-2 rounded-t-md border-b border-quaternary border-solid">
+                <h1 class="text-sm font-bold text-dynamic">Add a New Wallet</h1>
             </div>
             <div class="p-4">
                 {{ form_start(form) }}
 
                 {% if form_errors(form) %}
-                    <div class="mb-4 p-4 bg-danger text-white rounded-md">
+                    <div class="mb-4 p-4 bg-danger text-dynamic rounded-md">
                         {{ form_errors(form) }}
                     </div>
                 {% endif %}
@@ -20,7 +20,7 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-1">
                     {% if form.month is defined %}
                         <div class="flex flex-col mb-2">
-                            {{ form_label(form.month, null, {label_attr: {class: 'text-white font-semibold text-sm'}}) }}
+                            {{ form_label(form.month, null, {label_attr: {class: 'text-dynamic font-semibold text-sm'}}) }}
                             {{ form_widget(form.month, {attr: {class: 'rounded-md'}}) }}
                             <div class="text-danger text-sm">
                                 {{ form_errors(form.month) }}
@@ -29,21 +29,21 @@
                     {% endif %}
 
                     <div class="flex flex-col mb-2">
-                        {{ form_label(form.currency, null, {label_attr: {class: 'text-white font-semibold text-sm'}}) }}
+                        {{ form_label(form.currency, null, {label_attr: {class: 'text-dynamic font-semibold text-sm'}}) }}
                         {{ form_widget(form.currency, {attr: {class: 'rounded-md'}}) }}
                         <div class="text-danger text-sm">
                             {{ form_errors(form.currency) }}
                         </div>
                     </div>
                     <div class="flex flex-col mb-2">
-                        {{ form_label(form.start_balance, null, {label_attr: {class: 'text-white font-semibold text-sm'}}) }}
+                        {{ form_label(form.start_balance, null, {label_attr: {class: 'text-dynamic font-semibold text-sm'}}) }}
                         {{ form_widget(form.start_balance, {attr: {class: 'rounded-md p-2 bg-secondary border-quaternary border-solid border text-sm'}}) }}
                         <div class="text-danger text-sm">
                             {{ form_errors(form.start_balance) }}
                         </div>
                     </div>
                     <div class="flex flex-col mb-2">
-                        {{ form_label(form.spending_limit, null, {label_attr: {class: 'text-white font-semibold text-sm'}}) }}
+                        {{ form_label(form.spending_limit, null, {label_attr: {class: 'text-dynamic font-semibold text-sm'}}) }}
                         {{ form_widget(form.spending_limit, {attr: {class: 'rounded-md p-2 bg-secondary border-quaternary border-solid border text-sm'}}) }}
                         <div class="text-danger text-sm">
                             {{ form_errors(form.spending_limit) }}

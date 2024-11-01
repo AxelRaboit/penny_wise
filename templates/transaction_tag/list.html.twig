@@ -11,7 +11,7 @@
     <div id="transaction-tag-list-page" class="hidden max-w-screen-xxl mx-auto">
         <div class="bg-secondary shadow-md rounded-md max-w-lg mx-auto mt-6 border border-quaternary border-solid">
             <div class="bg-tertiary text-center py-2 rounded-t-md border-b border-quaternary border-solid">
-                <h1 class="text-sm font-bold text-white">Transaction Tags</h1>
+                <h1 class="text-sm font-bold text-dynamic">Transaction Tags</h1>
             </div>
             <div class="p-4">
                 <div>
@@ -19,7 +19,7 @@
                         <div class="p-2 rounded-md mb-2 bg-quaternary border border-quaternary-ring border-solid">
                             <div class="flex justify-between items-center">
                                 <div class="rounded-md py-1 px-2" style="background-color: {{ tag.color }};">
-                                    <span class="font-semibold text-white text-sm">#{{ tag.name }}</span>
+                                    <span class="font-semibold text-dynamic text-sm">#{{ tag.name }}</span>
                                 </div>
                                 <div class="space-x-2">
                                     <twig:Cta
@@ -43,7 +43,7 @@
                         </div>
                     {% else %}
                         <div class="p-4 rounded-md bg-tertiary text-center border border-solid border-quaternary">
-                            <span class="text-white">No transaction tags found.</span>
+                            <span class="text-dynamic">No transaction tags found.</span>
                         </div>
                     {% endfor %}
                 </div>

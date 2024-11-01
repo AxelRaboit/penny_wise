@@ -1,12 +1,12 @@
 <div class="p-1 rounded-md">
     <div class="text-center bg-secondary p-2 rounded-t-md">
-        <h2 class="text-sm font-bold text-white">{{ title }}</h2>
+        <h2 class="text-sm font-bold text-dynamic">{{ title }}</h2>
     </div>
 
     {% if buttons is defined and chart is defined and chart is not null and chart.data.isDataPresent %}
         <div class="chart-controls p-2 bg-white">
             {% for button in buttons %}
-                <button class="side-menu-no-close-on-interaction month-chart-data-button text-sm text-center font-bold py-0.5 px-2 rounded-md bg-secondary text-white hover:bg-secondary-hover"
+                <button class="side-menu-no-close-on-interaction month-chart-data-button text-sm text-center font-bold py-0.5 px-2 rounded-md bg-secondary text-dynamic hover:bg-secondary-hover"
                     data-chart-type="{{ button.chartType }}"
                     data-chart-id="{{ button.chartId }}"
                     data-chart-format="{{ button.chartFormat }}"
