@@ -4,7 +4,7 @@
             <h2 class="text-sm font-bold text-dynamic">{{ wallet.getMonth()|month_name }} {{ wallet.getYear() }}</h2>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 p-2 text-dynamic text-sm">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-2 p-2 text-dynamic text-sm">
             <twig:CardSummary color="no-color" label="Start Balance">
                 <span class="text-dynamic">{{ wallet.currency.value|currency_symbol }} {{ wallet.startBalance|number_format(2, '.', ' ') }}</span>
             </twig:CardSummary>
