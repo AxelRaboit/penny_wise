@@ -82,6 +82,9 @@ entity:
 form:
 	$(PHP_BIN) make:form
 
+recipes-update:
+	$(COMPOSER) recipes:update
+
 # === Test and Lint Commands ===
 test:
 	$(PHP) $(BIN_UNIT) --testdox --debug
@@ -135,6 +138,7 @@ help:
 	@echo "  make controller           - Generate a new controller"
 	@echo "  make entity               - Generate a new entity"
 	@echo "  make form                 - Generate a new form"
+	@echo "  make recipes-update       - Update Symfony recipes"
 	@echo "  make test                 - Run unit tests with testdox output"
 	@echo "  make fix                  - Fix code style issues and run tests"
 	@echo "  make fix-php              - Fix PHP code style"
