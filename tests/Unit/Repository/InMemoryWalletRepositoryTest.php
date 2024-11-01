@@ -127,7 +127,7 @@ class InMemoryWalletRepositoryTest extends TestCase
             'startDate' => new DateTime(self::START_DATE),
             'endDate' => new DateTime(self::END_DATE),
         ]);
-        $this->assertNull($oldWallet, 'Le portefeuille avec les anciennes dates ne doit plus exister.');
+        $this->assertNull($oldWallet, 'The wallet with past dates should no longer exist.');
     }
 
     public function testUpdateNonExistentWallet(): void
