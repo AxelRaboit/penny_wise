@@ -1,4 +1,4 @@
-import {attachModalEvents} from "@component/Modal/modal.js";
+import {attachModalEvents} from "@component/modal/modal.js";
 
 export function initializeModals() {
     attachModalEvents({

@@ -38,7 +38,7 @@ final class WalletController extends AbstractController
             return $this->redirectToRoute('dashboard');
         }
 
-        return $this->render('wallet/new.html.twig', [
+        return $this->render('wallet/new/new.html.twig', [
             'form' => $form,
         ]);
     }

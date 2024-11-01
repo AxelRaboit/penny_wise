@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Account list - {{ parent() }}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('account_list') }}
+{% endblock %}
+
+{% block body %}
+    <div id="account-list-page" class="hidden max-w-screen-xxl mx-auto {{ accounts is empty ? 'flex justify-center' }}">
+        {% if accounts is not empty %}
+            {{ include('account_list/part/_list.html.twig', {accounts: accounts}) }}
+        {% else %}
+            {{ include('account_list/part/_welcome.html.twig') }}
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block loadingSpinner %}
+    {{ include('components/spinner/page_spinner.html.twig', {spinnerId: 'loadingPageSpinner'}) }}
+{% endblock %}
+
+{% block leftSideMenuContent %}
+    {{ include('account_list/side_menu/action/index.html.twig') }}
+{% endblock %}
+
+{% block rightSideMenuContent %}
+    {{ include('account_list/side_menu/content/index.html.twig') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('account_list') }}
+{% endblock %}

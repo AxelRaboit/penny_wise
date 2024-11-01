@@ -125,7 +125,7 @@ final class WalletAccountController extends AbstractController
 
         // TODO AXEL: Dans account list, voir pour le add button next month car le soucis c'est que d'une autre façon, il est possible de créer par exemple decembre alors que le mois d'avant était Mars, donc du coup les mois entre, impossible de les créé via ici
 
-        return $this->render('account/wallet/dashboard/wallet/new.html.twig', [
+        return $this->render('account/wallet/dashboard/wallet/new/new.html.twig', [
             'form' => $form,
             'wallet' => $wallet,
         ]);
@@ -149,7 +149,7 @@ final class WalletAccountController extends AbstractController
             ]);
         }
 
-        return $this->render('account/wallet/dashboard/wallet/edit.html.twig', [
+        return $this->render('account/wallet/dashboard/wallet/edit/edit.html.twig', [
             'form' => $form,
             'wallet' => $wallet,
         ]);

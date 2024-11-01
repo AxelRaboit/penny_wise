@@ -40,7 +40,7 @@ final class SecurityController extends AbstractController
             if ($this->loginAttemptService->isBlocked($user)) {
                 $this->addFlash('error', 'Your account is blocked for 30 minutes. Please try again later.');
 
-                return $this->render('authentication/security/login.html.twig', [
+                return $this->render('security/login/login.html.twig', [
                     'last_username' => $lastUsername,
                     'error' => null,
                 ]);
@@ -51,7 +51,7 @@ final class SecurityController extends AbstractController
             }
         }
 
-        return $this->render('authentication/security/login.html.twig', [
+        return $this->render('security/login/login.html.twig', [
             'last_username' => $lastUsername,
             'error' => $error,
         ]);

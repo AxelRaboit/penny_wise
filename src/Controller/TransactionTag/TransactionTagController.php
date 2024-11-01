@@ -52,7 +52,7 @@ final class TransactionTagController extends AbstractController
             return $this->redirectToRoute('transaction_tag_list');
         }
 
-        return $this->render('transaction_tag/new.html.twig', [
+        return $this->render('transaction_tag/new/new.html.twig', [
             'form' => $form,
         ]);
     }
@@ -69,7 +69,7 @@ final class TransactionTagController extends AbstractController
 
         $transactionTags = $transactionTagRepository->findByUser($user);
 
-        return $this->render('transaction_tag/list.html.twig', [
+        return $this->render('transaction_tag/list/list.html.twig', [
             'transactionTags' => $transactionTags,
         ]);
     }
@@ -87,7 +87,7 @@ final class TransactionTagController extends AbstractController
             return $this->redirectToRoute('transaction_tag_list');
         }
 
-        return $this->render('transaction_tag/edit.html.twig', [
+        return $this->render('transaction_tag/edit/edit.html.twig', [
             'form' => $form,
             'transactionTag' => $transactionTag,
         ]);

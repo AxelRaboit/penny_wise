@@ -1,0 +1,10 @@
+{% set testModalContent %}
+    <p class="text-dynamic text-sm">Ceci est du contenu test</p>
+{% endset %}
+
+{{ include('components/right_side_menu/right_side_menu.html.twig', {
+    rightSideMenuId: 'accountListSideMenuTestModal',
+    rightSideMenuTitle: 'Test',
+    rightSideMenuContent: testModalContent,
+    rightSideMenuCloseButtonId: 'closeAccountListSideMenuTestModal'
+}) }}
