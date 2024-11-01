@@ -7,7 +7,7 @@
     border: none;
     padding: 0.5700rem !important;
     background: hsl(var(--twc-secondary))!important;
-    color: hsl(var(--twc-pearl));
+    color: hsl(var(--twc-dynamic));
     font-size: 0.875rem;
     border-radius: 0.375rem;
 }
@@ -18,7 +18,7 @@
 
 .ts-control input {
     background-color: hsl(var(--twc-secondary)) !important;
-    color: hsl(var(--twc-pearl));
+    color: hsl(var(--twc-dynamic));
     border-color: hsl(var(--twc-quaternary));
     font-size: 0.875rem;
 }
@@ -30,11 +30,11 @@
 }
 
 .ts-dropdown-content {
-    color: hsl(var(--twc-pearl));
+    color: hsl(var(--twc-dynamic));
 }
 
 .clear-button {
-    color: hsl(var(--twc-pearl));
+    color: hsl(var(--twc-dynamic));
     cursor: pointer;
 }
 
