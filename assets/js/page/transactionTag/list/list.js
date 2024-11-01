@@ -14,4 +14,5 @@ attachModalEvents({
     confirmLabel: 'Delete',
     cancelButtonId: 'cancelDeleteTransactionTag',
     cancelLabel: 'Cancel',
+    isDeleteAction: true,
 });

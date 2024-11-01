@@ -36,7 +36,7 @@ const createModal = ({
             ${modalMessage ? `<p class="mb-4 text-text text-sm text-dynamic">${modalMessage}</p>` : ''}
             <div class="flex justify-end">
                 <button id="${cancelButtonId}" class="bg-quaternary hover:bg-quaternary-hover p-2 rounded-md mr-2 border-solid border border-quaternary-ring text-sm text-dynamic">${cancelLabel}</button>
-                <button id="${confirmButtonId}" class="${isDeleteAction ? deleteActionButtonClasses : validateActionButtonClasses} text-sm text-dynamic">${confirmLabel}</button>
+                <button id="${confirmButtonId}" class="${isDeleteAction ? deleteActionButtonClasses : validateActionButtonClasses} text-sm">${confirmLabel}</button>
             </div>
         </div>
     `;
