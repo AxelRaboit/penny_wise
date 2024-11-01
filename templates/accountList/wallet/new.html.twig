@@ -20,7 +20,7 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-1">
                     <div class="flex flex-col mb-2">
                         {{ form_label(form.year, null, {label_attr: {class: 'text-dynamic'}}) }}
-                        {{ form_widget(form.year, {attr: {class: 'rounded-md p-2 bg-secondary border-quaternary border-solid border'}}) }}
+                        {{ form_widget(form.year, {attr: {class: 'rounded-md p-2 bg-secondary border-quaternary border-solid border text-dynamic'}}) }}
                         <div class="text-danger text-sm mt-1">
                             {{ form_errors(form.year) }}
                         </div>
@@ -41,14 +41,14 @@
                     </div>
                     <div class="flex flex-col mb-2">
                         {{ form_label(form.start_balance, null, {label_attr: {class: 'text-dynamic'}}) }}
-                        {{ form_widget(form.start_balance, {attr: {class: 'rounded-md p-2 bg-secondary border-quaternary border-solid border'}}) }}
+                        {{ form_widget(form.start_balance, {attr: {class: 'rounded-md p-2 bg-secondary border-quaternary border-solid border text-dynamic'}}) }}
                         <div class="text-danger text-sm mt-1">
                             {{ form_errors(form.start_balance) }}
                         </div>
                     </div>
                     <div class="flex flex-col mb-2">
                         {{ form_label(form.spending_limit, null, {label_attr: {class: 'text-dynamic'}}) }}
-                        {{ form_widget(form.spending_limit, {attr: {class: 'rounded-md p-2 bg-secondary border-quaternary border-solid border'}}) }}
+                        {{ form_widget(form.spending_limit, {attr: {class: 'rounded-md p-2 bg-secondary border-quaternary border-solid border text-dynamic'}}) }}
                         <div class="text-danger text-sm mt-1">
                             {{ form_errors(form.spending_limit) }}
                         </div>
