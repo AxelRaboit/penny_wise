@@ -21,7 +21,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
                     <div class="flex flex-col mb-2">
                         {{ form_label(form.name, null, {label_attr: {class: 'text-dynamic text-sm'}}) }}
-                        {{ form_widget(form.name, {attr: {class: 'rounded-md p-2 bg-secondary border-quaternary border-solid border text-sm'}}) }}
+                        {{ form_widget(form.name, {attr: {class: 'rounded-md p-2 bg-secondary border-quaternary border-solid border text-sm text-dynamic'}}) }}
                         <twig:InputHelper>The name of the account has to be unique.</twig:InputHelper>
                         <div class="text-danger text-sm mt-1">
                             {{ form_errors(form.name) }}
@@ -29,7 +29,7 @@
                     </div>
                     <div class="flex flex-col mb-2">
                         {{ form_label(form.priority, null, {label_attr: {class: 'text-dynamic text-sm'}}) }}
-                        {{ form_widget(form.priority, {attr: {class: 'rounded-md p-2 bg-secondary border-quaternary border-solid border text-sm'}}) }}
+                        {{ form_widget(form.priority, {attr: {class: 'rounded-md p-2 bg-secondary border-quaternary border-solid border text-sm text-dynamic'}}) }}
                         <twig:InputHelper>Set priority for the account to be displayed first in the list. Higher the priority is, higher the account will be displayed first.</twig:InputHelper>
                         <div class="text-danger text-sm mt-1">
                             {{ form_errors(form.priority) }}
