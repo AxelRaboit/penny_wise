@@ -6,9 +6,9 @@
 %}
 
 {% set baseClasses = 'my-1' %}
-{% set textClasses = cva({
-    base: baseClasses,
-    variants: {
+{% set textClasses = html_cva(
+    base=baseClasses,
+    variants={
         color: {
             dynamic: 'text-dynamic',
             'dynamic-gray': 'text-dynamic-gray',
@@ -26,7 +26,7 @@
             right: 'text-right',
         }
     }
-}) %}
+) %}
 
 <p class="{{ textClasses.apply({color, size, alignment}) }} {{ extraClasses }}">
     {% block content %}{% endblock %}

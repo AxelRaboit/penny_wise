@@ -1,14 +1,18 @@
-{% props color = 'quaternary', size = 'xs', borderStyle = 'solid', rounded = 'md', background = null, label = '', title = '', extraClasses = '', attributes = {} %}
+{% props color = 'accent-tertiary', size = 'sm', borderStyle = 'solid', rounded = 'full', label = '', title = '', extraClasses = '', attributes = {} %}
 
-{% set badgeClasses = cva({
-    base: 'text-center border font-bold',
-    variants: {
+{% set badgeClasses = html_cva(
+    base='text-center border',
+    variants={
         color: {
-            primary: 'text-primary border-primary-ring',
-            secondary: 'text-secondary border-secondary-ring',
-            quaternary: 'text-dynamic border-quaternary-ring',
+            'accent-primary': 'text-accent-primary border-accent-primary-ring bg-accent-primary-dark',
+            'accent-secondary': 'text-accent-secondary border-accent-secondary-ring bg-accent-secondary-dark',
+            'accent-tertiary': 'text-accent-tertiary border-accent-tertiary-ring bg-accent-tertiary-dark',
+            success: 'text-success border-success-ring bg-success-dark',
+            danger: 'text-danger border-danger-ring bg-danger-dark',
+            warning: 'text-warning border-warning-ring bg-warning-dark',
         },
         size: {
+            xxs: 'text-xxs py-1 px-1',
             xs: 'text-xs py-1 px-2',
             sm: 'text-sm py-1 px-2',
             md: 'text-md py-2 px-3',
@@ -19,18 +23,13 @@
             dashed: 'border-dashed',
         },
         rounded: {
+            full: 'rounded-full',
             md: 'rounded-md',
             none: '',
         }
     }
-}) %}
+) %}
 
-{% if background %}
-    {% set backgroundClass = 'bg-' ~ background %}
-{% else %}
-    {% set backgroundClass = '' %}
-{% endif %}
-
-<span class="{{ badgeClasses.apply({color, size, borderStyle, rounded}) }} {{ backgroundClass }} {{ extraClasses }}" title="{{ title }}">
+<span class="{{ badgeClasses.apply({color, size, borderStyle, rounded}) }} {{ extraClasses }}" title="{{ title }}">
     {{ label }}
 </span>

@@ -1,8 +1,8 @@
 {% props color = 'accent-tertiary', size = 'sm', borderStyle = 'solid', rounded = 'full', label = '', title = '', extraClasses = '', attributes = {} %}
 
-{% set badgeClasses = cva({
-    base: 'text-center border',
-    variants: {
+{% set badgeClasses = html_cva(
+    base='text-center border',
+    variants={
         color: {
             'accent-primary': 'text-accent-primary border-accent-primary-ring bg-accent-primary-dark',
             'accent-secondary': 'text-accent-secondary border-accent-secondary-ring bg-accent-secondary-dark',
@@ -28,7 +28,7 @@
             none: '',
         }
     }
-}) %}
+) %}
 
 <span class="{{ badgeClasses.apply({color, size, borderStyle, rounded}) }} {{ extraClasses }}" title="{{ title }}">
     {{ label }}

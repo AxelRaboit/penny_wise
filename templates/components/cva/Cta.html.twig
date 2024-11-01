@@ -26,9 +26,9 @@
 %}
 
 {% set baseClasses = 'font-bold rounded-md text-center group' %}
-{% set buttonClasses = cva({
-    base: baseClasses,
-    variants: {
+{% set buttonClasses = html_cva(
+    base=baseClasses,
+    variants={
         color: {
             primary: 'border bg-primary hover:bg-primary-hover text-dynamic border-primary-ring',
             secondary: 'border bg-secondary hover:bg-secondary-hover text-dynamic border-secondary-ring',
@@ -58,11 +58,11 @@
             false: '',
         }
     }
-}) %}
+) %}
 
-{% set textClasses = cva({
-    base: 'group-hover:text-dynamic',
-    variants: {
+{% set textClasses = html_cva(
+    base='group-hover:text-dynamic',
+    variants={
         color: {
             primary: 'text-dynamic',
             secondary: 'text-dynamic',
@@ -73,7 +73,7 @@
             'danger-outline': 'text-danger hover:text-dynamic',
         }
     }
-}) %}
+) %}
 
 {% set actionUrl = route ? path(route, routeParams) : null %}
 

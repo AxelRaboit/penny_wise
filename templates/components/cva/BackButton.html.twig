@@ -20,9 +20,9 @@
 %}
 
 {% set baseClasses = 'font-bold rounded-md text-center group' %}
-{% set buttonClasses = cva({
-    base: baseClasses,
-    variants: {
+{% set buttonClasses = html_cva(
+    base=baseClasses,
+    variants={
         color: {
             secondary: 'border bg-secondary hover:bg-secondary-hover text-white border-secondary-ring',
             quaternary: 'border bg-quaternary hover:bg-quaternary-hover text-white border-quaternary-ring',
@@ -51,11 +51,11 @@
             false: '',
         }
     }
-}) %}
+) %}
 
-{% set textClasses = cva({
-    base: 'group-hover:text-white',
-    variants: {
+{% set textClasses = html_cva(
+    base='group-hover:text-white',
+    variants={
         color: {
             secondary: 'text-white',
             quaternary: 'text-white',
@@ -65,7 +65,7 @@
             'danger-outline': 'text-danger hover:text-white',
         }
     }
-}) %}
+) %}
 
 {% set refererUrl = app.request.headers.get('referer') %}
 
