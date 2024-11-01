@@ -22,36 +22,28 @@ class LoginAttemptRepository extends ServiceEntityRepository
     }
 
     /**
-     * @throws DateMalformedStringException
-     */
-    public function findOrCreateByUser(User $user): LoginAttempt
-    {
-        /** @var LoginAttempt|null $loginAttempt */
-        $loginAttempt = $this->findOneBy(['user' => $user]);
-        if (null === $loginAttempt) {
-            $loginAttempt = new LoginAttempt($user);
-            $this->save($loginAttempt);
-        }
-
-        return $loginAttempt;
-    }
-
-    public function save(LoginAttempt $loginAttempt): void
-    {
-        $this->getEntityManager()->persist($loginAttempt);
-        $this->getEntityManager()->flush();
-    }
-
-    /**
+     * Delete old login attempts older than the specified number of days.
+     *
+     * @param int $days The number of days to retain login attempts.
      * @throws DateMalformedStringException
      */
     public function deleteOldAttempts(int $days = 30): void
     {
-        $qb = $this->createQueryBuilder('la')
+        $this->createQueryBuilder('la')
             ->delete()
             ->where('la.lastAttemptAt < :date')
-            ->setParameter('date', (new DateTime())->modify(sprintf('-%d days', $days)));
+            ->setParameter('date', (new DateTime())->modify(sprintf('-%d days', $days)))
+            ->getQuery()
+            ->execute();
+    }
 
-        $qb->getQuery()->execute();
+    public function deleteByUser(User $user): void
+    {
+        $this->createQueryBuilder('la')
+            ->delete()
+            ->where('la.user = :user')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->execute();
     }
 }

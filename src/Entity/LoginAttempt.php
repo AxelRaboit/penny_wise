@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Entity\Trait\TimestampableTrait;
 use DateInterval;
 use DateMalformedIntervalStringException;
 use DateMalformedStringException;
@@ -92,14 +93,29 @@ class LoginAttempt
         $this->resetAttempts();
     }
 
+    public function setLastAttemptAt(DateTimeImmutable $lastAttemptAt): void
+    {
+        $this->lastAttemptAt = $lastAttemptAt;
+    }
+
     public function getLastAttemptAt(): ?DateTimeImmutable
     {
         return $this->lastAttemptAt;
     }
 
+    public function setBlockedUntil(?DateTimeImmutable $blockedUntil): void
+    {
+        $this->blockedUntil = $blockedUntil;
+    }
+
     public function getBlockedUntil(): ?DateTimeImmutable
     {
         return $this->blockedUntil;
+    }
+
+    public function setIsBlocked(bool $isBlocked): void
+    {
+        $this->isBlocked = $isBlocked;
     }
 
     public function isBlocked(): bool

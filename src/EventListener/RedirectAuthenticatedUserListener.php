@@ -17,12 +17,12 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[AsEventListener(event: 'kernel.request', method: 'onKernelRequest')]
 final readonly class RedirectAuthenticatedUserListener
 {
-    private const LOGIN_ROUTE = 'app_login';
-    private const ACCOUNT_LIST_ROUTE = 'account_list';
-    private const REGISTER_ROUTE = 'app_register';
-    private const ROUTE = '_route';
-    private const WDT_ROUTE = '_wdt';
-    private const PROFILER_ROUTE = '_profiler';
+    private const string LOGIN_ROUTE = 'app_login';
+    private const string ACCOUNT_LIST_ROUTE = 'account_list';
+    private const string REGISTER_ROUTE = 'app_register';
+    private const string ROUTE = '_route';
+    private const string WDT_ROUTE = '_wdt';
+    private const string PROFILER_ROUTE = '_profiler';
 
     public function __construct(
         private Security $security,

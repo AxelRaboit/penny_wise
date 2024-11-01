@@ -4,27 +4,28 @@ declare(strict_types=1);
 
 namespace App\Service\Security;
 
-use App\Entity\LoginAttempt;
 use App\Entity\User;
+use App\Manager\Security\LoginAttempt\LoginAttemptManager;
 use App\Repository\Security\LoginAttemptRepository;
+use DateMalformedIntervalStringException;
 use DateMalformedStringException;
 use DateTimeImmutable;
 
-class LoginAttemptService
+final readonly class LoginAttemptService
 {
     private const int MAX_ATTEMPTS = 5;
 
     private const int LOCK_TIME = 30;
 
-    public function __construct(private readonly LoginAttemptRepository $loginAttemptRepository) {}
+    public function __construct(private LoginAttemptManager $loginAttemptManager, private LoginAttemptRepository $loginAttemptRepository) {}
 
     /**
      * @throws DateMalformedStringException
-     * @throws \DateMalformedIntervalStringException
+     * @throws DateMalformedIntervalStringException
      */
     public function recordFailedAttempt(User $user): void
     {
-        $attempt = $this->loginAttemptRepository->findOrCreateByUser($user);
+        $attempt = $this->loginAttemptManager->findOrCreateByUser($user);
         if ($attempt->isBlocked()) {
             return;
         }
@@ -34,7 +35,7 @@ class LoginAttemptService
             $attempt->block(self::LOCK_TIME);
         }
 
-        $this->loginAttemptRepository->save($attempt);
+        $this->loginAttemptManager->save($attempt);
     }
 
     /**
@@ -42,28 +43,20 @@ class LoginAttemptService
      */
     public function isBlocked(User $user): bool
     {
-        $loginAttempt = $this->loginAttemptRepository->findOrCreateByUser($user);
+        $loginAttempt = $this->loginAttemptManager->findOrCreateByUser($user);
+        $currentDateTime = new DateTimeImmutable('now', new \DateTimeZone('Europe/Paris'));
+        $blockedUntil = $loginAttempt->getBlockedUntil();
+        $isCurrentlyBlocked = $loginAttempt->isBlocked();
 
-        $now = new DateTimeImmutable('now', new \DateTimeZone('Europe/Paris'));
-        if ($loginAttempt->isBlocked() && $loginAttempt->getBlockedUntil() && $now < $loginAttempt->getBlockedUntil()) {
+        if ($isCurrentlyBlocked && $blockedUntil && $currentDateTime < $blockedUntil) {
             return true;
         }
 
-        if ($loginAttempt->isBlocked() && $now >= $loginAttempt->getBlockedUntil()) {
-            $this->resetAttempts($user);
+        if ($isCurrentlyBlocked && $currentDateTime >= $blockedUntil) {
+            $this->loginAttemptManager->resetAttempts($user);
+            $this->loginAttemptRepository->deleteByUser($user);
         }
 
         return false;
-    }
-
-    /**
-     * @throws DateMalformedStringException
-     */
-    public function resetAttempts(User $user): void
-    {
-        $attempt = $this->loginAttemptRepository->findOrCreateByUser($user);
-        $attempt->unblock();
-
-        $this->loginAttemptRepository->save($attempt);
     }
 }
