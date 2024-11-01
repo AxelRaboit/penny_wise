@@ -49,6 +49,10 @@ final class FriendshipProfileVoter extends Voter
 
     private function canViewProfile(User $currentUser, User $profileUser): bool
     {
+        if ($currentUser === $profileUser) {
+            return true;
+        }
+
         $username = $profileUser->getUsername();
 
         if (null === $username) {
