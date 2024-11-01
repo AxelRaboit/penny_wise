@@ -18,10 +18,15 @@ use Symfony\Component\Security\Core\User\UserInterface;
 final readonly class RedirectAuthenticatedUserListener
 {
     private const string LOGIN_ROUTE = 'app_login';
+
     private const string ACCOUNT_LIST_ROUTE = 'account_list';
+
     private const string REGISTER_ROUTE = 'app_register';
+
     private const string ROUTE = '_route';
+
     private const string WDT_ROUTE = '_wdt';
+
     private const string PROFILER_ROUTE = '_profiler';
 
     public function __construct(
@@ -47,9 +52,10 @@ final readonly class RedirectAuthenticatedUserListener
 
         if ($user instanceof UserInterface) {
             if ($this->loginAttemptService->isBlocked($user)) {
-                if ($route !== self::LOGIN_ROUTE) {
+                if (self::LOGIN_ROUTE !== $route) {
                     $event->setResponse(new RedirectResponse($this->router->generate(self::LOGIN_ROUTE)));
                 }
+
                 return;
             }
 
@@ -64,4 +70,3 @@ final readonly class RedirectAuthenticatedUserListener
         }
     }
 }
-

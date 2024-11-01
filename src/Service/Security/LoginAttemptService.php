@@ -10,6 +10,7 @@ use App\Repository\Security\LoginAttemptRepository;
 use DateMalformedIntervalStringException;
 use DateMalformedStringException;
 use DateTimeImmutable;
+use DateTimeZone;
 
 final readonly class LoginAttemptService
 {
@@ -17,7 +18,10 @@ final readonly class LoginAttemptService
 
     private const int LOCK_TIME = 30;
 
-    public function __construct(private LoginAttemptManager $loginAttemptManager, private LoginAttemptRepository $loginAttemptRepository) {}
+    public function __construct(
+        private LoginAttemptManager $loginAttemptManager,
+        private LoginAttemptRepository $loginAttemptRepository,
+    ) {}
 
     /**
      * @throws DateMalformedStringException
@@ -30,7 +34,7 @@ final readonly class LoginAttemptService
             return;
         }
 
-        $attempt->incrementAttempts();
+        $this->loginAttemptManager->incrementAttempts($attempt);
         if ($attempt->getAttempts() >= self::MAX_ATTEMPTS) {
             $attempt->block(self::LOCK_TIME);
         }
@@ -44,11 +48,11 @@ final readonly class LoginAttemptService
     public function isBlocked(User $user): bool
     {
         $loginAttempt = $this->loginAttemptManager->findOrCreateByUser($user);
-        $currentDateTime = new DateTimeImmutable('now', new \DateTimeZone('Europe/Paris'));
+        $currentDateTime = new DateTimeImmutable('now', new DateTimeZone('Europe/Paris'));
         $blockedUntil = $loginAttempt->getBlockedUntil();
         $isCurrentlyBlocked = $loginAttempt->isBlocked();
 
-        if ($isCurrentlyBlocked && $blockedUntil && $currentDateTime < $blockedUntil) {
+        if ($isCurrentlyBlocked && $blockedUntil instanceof DateTimeImmutable && $currentDateTime < $blockedUntil) {
             return true;
         }
 

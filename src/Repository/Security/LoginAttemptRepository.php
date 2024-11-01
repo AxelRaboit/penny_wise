@@ -24,7 +24,8 @@ class LoginAttemptRepository extends ServiceEntityRepository
     /**
      * Delete old login attempts older than the specified number of days.
      *
-     * @param int $days The number of days to retain login attempts.
+     * @param int $days the number of days to retain login attempts
+     *
      * @throws DateMalformedStringException
      */
     public function deleteOldAttempts(int $days = 30): void

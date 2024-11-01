@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Entity\Trait\TimestampableTrait;
 use DateInterval;
 use DateMalformedIntervalStringException;
 use DateMalformedStringException;
@@ -42,9 +41,7 @@ class LoginAttempt
         #[ORM\ManyToOne(targetEntity: User::class)]
         #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
         private readonly User $user
-    ) {
-        $this->incrementAttempts();
-    }
+    ) {}
 
     public function getId(): ?int
     {
@@ -56,18 +53,14 @@ class LoginAttempt
         return $this->user;
     }
 
+    public function setAttempts(int $attempts): void
+    {
+        $this->attempts = $attempts;
+    }
+
     public function getAttempts(): int
     {
         return $this->attempts;
-    }
-
-    /**
-     * @throws DateMalformedStringException
-     */
-    public function incrementAttempts(): void
-    {
-        ++$this->attempts;
-        $this->lastAttemptAt = new DateTimeImmutable('now', new DateTimeZone('UTC'));
     }
 
     public function resetAttempts(): void
