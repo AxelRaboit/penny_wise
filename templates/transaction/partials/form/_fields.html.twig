@@ -19,14 +19,14 @@
 
     <div id="js-container-budget-and-checkbox" class="flex flex-col space-y-2 justify-center">
         <div id="js-container-budget" class="flex flex-col mb-2">
-            {{ form_label(form.budget, 'Budgeted Amount', {label_attr: {class: 'text-dynamic'}}) }}
-            {{ form_widget(form.budget, {attr: {class: 'rounded-md p-2 bg-secondary border-quaternary border-solid border text-dynamic'}}) }}
+            {{ form_label(form.budget, 'Budgeted Amount', {label_attr: {class: 'text-dynamic text-sm'}}) }}
+            {{ form_widget(form.budget, {attr: {class: 'rounded-md p-2 bg-secondary border-quaternary border-solid border text-sm text-dynamic'}}) }}
             <div class="text-danger text-sm mt-1">{{ form_errors(form.budget) }}</div>
         </div>
 
         {% if form.budgetDefinedThroughAmount is defined %}
             <div class="flex items-center space-x-2">
-                {{ form_widget(form.budgetDefinedThroughAmount, {attr: {class: 'rounded-md shadow-sm'}}) }}
+                {{ form_widget(form.budgetDefinedThroughAmount, {attr: {class: 'rounded-md'}}) }}
                 {{ form_label(form.budgetDefinedThroughAmount, 'Use amount as budget', {label_attr: {class: 'text-dynamic'}}) }}
             </div>
             <div class="text-danger text-sm mt-1">{{ form_errors(form.budgetDefinedThroughAmount) }}</div>
