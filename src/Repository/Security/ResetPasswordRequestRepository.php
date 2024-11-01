@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Repository;
+namespace App\Repository\Security;
 
 use App\Entity\ResetPasswordRequest;
 use App\Entity\User;

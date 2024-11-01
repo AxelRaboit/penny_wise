@@ -7,6 +7,14 @@
         <h1 class="text-xl font-bold text-center text-dynamic mb-4">Sign in to Penny Wise</h1>
         <div class="bg-tertiary p-8 rounded-md shadow-lg w-full max-w-md">
             <form method="post">
+                {% for label, messages in app.flashes %}
+                    {% for message in messages %}
+                        <div class="{{ label == 'success' ? 'bg-success' : label == 'warning' ? 'bg-warning' : 'bg-danger' }} px-4 py-3 rounded-md relative mb-4 text-dynamic">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+
                 {% if error %}
                     <div class="bg-danger text-dynamic px-4 py-3 rounded-md relative mb-4">
                         {{ error.messageKey|trans(error.messageData, 'security') }}
