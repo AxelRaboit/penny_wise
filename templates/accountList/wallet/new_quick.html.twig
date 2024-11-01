@@ -37,14 +37,14 @@
                     </div>
                     <div class="flex flex-col mb-2">
                         {{ form_label(form.start_balance, null, {label_attr: {class: 'text-dynamic font-semibold text-sm'}}) }}
-                        {{ form_widget(form.start_balance, {attr: {class: 'rounded-md p-2 bg-secondary border-quaternary border-solid border text-sm'}}) }}
+                        {{ form_widget(form.start_balance, {attr: {class: 'rounded-md p-2 bg-secondary border-quaternary border-solid border text-sm text-dynamic'}}) }}
                         <div class="text-danger text-sm">
                             {{ form_errors(form.start_balance) }}
                         </div>
                     </div>
                     <div class="flex flex-col mb-2">
                         {{ form_label(form.spending_limit, null, {label_attr: {class: 'text-dynamic font-semibold text-sm'}}) }}
-                        {{ form_widget(form.spending_limit, {attr: {class: 'rounded-md p-2 bg-secondary border-quaternary border-solid border text-sm'}}) }}
+                        {{ form_widget(form.spending_limit, {attr: {class: 'rounded-md p-2 bg-secondary border-quaternary border-solid border text-sm text-dynamic'}}) }}
                         <div class="text-danger text-sm">
                             {{ form_errors(form.spending_limit) }}
                         </div>
