@@ -7,7 +7,7 @@ export default class extends Controller {
         this.element.addEventListener('dropzone:clear', this._onClear.bind(this));
     }
 
-    _onConnect(event) {
+    _onConnect() {
         this.element.classList.add('relative', 'flex', 'justify-center', 'items-center', 'h-48', 'w-full', 'border', 'border-dashed', 'border-quaternary', 'rounded-md');
 
         const textElement = document.createElement('p');
@@ -17,7 +17,7 @@ export default class extends Controller {
         this.element.appendChild(textElement);
     }
 
-    _onChange(event) {
+    _onChange() {
         this.element.classList.remove('border-dashed', 'border-quaternary');
         this.element.classList.add('border-solid', 'border-accent-primary');
 
@@ -35,7 +35,7 @@ export default class extends Controller {
         successText.textContent = 'File uploaded successfully!';
     }
 
-    _onClear(event) {
+    _onClear() {
         this.element.classList.remove('border-accent-primary', 'border-solid');
         this.element.classList.add('border-dashed', 'border-quaternary');
 
