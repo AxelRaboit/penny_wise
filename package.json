@@ -20,6 +20,7 @@
     "chart.js": "^3.4.1 || ^4.0",
     "postcss-loader": "^8.1.0",
     "tom-select": "^2.2.2",
+    "tw-colors": "^3.3.2",
     "webpack-notifier": "^1.15.0"
   },
   "scripts": {
