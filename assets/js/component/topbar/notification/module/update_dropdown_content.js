@@ -5,7 +5,7 @@ export const update_dropdown_content = () => {
     if (remainingNotifications === 0) {
         dropdownContent.innerHTML = `
             <li class="px-4 py-3 text-sm text-dynamic-gray text-center">
-                No new notifications
+                No notifications
             </li>
         `;
     }
