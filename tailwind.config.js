@@ -1,7 +1,7 @@
 const { createThemes } = require('tw-colors');
 const themes = [
   require('./themes/charcoal'),
-  require('./themes/default'),
+  require('./themes/ghost'),
   require('./themes/forest'),
   require('./themes/graphite'),
   require('./themes/midnight'),
@@ -42,7 +42,7 @@ module.exports = {
     createThemes(
         Object.assign({}, ...themes),
         {
-          defaultTheme: 'default',
+          defaultTheme: 'dimmed',
         }
     )
   ],

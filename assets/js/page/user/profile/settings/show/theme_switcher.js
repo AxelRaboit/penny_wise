@@ -7,7 +7,7 @@ const activateThemeSwitcher = () => {
 
         themeSwitcher.addEventListener("change", function () {
             body.classList.remove(
-                "default",
+                "ghost",
                 "charcoal",
                 "slate",
                 "graphite",

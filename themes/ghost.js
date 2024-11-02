@@ -1,5 +1,5 @@
 module.exports = {
-    default: {
+    ghost: {
         primary: '#010409',
         'primary-hover': '#11151A',
         'primary-ring': '#2C333A',
