@@ -3,38 +3,36 @@
 {% block title %}Messenger - {{ parent() }}{% endblock %}
 
 {% block body %}
-    <div id="messenger-talk-list-page" class="hidden">
-        <div class="flex h-screen">
-            <div class="w-1/6 bg-secondary h-full">
-                <h2 class="text-lg font-semibold text-dynamic">Messenger</h2>
-                <div class="overflow-y-auto h-full mt-2">
-                    {% if talks is not empty %}
-                        <ul>
-                            {% for talk in talks %}
-                                <li class="mr-2 p-2 hover:bg-primary cursor-pointer rounded-md">
-                                    <a href="{{ path('messenger_talk_view', {id: talk.id}) }}" class="flex items-center space-x-3 text-dynamic">
-                                        {% set participant = talk.participants|filter(p => p.messenger.user != app.user)|first %}
-                                        <img src="{% if participant.messenger.user.userInformation and participant.messenger.user.userInformation.avatarName %}
-                                            {{ asset('uploads/avatars/' ~ participant.messenger.user.userInformation.avatarName) }}
-                                        {% else %}
-                                            {{ asset('media/logo.png') }}
-                                        {% endif %}"
-                                             alt="Avatar" class="rounded-full w-8 h-8">
+    <div id="messenger-talk-list-page" class="hidden flex-1 overflow-hidden h-full">
+        <div class="w-1/6 bg-secondary h-full">
+            <h2 class="text-lg font-semibold text-dynamic">Messenger</h2>
+            <div class="overflow-y-auto h-full mt-2">
+                {% if talks is not empty %}
+                    <ul>
+                        {% for talk in talks %}
+                            <li class="mr-2 p-2 hover:bg-primary cursor-pointer rounded-md">
+                                <a href="{{ path('messenger_talk_view', {id: talk.id}) }}" class="flex items-center space-x-3 text-dynamic">
+                                    {% set participant = talk.participants|filter(p => p.messenger.user != app.user)|first %}
+                                    <img src="{% if participant.messenger.user.userInformation and participant.messenger.user.userInformation.avatarName %}
+                                        {{ asset('uploads/avatars/' ~ participant.messenger.user.userInformation.avatarName) }}
+                                    {% else %}
+                                        {{ asset('media/logo.png') }}
+                                    {% endif %}"
+                                         alt="Avatar" class="rounded-full w-8 h-8">
 
-                                        <span class="text-sm">{{ participant.messenger.user.username }}</span>
-                                    </a>
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    {% else %}
-                        <p class="p-4 text-center text-dynamic">No conversations yet.</p>
-                    {% endif %}
-                </div>
+                                    <span class="text-sm">{{ participant.messenger.user.username }}</span>
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p class="p-4 text-center text-dynamic">No conversations yet.</p>
+                {% endif %}
             </div>
+        </div>
 
-            <div class="flex-1 flex flex-col justify-center items-center bg-tertiary rounded-md">
-                <h2 class="text-lg font-semibold text-dynamic">Select a conversation to start chatting</h2>
-            </div>
+        <div class="flex-1 flex flex-col justify-center items-center bg-tertiary rounded-md">
+            <h2 class="text-lg font-semibold text-dynamic">Select a conversation to start chatting</h2>
         </div>
     </div>
 {% endblock %}
