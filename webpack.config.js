@@ -28,10 +28,14 @@ Encore
     .addEntry('base_no_topbar', './assets/js/page/base/base_no_topbar.js')
 
     // Components
-    .addEntry('right_side_menu', './assets/js/component/side_menu/right_side_menu.js')
-    .addEntry('left_side_menu', './assets/js/component/side_menu/left_side_menu.js')
-    .addEntry('topbar', './assets/js/component/topbar.js')
-    .addEntry('notification', './assets/js/component/notification/notification.js')
+    // Components - Sidemenu
+    .addEntry('right_side_menu', './assets/js/component/side_menu/right_side/index.js')
+    .addEntry('left_side_menu', './assets/js/component/side_menu/left_side/index.js')
+
+    // Components - Topbar
+    .addEntry('topbar', './assets/js/component/topbar/topbar.js')
+    .addEntry('notification', './assets/js/component/topbar/notification/notification.js')
+    .addEntry('messenger', './assets/js/component/topbar/messenger/messenger.js')
 
     // Account - Wallet - Dashboard
     .addEntry('account_wallet_dashboard', './assets/js/page/account/wallet/dashboard/index.js')
@@ -50,9 +54,9 @@ Encore
     .addEntry('account_list', './assets/js/page/account_list/index.js')
 
     // Transaction Tag
-    .addEntry('transaction_tag_list', './assets/js/page/transaction_tag/list/list.js')
-    .addEntry('transaction_tag_edit', './assets/js/page/transaction_tag/edit/edit.js')
-    .addEntry('transaction_tag_new', './assets/js/page/transaction_tag/new/new.js')
+    .addEntry('transaction_tag_list', './assets/js/page/transaction_tag/list/index.js')
+    .addEntry('transaction_tag_edit', './assets/js/page/transaction_tag/edit/index.js')
+    .addEntry('transaction_tag_new', './assets/js/page/transaction_tag/new/index.js')
 
     // Friendship
     .addEntry('friendship', './assets/js/page/friendship/index.js')

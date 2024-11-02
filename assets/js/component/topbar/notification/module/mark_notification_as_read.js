@@ -18,15 +18,15 @@ export const mark_notification_as_read = () => {
                         const notificationElement = document.getElementById(`topbar-notification-${notificationId}`);
                         notificationElement.remove();
 
-                        const unreadCountElement = document.getElementById('unread-count');
-                        let currentCount = parseInt(unreadCountElement.textContent);
+                        const unreadNotificationCountElement = document.getElementById('js-unread-notification-count');
+                        let currentCount = parseInt(unreadNotificationCountElement.textContent);
 
                         if (currentCount > 1) {
                             currentCount--;
-                            unreadCountElement.textContent = currentCount > 99 ? '99+' : currentCount.toString();
+                            unreadNotificationCountElement.textContent = currentCount > 99 ? '99+' : currentCount.toString();
                         } else {
-                            unreadCountElement.textContent = '';
-                            unreadCountElement.classList.add('hidden');
+                            unreadNotificationCountElement.textContent = '';
+                            unreadNotificationCountElement.classList.add('hidden');
                         }
 
                         update_dropdown_content();

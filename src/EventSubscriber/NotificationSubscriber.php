@@ -38,9 +38,9 @@ final readonly class NotificationSubscriber implements EventSubscriberInterface
         }
 
         $notifications = $this->notificationRepository->getUnreadNotificationsByUser($user);
-        $unreadCount = count($notifications);
+        $unreadNotificationCount = count($notifications);
 
         $this->twig->addGlobal('notifications', $notifications);
-        $this->twig->addGlobal('unreadCount', $unreadCount);
+        $this->twig->addGlobal('unreadNotificationCount', $unreadNotificationCount);
     }
 }

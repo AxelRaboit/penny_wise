@@ -18,9 +18,9 @@ export const clear_all_notifications = () => {
                     const notificationElements = document.querySelectorAll('#notifications-dropdown-content li[id^="topbar-notification-"]');
                     notificationElements.forEach(notification => notification.remove());
 
-                    const unreadCountElement = document.getElementById('unread-count');
-                    unreadCountElement.textContent = '';
-                    unreadCountElement.classList.add('hidden');
+                    const unreadNotificationCountElement = document.getElementById('js-unread-notification-count');
+                    unreadNotificationCountElement.textContent = '';
+                    unreadNotificationCountElement.classList.add('hidden');
 
                     update_dropdown_content();
                 } else {

@@ -1,4 +1,4 @@
-import { initializeRightSideMenu } from '@component/side_menu/right_side_menu.js';
+import { initializeRightSideMenu } from '@component/side_menu/right_side';
 
 export function initializeRightSideMenuContent() {
     const rightSideMenuConfig = [

@@ -1,0 +1,27 @@
+<div x-data="{ open: false }" @click.outside="open = false">
+    <div class="relative">
+        <twig:Cta
+                color="secondary"
+                size="sm"
+                icon="fa-message"
+                title="Messenger"
+                dataActionUrl="true"
+                @click="open = !open"
+        >
+            {# TODO AXEL: message count #}
+        </twig:Cta>
+    </div>
+
+    <div x-show="open"
+         class="absolute right-4 mt-2 w-64 rounded-md overflow-hidden z-50 bg-secondary border border-quaternary-ring">
+        <ul id="messenger-dropdown-content">
+            <li class="px-4 py-3 text-sm text-dynamic-gray text-center">
+                No new messages
+            </li>
+        </ul>
+    </div>
+</div>
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('messenger') }}
+{% endblock %}
