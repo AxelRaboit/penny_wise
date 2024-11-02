@@ -43,7 +43,7 @@ final class FriendshipController extends AbstractController
 
         $friends = $this->friendshipRepository->searchFriendsByUsernameOrEmail($user, $query);
 
-        return $this->render('friendship/part/friendList/_friend_list_tab_content.html.twig', [
+        return $this->render('friendship/part/friend_list/_friend_list_tab_content.html.twig', [
             'friendship' => $friends,
         ]);
     }
