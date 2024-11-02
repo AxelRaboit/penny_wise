@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Repository\Test;
+namespace App\Repository\InMemory;
 
 use App\Entity\Wallet;
 use DateTimeInterface;
