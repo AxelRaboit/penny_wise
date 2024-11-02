@@ -90,6 +90,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Friendship::class, mappedBy: 'requester', cascade: ['persist', 'remove'])]
     private Collection $friendships;
 
+    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
+    private ?Messenger $messenger = null;
+
     #[ORM\PrePersist]
     public function onPrePersist(): void
     {
@@ -347,5 +350,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getAcceptedFriends(): Collection
     {
         return $this->friendships->filter(fn (Friendship $friendship): bool => $friendship->isAccepted());
+    }
+
+    public function getMessenger(): ?Messenger
+    {
+        return $this->messenger;
+    }
+
+    public function setMessenger(Messenger $messenger): static
+    {
+        // set the owning side of the relation if necessary
+        if ($messenger->getUser() !== $this) {
+            $messenger->setUser($this);
+        }
+
+        $this->messenger = $messenger;
+
+        return $this;
     }
 }
