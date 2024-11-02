@@ -1,4 +1,7 @@
+import {handlePageSpinner} from "@component/spinner/page_spinner.js";
+import {initializeChat} from "./chat/chat.js";
+
 document.addEventListener('DOMContentLoaded', function() {
-    const messagesContainer = document.getElementById('js-messenger-messages-container');
-    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    handlePageSpinner('messenger-talk-view-page', 'loadingPageSpinner');
+    initializeChat();
 });

@@ -65,8 +65,10 @@ Encore
     .addEntry('user_profile_settings_show', './assets/js/page/user/profile/settings/show/index.js')
 
     // Messenger
-    // Messenger - Talk
+    // Messenger - Talk - View
     .addEntry('messenger_talk_view', './assets/js/page/messenger/talk/view/index.js')
+    // Messenger - Talk - List
+    .addEntry('messenger_talk_list', './assets/js/page/messenger/talk/list/index.js')
 
     // Partials
     .addEntry('transaction_fields', './assets/js/partial/form/transaction/fields.js')
