@@ -14,6 +14,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 final readonly class RegistrationManager
 {
     private const array ROLE_USER = ['ROLE_USER'];
+
     private const string PASSWORD_FORM_FIELD = 'plainPassword';
 
     public function __construct(

@@ -17,21 +17,4 @@ class MessengerParticipantRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, MessengerParticipant::class);
     }
-
-    /**
-     * Find all active talks for a user (not deleted).
-     */
-    public function findActiveTalksByUser(int $messengerId): array
-    {
-        /** @var array<MessengerParticipant> $result */
-        $result = $this->createQueryBuilder('p')
-            ->andWhere('p.messenger = :messenger')
-            ->andWhere('p.isDeleted = :isDeleted')
-            ->setParameter('messenger', $messengerId)
-            ->setParameter('isDeleted', false)
-            ->getQuery()
-            ->getResult();
-
-        return $result;
-    }
 }

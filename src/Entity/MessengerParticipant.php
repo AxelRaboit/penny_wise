@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
@@ -13,7 +14,7 @@ class MessengerParticipant
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
     #[ORM\SequenceGenerator(sequenceName: 'messenger_participant_id_seq', allocationSize: 1, initialValue: 1)]
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
 
     #[ORM\ManyToOne(targetEntity: MessengerTalk::class, inversedBy: 'participants')]
@@ -24,7 +25,7 @@ class MessengerParticipant
     #[ORM\JoinColumn(nullable: false)]
     private ?Messenger $messenger = null;
 
-    #[ORM\Column(type: 'boolean')]
+    #[ORM\Column(type: Types::BOOLEAN)]
     private bool $isDeleted = false;
 
     public function getId(): ?int

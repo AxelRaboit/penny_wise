@@ -354,7 +354,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getMessenger(): Messenger
     {
-        if (!$this->messenger) {
+        if (!$this->messenger instanceof Messenger) {
             $this->messenger = new Messenger();
             $this->messenger->setUser($this);
         }

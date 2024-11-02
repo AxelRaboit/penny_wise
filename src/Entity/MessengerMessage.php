@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use DateTimeImmutable;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
@@ -14,13 +15,13 @@ class MessengerMessage
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
     #[ORM\SequenceGenerator(sequenceName: 'messenger_message_id_seq', allocationSize: 1, initialValue: 1)]
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
 
-    #[ORM\Column(type: 'text')]
+    #[ORM\Column(type: Types::TEXT)]
     private string $content;
 
-    #[ORM\Column(type: 'datetime_immutable')]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     private DateTimeImmutable $sentAt;
 
     #[ORM\ManyToOne(targetEntity: MessengerTalk::class, inversedBy: 'messages')]
@@ -49,6 +50,7 @@ class MessengerMessage
     public function setContent(string $content): self
     {
         $this->content = $content;
+
         return $this;
     }
 
@@ -65,6 +67,7 @@ class MessengerMessage
     public function setTalk(MessengerTalk $talk): self
     {
         $this->talk = $talk;
+
         return $this;
     }
 
@@ -76,6 +79,7 @@ class MessengerMessage
     public function setSender(User $sender): self
     {
         $this->sender = $sender;
+
         return $this;
     }
 }

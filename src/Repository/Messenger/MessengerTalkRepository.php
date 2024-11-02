@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Repository\Messenger;
 
-use App\Entity\MessengerTalk;
 use App\Entity\MessengerParticipant;
+use App\Entity\MessengerTalk;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -16,20 +16,18 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 final class MessengerTalkRepository extends ServiceEntityRepository
 {
-    private EntityManagerInterface $entityManager;
-
-    public function __construct(ManagerRegistry $registry, EntityManagerInterface $entityManager)
+    public function __construct(ManagerRegistry $registry, private readonly EntityManagerInterface $entityManager)
     {
         parent::__construct($registry, MessengerTalk::class);
-        $this->entityManager = $entityManager;
     }
 
     /**
      * Find an existing talk between two users.
      *
-     * @param User $user1 The first user.
-     * @param User $user2 The second user.
-     * @return MessengerTalk|null Returns a MessengerTalk object if found, or null if not.
+     * @param User $user1 the first user
+     * @param User $user2 the second user
+     *
+     * @return MessengerTalk|null returns a MessengerTalk object if found, or null if not
      */
     public function findExistingTalk(User $user1, User $user2): ?MessengerTalk
     {
@@ -54,8 +52,9 @@ final class MessengerTalkRepository extends ServiceEntityRepository
     /**
      * Find all talks for a given user.
      *
-     * @param int $messengerId The ID of the user's messenger.
-     * @return MessengerTalk[] Returns an array of MessengerTalk objects.
+     * @param int $messengerId the ID of the user's messenger
+     *
+     * @return MessengerTalk[] returns an array of MessengerTalk objects
      */
     public function findTalksByUser(int $messengerId): array
     {
@@ -73,9 +72,9 @@ final class MessengerTalkRepository extends ServiceEntityRepository
     /**
      * Add participants to a new MessengerTalk.
      *
-     * @param MessengerTalk $talk The MessengerTalk entity.
-     * @param User $user1 The first user.
-     * @param User $user2 The second user.
+     * @param MessengerTalk $talk  the MessengerTalk entity
+     * @param User          $user1 the first user
+     * @param User          $user2 the second user
      */
     public function addParticipantsToTalk(MessengerTalk $talk, User $user1, User $user2): void
     {

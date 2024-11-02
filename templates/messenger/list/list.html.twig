@@ -11,7 +11,7 @@
                     <ul>
                         {% for talk in talks %}
                             <li class="mr-2 p-2 hover:bg-primary cursor-pointer rounded-md">
-                                <a href="{{ path('messenger_talk_view', { id: talk.id }) }}" class="flex items-center space-x-3 text-dynamic">
+                                <a href="{{ path('messenger_talk_view', {id: talk.id}) }}" class="flex items-center space-x-3 text-dynamic">
                                     {% set participant = talk.participants|filter(p => p.messenger.user != app.user)|first %}
                                     <img src="{% if participant.messenger.user.userInformation and participant.messenger.user.userInformation.avatarName %}
                                         {{ asset('uploads/avatars/' ~ participant.messenger.user.userInformation.avatarName) }}

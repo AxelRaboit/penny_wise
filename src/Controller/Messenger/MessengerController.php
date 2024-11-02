@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace App\Controller\Messenger;
 
-use App\Service\Messenger\MessengerService;
+use App\Entity\MessengerTalk;
 use App\Manager\Messenger\MessengerManager;
+use App\Security\Voter\Messenger\MessengerVoter;
 use App\Service\User\UserCheckerService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,7 +17,6 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class MessengerController extends AbstractController
 {
     public function __construct(
-        private readonly MessengerService $messengerService,
         private readonly MessengerManager $messengerManager,
         private readonly UserCheckerService $userCheckerService
     ) {}
@@ -26,7 +26,7 @@ class MessengerController extends AbstractController
     public function list(): Response
     {
         $user = $this->userCheckerService->getUserOrThrow();
-        $talks = $this->messengerService->getTalksForUser($user);
+        $talks = $this->messengerManager->getTalksForUser($user);
 
         return $this->render('messenger/list/list.html.twig', [
             'talks' => $talks,
@@ -34,17 +34,13 @@ class MessengerController extends AbstractController
     }
 
     #[Route('/messages/t/{id}', name: 'messenger_talk_view')]
-    #[IsGranted('ROLE_USER')]
-    public function viewTalk(int $id): Response
+    #[IsGranted(MessengerVoter::VIEW, subject: 'talk')]
+    public function viewTalk(MessengerTalk $talk): Response
     {
         $user = $this->userCheckerService->getUserOrThrow();
-        $talk = $this->messengerService->findTalkById($id);
-        if (!$talk) {
-            throw $this->createNotFoundException('Conversation not found');
-        }
 
-        $talks = $this->messengerService->getTalksForUser($user);
-        $participant = $this->messengerService->getTalkParticipant($talk, $user);
+        $talks = $this->messengerManager->getTalksForUser($user);
+        $participant = $this->messengerManager->getTalkParticipant($talk, $user);
 
         return $this->render('messenger/talk/view/talk.html.twig', [
             'talk' => $talk,
@@ -54,22 +50,15 @@ class MessengerController extends AbstractController
         ]);
     }
 
-    #[Route('/messenger/talk/{talkId}/send', name: 'messenger_message_send', methods: ['POST'])]
-    public function sendMessage(int $talkId, Request $request): Response
+    #[Route('/messenger/talk/{id}/send', name: 'messenger_message_send', methods: ['POST'])]
+    #[IsGranted(MessengerVoter::SEND_MESSAGE, subject: 'talk')]
+    public function sendMessage(MessengerTalk $talk, Request $request): Response
     {
-        /** @var string $content */
-        $content = $request->request->get('message');
+        $content = (string) $request->request->get('message');
         $user = $this->userCheckerService->getUserOrThrow();
-
-        $talk = $this->messengerService->findTalkById($talkId);
-
-        if (!$talk) {
-            throw $this->createNotFoundException('Conversation not found');
-        }
 
         $this->messengerManager->addMessage($talk, $user, $content);
 
-        return $this->redirectToRoute('messenger_talk_view', ['id' => $talkId]);
+        return $this->redirectToRoute('messenger_talk_view', ['id' => $talk->getId()]);
     }
 }
-

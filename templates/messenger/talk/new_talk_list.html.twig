@@ -10,7 +10,7 @@
             <ul class="bg-secondary rounded-md border border-quaternary">
                 {% for friend in friendsWithoutTalk %}
                     <li class="p-4 border-b border-quaternary last:border-0 flex items-center">
-                        <a href="{{ path('messenger_new_talk', { friendId: friend.id }) }}" class="flex-1 text-dynamic text-sm hover:underline">
+                        <a href="{{ path('messenger_new_talk', {friendId: friend.id}) }}" class="flex-1 text-dynamic text-sm hover:underline">
                             Start conversation with {{ friend.username }}
                         </a>
                     </li>

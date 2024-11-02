@@ -6,6 +6,7 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
@@ -15,7 +16,7 @@ class MessengerTalk
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
     #[ORM\SequenceGenerator(sequenceName: 'messenger_talk_id_seq', allocationSize: 1, initialValue: 1)]
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
 
     /**
@@ -24,6 +25,9 @@ class MessengerTalk
     #[ORM\OneToMany(targetEntity: MessengerParticipant::class, mappedBy: 'talk', cascade: ['persist', 'remove'])]
     private Collection $participants;
 
+    /**
+     * @var Collection<int, MessengerMessage>
+     */
     #[ORM\OneToMany(targetEntity: MessengerMessage::class, mappedBy: 'talk', cascade: ['persist', 'remove'])]
     private Collection $messages;
 

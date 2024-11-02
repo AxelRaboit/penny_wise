@@ -11,7 +11,7 @@
                     {% for talk in talks %}
                         {% set sidebarParticipant = talk.participants|filter(p => p.messenger.user != app.user)|first %}
                         <li class="mr-2 p-2 hover:bg-primary cursor-pointer rounded-md">
-                            <a href="{{ path('messenger_talk_view', { id: talk.id }) }}" class="flex items-center space-x-3 text-dynamic">
+                            <a href="{{ path('messenger_talk_view', {id: talk.id}) }}" class="flex items-center space-x-3 text-dynamic">
                                 <img src="{% if sidebarParticipant.messenger.user.userInformation and sidebarParticipant.messenger.user.userInformation.avatarName %}
                                     {{ asset('uploads/avatars/' ~ sidebarParticipant.messenger.user.userInformation.avatarName) }}
                                 {% else %}
@@ -38,7 +38,7 @@
                 <div>
                     <h1 class="text-lg font-semibold text-dynamic">{{ participant.messenger.user.username }}</h1>
                     <p class="text-sm text-gray-400">{{ participant.messenger.user.userInformation.bio ?? 'No bio available' }}</p>
-                    <p><a href="{{ path('profile_view', { username: participant.messenger.user.username }) }}" class="text-link hover:underline">View profile</a></p>
+                    <p><a href="{{ path('profile_view', {username: participant.messenger.user.username}) }}" class="text-link hover:underline">View profile</a></p>
                 </div>
             </div>
 
@@ -67,7 +67,7 @@
             </div>
 
             <div class="p-4 border-t border-quaternary bg-tertiary rounded-b-md">
-                <form action="{{ path('messenger_message_send', { talkId: talk.id }) }}" method="post" class="flex items-center space-x-2 w-full">
+                <form action="{{ path('messenger_message_send', {id: talk.id}) }}" method="post" class="flex items-center space-x-2 w-full">
                     <textarea name="message" placeholder="Type your message here" class="flex-grow p-2 border border-quaternary rounded-md"></textarea>
                     <button type="submit" class="p-2 bg-primary text-white rounded-md">Send</button>
                 </form>
@@ -80,6 +80,3 @@
     {{ parent() }}
     {{ encore_entry_script_tags('messenger_talk_view') }}
 {% endblock %}
-
-
-
