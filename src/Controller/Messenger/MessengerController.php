@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Messenger;
 
 use App\Entity\MessengerTalk;
+use App\Form\Messenger\MessengerMessageSendType;
 use App\Manager\Messenger\MessengerManager;
 use App\Security\Voter\Messenger\MessengerVoter;
 use App\Service\User\UserCheckerService;
@@ -35,18 +36,29 @@ class MessengerController extends AbstractController
 
     #[Route('/messages/t/{id}', name: 'messenger_talk_view')]
     #[IsGranted(MessengerVoter::VIEW, subject: 'talk')]
-    public function viewTalk(MessengerTalk $talk): Response
+    public function viewTalk(MessengerTalk $talk, Request $request): Response
     {
         $user = $this->userCheckerService->getUserOrThrow();
-
         $talks = $this->messengerManager->getTalksForUser($user);
         $participant = $this->messengerManager->getTalkParticipant($talk, $user);
+
+        $form = $this->createForm(MessengerMessageSendType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var string $content */
+            $content = $form->get('message')->getData();
+            $this->messengerManager->addMessage($talk, $user, $content);
+
+            return $this->redirectToRoute('messenger_talk_view', ['id' => $talk->getId()]);
+        }
 
         return $this->render('messenger/talk/view/talk.html.twig', [
             'talk' => $talk,
             'talks' => $talks,
             'messages' => $talk->getMessages(),
             'participant' => $participant,
+            'form' => $form->createView(),
         ]);
     }
 

@@ -1,5 +1,6 @@
 @import './component/spinner.css';
 @import './component/ux-autocomplete-field.css';
+@import './component/scrollbar.css';
 
 @tailwind base;
 @tailwind components;

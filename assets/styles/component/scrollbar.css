@@ -1,0 +1,9 @@
+.scrollbar::-webkit-scrollbar {
+    width: 12px;
+    background: hsl(var(--twc-secondary));
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--twc-primary));
+    border-radius: 5px;
+}
