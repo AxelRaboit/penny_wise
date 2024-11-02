@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Repository;
+namespace App\Repository\Messenger;
 
 use App\Entity\MessengerParticipant;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;

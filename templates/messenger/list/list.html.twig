@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Your Messenger{% endblock %}
+
+{% block body %}
+    <h1>Your Messenger</h1>
+
+    {% if talks is not empty %}
+        <ul>
+            {% for talk in talks %}
+                <li>
+                    <a href="{{ path('messenger_talk_view', { id: talk.id }) }}">
+                        Conversation with {{ (talk.participants|filter(p => p.messenger.user != app.user)|first).messenger.user.username }}
+                    </a>
+                </li>
+            {% else %}
+                <li>No conversations yet.</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}

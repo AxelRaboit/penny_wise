@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Conversation with {{ (talk.participants|filter(p => p.messenger.user != app.user)|slice(0, 1)|first).messenger.user.username }}
+{% endblock %}
+
+{% block body %}
+    <h1>Conversation with {{ (talk.participants|filter(p => p.messenger.user != app.user)|slice(0, 1)|first).messenger.user.username }}</h1>
+
+    <div class="messages">
+        {% for message in messages %}
+            <div class="message">
+                <strong>{{ message.sender.username }}</strong>: {{ message.content }}
+                <small>{{ message.sentAt|date('Y-m-d H:i') }}</small>
+            </div>
+        {% endfor %}
+    </div>
+
+    <form action="{{ path('messenger_message_send', { talkId: talk.id }) }}" method="post">
+        <label>
+            <textarea name="message" placeholder="Type your message here"></textarea>
+        </label>
+        <button type="submit">Send</button>
+    </form>
+{% endblock %}

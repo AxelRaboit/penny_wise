@@ -352,18 +352,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->friendships->filter(fn (Friendship $friendship): bool => $friendship->isAccepted());
     }
 
-    public function getMessenger(): ?Messenger
+    public function getMessenger(): Messenger
     {
+        if (!$this->messenger) {
+            $this->messenger = new Messenger();
+            $this->messenger->setUser($this);
+        }
+
         return $this->messenger;
     }
 
-    public function setMessenger(Messenger $messenger): static
+    public function setMessenger(?Messenger $messenger): self
     {
-        // set the owning side of the relation if necessary
-        if ($messenger->getUser() !== $this) {
-            $messenger->setUser($this);
-        }
-
         $this->messenger = $messenger;
 
         return $this;

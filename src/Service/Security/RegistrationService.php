@@ -20,6 +20,7 @@ final readonly class RegistrationService
     public function createFormWithUser(Request $request): array
     {
         $user = new User();
+
         $form = $this->formFactory->create(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 

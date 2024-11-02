@@ -21,12 +21,16 @@ class MessengerTalk
     /**
      * @var Collection<int, MessengerParticipant>
      */
-    #[ORM\OneToMany(mappedBy: 'talk', targetEntity: MessengerParticipant::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(targetEntity: MessengerParticipant::class, mappedBy: 'talk', cascade: ['persist', 'remove'])]
     private Collection $participants;
+
+    #[ORM\OneToMany(targetEntity: MessengerMessage::class, mappedBy: 'talk', cascade: ['persist', 'remove'])]
+    private Collection $messages;
 
     public function __construct()
     {
         $this->participants = new ArrayCollection();
+        $this->messages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -55,6 +59,31 @@ class MessengerTalk
     public function removeParticipant(MessengerParticipant $participant): self
     {
         $this->participants->removeElement($participant);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, MessengerMessage>
+     */
+    public function getMessages(): Collection
+    {
+        return $this->messages;
+    }
+
+    public function addMessage(MessengerMessage $message): self
+    {
+        if (!$this->messages->contains($message)) {
+            $this->messages->add($message);
+            $message->setTalk($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessage(MessengerMessage $message): self
+    {
+        $this->messages->removeElement($message);
 
         return $this;
     }

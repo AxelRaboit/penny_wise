@@ -6,6 +6,7 @@ namespace App\Manager\Authentication;
 
 use App\Entity\User;
 use App\Entity\UserInformation;
+use App\Entity\Messenger;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -13,10 +14,12 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 final readonly class RegistrationManager
 {
     private const array ROLE_USER = ['ROLE_USER'];
-
     private const string PASSWORD_FORM_FIELD = 'plainPassword';
 
-    public function __construct(private UserPasswordHasherInterface $userPasswordHasher, private EntityManagerInterface $entityManager) {}
+    public function __construct(
+        private UserPasswordHasherInterface $userPasswordHasher,
+        private EntityManagerInterface $entityManager
+    ) {}
 
     public function onUserRegistered(FormInterface $form, User $user): void
     {
@@ -33,9 +36,13 @@ final readonly class RegistrationManager
         $user->setActive(true);
 
         $userInformation = $this->createUserInformation($user);
+        $messenger = $this->createMessenger($user);
+
         $user->setUserInformation($userInformation);
+        $user->setMessenger($messenger);
 
         $this->entityManager->persist($user);
+        $this->entityManager->persist($messenger);
         $this->entityManager->flush();
     }
 
@@ -45,5 +52,13 @@ final readonly class RegistrationManager
         $userInformation->setUser($user);
 
         return $userInformation;
+    }
+
+    private function createMessenger(User $user): Messenger
+    {
+        $messenger = new Messenger();
+        $messenger->setUser($user);
+
+        return $messenger;
     }
 }
