@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use App\Entity\Messenger;
+use App\Entity\MessengerTalk;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Messenger>
+ * @extends ServiceEntityRepository<MessengerTalk>
  */
-class MessengerRepository extends ServiceEntityRepository
+class MessengerTalkRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Messenger::class);
+        parent::__construct($registry, MessengerTalk::class);
     }
 }

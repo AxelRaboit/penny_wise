@@ -9,23 +9,19 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
-#[ORM\Table(name: 'messenger')]
-class Messenger
+#[ORM\Table(name: 'messenger_talk')]
+class MessengerTalk
 {
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
-    #[ORM\SequenceGenerator(sequenceName: 'messenger_id_seq', allocationSize: 1, initialValue: 1)]
+    #[ORM\SequenceGenerator(sequenceName: 'messenger_talk_id_seq', allocationSize: 1, initialValue: 1)]
     #[ORM\Column(type: 'integer')]
     private ?int $id = null;
-
-    #[ORM\OneToOne(inversedBy: 'messenger')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?User $user = null;
 
     /**
      * @var Collection<int, MessengerParticipant>
      */
-    #[ORM\OneToMany(targetEntity: MessengerParticipant::class, mappedBy: 'messenger', cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(mappedBy: 'talk', targetEntity: MessengerParticipant::class, cascade: ['persist', 'remove'])]
     private Collection $participants;
 
     public function __construct()
@@ -36,18 +32,6 @@ class Messenger
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(User $user): self
-    {
-        $this->user = $user;
-
-        return $this;
     }
 
     /**
@@ -62,7 +46,7 @@ class Messenger
     {
         if (!$this->participants->contains($participant)) {
             $this->participants->add($participant);
-            $participant->setMessenger($this);
+            $participant->setTalk($this);
         }
 
         return $this;
