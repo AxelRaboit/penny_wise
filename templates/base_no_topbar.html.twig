@@ -8,20 +8,16 @@
         <script src="https://kit.fontawesome.com/582e93cff3.js" crossorigin="anonymous"></script>
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
-            {{ encore_entry_link_tags('base') }}
             {{ encore_entry_link_tags('base_no_topbar') }}
         {% endblock %}
 
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
-            {{ encore_entry_script_tags('base') }}
             {{ encore_entry_script_tags('base_no_topbar') }}
         {% endblock %}
     </head>
-    <body class="bg-secondary">
-        <div id="base-no-topbar-page" class="hidden">
-            {% block body %}{% endblock %}
-        </div>
+    <body id="base-no-topbar-page" class="hidden bg-secondary">
+        {% block body %}{% endblock %}
 
         {% block loadingSpinner %}
             {{ include('components/spinner/page_spinner.html.twig', {spinnerId: 'loadingPageSpinner'}) }}
