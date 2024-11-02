@@ -22,44 +22,41 @@
         {{ encore_entry_script_tags('left_side_menu') }}
     {% endblock %}
 </head>
-<body id="base-page" class="min-h-screen flex-col hidden bg-secondary">
-<div class="flex flex-1 flex-col h-full">
-    {{ include('components/topbar/topbar.html.twig') }}
+<body id="base-page" class="min-h-screen hidden flex-col bg-secondary">
+    <div class="flex flex-col h-screen">
+        {{ include('components/topbar/topbar.html.twig') }}
 
-    <div>
-        <aside id="js-left-side-menu" class="fixed top-0 left-0 w-full xs:w-1/2 sm:w-1/3 md:max-w-1/3 lg:w-1/4 xl:w-1/6 h-full transform -translate-x-full transition-transform duration-300 ease-in-out z-50 overflow-hidden bg-secondary border-r border-quaternary-ring">
-            <div class="flex justify-end items-center bg-secondary text-dynamic p-4 border-b border-quaternary-ring">
-                <button id="js-left-side-menu-close-button" class="text-dynamic">
-                    <i class="fa-solid fa-times text-lg"></i>
-                </button>
-            </div>
+        <div class="flex flex-1 overflow-hidden">
+            <aside id="js-left-side-menu" class="fixed top-0 left-0 w-full xs:w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/5 h-full transform -translate-x-full transition-transform duration-300 ease-in-out z-50 overflow-hidden bg-secondary border-r border-quaternary-ring">
+                <div class="flex justify-end items-center bg-secondary text-dynamic p-4 border-b border-quaternary-ring">
+                    <button id="js-left-side-menu-close-button" class="text-dynamic">
+                        <i class="fa-solid fa-times text-lg"></i>
+                    </button>
+                </div>
+                {{ include('components/clock.html.twig') }}
+                <div class="border-b border-solid border-quaternary mb-2"></div>
+                {% block leftSideMenuContent %}{% endblock %}
+            </aside>
 
-            {{ include('components/clock.html.twig') }}
-            <div class="border-b border-solid border-quaternary mb-2"></div>
-            {% block leftSideMenuContent %}{% endblock %}
-        </aside>
-
-        {% block rightSideMenuContent %}{% endblock %}
-
-        <div class="flex flex-col flex-1 min-h-screen">
-            <main class="flex-1 p-4">
-                {% for label, messages in app.flashes %}
-                    <div class="alert-flash w-full p-4 mb-4 text-sm text-dynamic text-center rounded-md {{ label == 'success' ? 'bg-success' : label == 'warning' ? 'bg-warning' : 'bg-danger' }}" role="alert">
-                        {% for message in messages %}
-                            <span class="font-bold text-dynamic">{{ label|capitalize }}:</span> {{ message }}
-                        {% endfor %}
-                    </div>
-                {% endfor %}
-                {% block body %}{% endblock %}
+            <main class="flex-1 flex flex-col overflow-hidden">
+                <div class="flex-1 overflow-y-auto p-4">
+                    {% for label, messages in app.flashes %}
+                        <div class="alert-flash w-full p-4 mb-4 text-sm text-dynamic text-center rounded-md {{ label == 'success' ? 'bg-success' : label == 'warning' ? 'bg-warning' : 'bg-danger' }}" role="alert">
+                            {% for message in messages %}
+                                <span class="font-bold text-dynamic">{{ label|capitalize }}:</span> {{ message }}
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                    {% block body %}{% endblock %}
+                </div>
             </main>
-
-            {{ include('components/footer.html.twig') }}
         </div>
-    </div>
-</div>
 
-{% block loadingSpinner %}
-    {{ include('components/spinner/page_spinner.html.twig', {spinnerId: 'loadingPageSpinner'}) }}
-{% endblock %}
-</body>
+        {{ include('components/footer.html.twig') }}
+    </div>
+
+    {% block loadingSpinner %}
+        {{ include('components/spinner/page_spinner.html.twig', {spinnerId: 'loadingPageSpinner'}) }}
+    {% endblock %}
+    </body>
 </html>

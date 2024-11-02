@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Manager\Authentication;
+namespace App\Manager\Security\Authentication;
 
+use App\Entity\Messenger;
 use App\Entity\User;
 use App\Entity\UserInformation;
-use App\Entity\Messenger;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
