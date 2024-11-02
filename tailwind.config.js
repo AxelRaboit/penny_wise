@@ -40,7 +40,10 @@ module.exports = {
   },
   plugins: [
     createThemes(
-        Object.assign({}, ...themes)
+        Object.assign({}, ...themes),
+        {
+          defaultTheme: 'default',
+        }
     )
   ],
 };

@@ -1,12 +1,12 @@
 <div x-data="{ open: false }" @click.outside="open = false">
     <div class="relative">
         <twig:Cta
-                color="secondary"
-                size="sm"
-                icon="fa-bell"
-                title="Notifications"
-                dataActionUrl="true"
-                @click="open = !open"
+            color="secondary"
+            size="sm"
+            icon="fa-bell"
+            title="Notifications"
+            dataActionUrl="true"
+            @click="open = !open"
         >
             {% if unreadNotificationCount > 0 %}
                 <span id="js-unread-notification-count" class="absolute top-0 right-0 -mt-1 -mr-1 bg-accent-primary text-dynamic text-xs font-semibold rounded-full px-2 py-0.5">
@@ -17,7 +17,8 @@
     </div>
 
     <div x-show="open"
-         class="absolute right-4 mt-2 w-64 rounded-md overflow-hidden z-50 bg-secondary border border-quaternary-ring">
+         id="js-notifications-dropdown-content"
+         class="absolute right-4 mt-2 w-64 rounded-md overflow-hidden z-50 bg-secondary border border-quaternary-ring hidden">
         <ul id="notifications-dropdown-content">
             {% if notifications is not empty %}
                 <div class="p-2 text-right">
