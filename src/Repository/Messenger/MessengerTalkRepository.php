@@ -96,17 +96,35 @@ final class MessengerTalkRepository extends ServiceEntityRepository
     /**
      * @return array<MessengerTalk>
      */
-    public function findTalksByUserWithVisibility(int $messengerId): array
+    public function findTalksByUserWithVisibility(int $messengerId, bool $onlyVisible = true): array
     {
-        /** @var array<MessengerTalk> $result */
-        $result = $this->createQueryBuilder('t')
+        $qb = $this->createQueryBuilder('t')
             ->innerJoin('t.participants', 'p')
             ->where('p.messenger = :messengerId')
-            ->andWhere('p.isVisibleToParticipant = true')
-            ->setParameter('messengerId', $messengerId)
-            ->getQuery()
-            ->getResult();
+            ->setParameter('messengerId', $messengerId);
 
-        return $result;
+        if ($onlyVisible) {
+            $qb->andWhere('p.isVisibleToParticipant = true');
+        }
+
+        return $qb->getQuery()->getResult();
     }
+
+    public function findExistingOrHiddenTalk(User $user1, User $user2): ?MessengerTalk
+    {
+        return $this->createQueryBuilder('t')
+            ->join('t.participants', 'p1')
+            ->join('p1.messenger', 'm1')
+            ->join('m1.user', 'u1')
+            ->join('t.participants', 'p2')
+            ->join('p2.messenger', 'm2')
+            ->join('m2.user', 'u2')
+            ->where('(u1 = :user1 AND u2 = :user2) OR (u1 = :user2 AND u2 = :user1)')
+            ->setParameter('user1', $user1)
+            ->setParameter('user2', $user2)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+
 }

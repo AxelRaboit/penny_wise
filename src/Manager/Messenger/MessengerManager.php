@@ -90,27 +90,83 @@ final readonly class MessengerManager
         return $talk;
     }
 
+    public function createOrReactivateTalk(User $user, User $friend): MessengerTalk
+    {
+        // Vérifie si une conversation existante masquée existe déjà
+        $existingTalk = $this->messengerTalkRepository->findExistingTalk($user, $friend);
+
+        if ($existingTalk) {
+            foreach ($existingTalk->getParticipants() as $participant) {
+                if ($participant->getMessenger()->getUser() === $user && !$participant->isVisibleToParticipant()) {
+                    // Réactive la conversation en la rendant visible
+                    $participant->setVisibleToParticipant(true);
+                    $this->entityManager->persist($participant);
+                }
+            }
+            $this->entityManager->flush();
+            return $existingTalk;
+        }
+
+        // Crée une nouvelle conversation si aucune existante n'a été trouvée
+        return $this->createTalk($user, $friend);
+    }
+
+
     /**
      * @return array<User>
      */
     public function getFriendsForNewConversation(User $user): array
     {
-        $friends = array_filter(
-            $user->getAcceptedFriends()->map(fn (Friendship $friendship): ?User => $friendship->getFriend())->toArray(),
-            fn (?User $friend): bool => $friend instanceof User
-        );
+        // Récupère tous les amis de l'utilisateur
+        $friends = $user->getAcceptedFriends()->map(fn (Friendship $friendship): ?User => $friendship->getFriend())->toArray();
 
-        $existingTalkFriendIds = [];
+        // Récupère les IDs des amis pour qui une conversation visible existe déjà
+        $visibleTalkFriendIds = [];
         foreach ($this->getTalksForUser($user) as $talk) {
             foreach ($talk->getParticipants() as $participant) {
-                $messenger = $participant->getMessenger();
-                $talkUser = $messenger?->getUser();
-                if ($talkUser && $talkUser !== $user) {
-                    $existingTalkFriendIds[] = $talkUser->getId();
+                if ($participant->getMessenger()->getUser() !== $user) {
+                    $visibleTalkFriendIds[] = $participant->getMessenger()->getUser()->getId();
                 }
             }
         }
 
-        return array_filter($friends, fn (User $friend): bool => !in_array($friend->getId(), $existingTalkFriendIds, true));
+        // Inclut les amis même avec conversations masquées
+        return array_filter($friends, fn (User $friend): bool => !in_array($friend->getId(), $visibleTalkFriendIds, true));
     }
+
+
+
+    public function hideTalkForUser(MessengerTalk $talk, User $user): void
+    {
+        foreach ($talk->getParticipants() as $participant) {
+            if ($participant->getMessenger()->getUser() === $user) {
+                $participant->setVisibleToParticipant(false);
+                $this->entityManager->persist($participant);
+            }
+        }
+        $this->entityManager->flush();
+    }
+
+    public function createOrReopenTalk(User $user, User $friend): MessengerTalk
+    {
+        // Cherche une conversation existante, qu'elle soit visible ou masquée
+        $existingTalk = $this->messengerTalkRepository->findExistingOrHiddenTalk($user, $friend);
+
+        if ($existingTalk) {
+            // Si une conversation masquée existe, rendez-la visible pour l'utilisateur
+            foreach ($existingTalk->getParticipants() as $participant) {
+                if ($participant->getMessenger()->getUser() === $user && !$participant->isVisibleToParticipant()) {
+                    $participant->setVisibleToParticipant(true);
+                    $this->entityManager->persist($participant);
+                }
+            }
+            $this->entityManager->flush();
+
+            return $existingTalk;
+        }
+
+        // Sinon, crée une nouvelle conversation
+        return $this->createTalk($user, $friend);
+    }
+
 }

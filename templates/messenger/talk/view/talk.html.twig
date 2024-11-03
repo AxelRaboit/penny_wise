@@ -16,11 +16,11 @@
                     Messenger
                 </h2>
                 <twig:Cta
-                    color="accent-primary"
-                    size="xs"
-                    icon="fa-plus"
-                    title="New conversation"
-                    route="messenger_new_conversation"
+                        color="accent-primary"
+                        size="xs"
+                        icon="fa-plus"
+                        title="New conversation"
+                        route="messenger_new_conversation"
                 />
             </div>
 
@@ -31,8 +31,8 @@
                         {% set sidebarParticipant = talk.participants|filter(p => p.messenger.user != app.user)|first %}
                         {% set isActive = (talk.id == currentTalkId) %}
 
-                        <li class="p-2 cursor-pointer rounded-md hover:bg-primary {{ isActive ? 'bg-primary text-white' : '' }}">
-                            <a href="{{ path('messenger_talk_view', {id: talk.id}) }}" class="flex items-center space-x-3 {{ isActive ? 'text-white' : 'text-dynamic' }}">
+                        <li class="p-2 cursor-pointer rounded-md hover:bg-primary {{ isActive ? 'bg-primary text-white' : '' }} flex justify-between items-center">
+                            <a href="{{ path('messenger_talk_view', {id: talk.id}) }}" class="flex items-center space-x-3 {{ isActive ? 'text-white' : 'text-dynamic' }} w-full">
                                 <img src="{% if sidebarParticipant and sidebarParticipant.messenger.user.userInformation and sidebarParticipant.messenger.user.userInformation.avatarName %}
                                         {{ asset('uploads/avatars/' ~ sidebarParticipant.messenger.user.userInformation.avatarName) }}
                                     {% else %}
@@ -42,6 +42,14 @@
                                 >
                                 <span class="text-sm">{{ sidebarParticipant ? sidebarParticipant.messenger.user.username : 'Unknown' }}</span>
                             </a>
+                            <form method="post" action="{{ path('messenger_talk_hide', {id: talk.id}) }}">
+                                <twig:Cta
+                                    color="danger-outline"
+                                    size="xs"
+                                    icon="fa-xmark"
+                                    buttonType="submit"
+                                />
+                            </form>
                         </li>
                     {% endfor %}
                 </ul>
