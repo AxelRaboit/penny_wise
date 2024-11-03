@@ -78,7 +78,6 @@ class MessengerController extends AbstractController
             throw $this->createNotFoundException('Friend not found');
         }
 
-        // Utiliser createOrReopenTalk pour rouvrir ou créer une conversation
         $talk = $this->messengerManager->createOrReopenTalk($user, $friend);
 
         return $this->redirectToRoute('messenger_talk_view', ['id' => $talk->getId()]);
