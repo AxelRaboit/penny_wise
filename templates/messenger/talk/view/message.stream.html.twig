@@ -1,0 +1,23 @@
+<turbo-stream action="append" target="js-messenger-messages-container">
+    <template>
+        {% if message.sender.id == app.user.id %}
+            <div class="flex justify-end">
+                <div>
+                    <small class="text-dynamic-gray text-xs">{{ message.sentAt|date('d/m/Y H:i', 'Europe/Paris') }}</small>
+                    <div class="bg-accent-secondary text-white p-3 rounded-md max-w-xs">
+                        <p class="text-sm">{{ message.content }}</p>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="flex justify-start">
+                <div>
+                    <small class="text-dynamic-gray text-xs">{{ message.sentAt|date('d/m/Y H:i', 'Europe/Paris') }}</small>
+                    <div class="bg-secondary text-dynamic p-3 rounded-md max-w-xs">
+                        <p class="text-sm">{{ message.content }}</p>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </template>
+</turbo-stream>

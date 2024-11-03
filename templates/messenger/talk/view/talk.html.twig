@@ -2,9 +2,9 @@
 
 {% block title %}
     {% if participant is defined and participant is not null %}
-        Conversation with {{ participant.messenger.user.username }}
+        Conversation with {{ participant.messenger.user.username }} - {{ parent() }}
     {% else %}
-        Conversation
+        Conversation - {{ parent() }}
     {% endif %}
 {% endblock %}
 
@@ -73,33 +73,37 @@
             </div>
 
             <div id="js-messenger-messages-container" class="flex-1 overflow-y-auto p-2 space-y-2 scrollbar">
-                {% for message in messages %}
-                    {% if message.sender.id == app.user.id %}
-                        <div class="flex justify-end">
-                            <div>
-                                <small class="text-gray-300 text-xs">{{ message.sentAt|date('d/m/Y H:i', 'Europe/Paris') }}</small>
-                                <div class="bg-accent-secondary text-white p-3 rounded-md max-w-xs">
-                                    <p class="text-sm">{{ message.content }}</p>
+                <div class="messages">
+                    {% for message in messages %}
+                        {% if message.sender.id == app.user.id %}
+                            <div class="flex justify-end">
+                                <div>
+                                    <small class="text-dynamic-gray text-xs">{{ message.sentAt|date('d/m/Y H:i', 'Europe/Paris') }}</small>
+                                    <div class="bg-accent-secondary text-white p-3 rounded-md max-w-xs">
+                                        <p class="text-sm">{{ message.content }}</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    {% else %}
-                        <div class="flex justify-start">
-                            <div>
-                                <small class="text-gray-500 text-xs">{{ message.sentAt|date('H:i') }}</small>
-                                <div class="bg-secondary text-dynamic p-3 rounded-md max-w-xs">
-                                    <p class="text-sm">{{ message.content }}</p>
+                        {% else %}
+                            <div class="flex justify-start">
+                                <div>
+                                    <small class="text-dynamic-gray text-xs">{{ message.sentAt|date('d/m/Y H:i', 'Europe/Paris') }}</small>
+                                    <div class="bg-secondary text-dynamic p-3 rounded-md max-w-xs">
+                                        <p class="text-sm">{{ message.content }}</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    {% endif %}
-                {% endfor %}
+                        {% endif %}
+                    {% endfor %}
+                </div>
             </div>
 
+
+
             <div class="p-4 border-t border-quaternary bg-tertiary rounded-b-md">
-                {{ form_start(form, {attr: {class: 'flex items-center space-x-2 w-full'}}) }}
+                {{ form_start(form, {attr: {'data-turbo': 'true', class: 'flex items-center space-x-2 w-full'}}) }}
                 {{ form_widget(form.message) }}
-                <button type="submit" class="p-2 bg-accent-primary text-white rounded-md">Send</button>
+                    <button type="submit" class="p-2 bg-accent-primary text-white rounded-md">Send</button>
                 {{ form_end(form) }}
             </div>
         </div>

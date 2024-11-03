@@ -51,7 +51,7 @@ final readonly class MessengerManager
         return null;
     }
 
-    public function addMessage(MessengerTalk $talk, User $sender, string $content): void
+    public function addMessage(MessengerTalk $talk, User $sender, string $content): MessengerMessage
     {
         $message = new MessengerMessage();
         $message->setContent($content)
@@ -70,6 +70,8 @@ final readonly class MessengerManager
         }
 
         $this->entityManager->flush();
+
+        return $message;
     }
 
     public function createTalk(User $user, User $friend): MessengerTalk

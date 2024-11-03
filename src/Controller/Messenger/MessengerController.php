@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\UX\Turbo\TurboBundle;
 
 class MessengerController extends AbstractController
 {
@@ -50,9 +51,14 @@ class MessengerController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var string $content */
             $content = $form->get('message')->getData();
-            $this->messengerManager->addMessage($talk, $user, $content);
 
-            return $this->redirectToRoute('messenger_talk_view', ['id' => $talk->getId()]);
+            if (TurboBundle::STREAM_FORMAT === $request->getPreferredFormat()) {
+                $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
+                $message = $this->messengerManager->addMessage($talk, $user, $content);
+                return $this->render('messenger/talk/view/message.stream.html.twig', [
+                    'message' => $message,
+                ]);
+            }
         }
 
         $friends = $this->messengerManager->getFriendsForNewConversation($user);
