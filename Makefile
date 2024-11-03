@@ -49,6 +49,9 @@ cc-prod:
 run:
 	$(SYMFONY) server:start
 
+run-no-tls:
+	$(SYMFONY) server:start --no-tls -d
+
 stop:
 	$(SYMFONY) server:stop
 
@@ -129,6 +132,7 @@ help:
 	@echo "  make cc                   - Clear Symfony cache"
 	@echo "  make cc-prod              - Clear Symfony production cache"
 	@echo "  make run                  - Start Symfony server"
+	@echo "  make run-no-tls           - Start Symfony server without TLS"
 	@echo "  make stop                 - Stop Symfony server"
 	@echo "  make migration            - Create a new migration"
 	@echo "  make migrate              - Run migrations"
