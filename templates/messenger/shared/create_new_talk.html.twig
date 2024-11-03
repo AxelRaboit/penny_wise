@@ -1,0 +1,87 @@
+<div class="flex items-center justify-between">
+    <h2 class="text-lg font-semibold text-dynamic flex items-center space-x-2">
+        Messenger
+    </h2>
+
+    <div id="js-modal-friend-list-content" class="hidden bg-tertiary p-4 rounded-md shadow-md max-w-md border border-quaternary border-solid">
+        <ul class="divide-y divide-quaternary">
+            {% for friend in friends %}
+                <li class="bg-secondary p-2 rounded-md border border-quaternary text-dynamic text-sm flex items-center justify-between mb-2 transition duration-150">
+                    <div class="flex items-center space-x-3">
+                        {% if friend.userInformation and friend.userInformation.avatarName %}
+                            <img src="{{ asset('uploads/avatars/' ~ friend.userInformation.avatarName) }}" alt="{{ friend.username }}'s avatar" class="w-10 h-10 rounded-full">
+                        {% else %}
+                            <img src="{{ asset('media/logo.png') }}" alt="Default Avatar" class="w-10 h-10 rounded-full">
+                        {% endif %}
+
+                        <div>
+                            <a href="{{ path('messenger_create_talk', {id: friend.id}) }}" class="text-sm font-medium text-dynamic hover:text-accent-primary hover:underline">
+                                {{ friend.username }}
+                            </a>
+                            <p class="text-dynamic-gray text-xs">{{ friend.email }}</p>
+                        </div>
+                    </div>
+
+                    <div class="relative" x-data="{ open: false }">
+                        <button @click="open = !open" class="bg-secondary text-dynamic px-3 py-2 rounded-md flex items-center">
+                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                        </button>
+                        <div x-show="open" @click.away="open = false" class="absolute right-0 mt-2 w-56 bg-secondary text-dynamic rounded-md shadow-lg z-10">
+                            <ul class="text-sm divide-y divide-quaternary border border-quaternary rounded-md">
+                                <li class="p-2">
+                                    <twig:Cta
+                                        color="accent-primary"
+                                        fullWidth="true"
+                                        size="xs"
+                                        icon="fa-user"
+                                        label="Profile"
+                                        title="See profile"
+                                        route="profile_view"
+                                        :routeParams="{ username: friend.username }"
+                                    />
+                                </li>
+                                <li class="p-2">
+                                    <twig:Cta
+                                        color="accent-primary"
+                                        fullWidth="true"
+                                        size="xs"
+                                        icon="fa-message"
+                                        label="Send message"
+                                        title="Send a message"
+                                        route="messenger_create_talk"
+                                        :routeParams="{ id: friend.id }"
+                                    />
+                                </li>
+                                <li class="p-2">
+                                    <twig:Cta
+                                        color="danger-outline"
+                                        fullWidth="true"
+                                        size="xs"
+                                        icon="fa-user-xmark"
+                                        label="Unfriend"
+                                        title="Unfriend"
+                                        route="profile_friendship_unfriend"
+                                        :routeParams="{ id: friend.id }"
+                                    />
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+            {% else %}
+                <li class="p-4 text-center text-dynamic text-sm">
+                    No friends found.
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <twig:Cta
+        color="accent-primary"
+        size="xs"
+        icon="fa-plus"
+        title="New conversation"
+        id="js-add-talk-button"
+        dataActionUrl="true"
+    />
+</div>

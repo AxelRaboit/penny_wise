@@ -5,18 +5,7 @@
 {% block body %}
     <div id="messenger-talk-list-page" class="hidden flex-1 overflow-hidden h-full">
         <div class="w-1/6 bg-secondary h-full mr-2">
-            <div class="flex items-center justify-between">
-                <h2 class="text-lg font-semibold text-dynamic flex items-center space-x-2">
-                    Messenger
-                </h2>
-                <twig:Cta
-                        color="accent-primary"
-                        size="xs"
-                        icon="fa-plus"
-                        title="New conversation"
-                        route="messenger_new_conversation"
-                />
-            </div>
+            {{ include('messenger/shared/create_new_talk.html.twig') }}
 
             <div class="overflow-y-auto h-full mt-2">
                 {% if talks is not empty %}
@@ -67,5 +56,6 @@
 
 {% block javascripts %}
     {{ parent() }}
+    {{ encore_entry_script_tags('messenger') }}
     {{ encore_entry_script_tags('messenger_talk_list') }}
 {% endblock %}

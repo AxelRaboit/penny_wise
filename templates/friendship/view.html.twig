@@ -37,14 +37,15 @@
                     {% if userProfile.id != app.user.id and friendship %}
                         <div class="mt-4 flex justify-center space-x-2">
                             <twig:Cta
-                                class="mt-auto"
                                 color="accent-primary"
                                 size="xs"
                                 icon="fa-message"
                                 label="Send message"
-                                title="Feature not available"
-                                disabled="true"
+                                title="Send a message"
+                                route="messenger_create_talk"
+                                :routeParams="{ id: userProfile.id }"
                             />
+
                             <twig:Cta
                                 class="mt-auto"
                                 color="danger-outline"

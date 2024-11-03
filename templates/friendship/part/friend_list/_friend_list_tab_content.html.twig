@@ -36,8 +36,9 @@
                                     size="xs"
                                     icon="fa-message"
                                     label="Send message"
-                                    title="Feature not available"
-                                    disabled="true"
+                                    title="Send a message"
+                                    route="messenger_create_talk"
+                                    :routeParams="{ id: friend.friend.id }"
                                 />
                             </li>
                             <li class="p-2">

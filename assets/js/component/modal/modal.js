@@ -8,16 +8,16 @@ const attachOutsideClickListener = (modal) => {
 };
 
 const createModal = ({
-    modalId,
-    modalTitle,
-    modalMessageHeader,
-    modalMessage = '',
-    modalContent = '',
-    confirmButtonId,
-    cancelButtonId,
-    confirmLabel = 'Yes',
-    cancelLabel = 'No',
-    isDeleteAction = false,
+     modalId,
+     modalTitle,
+     modalMessageHeader,
+     modalMessage = '',
+     modalContent = '',
+     confirmButtonId = null,
+     cancelButtonId = null,
+     confirmLabel = 'Yes',
+     cancelLabel = 'No',
+     isDeleteAction = false,
 }) => {
     let existingModal = document.getElementById(modalId);
     if (existingModal) {
@@ -36,8 +36,8 @@ const createModal = ({
             <p class="mb-4 text-sm text-dynamic">${modalMessageHeader}</p>
             ${modalContent ? modalContent : `<p class="mb-4 text-text text-sm text-dynamic">${modalMessage}</p>`}
             <div class="flex justify-end">
-                <button id="${cancelButtonId}" class="bg-quaternary hover:bg-quaternary-hover p-2 rounded-md mr-2 border-solid border border-quaternary-ring text-sm text-dynamic">${cancelLabel}</button>
-                <button id="${confirmButtonId}" class="${isDeleteAction ? deleteActionButtonClasses : validateActionButtonClasses} text-sm">${confirmLabel}</button>
+                ${cancelButtonId ? `<button id="${cancelButtonId}" class="bg-quaternary hover:bg-quaternary-hover p-2 rounded-md mr-2 border-solid border border-quaternary-ring text-sm text-dynamic">${cancelLabel}</button>` : ''}
+                ${confirmButtonId ? `<button id="${confirmButtonId}" class="${isDeleteAction ? deleteActionButtonClasses : validateActionButtonClasses} text-sm">${confirmLabel}</button>` : ''}
             </div>
         </div>
     `;
@@ -64,8 +64,8 @@ const attachModalEvents = function({
     modalMessage = '',
     modalContent = '',
     triggerButtonSelector,
-    confirmButtonId,
-    cancelButtonId,
+    confirmButtonId = null,
+    cancelButtonId = null,
     confirmLabel,
     cancelLabel,
     isDeleteAction = false,
@@ -82,8 +82,9 @@ const attachModalEvents = function({
         cancelLabel,
         isDeleteAction,
     });
-    const confirmButton = document.getElementById(confirmButtonId);
-    const cancelButton = document.getElementById(cancelButtonId);
+
+    const confirmButton = confirmButtonId ? document.getElementById(confirmButtonId) : null;
+    const cancelButton = cancelButtonId ? document.getElementById(cancelButtonId) : null;
     let actionUrl = '';
 
     const handleConfirm = () => {
@@ -106,11 +107,15 @@ const attachModalEvents = function({
     const triggerButtons = document.querySelectorAll(triggerButtonSelector);
     triggerButtons.forEach(attachEventToTrigger);
 
-    confirmButton.removeEventListener('click', handleConfirm);
-    confirmButton.addEventListener('click', handleConfirm);
+    if (confirmButton) {
+        confirmButton.removeEventListener('click', handleConfirm);
+        confirmButton.addEventListener('click', handleConfirm);
+    }
 
-    cancelButton.removeEventListener('click', handleCancel);
-    cancelButton.addEventListener('click', handleCancel);
+    if (cancelButton) {
+        cancelButton.removeEventListener('click', handleCancel);
+        cancelButton.addEventListener('click', handleCancel);
+    }
 };
 
 export { attachModalEvents };

@@ -34,8 +34,8 @@ Encore
 
     // Components - Topbar
     .addEntry('topbar', './assets/js/component/topbar/topbar.js')
-    .addEntry('notification', './assets/js/component/topbar/notification/notification.js')
-    .addEntry('messenger', './assets/js/component/topbar/messenger/messenger.js')
+    .addEntry('topbar_notification', './assets/js/component/topbar/notification/notification.js')
+    .addEntry('topbar_messenger', './assets/js/component/topbar/messenger/messenger.js')
 
     // Account - Wallet - Dashboard
     .addEntry('account_wallet_dashboard', './assets/js/page/account/wallet/dashboard/index.js')
@@ -65,6 +65,7 @@ Encore
     .addEntry('user_profile_settings_show', './assets/js/page/user/profile/settings/show/index.js')
 
     // Messenger
+    .addEntry('messenger', './assets/js/page/messenger/index.js')
     // Messenger - Talk - View
     .addEntry('messenger_talk_view', './assets/js/page/messenger/talk/view/index.js')
     // Messenger - Talk - List

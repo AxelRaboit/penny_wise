@@ -67,12 +67,12 @@ class MessengerController extends AbstractController
         ]);
     }
 
-    #[Route('/messages/new/{friendId}', name: 'messenger_create_talk')]
+    #[Route('/messages/new/{id}', name: 'messenger_create_talk')]
     #[IsGranted('ROLE_USER')]
-    public function createTalk(int $friendId): Response
+    public function createTalk(int $id): Response
     {
         $user = $this->userCheckerService->getUserOrThrow();
-        $friend = $this->userRepository->find($friendId);
+        $friend = $this->userRepository->find($id);
 
         if (null === $friend) {
             throw $this->createNotFoundException('Friend not found');
@@ -81,18 +81,6 @@ class MessengerController extends AbstractController
         $talk = $this->messengerManager->createOrReopenTalk($user, $friend);
 
         return $this->redirectToRoute('messenger_talk_view', ['id' => $talk->getId()]);
-    }
-
-    #[Route('/messages/new', name: 'messenger_new_conversation')]
-    #[IsGranted('ROLE_USER')]
-    public function newConversation(): Response
-    {
-        $user = $this->userCheckerService->getUserOrThrow();
-        $friends = $this->messengerManager->getFriendsForNewConversation($user);
-
-        return $this->render('messenger/talk/new_conversation.html.twig', [
-            'friends' => $friends,
-        ]);
     }
 
     #[Route('/messages/hide/{id}', name: 'messenger_talk_hide')]
