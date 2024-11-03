@@ -58,7 +58,7 @@ final class MessengerTalkRepository extends ServiceEntityRepository
      */
     public function findTalksByUser(int $messengerId): array
     {
-        /** @var array<MessengerTalk> $result */
+        /** @var MessengerTalk[] $result */
         $result = $this->createQueryBuilder('t')
             ->innerJoin('t.participants', 'p')
             ->where('p.messenger = :messengerId')
@@ -94,7 +94,9 @@ final class MessengerTalkRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return array<MessengerTalk>
+     * Find all talks for a given user, with optional visibility filtering.
+     *
+     * @return MessengerTalk[] returns an array of MessengerTalk objects
      */
     public function findTalksByUserWithVisibility(int $messengerId, bool $onlyVisible = true): array
     {
@@ -107,12 +109,19 @@ final class MessengerTalkRepository extends ServiceEntityRepository
             $qb->andWhere('p.isVisibleToParticipant = true');
         }
 
-        return $qb->getQuery()->getResult();
+        /** @var MessengerTalk[] $result */
+        $result = $qb->getQuery()->getResult();
+
+        return $result;
     }
 
+    /**
+     * Find an existing talk between two users, whether hidden or visible.
+     */
     public function findExistingOrHiddenTalk(User $user1, User $user2): ?MessengerTalk
     {
-        return $this->createQueryBuilder('t')
+        /** @var MessengerTalk|null $result */
+        $result = $this->createQueryBuilder('t')
             ->join('t.participants', 'p1')
             ->join('p1.messenger', 'm1')
             ->join('m1.user', 'u1')
@@ -124,7 +133,7 @@ final class MessengerTalkRepository extends ServiceEntityRepository
             ->setParameter('user2', $user2)
             ->getQuery()
             ->getOneOrNullResult();
+
+        return $result;
     }
-
-
 }

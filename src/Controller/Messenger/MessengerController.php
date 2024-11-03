@@ -74,7 +74,7 @@ class MessengerController extends AbstractController
         $user = $this->userCheckerService->getUserOrThrow();
         $friend = $this->userRepository->find($friendId);
 
-        if (!$friend) {
+        if (null === $friend) {
             throw $this->createNotFoundException('Friend not found');
         }
 
@@ -83,7 +83,6 @@ class MessengerController extends AbstractController
 
         return $this->redirectToRoute('messenger_talk_view', ['id' => $talk->getId()]);
     }
-
 
     #[Route('/messages/new', name: 'messenger_new_conversation')]
     #[IsGranted('ROLE_USER')]
