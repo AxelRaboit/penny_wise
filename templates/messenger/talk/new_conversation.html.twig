@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Start a New Conversation{% endblock %}
+
+{% block body %}
+    <div class="container mx-auto p-6">
+        <h1 class="text-2xl font-semibold mb-4">Start a New Conversation</h1>
+        {% if friends is not empty %}
+            <ul>
+                {% for friend in friends %}
+                    <li class="mb-2">
+                        <a href="{{ path('messenger_create_talk', {friendId: friend.id}) }}"
+                           class="text-blue-500 hover:underline">
+                            {{ friend.username }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="text-gray-600">You have no friends available to start a new conversation.</p>
+        {% endif %}
+    </div>
+{% endblock %}

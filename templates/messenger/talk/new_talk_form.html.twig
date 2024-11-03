@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Start a New Conversation{% endblock %}
+
+{% block body %}
+    <div class="container mx-auto p-6 max-w-4xl">
+        <h1 class="text-2xl font-semibold mb-4 text-dynamic">Start a New Conversation</h1>
+
+        {% if friendsWithoutTalk is not empty %}
+            <ul class="bg-secondary rounded-md border border-quaternary">
+                {% for friend in friendsWithoutTalk %}
+                    <li class="p-4 border-b border-quaternary last:border-0 flex items-center">
+                        <a href="{{ path('messenger_talk_view', {id: 0, friendId: friend.id}) }}" class="flex-1 text-dynamic text-sm hover:underline">
+                            Start conversation with {{ friend.username }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="text-dynamic text-center mt-4">All friends already have conversations.</p>
+        {% endif %}
+    </div>
+{% endblock %}
