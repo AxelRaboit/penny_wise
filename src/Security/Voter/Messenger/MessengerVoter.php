@@ -15,14 +15,14 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
  */
 final class MessengerVoter extends Voter
 {
-    public const string VIEW = 'VIEW';
+    public const string MESSENGER_TALK_VIEW = 'MESSENGER_TALK_VIEW';
 
     public const string SEND_MESSAGE = 'SEND_MESSAGE';
 
     #[Override]
     protected function supports(string $attribute, mixed $subject): bool
     {
-        return in_array($attribute, [self::VIEW, self::SEND_MESSAGE], true) && $subject instanceof MessengerTalk;
+        return in_array($attribute, [self::MESSENGER_TALK_VIEW, self::SEND_MESSAGE], true) && $subject instanceof MessengerTalk;
     }
 
     #[Override]
