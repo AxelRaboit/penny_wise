@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Manager\Messenger;
 
 use App\Entity\Friendship;
-use App\Entity\Messenger;
 use App\Entity\MessengerMessage;
 use App\Entity\MessengerParticipant;
 use App\Entity\MessengerTalk;
@@ -37,7 +36,6 @@ final readonly class MessengerManager
         return $this->messengerTalkRepository->findTalksByUserWithVisibility($messengerId);
     }
 
-
     /**
      * Get the participant in a talk who is not the current user.
      */
@@ -63,7 +61,9 @@ final readonly class MessengerManager
         $this->entityManager->persist($message);
 
         foreach ($talk->getParticipants() as $participant) {
-            if ($participant->getMessenger()->getUser() !== $sender && !$participant->isVisibleToParticipant()) {
+            $messenger = $participant->getMessenger();
+            $user = $messenger?->getUser();
+            if ($user && $user !== $sender && !$participant->isVisibleToParticipant()) {
                 $participant->setVisibleToParticipant(true);
                 $this->entityManager->persist($participant);
             }
@@ -91,22 +91,26 @@ final readonly class MessengerManager
     }
 
     /**
-     * @param User $user
-     * @return array<Messenger>
+     * @return array<User>
      */
     public function getFriendsForNewConversation(User $user): array
     {
-        $friends = $user->getAcceptedFriends()->map(fn(Friendship $friendship) => $friendship->getFriend())->toArray();
+        $friends = array_filter(
+            $user->getAcceptedFriends()->map(fn (Friendship $friendship): ?User => $friendship->getFriend())->toArray(),
+            fn (?User $friend): bool => $friend instanceof User
+        );
 
         $existingTalkFriendIds = [];
         foreach ($this->getTalksForUser($user) as $talk) {
             foreach ($talk->getParticipants() as $participant) {
-                if ($participant->getMessenger()->getUser() !== $user) {
-                    $existingTalkFriendIds[] = $participant->getMessenger()->getUser()->getId();
+                $messenger = $participant->getMessenger();
+                $talkUser = $messenger?->getUser();
+                if ($talkUser && $talkUser !== $user) {
+                    $existingTalkFriendIds[] = $talkUser->getId();
                 }
             }
         }
 
-        return array_filter($friends, fn(User $friend) => !in_array($friend->getId(), $existingTalkFriendIds, true));
+        return array_filter($friends, fn (User $friend): bool => !in_array($friend->getId(), $existingTalkFriendIds, true));
     }
 }

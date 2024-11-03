@@ -28,7 +28,7 @@ class MessengerParticipant
     #[ORM\Column(type: Types::BOOLEAN)]
     private bool $isDeleted = false;
 
-    #[ORM\Column(type: 'boolean')]
+    #[ORM\Column(type: Types::BOOLEAN)]
     private bool $isVisibleToParticipant = false;
 
     public function getId(): ?int
@@ -80,6 +80,7 @@ class MessengerParticipant
     public function setVisibleToParticipant(bool $isVisible): self
     {
         $this->isVisibleToParticipant = $isVisible;
+
         return $this;
     }
 }
