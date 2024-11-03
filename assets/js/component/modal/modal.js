@@ -8,15 +8,16 @@ const attachOutsideClickListener = (modal) => {
 };
 
 const createModal = ({
-     modalId,
-     modalTitle,
-     modalMessageHeader,
-     modalMessage = '',
-     confirmButtonId,
-     cancelButtonId,
-     confirmLabel = 'Yes',
-     cancelLabel = 'No',
-     isDeleteAction = false,
+    modalId,
+    modalTitle,
+    modalMessageHeader,
+    modalMessage = '',
+    modalContent = '',
+    confirmButtonId,
+    cancelButtonId,
+    confirmLabel = 'Yes',
+    cancelLabel = 'No',
+    isDeleteAction = false,
 }) => {
     let existingModal = document.getElementById(modalId);
     if (existingModal) {
@@ -33,7 +34,7 @@ const createModal = ({
         <div class="bg-tertiary rounded-md shadow-lg p-4 w-full md:w-1/3 max-w-lg border-solid border border-quaternary-ring js-modal-content">
             <h3 class="text-lg font-bold mb-4 text-dynamic">${modalTitle}</h3>
             <p class="mb-4 text-sm text-dynamic">${modalMessageHeader}</p>
-            ${modalMessage ? `<p class="mb-4 text-text text-sm text-dynamic">${modalMessage}</p>` : ''}
+            ${modalContent ? modalContent : `<p class="mb-4 text-text text-sm text-dynamic">${modalMessage}</p>`}
             <div class="flex justify-end">
                 <button id="${cancelButtonId}" class="bg-quaternary hover:bg-quaternary-hover p-2 rounded-md mr-2 border-solid border border-quaternary-ring text-sm text-dynamic">${cancelLabel}</button>
                 <button id="${confirmButtonId}" class="${isDeleteAction ? deleteActionButtonClasses : validateActionButtonClasses} text-sm">${confirmLabel}</button>
@@ -61,6 +62,7 @@ const attachModalEvents = function({
     modalTitle,
     modalMessageHeader,
     modalMessage = '',
+    modalContent = '',
     triggerButtonSelector,
     confirmButtonId,
     cancelButtonId,
@@ -73,6 +75,7 @@ const attachModalEvents = function({
         modalTitle,
         modalMessageHeader,
         modalMessage,
+        modalContent,
         confirmButtonId,
         cancelButtonId,
         confirmLabel,
