@@ -42,14 +42,13 @@
                                 >
                                 <span class="text-sm">{{ sidebarParticipant ? sidebarParticipant.messenger.user.username : 'Unknown' }}</span>
                             </a>
-                            <form method="post" action="{{ path('messenger_talk_hide', {id: talk.id}) }}">
-                                <twig:Cta
-                                    color="danger-outline"
-                                    size="xs"
-                                    icon="fa-xmark"
-                                    buttonType="submit"
-                                />
-                            </form>
+                            <twig:Cta
+                                color="danger-outline"
+                                size="xs"
+                                icon="fa-xmark"
+                                route="messenger_talk_hide"
+                                :routeParams="{ id: talk.id }"
+                            />
                         </li>
                     {% endfor %}
                 </ul>

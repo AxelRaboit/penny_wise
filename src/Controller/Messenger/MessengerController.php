@@ -97,7 +97,7 @@ class MessengerController extends AbstractController
         ]);
     }
 
-    #[Route('/messages/hide/{id}', name: 'messenger_talk_hide', methods: ['POST'])]
+    #[Route('/messages/hide/{id}', name: 'messenger_talk_hide')]
     public function hideTalk(MessengerTalk $talk): Response
     {
         $user = $this->userCheckerService->getUserOrThrow();
