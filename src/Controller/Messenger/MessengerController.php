@@ -54,7 +54,7 @@ class MessengerController extends AbstractController
         }
 
         return $this->render('messenger/talk/view/talk.html.twig', [
-            'talk' => $talk,
+            'currentTalk' => $talk,
             'talks' => $talks,
             'messages' => $talk->getMessages(),
             'participant' => $participant,
