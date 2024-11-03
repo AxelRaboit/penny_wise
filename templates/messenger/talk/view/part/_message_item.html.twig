@@ -3,7 +3,7 @@
         <small class="text-dynamic-gray text-xs">
             {{ message.sentAt|date('d/m/Y H:i', 'Europe/Paris') }}
         </small>
-        <div class="{{ message.sender.id == app.user.id ? 'bg-accent-secondary text-white' : 'bg-secondary text-dynamic' }} p-3 rounded-md max-w-xs">
+        <div class="{{ message.sender.id == app.user.id ? 'bg-accent-secondary' : 'bg-secondary' }} text-dynamic p-3 rounded-md max-w-xs">
             <p class="text-sm">{{ message.content }}</p>
         </div>
     </div>
