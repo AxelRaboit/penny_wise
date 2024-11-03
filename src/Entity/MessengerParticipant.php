@@ -28,6 +28,9 @@ class MessengerParticipant
     #[ORM\Column(type: Types::BOOLEAN)]
     private bool $isDeleted = false;
 
+    #[ORM\Column(type: 'boolean')]
+    private bool $isVisibleToParticipant = false;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -66,6 +69,17 @@ class MessengerParticipant
     {
         $this->isDeleted = $deleted;
 
+        return $this;
+    }
+
+    public function isVisibleToParticipant(): bool
+    {
+        return $this->isVisibleToParticipant;
+    }
+
+    public function setVisibleToParticipant(bool $isVisible): self
+    {
+        $this->isVisibleToParticipant = $isVisible;
         return $this;
     }
 }

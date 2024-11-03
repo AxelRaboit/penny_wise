@@ -5,11 +5,9 @@ declare(strict_types=1);
 namespace App\Controller\Messenger;
 
 use App\Entity\MessengerTalk;
-use App\Entity\User;
 use App\Form\Messenger\MessengerMessageSendType;
 use App\Manager\Messenger\MessengerManager;
 use App\Repository\Profile\UserRepository;
-use App\Security\Voter\Messenger\MessengerVoter;
 use App\Service\User\UserCheckerService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,7 +29,6 @@ class MessengerController extends AbstractController
         $user = $this->userCheckerService->getUserOrThrow();
         $talks = $this->messengerManager->getTalksForUser($user);
 
-        // Récupérer la liste des amis pour une nouvelle conversation
         $friends = $this->messengerManager->getFriendsForNewConversation($user);
 
         return $this->render('messenger/list/list.html.twig', [
@@ -39,7 +36,6 @@ class MessengerController extends AbstractController
             'friends' => $friends,
         ]);
     }
-
 
     #[Route('/messages/t/{id}', name: 'messenger_talk_view')]
     public function viewTalk(MessengerTalk $talk, Request $request): Response
@@ -59,7 +55,6 @@ class MessengerController extends AbstractController
             return $this->redirectToRoute('messenger_talk_view', ['id' => $talk->getId()]);
         }
 
-        // Récupérer la liste des amis
         $friends = $this->messengerManager->getFriendsForNewConversation($user);
 
         return $this->render('messenger/talk/view/talk.html.twig', [
@@ -70,19 +65,6 @@ class MessengerController extends AbstractController
             'form' => $form->createView(),
             'friends' => $friends,
         ]);
-    }
-
-
-    #[Route('/messenger/talk/{id}/send', name: 'messenger_message_send', methods: ['POST'])]
-    #[IsGranted(MessengerVoter::SEND_MESSAGE, subject: 'talk')]
-    public function sendMessage(MessengerTalk $talk, Request $request): Response
-    {
-        $content = (string) $request->request->get('message');
-        $user = $this->userCheckerService->getUserOrThrow();
-
-        $this->messengerManager->addMessage($talk, $user, $content);
-
-        return $this->redirectToRoute('messenger_talk_view', ['id' => $talk->getId()]);
     }
 
     #[Route('/messages/new/{friendId}', name: 'messenger_create_talk')]
@@ -96,7 +78,6 @@ class MessengerController extends AbstractController
             throw $this->createNotFoundException('Friend not found');
         }
 
-        // Créez un nouveau talk avec l'ami sélectionné
         $talk = $this->messengerManager->createTalk($user, $friend);
 
         return $this->redirectToRoute('messenger_talk_view', ['id' => $talk->getId()]);
@@ -113,6 +94,4 @@ class MessengerController extends AbstractController
             'friends' => $friends,
         ]);
     }
-
-
 }

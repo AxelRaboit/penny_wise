@@ -92,4 +92,16 @@ final class MessengerTalkRepository extends ServiceEntityRepository
         $this->entityManager->persist($talk);
         $this->entityManager->flush();
     }
+
+    public function findTalksByUserWithVisibility(int $messengerId): array
+    {
+        return $this->createQueryBuilder('t')
+            ->innerJoin('t.participants', 'p')
+            ->where('p.messenger = :messengerId')
+            ->andWhere('p.isVisibleToParticipant = true')
+            ->setParameter('messengerId', $messengerId)
+            ->getQuery()
+            ->getResult();
+    }
+
 }

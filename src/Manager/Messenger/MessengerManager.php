@@ -29,12 +29,14 @@ final readonly class MessengerManager
     {
         $messenger = $user->getMessenger();
         $messengerId = $messenger->getId();
+
         if (null === $messengerId) {
             return [];
         }
 
-        return $this->messengerTalkRepository->findTalksByUser($messengerId);
+        return $this->messengerTalkRepository->findTalksByUserWithVisibility($messengerId);
     }
+
 
     /**
      * Get the participant in a talk who is not the current user.
@@ -58,63 +60,44 @@ final readonly class MessengerManager
             ->setSender($sender)
             ->setTalk($talk);
 
-        // Vérifier si le destinataire est déjà participant du talk
-        $participant = $this->getTalkParticipant($talk, $sender);
-        if (!$participant) {
-            $recipientMessenger = $this->getRecipientMessenger($talk, $sender);
-            if ($recipientMessenger) {
-                $friendParticipant = new MessengerParticipant();
-                $friendParticipant->setTalk($talk)->setMessenger($recipientMessenger);
-                $this->entityManager->persist($friendParticipant);
+        $this->entityManager->persist($message);
+
+        foreach ($talk->getParticipants() as $participant) {
+            if ($participant->getMessenger()->getUser() !== $sender && !$participant->isVisibleToParticipant()) {
+                $participant->setVisibleToParticipant(true);
+                $this->entityManager->persist($participant);
             }
         }
 
-        $this->entityManager->persist($message);
         $this->entityManager->flush();
     }
-
-
 
     public function createTalk(User $user, User $friend): MessengerTalk
     {
         $talk = new MessengerTalk();
 
-        // Ajouter l'utilisateur comme participant
         $userParticipant = new MessengerParticipant();
-        $userParticipant->setTalk($talk)->setMessenger($user->getMessenger());
+        $userParticipant->setTalk($talk)->setMessenger($user->getMessenger())->setVisibleToParticipant(true);
         $this->entityManager->persist($userParticipant);
 
-        // Ajouter l'ami comme participant
         $friendParticipant = new MessengerParticipant();
-        $friendParticipant->setTalk($talk)->setMessenger($friend->getMessenger());
+        $friendParticipant->setTalk($talk)->setMessenger($friend->getMessenger())->setVisibleToParticipant(false);
         $this->entityManager->persist($friendParticipant);
 
-        // Persister la conversation
         $this->entityManager->persist($talk);
         $this->entityManager->flush();
 
         return $talk;
     }
 
-
-    public function getRecipientMessenger(MessengerTalk $talk, User $sender): ?Messenger
-    {
-        foreach ($talk->getParticipants() as $participant) {
-            $messenger = $participant->getMessenger();
-            if ($messenger && $messenger->getUser() !== $sender) {
-                return $messenger;
-            }
-        }
-
-        return null;
-    }
-
+    /**
+     * @param User $user
+     * @return array<Messenger>
+     */
     public function getFriendsForNewConversation(User $user): array
     {
-        // Récupérer tous les amis de l'utilisateur
         $friends = $user->getAcceptedFriends()->map(fn(Friendship $friendship) => $friendship->getFriend())->toArray();
 
-        // Récupérer les IDs des utilisateurs avec lesquels une conversation existe déjà
         $existingTalkFriendIds = [];
         foreach ($this->getTalksForUser($user) as $talk) {
             foreach ($talk->getParticipants() as $participant) {
@@ -124,12 +107,6 @@ final readonly class MessengerManager
             }
         }
 
-        // Filtrer les amis pour exclure ceux qui ont déjà une conversation
         return array_filter($friends, fn(User $friend) => !in_array($friend->getId(), $existingTalkFriendIds, true));
     }
-
-
-
-
-
 }
