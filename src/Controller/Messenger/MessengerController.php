@@ -39,6 +39,8 @@ class MessengerController extends AbstractController
     }
 
     #[Route('/messages/t/{id}', name: 'messenger_talk_view')]
+    #[IsGranted('ROLE_USER')]
+    #[IsGranted('VIEW', subject: 'talk')]
     public function viewTalk(MessengerTalk $talk, Request $request): Response
     {
         $user = $this->userCheckerService->getUserOrThrow();
