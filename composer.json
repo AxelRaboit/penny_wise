@@ -54,7 +54,7 @@
         "twig/extra-bundle": "^2.12|^3.0",
         "twig/html-extra": "^3.13",
         "twig/intl-extra": "^3.10",
-        "twig/twig": "^2.12|^3.0",
+        "twig/twig": "^3.14.1",
         "vich/uploader-bundle": "^2.4"
     },
     "config": {
