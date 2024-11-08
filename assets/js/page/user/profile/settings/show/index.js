@@ -1,5 +1,5 @@
-import {initializeThemeSwitcher} from "./theme_switcher.js";
+import { initializeThemeSwitcher } from './theme_switcher.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-    initializeThemeSwitcher();
+  initializeThemeSwitcher();
 });

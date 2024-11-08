@@ -98,6 +98,7 @@ test:
 	$(PHP) $(BIN_UNIT) --testdox --debug
 
 fix:
+	make fix-js
 	make fix-twig
 	make rector-fix
 	make fix-php
@@ -117,6 +118,12 @@ lint-php:
 
 fix-php:
 	$(PHP_CS_FIXER) fix --config=.php-cs-fixer.dist.php
+
+lint-js:
+	$(PNPM) eslint --config eslint.config.cjs
+
+fix-js:
+	$(PNPM) eslint --config eslint.config.cjs --fix
 
 lint-twig:
 	$(TWIG_CS_FIXER)
@@ -143,6 +150,7 @@ help:
 	@echo "  make install                 - Install PHP and JS dependencies"
 	@echo "  make update                  - Update PHP and JS dependencies"
 	@echo "  make debug-twig-component    - Debug Symfony Twig components"
+	@echo "  make simulate-production     - Prepare for production: clear cache, build assets, and run server"
 	@echo ""
 	@echo "== Cache and Debug Commands =="
 	@echo "  make cc                      - Clear Symfony cache"
@@ -169,17 +177,17 @@ help:
 	@echo ""
 	@echo "== Code Quality and Testing Commands =="
 	@echo "  make test                    - Run unit tests with detailed output"
-	@echo "  make fix                     - Fix code style issues (PHP/Twig) and run tests"
+	@echo "  make fix                     - Fix code style issues (PHP/JS/Twig) and run tests"
+	@echo "  make prepare                 - Run fix and then test"
 	@echo "  make lint-php                - Lint PHP code (dry-run)"
 	@echo "  make fix-php                 - Auto-fix PHP code style"
+	@echo "  make lint-js                 - Lint JavaScript code"
+	@echo "  make fix-js                  - Auto-fix JavaScript code"
 	@echo "  make lint-twig               - Lint Twig templates"
 	@echo "  make fix-twig                - Auto-fix Twig templates"
 	@echo "  make rector                  - Preview Rector fixes (dry-run)"
 	@echo "  make rector-fix              - Apply Rector fixes"
 	@echo "  make stan                    - Run PHPStan static analysis"
-	@echo ""
-	@echo "== Simulation Commands =="
-	@echo "  make simulate-production     - Prepare for production simulation: clear cache, build assets, and run server"
 	@echo ""
 	@echo "== Symfony Recipes =="
 	@echo "  make recipes-update          - Update Symfony recipes"

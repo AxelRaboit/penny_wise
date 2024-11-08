@@ -1,5 +1,5 @@
-import {initializeCreateNewTalk} from "./module/createNewTalk";
+import { initializeCreateNewTalk } from './module/createNewTalk.js';
 
-document.addEventListener('DOMContentLoaded', function() {
-    initializeCreateNewTalk();
+document.addEventListener('DOMContentLoaded', function () {
+  initializeCreateNewTalk();
 });

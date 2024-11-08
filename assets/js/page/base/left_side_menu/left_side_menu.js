@@ -1,13 +1,13 @@
-import { initializeLeftSideMenu } from "@component/side_menu/left_side";
+import { initializeLeftSideMenu } from '@component/side_menu/left_side';
 
 export function initializeLeftSideMenuContent() {
-    const leftSideMenuConfig = {
-        openLeftSideMenuButton: 'js-topbar-burger-menu',
-        contentLeftSideMenu: 'js-left-side-menu',
-        closeLeftSideMenuButton: 'js-left-side-menu-close-button'
-    };
+  const leftSideMenuConfig = {
+    openLeftSideMenuButton: 'js-topbar-burger-menu',
+    contentLeftSideMenu: 'js-left-side-menu',
+    closeLeftSideMenuButton: 'js-left-side-menu-close-button',
+  };
 
-    document.addEventListener('turbo:load', () => {
-        initializeLeftSideMenu(leftSideMenuConfig);
-    });
+  document.addEventListener('turbo:load', () => {
+    initializeLeftSideMenu(leftSideMenuConfig);
+  });
 }
