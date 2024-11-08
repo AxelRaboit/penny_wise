@@ -1,5 +1,5 @@
 <turbo-stream action="append" target="js-messenger-messages-container">
     <template>
-        {% include 'messenger/talk/view/part/_message_item.html.twig' with { 'message': message } %}
+        {{ include('messenger/talk/view/part/_message_item.html.twig', {message: message}) }}
     </template>
 </turbo-stream>

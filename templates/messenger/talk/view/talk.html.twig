@@ -74,7 +74,7 @@
 
             <div id="js-messenger-messages-container" class="flex-1 overflow-y-auto p-2 space-y-2 scrollbar">
                 {% for message in messages %}
-                    {% include 'messenger/talk/view/part/_message_item.html.twig' with { 'message': message } %}
+                    {{ include('messenger/talk/view/part/_message_item.html.twig', {message: message}) }}
                 {% endfor %}
             </div>
 

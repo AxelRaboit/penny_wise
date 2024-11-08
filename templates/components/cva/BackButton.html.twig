@@ -49,8 +49,8 @@
         disabled: {
             true: 'cursor-not-allowed opacity-50',
             false: '',
-        }
-    }
+        },
+    },
 ) %}
 
 {% set textClasses = html_cva(
@@ -63,8 +63,8 @@
             'accent-primary': 'text-white',
             danger: 'text-white',
             'danger-outline': 'text-danger hover:text-white',
-        }
-    }
+        },
+    },
 ) %}
 
 {% set refererUrl = app.request.headers.get('referer') %}

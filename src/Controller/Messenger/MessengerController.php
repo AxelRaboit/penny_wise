@@ -58,6 +58,7 @@ class MessengerController extends AbstractController
             if (TurboBundle::STREAM_FORMAT === $request->getPreferredFormat()) {
                 $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
                 $message = $this->messengerManager->addMessage($talk, $user, $content);
+
                 return $this->render('messenger/talk/view/message.stream.html.twig', [
                     'message' => $message,
                 ]);

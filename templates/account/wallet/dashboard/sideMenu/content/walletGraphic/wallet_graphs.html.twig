@@ -2,7 +2,7 @@
     {{ include('account/wallet/dashboard/chart/chart_card.html.twig', {
         title: 'Left to spend',
         chartId: 'chart-left-to-spend',
-        chart: leftToSpendChart.data.isDataPresent ? leftToSpendChart : null
+        chart: leftToSpendChart.data.isDataPresent ? leftToSpendChart : null,
     }) }}
 
     {{ include('account/wallet/dashboard/chart/chart_card.html.twig', {
@@ -12,7 +12,7 @@
             {chartType: 'monthly', chartId: 'chart-monthly-spent', chartFormat: 'line', label: 'Line'},
         ],
         chartId: 'chart-monthly-spent',
-        chart: totalSpendingForCurrentAndPreviousNthMonthsChart
+        chart: totalSpendingForCurrentAndPreviousNthMonthsChart,
     }) }}
 
     {{ include('account/wallet/dashboard/chart/chart_card.html.twig', {
@@ -22,7 +22,7 @@
             {chartType: 'yearly', chartId: 'chart-yearly-spent', chartFormat: 'line', label: 'Line'},
         ],
         chartId: 'chart-yearly-spent',
-        chart: totalSpendingYearsChart
+        chart: totalSpendingYearsChart,
     }) }}
 {% endset %}
 
@@ -30,5 +30,5 @@
     rightSideMenuId: 'js-wallet-side-menu-graphs',
     rightSideMenuTitle: 'Graphs',
     rightSideMenuContent: graphsModalContent,
-    rightSideMenuCloseButtonId: 'js-right-side-menu-wallet-graphs-close-button'
+    rightSideMenuCloseButtonId: 'js-right-side-menu-wallet-graphs-close-button',
 }) }}
