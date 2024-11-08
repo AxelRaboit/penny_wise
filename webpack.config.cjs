@@ -109,5 +109,4 @@ Encore
     '@page': path.resolve(__dirname, 'assets/js/page'),
 });
 
-
 module.exports = Encore.getWebpackConfig();
