@@ -9,6 +9,7 @@ module.exports = [
       'vendor/**',
       'public/**',
       'assets/vendor/**',
+      'tools/**',
       'webpack.config.cjs',
       'tailwind.config.js',
     ],
