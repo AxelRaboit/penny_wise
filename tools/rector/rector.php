@@ -8,7 +8,7 @@ use Rector\Doctrine\Set\DoctrineSetList;
 use Rector\Symfony\Set\SymfonySetList;
 
 return RectorConfig::configure()
-    ->withPaths([__DIR__.'/config', __DIR__.'/src', __DIR__.'/tests'])
+    ->withPaths([__DIR__.'/../../src', __DIR__.'/../../tests'])
     ->withImportNames(removeUnusedImports: true)
     ->withPhpSets(php83: true)
     ->withPreparedSets(
@@ -27,5 +27,5 @@ return RectorConfig::configure()
         SymfonySetList::SYMFONY_CONSTRUCTOR_INJECTION,
         DoctrineSetList::DOCTRINE_CODE_QUALITY,
     ])
-    ->withPHPStanConfigs([__DIR__ . '/phpstan.neon'])
-    ->withCache('./var/cache/rector', FileCacheStorage::class);
+    ->withPHPStanConfigs([__DIR__.'/../../tools/phpstan/phpstan.neon'])
+    ->withCache(__DIR__.'/../../var/cache/rector', FileCacheStorage::class);

@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Castor\Attribute\AsTask;
+
 use function Castor\run;
 
 // === Constants ===
@@ -36,6 +37,8 @@ function install(): void
 {
     run(COMPOSER.' install');
     run(COMPOSER.' install --working-dir=tools/php-cs-fixer');
+    run(COMPOSER.' install --working-dir=tools/twig-cs-fixer');
+    run(COMPOSER.' install --working-dir=tools/rector');
     run(COMPOSER.' install --working-dir=tools/phpstan');
     run(PNPM.' install');
 }
@@ -45,9 +48,10 @@ function update(): void
 {
     run(COMPOSER.' update');
     run(COMPOSER.' update --working-dir=tools/php-cs-fixer');
+    run(COMPOSER.' update --working-dir=tools/twig-cs-fixer');
+    run(COMPOSER.' update --working-dir=tools/rector');
     run(COMPOSER.' update --working-dir=tools/phpstan');
 }
-
 
 #[AsTask(description: 'Debug Symfony Twig components')]
 function debugTwigComponent(): void

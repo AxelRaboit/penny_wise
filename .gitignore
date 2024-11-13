@@ -52,6 +52,10 @@ yarn-error.log
 /.php-cs-fixer.cache
 ###< php-cs-fixer ###
 
+###> tools ###
 /tools/phpstan/vendor/
 /tools/php-cs-fixer/vendor/
 /tools/twig-cs-fixer/vendor/
+/tools/rector/vendor/
+###< tools ###
+
