@@ -11,7 +11,7 @@ const CONSOLE = PHP_BIN.' bin/console';
 const COMPOSER = 'composer';
 const PNPM = 'pnpm';
 const PHP_CS_FIXER = PHP_BIN.' tools/php-cs-fixer/vendor/bin/php-cs-fixer';
-const TWIG_CS_FIXER = PHP_BIN.' vendor/bin/twig-cs-fixer';
+const TWIG_CS_FIXER = PHP_BIN.' tools/twig-cs-fixer/vendor/bin/twig-cs-fixer';
 const PHPSTAN = 'tools/phpstan/vendor/bin/phpstan';
 const RECTOR = PHP_BIN.' vendor/bin/rector';
 
