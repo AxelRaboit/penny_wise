@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 use Castor\Attribute\AsTask;
-
 use function Castor\run;
 
 // === Constants ===
@@ -13,7 +12,7 @@ const COMPOSER = 'composer';
 const PNPM = 'pnpm';
 const PHP_CS_FIXER = PHP_BIN.' tools/php-cs-fixer/vendor/bin/php-cs-fixer';
 const TWIG_CS_FIXER = PHP_BIN.' vendor/bin/twig-cs-fixer';
-const PHPSTAN = 'vendor/bin/phpstan';
+const PHPSTAN = 'tools/phpstan/vendor/bin/phpstan';
 const RECTOR = PHP_BIN.' vendor/bin/rector';
 
 // === Build Commands ===
@@ -37,6 +36,7 @@ function install(): void
 {
     run(COMPOSER.' install');
     run(COMPOSER.' install --working-dir=tools/php-cs-fixer');
+    run(COMPOSER.' install --working-dir=tools/phpstan');
     run(PNPM.' install');
 }
 
@@ -45,7 +45,9 @@ function update(): void
 {
     run(COMPOSER.' update');
     run(COMPOSER.' update --working-dir=tools/php-cs-fixer');
+    run(COMPOSER.' update --working-dir=tools/phpstan');
 }
+
 
 #[AsTask(description: 'Debug Symfony Twig components')]
 function debugTwigComponent(): void
@@ -176,7 +178,7 @@ function test(): void
 #[AsTask(description: 'Run PHPStan static analysis')]
 function stan(): void
 {
-    run(PHPSTAN.' analyse -c phpstan.neon --memory-limit 1G');
+    run(PHPSTAN.' analyse -c tools/phpstan/phpstan.neon --memory-limit 1G');
 }
 
 #[AsTask(description: 'Lint PHP code (dry-run)')]
@@ -218,13 +220,13 @@ function fixTwig(): void
 #[AsTask(description: 'Preview Rector fixes (dry-run)')]
 function rector(): void
 {
-    run(RECTOR.' process --dry-run -c ./rector.php');
+    run(RECTOR.' process --dry-run -c tools/rector/rector.php');
 }
 
 #[AsTask(description: 'Apply Rector fixes')]
 function rectorFix(): void
 {
-    run(RECTOR.' process -c ./rector.php');
+    run(RECTOR.' process -c tools/rector/rector.php');
 }
 
 // === Helper Tasks ===

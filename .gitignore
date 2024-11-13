@@ -51,3 +51,6 @@ yarn-error.log
 ###> php-cs-fixer ###
 /.php-cs-fixer.cache
 ###< php-cs-fixer ###
+
+/tools/phpstan/vendor/
+/tools/php-cs-fixer/vendor/
