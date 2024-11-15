@@ -84,19 +84,19 @@ function ccProd(): void
 // === Symfony Server Commands ===
 
 #[AsTask(description: 'Start Symfony server')]
-function runServer(): void
+function start(): void
 {
     run('symfony server:start');
 }
 
 #[AsTask(description: 'Start Symfony server without TLS')]
-function runNoTls(): void
+function startNoTls(): void
 {
     run('symfony server:start --no-tls -d');
 }
 
 #[AsTask(description: 'Stop Symfony server')]
-function stopServer(): void
+function stop(): void
 {
     run('symfony server:stop');
 }
