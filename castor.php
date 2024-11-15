@@ -64,7 +64,7 @@ function simulateProduction(): void
 {
     ccProd();
     buildWebpack();
-    runServer();
+    start();
 }
 
 // === Symfony Cache and Debug Commands ===
