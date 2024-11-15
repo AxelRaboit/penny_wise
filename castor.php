@@ -254,3 +254,11 @@ function fix(): void
     rectorFix();
     fixPhp();
 }
+
+// === Symfony helpers ===
+
+#[AsTask(description: 'About Symfony')]
+function about(): void
+{
+    run(CONSOLE.' about');
+}
