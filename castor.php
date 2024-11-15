@@ -171,6 +171,12 @@ function recipesUpdate(): void
     run(COMPOSER.' recipes:update');
 }
 
+#[AsTask(description: 'Update Symfony packages')]
+function updateSymfony(): void
+{
+    run(COMPOSER.' update symfony/*');
+}
+
 // === Code Quality and Testing Commands ===
 
 #[AsTask(description: 'Run unit tests with detailed output')]
