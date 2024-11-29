@@ -1,4 +1,5 @@
 {
+  "packageManager": "pnpm@9.14.4",
   "dependencies": {
     "@eslint/plugin-kit": "^0.2.3",
     "@hotwired/stimulus": "^3.2.2",
@@ -34,6 +35,7 @@
     "dev-server": "encore dev-server",
     "dev": "encore dev",
     "watch": "encore dev --watch",
-    "build": "encore production --progress"
+    "build": "encore production --progress",
+    "check-pnpm-version": "echo pnpm version: $(pnpm --version)"
   }
 }
