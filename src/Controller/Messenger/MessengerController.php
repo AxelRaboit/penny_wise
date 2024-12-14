@@ -7,6 +7,7 @@ namespace App\Controller\Messenger;
 use App\Entity\MessengerTalk;
 use App\Form\Messenger\MessengerMessageSendType;
 use App\Manager\Messenger\MessengerManager;
+use App\Repository\Messenger\MessengerTalkRepository;
 use App\Repository\Profile\UserRepository;
 use App\Service\User\UserCheckerService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,7 +22,8 @@ class MessengerController extends AbstractController
     public function __construct(
         private readonly MessengerManager $messengerManager,
         private readonly UserCheckerService $userCheckerService,
-        private readonly UserRepository $userRepository
+        private readonly UserRepository $userRepository,
+        private readonly MessengerTalkRepository $messengerTalkRepository
     ) {}
 
     #[Route('/messages', name: 'messenger_list', methods: ['GET'])]
@@ -47,6 +49,7 @@ class MessengerController extends AbstractController
         $user = $this->userCheckerService->getUserOrThrow();
         $talks = $this->messengerManager->getTalksForUser($user);
         $participant = $this->messengerManager->getTalkParticipant($talk, $user);
+        $messages = $this->messengerTalkRepository->findMessagesByTalk($talk);
 
         $form = $this->createForm(MessengerMessageSendType::class);
         $form->handleRequest($request);
@@ -70,12 +73,13 @@ class MessengerController extends AbstractController
         return $this->render('messenger/talk/view/talk.html.twig', [
             'currentTalk' => $talk,
             'talks' => $talks,
-            'messages' => $talk->getMessages(),
+            'messages' => $messages, // Passez les messages triés au template
             'participant' => $participant,
             'form' => $form->createView(),
             'friends' => $friends,
         ]);
     }
+
 
     #[Route('/messages/new/{id}', name: 'messenger_create_talk')]
     #[IsGranted('ROLE_USER')]

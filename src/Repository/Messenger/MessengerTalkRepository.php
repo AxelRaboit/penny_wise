@@ -8,6 +8,7 @@ use App\Entity\MessengerParticipant;
 use App\Entity\MessengerTalk;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\Order;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -135,5 +136,24 @@ final class MessengerTalkRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
 
         return $result;
+    }
+
+    /**
+     * Find all messages for a given talk, ordered by sentAt.
+     *
+     * @param MessengerTalk $talk The MessengerTalk entity
+     *
+     * @return MessengerMessage[] Returns an array of MessengerMessage objects
+     */
+    public function findMessagesByTalk(MessengerTalk $talk): array
+    {
+        return $this->entityManager->createQueryBuilder()
+            ->select('m')
+            ->from('App\Entity\MessengerMessage', 'm')
+            ->where('m.talk = :talk')
+            ->setParameter('talk', $talk)
+            ->orderBy('m.sentAt', Order::Ascending->value)
+            ->getQuery()
+            ->getResult();
     }
 }
