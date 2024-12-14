@@ -80,7 +80,6 @@ class MessengerController extends AbstractController
         ]);
     }
 
-
     #[Route('/messages/new/{id}', name: 'messenger_create_talk')]
     #[IsGranted('ROLE_USER')]
     public function createTalk(int $id): Response

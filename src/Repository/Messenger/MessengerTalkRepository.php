@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repository\Messenger;
 
+use App\Entity\MessengerMessage;
 use App\Entity\MessengerParticipant;
 use App\Entity\MessengerTalk;
 use App\Entity\User;
@@ -147,13 +148,16 @@ final class MessengerTalkRepository extends ServiceEntityRepository
      */
     public function findMessagesByTalk(MessengerTalk $talk): array
     {
-        return $this->entityManager->createQueryBuilder()
+        /** @var MessengerMessage[] $messages */
+        $messages = $this->entityManager->createQueryBuilder()
             ->select('m')
-            ->from('App\Entity\MessengerMessage', 'm')
+            ->from(MessengerMessage::class, 'm')
             ->where('m.talk = :talk')
             ->setParameter('talk', $talk)
-            ->orderBy('m.sentAt', Order::Ascending->value)
+            ->orderBy('m.sentAt', Order::Ascending->value) // Trie par sentAt (du plus ancien au plus récent)
             ->getQuery()
             ->getResult();
+
+        return $messages;
     }
 }
