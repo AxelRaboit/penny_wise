@@ -11,7 +11,7 @@
                     <span class="text-dynamic">{{ friend.friend.username }} <span class="text-dynamic-gray">({{ friend.friend.email }})</span></span>
                 </div>
 
-                <div class="relative" x-data="{ open: false }">
+                <div class="relative" x-data="{ open: false }" x-cloak>
                     <button @click="open = !open" class="bg-secondary text-dynamic px-4 py-2 rounded-md flex items-center space-x-1">
                         <i class="fa-solid fa-ellipsis-vertical"></i>
                     </button>
