@@ -154,7 +154,7 @@ final class MessengerTalkRepository extends ServiceEntityRepository
             ->from(MessengerMessage::class, 'm')
             ->where('m.talk = :talk')
             ->setParameter('talk', $talk)
-            ->orderBy('m.sentAt', Order::Ascending->value) // Trie par sentAt (du plus ancien au plus récent)
+            ->orderBy('m.sentAt', Order::Ascending->value)
             ->getQuery()
             ->getResult();
 
